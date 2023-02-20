@@ -2,8 +2,13 @@
 
 namespace LLServer.Models;
 
+
+// TODO: Figure out all the fields
 public class InformationResponse : ResponseBase
 {
+    /// <summary>
+    /// Probably next request url? Not entirely sure
+    /// </summary>
     [JsonPropertyName("base_url")]
     public required string BaseUrl { get; set; }
     

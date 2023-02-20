@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LLServer.Controllers.Game;
 
+// TODO: In theory this would be where next request is sent
 [ApiController]
 [Route("game/next")]
-public class GameController : BaseController<GameController>
+public class NextController : BaseController<NextController>
 {
     [HttpPost]
     public async Task<ActionResult<ResponseContainer>> Respond()
