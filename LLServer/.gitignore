@@ -435,11 +435,3 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Ignore card db since we should start from scratch
-/db/card.db3
-Certificates
-wwwroot/events/
-wwwroot/_framework/
-wwwroot/favicon.ico
-wwwroot/index.html
-Database/card*.db3
