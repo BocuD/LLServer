@@ -13,6 +13,7 @@ public class ResponseContainer
 
 [JsonDerivedType(typeof(BasicInfo))]
 [JsonDerivedType(typeof(InformationResponse))]
+[JsonDerivedType(typeof(AuthResponse))]
 public class ResponseBase
 {
     

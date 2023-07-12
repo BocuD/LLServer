@@ -7,8 +7,8 @@ namespace LLServer.Controllers.Nesys;
 public class CardController : ControllerBase
 {
     [HttpPost("cardn.cgi")]
-    public IActionResult Card()
+    public IActionResult Card([FromForm(Name="card_no")]string cardNo)
     {
-        return Ok("1\n1,1\n7020392010281502");
-    } 
+        return Ok($"1\n1,1\n{cardNo}");
+    }
 }

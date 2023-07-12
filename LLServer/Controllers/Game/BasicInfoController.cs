@@ -25,7 +25,7 @@ public class BasicInfoController : BaseController<BasicInfoController>
             Result = 200,
             Response = new BasicInfo
             {
-                BaseUrl = "http://127.0.0.1/game/info",
+                BaseUrl = "http://127.0.0.1/game",
                 DownloadUrl = "http://127.0.0.1/download",
                 Key = CryptoConstants.AES_KEY,
                 Iv = CryptoConstants.IV,
