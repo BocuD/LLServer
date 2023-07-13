@@ -28,9 +28,10 @@ public class ServerController : BaseController<ServerController>
     public ActionResult<string> Certify(string? gid, string? mac, 
         [FromQuery(Name = "r")]string? random, [FromQuery(Name = "md")]string? md5)
     {
+        var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
         var ticket = string.Join(string.Empty, 
             MD5.HashData(Encoding.UTF8.GetBytes(gid ?? "303807")).Select(b => b.ToString("x2")));
-        var response = "host=http://127.0.0.1\n"                                     +
+        var response = $"host=http://{serverIpAddress}\n"                                     +
                        "no=1337\n"                                                    +
                        "name=LLServer\n"                                         +
                        "pref=nesys\n"                                                 +

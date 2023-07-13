@@ -44,6 +44,10 @@ cmake-build-*/
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 
+# Other unused idea folder stuff
+.idea/.idea.LLServer/.idea/discord.xml
+.idea/config/applicationhost.config
+
 # File-based project format
 *.iws
 
