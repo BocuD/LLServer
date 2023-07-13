@@ -139,6 +139,23 @@ public class GachaStatus
     [JsonPropertyName("in_use")] public bool InUse { get; set; } = false;
 }
 
+public class StampCard
+{
+    [JsonPropertyName("stamp_card_id")] public int StampCardId { get; set; } = 0;
+    [JsonPropertyName("stamp_count")] public int StampCount { get; set; } = 0;
+    [JsonPropertyName("achieved")] public bool Achieved { get; set; } = false;
+    
+    //seems to go up to 9 characters (see .text:0000000140226E52)
+    [JsonPropertyName("stamp_characters")] public int[] StampCharacters { get; set; } = new int[0];
+}
+
+public class StampCardReward
+{
+    [JsonPropertyName("stamp_card_id")] public int StampCardId { get; set; } = 0;
+    [JsonPropertyName("m_card_member_id")] public int CardMemberId { get; set; } = 0;
+    [JsonPropertyName("trade_coin")] public bool TradeCoin { get; set; } = false;
+}
+
 public class ActiveInformation
 {
     [JsonPropertyName("id")] public int Id { get; set; } = 0;

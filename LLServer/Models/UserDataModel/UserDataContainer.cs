@@ -48,8 +48,8 @@ public class UserDataContainer
     //event result
     public bool FirstLogin { get; set; } = true;
     //dice bonus
-    //stamp cards
-    //stamp card rewards
+    public StampCard[] StampCards { get; set; } = new StampCard[0];
+    public StampCardReward[] StampCardRewards { get; set; } = new StampCardReward[0];
     public ActiveInformation[] ActiveInformation { get; set; } = new ActiveInformation[0];
     
     private static UserDataContainer mockStorage = new()
@@ -194,6 +194,27 @@ public class UserDataContainer
                 }
             },
             FirstLogin = true,
+            StampCards = new StampCard[1]
+            {
+                //todo: actual stamp card implementation is untested
+                new StampCard()
+                {
+                    StampCardId = 0,
+                    StampCount = 10,
+                    Achieved = false,
+                    StampCharacters = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8}
+                }
+            },
+            StampCardRewards = new StampCardReward[1]
+            {
+                //todo: actual stamp card implementation is untested
+                new StampCardReward()
+                {
+                    StampCardId = 0,
+                    CardMemberId = 0,
+                    TradeCoin = false
+                }
+            },
             ActiveInformation = new ActiveInformation[0]
         };
 
@@ -221,6 +242,8 @@ public class UserDataContainer
             ScfesProfile = ScfesProfile,
             GachaStatus = GachaStatus,
             FirstLogin = FirstLogin,
+            StampCards = StampCards,
+            StampCardRewards = StampCardRewards,
             ActiveInformation = ActiveInformation
         }; 
     }
