@@ -28,8 +28,10 @@ public class UserDataContainer
     //achievements
     //yell achievements
     //limited achievements
-    //mission
-    //mission point
+    
+    //max amount seems to be 256
+    public Mission[] Missions { get; set; } = new Mission[0];
+    public MissionPoint MissionPoint { get; set; } = new();
     public int[] DailyRecords { get; set; } = new int[0];
     public HonorData[] Honors { get; set; } = new HonorData[0];
     public ScfesProfile ScfesProfile { get; set; } = new();
@@ -195,6 +197,20 @@ public class UserDataContainer
                 }
             },
             Flags = "0",
+            Missions = new Mission[1]
+            {
+                new Mission()
+                {
+                    MissionId = 0,
+                    Achieved = false,
+                    Value = 0
+                }
+            },
+            MissionPoint = new MissionPoint()
+            {
+                Point = 0,
+                AchievedPoint = 0
+            },
             DailyRecords = new int[1]
             {
                 0
@@ -277,6 +293,8 @@ public class UserDataContainer
             Stages = Stages,
             MailBox = MailBox,
             Flags = Flags,
+            Missions = Missions,
+            MissionPoint = MissionPoint,
             DailyRecords = DailyRecords,
             Honors = Honors,
             ScfesProfile = ScfesProfile,

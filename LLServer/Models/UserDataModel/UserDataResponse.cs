@@ -29,8 +29,8 @@ public class UserDataResponse : ResponseBase
     //achievements
     //yell achievements
     //limited achievements
-    //mission
-    //mission point
+    [JsonPropertyName("missions")] public Mission[] Missions { get; set; } = new Mission[0];
+    [JsonPropertyName("mission_point")] public MissionPoint MissionPoint { get; set; } = new(); 
     [JsonPropertyName("daily_records")] public int[] DailyRecords { get; set; } = new int[0];
     [JsonPropertyName("honors")] public HonorData[] Honors { get; set; } = new HonorData[0];
     [JsonPropertyName("scfes_profile")] public ScfesProfile ScfesProfile { get; set; } = new();

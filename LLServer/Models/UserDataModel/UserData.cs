@@ -25,7 +25,7 @@ public class UserData
     [JsonPropertyName("badge")] public int Badge { get; set; } = 0;
     [JsonPropertyName("nameplate")] public int Nameplate { get; set; } = 0;
     
-    #warning TODO: profile card ids seem to be parsed as 32 character strings, look into this and test it (.text:000000014021D08E and .text:000000014021BE00)
+    //TODO: profile card ids seem to be parsed as 32 character strings, look into this and test it (.text:000000014021D08E and .text:000000014021BE00)
     [JsonPropertyName("profile_card_id_1")] public int ProfileCardId1 { get; set; } = 0;
     [JsonPropertyName("profile_card_id_2")] public int ProfileCardId2 { get; set; } = 0;
     
@@ -130,6 +130,19 @@ public class MailBoxItem
     [JsonPropertyName("category")] public int Category { get; set; } = 0;
     [JsonPropertyName("item_id")] public int ItemId { get; set; } = 0;
     [JsonPropertyName("count")] public int Count { get; set; } = 0;
+}
+
+public class Mission
+{
+    [JsonPropertyName("mission_id")] public int MissionId { get; set; } = 0;
+    [JsonPropertyName("value")] public int Value { get; set; } = 0;
+    [JsonPropertyName("achieved")] public bool Achieved { get; set; } = false;
+}
+
+public class MissionPoint
+{
+    [JsonPropertyName("point")] public int Point { get; set; } = 0;
+    [JsonPropertyName("achieved_point")] public int AchievedPoint { get; set; } = 0;
 }
 
 public class HonorData
