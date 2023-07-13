@@ -43,7 +43,7 @@ public class UserDataResponse : ResponseBase
     //snap frames
     //snap stamps
     [JsonPropertyName("nameplates")] public NamePlate[] NamePlates { get; set; } = new NamePlate[0];
-    //badges
+    [JsonPropertyName("badges")] public Badge[] Badges { get; set; } = new Badge[0];
     //event status
     //event rewards
     //event result

@@ -181,6 +181,12 @@ public class NamePlate
     [JsonPropertyName("new")] public bool New { get; set; } = false;
 }
 
+public class Badge
+{
+    [JsonPropertyName("m_badge_id")] public int BadgeId { get; set; } = 0;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
 public class StampCard
 {
     [JsonPropertyName("stamp_card_id")] public int StampCardId { get; set; } = 0;
