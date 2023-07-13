@@ -32,7 +32,7 @@ public class UserDataResponse : ResponseBase
     //mission
     //mission point
     [JsonPropertyName("daily_records")] public int[] DailyRecords { get; set; } = new int[0];
-    //honors
+    [JsonPropertyName("honors")] public HonorData[] Honors { get; set; } = new HonorData[0];
     [JsonPropertyName("scfes_profile")] public ScfesProfile ScfesProfile { get; set; } = new();
     //sif prints
     //travel

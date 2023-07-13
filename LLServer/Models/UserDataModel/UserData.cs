@@ -124,6 +124,13 @@ public class MailBoxItem
     [JsonPropertyName("count")] public int Count { get; set; } = 0;
 }
 
+public class HonorData
+{
+    [JsonPropertyName("m_honor_id")] public int HonorId { get; set; } = 0;
+    [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
 public class ScfesProfile
 {
     [JsonPropertyName("enable")] public bool Enable { get; set; } = false;

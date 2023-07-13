@@ -31,7 +31,7 @@ public class UserDataContainer
     //mission
     //mission point
     public int[] DailyRecords { get; set; } = new int[0];
-    //honors
+    public HonorData[] Honors { get; set; } = new HonorData[0];
     public ScfesProfile ScfesProfile { get; set; } = new();
     //sif prints
     //travel
@@ -189,6 +189,15 @@ public class UserDataContainer
             {
                 0
             },
+            Honors = new HonorData[1]
+            {
+                new HonorData()
+                {
+                    HonorId = 0,
+                    Unlocked = false,
+                    New = false
+                }
+            },
             ScfesProfile = new ScfesProfile()
             {
                 Enable = false
@@ -258,6 +267,7 @@ public class UserDataContainer
             MailBox = MailBox,
             Flags = Flags,
             DailyRecords = DailyRecords,
+            Honors = Honors,
             ScfesProfile = ScfesProfile,
             GachaStatus = GachaStatus,
             NamePlates = NamePlates,
