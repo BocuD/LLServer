@@ -9,8 +9,8 @@ public class UserDataContainer
     
     public MemberData[] Members { get; set; } = new MemberData[0];
     public MemberCardData[] MemberCards { get; set; } = new MemberCardData[0];
+    public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
     
-    //skill card
     //memorial card
     //item
     public MusicData[] Musics { get; set; } = new MusicData[0];
@@ -119,6 +119,16 @@ public class UserDataContainer
                 {
                     CardMemberId = 0,
                     Count = 2,
+                    New = false,
+                    PrintRest = 0
+                }
+            },
+            SkillCards = new SkillCardData[1]
+            {
+                new SkillCardData()
+                {
+                    CardSkillId = 0,
+                    SkillLevel = 0,
                     New = false,
                     PrintRest = 0
                 }
@@ -261,6 +271,7 @@ public class UserDataContainer
             UserDataSaintSnow = UserDataSaintSnow,
             Members = Members,
             MemberCards = MemberCards,
+            SkillCards = SkillCards,
             Musics = Musics,
             Lives = Lives,
             Stages = Stages,

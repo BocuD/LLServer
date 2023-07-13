@@ -11,7 +11,7 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("members")] public MemberData[] Members { get; set; } = new MemberData[0];
     [JsonPropertyName("membercard")] public MemberCardData[] MemberCards { get; set; } = new MemberCardData[0];
     
-    //skill card
+    [JsonPropertyName("skillcard")] public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
     //memorial card
     //item
     [JsonPropertyName("musics")] public MusicData[] Musics { get; set; } = new MusicData[0];

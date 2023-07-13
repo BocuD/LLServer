@@ -71,6 +71,14 @@ public class MemberCardData
     [JsonPropertyName("new")] public bool New { get; set; } = false;
 }
 
+public class SkillCardData
+{
+    [JsonPropertyName("m_card_skill_id")] public int CardSkillId { get; set; } = 0;
+    [JsonPropertyName("skill_level")] public int SkillLevel { get; set; } = 0;
+    [JsonPropertyName("print_rest")] public int PrintRest { get; set; } = 0;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
 public class MusicData
 {
     [JsonPropertyName("music_id")] public required int MusicId { get; set; } = 0;
