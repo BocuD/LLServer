@@ -13,7 +13,7 @@ public class UserDataResponse : ResponseBase
     
     [JsonPropertyName("skillcard")] public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
     //memorial card
-    //item
+    [JsonPropertyName("item")] public Item[] Items { get; set; } = new Item[0];
     [JsonPropertyName("musics")] public MusicData[] Musics { get; set; } = new MusicData[0];
     [JsonPropertyName("lives")] public LiveData[] Lives { get; set; } = new LiveData[0];
     [JsonPropertyName("stages")] public StageData[] Stages { get; set; } = new StageData[0];
