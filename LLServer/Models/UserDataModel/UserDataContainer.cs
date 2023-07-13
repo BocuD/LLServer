@@ -168,6 +168,7 @@ public class UserDataContainer
                 new StageData()
                 {
                     StageId = 0,
+                    SelectCount = 0,
                     Unlocked = true,
                     New = false
                 }
