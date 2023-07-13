@@ -51,10 +51,8 @@ public class UserDataContainer
     //stamp cards
     //stamp card rewards
     public ActiveInformation[] ActiveInformation { get; set; } = new ActiveInformation[0];
-
-    public static UserDataContainer GetDummyUserDataContainer()
-    {
-        return new UserDataContainer()
+    
+    private static UserDataContainer mockStorage = new()
         {
             UserData = new UserData()
             {
@@ -198,12 +196,17 @@ public class UserDataContainer
             FirstLogin = true,
             ActiveInformation = new ActiveInformation[0]
         };
+
+    public static UserDataContainer GetDummyUserDataContainer()
+    {
+        return mockStorage;
     }
 
     public UserDataResponse GetUserData()
     {
         return new UserDataResponse()
         {
+            // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
             //copy all properties
             UserData = UserData,
             UserDataAqours = UserDataAqours,
@@ -219,12 +222,12 @@ public class UserDataContainer
             GachaStatus = GachaStatus,
             FirstLogin = FirstLogin,
             ActiveInformation = ActiveInformation
-        };
+        }; 
     }
 
     public void InitializeUserData(InitializeUserData input)
     {
-        #warning todo: only copy over member properties that are not null
+        // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
         
         if(input.UserData != null) UserData = input.UserData;
         if(input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
@@ -234,7 +237,7 @@ public class UserDataContainer
     
     public void SetUserData(SetUserData input)
     {
-        #warning todo: only copy over properties that are not null
+        // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
         
         if(input.UserData != null) UserData = input.UserData;
         if(input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;

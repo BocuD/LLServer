@@ -18,6 +18,9 @@ builder.Services.AddHttpLogging(logging =>
     logging.LoggingFields = HttpLoggingFields.RequestPath | HttpLoggingFields.RequestQuery | HttpLoggingFields.RequestMethod;
     logging.RequestBodyLogLimit = 4096;
 });
+builder.Services.AddMediatR(cfg => {
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
 
 var app = builder.Build();
 

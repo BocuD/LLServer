@@ -1,9 +1,11 @@
 ﻿using System.Text;
 using System.Text.Json;
+using LLServer.Common;
 using LLServer.Handlers;
 using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.UserDataModel;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LLServer.Controllers.Game;
@@ -12,7 +14,12 @@ namespace LLServer.Controllers.Game;
 [Route("game")]
 public class GameController : BaseController<GameController>
 {
-    public static UserDataContainer userDataContainer = UserDataContainer.GetDummyUserDataContainer();
+    private readonly IMediator mediator;
+
+    public GameController(IMediator mediator)
+    {
+        this.mediator = mediator;
+    }
 
     [HttpPost]
     public async Task<ActionResult<ResponseContainer>> BaseHandler()
@@ -34,109 +41,57 @@ public class GameController : BaseController<GameController>
         switch (request.Protocol)
         {
             case "unlock":
-                response = new ResponseContainer
-                {
-                    Result = 200,
-                    Response = new ResponseBase()
-                };
+                response = await mediator.Send(new UnlockQuery());
                 break;
             case "gameconfig":
-                response = new ResponseContainer
-                {
-                    Result = 200,
-                    Response = new ResponseBase()
-                };
+                response = await mediator.Send(new GameConfigQuery());
                 break;
             case "information":
-                response = InformationHandler.Handle(Request.HttpContext.Connection.LocalIpAddress.ToString());
+                response = await mediator.Send(new InformationQuery(Request.Host.Value));
                 break;
             case "auth":
-                response = new ResponseContainer
-                {
-                    Result = 200,
-                    Response = new AuthResponse
-                    {
-                        AbnormalEnd = 0,
-                        BlockSequence = 1,
-                        Name = "",
-                        SessionKey = "12345678901234567890123456789012",
-                        Status = 0,
-                        UserId = "1"
-                    }
-                };
+                response = await mediator.Send(new AuthCommand());
                 break;
             case "userdata.initialize":
             {
-                if (request.Param == null) return BadRequest();
-             
-                //deserialize from param
-                string paramJson = request.Param.Value.GetRawText();
-                
-                InitializeUserData initializeUserData = JsonSerializer.Deserialize<InitializeUserData>(paramJson);
-                
-                userDataContainer.InitializeUserData(initializeUserData);
-                
-                Logger.LogInformation("InitializeUserData {InitializeUserData}", JsonSerializer.Serialize(initializeUserData));
-                Logger.LogInformation("UserDataContainer {UserDataContainer}", JsonSerializer.Serialize(userDataContainer));
-                
-                response = new ResponseContainer
+                if (request.Param == null)
                 {
-                    Result = 200,
-                    Response = userDataContainer.GetUserData()
-                };
+                    response = StaticResponses.BadRequestResponse;
+                    break;
+                }
+                //deserialize from param
+                var paramJson = request.Param.Value.GetRawText();
+
+                response = await mediator.Send(new InitializeUserDataCommand(paramJson));
             }
                 break;
 
             #warning double check that gameentry actually expects the same response as userdata.get
             case "gameentry":
             case "userdata.get":
-                response = new ResponseContainer()
-                {
-                    Result = 200,
-                    Response = userDataContainer.GetUserData()
-                };
-
-                //log response json
-                Logger.LogInformation("Response {Response}", JsonSerializer.Serialize(response));
+                response = await mediator.Send(new GetUserDataQuery());
                 break;
-
             case "userdata.set":
             {
-                if (request.Param == null) return BadRequest();
-                
-                string paramJson = request.Param.Value.GetRawText();
-                
-                Logger.LogInformation(paramJson);
-                
-                SetUserData setUserData = JsonSerializer.Deserialize<SetUserData>(paramJson);
-
-                userDataContainer.SetUserData(setUserData);
-                
-                //log setuserdata json and userdatacontainer json
-                Logger.LogInformation("SetUserData {SetUserData}", JsonSerializer.Serialize(setUserData));
-                Logger.LogInformation("UserDataContainer {UserDataContainer}", JsonSerializer.Serialize(userDataContainer));
-
-                response = new ResponseContainer()
+                if (request.Param == null) 
                 {
-                    Result = 200,
-                    Response = new ResponseBase()
-                };
+                    response = StaticResponses.BadRequestResponse;
+                    break;
+                }
+                
+                var paramJson = request.Param.Value.GetRawText();
+                
+                Logger.LogInformation("ParamJson {ParamJson}", paramJson);
+
+                response = await mediator.Send(new SetUserDataCommand(paramJson));
             }
                 break;
             case "checkword":
-                response = new ResponseContainer()
-                {
-                    Result = 200,
-                    Response = new ResponseBase()
-                };
+                response = await mediator.Send(new CheckWordCommand());
                 break;
             
             case "ranking":
-                response = new ResponseContainer()    
-                {
-                    Result = 200,
-                    Response = RankingResponse.DummyRankingResponse()
-                };
+                response = await mediator.Send(new GetRankingQuery());
                 break;
             
             default:
