@@ -20,13 +20,14 @@ public class BasicInfoController : BaseController<BasicInfoController>
     [Produces("application/octet-stream")]
     public ActionResult<byte[]> GetBasicInfo()
     {
+        var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
         var info = new ResponseContainer
         {
             Result = 200,
             Response = new BasicInfo
             {
-                BaseUrl = "http://127.0.0.1/game",
-                DownloadUrl = "http://127.0.0.1/download",
+                BaseUrl = $"http://{serverIpAddress}/game",
+                DownloadUrl = $"http://{serverIpAddress}/download",
                 Key = CryptoConstants.AES_KEY,
                 Iv = CryptoConstants.IV,
                 TenpoIndex = 1337
