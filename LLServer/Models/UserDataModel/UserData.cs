@@ -139,6 +139,12 @@ public class GachaStatus
     [JsonPropertyName("in_use")] public bool InUse { get; set; } = false;
 }
 
+public class NamePlate
+{
+    [JsonPropertyName("m_nameplate_id")] public int NamePlateId { get; set; } = 0;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
 public class StampCard
 {
     [JsonPropertyName("stamp_card_id")] public int StampCardId { get; set; } = 0;

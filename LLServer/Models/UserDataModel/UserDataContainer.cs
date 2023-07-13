@@ -41,7 +41,7 @@ public class UserDataContainer
     //card frames
     //snap frames
     //snap stamps
-    //nameplates
+    public NamePlate[] NamePlates { get; set; } = new NamePlate[0];
     //badges
     //event status
     //event rewards
@@ -193,6 +193,14 @@ public class UserDataContainer
                     UsageCount = 0
                 }
             },
+            NamePlates = new NamePlate[1]
+            {
+                new NamePlate()
+                {
+                    NamePlateId = 0,
+                    New = false
+                }
+            },
             FirstLogin = true,
             StampCards = new StampCard[1]
             {
@@ -241,6 +249,7 @@ public class UserDataContainer
             DailyRecords = DailyRecords,
             ScfesProfile = ScfesProfile,
             GachaStatus = GachaStatus,
+            NamePlates = NamePlates,
             FirstLogin = FirstLogin,
             StampCards = StampCards,
             StampCardRewards = StampCardRewards,
