@@ -15,7 +15,7 @@ public class UserDataContainer
     //item
     public MusicData[] Musics { get; set; } = new MusicData[0];
     public LiveData[] Lives { get; set; } = new LiveData[0];
-    //stages data
+    public StageData[] Stages { get; set; } = new StageData[0];
     //game history
     //game history aqours
     //game history saint snow
@@ -163,6 +163,15 @@ public class UserDataContainer
                     TechnicalRank = 0
                 }
             },
+            Stages = new StageData[1]
+            {
+                new StageData()
+                {
+                    StageId = 0,
+                    Unlocked = true,
+                    New = false
+                }
+            },
             MailBox = new MailBoxItem[1]
             {
                 new MailBoxItem()
@@ -244,6 +253,7 @@ public class UserDataContainer
             MemberCards = MemberCards,
             Musics = Musics,
             Lives = Lives,
+            Stages = Stages,
             MailBox = MailBox,
             Flags = Flags,
             DailyRecords = DailyRecords,

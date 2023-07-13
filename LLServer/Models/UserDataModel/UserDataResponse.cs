@@ -16,7 +16,7 @@ public class UserDataResponse : ResponseBase
     //item
     [JsonPropertyName("musics")] public MusicData[] Musics { get; set; } = new MusicData[0];
     [JsonPropertyName("lives")] public LiveData[] Lives { get; set; } = new LiveData[0];
-    //stages data
+    [JsonPropertyName("stages")] public StageData[] Stages { get; set; } = new StageData[0];
     //game history
     //game history aqours
     //game history saint snow

@@ -107,6 +107,14 @@ public class LiveData
     [JsonPropertyName("technical_rank")] public int TechnicalRank { get; set; } = 0;
 }
 
+public class StageData
+{
+    [JsonPropertyName("m_stage_id")] public int StageId { get; set; } = 0;
+    [JsonPropertyName("select_count")] public int SelectCount { get; set; } = 0;
+    [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
 public class MailBoxItem
 {
     [JsonPropertyName("id")] public int Id { get; set; } = 0;
