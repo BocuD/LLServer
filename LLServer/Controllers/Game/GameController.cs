@@ -43,15 +43,19 @@ public class GameController : BaseController<GameController>
             case "unlock":
                 response = await mediator.Send(new UnlockQuery());
                 break;
+            
             case "gameconfig":
                 response = await mediator.Send(new GameConfigQuery());
                 break;
+            
             case "information":
                 response = await mediator.Send(new InformationQuery(Request.Host.Value));
                 break;
+            
             case "auth":
                 response = await mediator.Send(new AuthCommand());
                 break;
+            
             case "userdata.initialize":
             {
                 if (request.Param == null)
@@ -66,11 +70,14 @@ public class GameController : BaseController<GameController>
             }
                 break;
 
-            #warning double check that gameentry actually expects the same response as userdata.get
             case "gameentry":
+                response = await mediator.Send(new GetGameEntryQuery());
+                break;
+            
             case "userdata.get":
                 response = await mediator.Send(new GetUserDataQuery());
                 break;
+            
             case "userdata.set":
             {
                 if (request.Param == null) 

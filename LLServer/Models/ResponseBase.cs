@@ -15,6 +15,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(BasicInfo))]
 [JsonDerivedType(typeof(InformationResponse))]
 [JsonDerivedType(typeof(AuthResponse))]
+[JsonDerivedType(typeof(GameEntryResponse))]
 [JsonDerivedType(typeof(UserDataResponse))]
 [JsonDerivedType(typeof(RankingResponse))]
 public class ResponseBase
