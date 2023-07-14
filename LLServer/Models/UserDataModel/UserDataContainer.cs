@@ -11,7 +11,7 @@ public class UserDataContainer
     public MemberCardData[] MemberCards { get; set; } = new MemberCardData[0];
     public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
     
-    //memorial card
+    public MemorialCardData[] MemorialCards { get; set; } = new MemorialCardData[0];
     public Item[] Items { get; set; } = new Item[0];
     public MusicData[] Musics { get; set; } = new MusicData[0];
     public LiveData[] Lives { get; set; } = new LiveData[0];
@@ -23,7 +23,7 @@ public class UserDataContainer
     //travel history aqours
     //travel history saint snow
     public MailBoxItem[] MailBox { get; set; } = new MailBoxItem[0];
-    //specials
+    public SpecialData[] Specials { get; set; } = new SpecialData[0];
     public string Flags { get; set; } = string.Empty;
     //achievements
     //yell achievements
@@ -37,7 +37,7 @@ public class UserDataContainer
     public ScfesProfile ScfesProfile { get; set; } = new();
     //sif prints
     //travel
-    //travel pamphlets
+    public TravelPamphlet[] TravelPamphlets { get; set; } = new TravelPamphlet[0];
     //travel talks
     public GachaStatus[] GachaStatus { get; set; } = new GachaStatus[0];
     //card frames
@@ -46,7 +46,7 @@ public class UserDataContainer
     public NamePlate[] NamePlates { get; set; } = new NamePlate[0];
     public Badge[] Badges { get; set; } = new Badge[0];
     //event status
-    //event rewards
+    public EventReward[] EventRewards { get; set; } = new EventReward[0];
     //event result
     public bool FirstLogin { get; set; } = true;
     //dice bonus
@@ -103,16 +103,16 @@ public class UserDataContainer
             {
                 new MemberData()
                 {
-                    CharacterId = 0,
+                    CharacterId = 1,
                     CardMemberId = 0,
                     YellPoint = 0,
-                    CardMemorialId = 0,
-                    AchieveRank = 69,
+                    CardMemorialId = 2000,
+                    AchieveRank = 1,
                     Main = 0,
                     Camera = 0,
                     Stage = 0,
                     SelectCount = 0,
-                    New = false
+                    New = true
                 }
             },
             MemberCards = new MemberCardData[1]
@@ -133,6 +133,19 @@ public class UserDataContainer
                     SkillLevel = 0,
                     New = false,
                     PrintRest = 0
+                }
+            },
+            MemorialCards = new MemorialCardData[1]
+            {
+                new MemorialCardData()
+                {
+                    CardMemorialId = 0,
+                    Count = 1,
+                    GoalCount = 0,
+                    New = false,
+                    PrintRest = 0,
+                    SelectCount = 0,
+                    TalkCount = 0
                 }
             },
             Items = new Item[1]
@@ -204,6 +217,14 @@ public class UserDataContainer
                     Count = 1
                 }
             },
+            Specials = new SpecialData[1]
+            {
+                new SpecialData()
+                {
+                    IdolKind = 0,
+                    SpecialId = 0,
+                }
+            },
             Flags = "0",
             Missions = new Mission[1]
             {
@@ -236,6 +257,18 @@ public class UserDataContainer
             {
                 Enable = false
             },
+            TravelPamphlets = new TravelPamphlet[1]
+            {
+                new TravelPamphlet()
+                {
+                    TravelPamphletId = 0,
+                    Round = 0,
+                    TotalTalkCount = 0,
+                    TotalDiceCount = 0,
+                    IsNew = false,
+                    TravelExRewards = new int[1] {0}
+                }
+            },
             GachaStatus = new GachaStatus[1]
             {
                 new GachaStatus()
@@ -260,6 +293,18 @@ public class UserDataContainer
                 {
                     BadgeId = 0,
                     New = false
+                }
+            },
+            EventRewards = new EventReward[1]
+            {
+                new EventReward()
+                {
+                    EventId = 0,
+                    RewardCategory = 0,
+                    RewardId = 0,
+                    EventPoint = 0,
+                    Rank = 0,
+                    RewardNum = 0
                 }
             },
             FirstLogin = true,
@@ -304,20 +349,24 @@ public class UserDataContainer
             Members = Members,
             MemberCards = MemberCards,
             SkillCards = SkillCards,
+            MemorialCards = MemorialCards,
             Items = Items,
             Musics = Musics,
             Lives = Lives,
             Stages = Stages,
             MailBox = MailBox,
+            Specials = Specials,
             Flags = Flags,
             Missions = Missions,
             MissionPoint = MissionPoint,
             DailyRecords = DailyRecords,
             Honors = Honors,
             ScfesProfile = ScfesProfile,
+            TravelPamphlets = TravelPamphlets,
             GachaStatus = GachaStatus,
             NamePlates = NamePlates,
             Badges = Badges,
+            EventRewards = EventRewards,
             FirstLogin = FirstLogin,
             StampCards = StampCards,
             StampCardRewards = StampCardRewards,
@@ -325,10 +374,34 @@ public class UserDataContainer
         }; 
     }
 
+    public GameEntryResponse GetGameEntry()
+    {
+        return new GameEntryResponse()
+        {
+            // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
+            //copy all properties
+            UserData = UserData,
+            UserDataAqours = UserDataAqours,
+            UserDataSaintSnow = UserDataSaintSnow,
+            MemberCards = MemberCards,
+            SkillCards = SkillCards,
+            MemorialCards = MemorialCards,
+            Items = Items,
+            MailBox = MailBox,
+            Specials = Specials,
+            FirstLogin = FirstLogin,
+            TravelPamphlets = TravelPamphlets,
+            StampCardRewards = StampCardRewards,
+            ActiveInformation = ActiveInformation,
+            EventRewards = EventRewards,
+            Members = Members
+        };
+    }
+
     public void InitializeUserData(InitializeUserData input)
     {
         // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
-        
+        //copy all properties
         if(input.UserData != null) UserData = input.UserData;
         if(input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
 

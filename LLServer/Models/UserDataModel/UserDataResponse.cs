@@ -12,7 +12,7 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("membercard")] public MemberCardData[] MemberCards { get; set; } = new MemberCardData[0];
     
     [JsonPropertyName("skillcard")] public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
-    //memorial card
+    [JsonPropertyName("memorialcard")] public MemorialCardData[] MemorialCards { get; set; } = new MemorialCardData[0];
     [JsonPropertyName("item")] public Item[] Items { get; set; } = new Item[0];
     [JsonPropertyName("musics")] public MusicData[] Musics { get; set; } = new MusicData[0];
     [JsonPropertyName("lives")] public LiveData[] Lives { get; set; } = new LiveData[0];
@@ -24,7 +24,7 @@ public class UserDataResponse : ResponseBase
     //travel history aqours
     //travel history saint snow
     [JsonPropertyName("mailbox")] public MailBoxItem[] MailBox { get; set; } = new MailBoxItem[0];
-    //specials
+    [JsonPropertyName("specials")] public SpecialData[] Specials { get; set; } = new SpecialData[0];
     [JsonPropertyName("flags")] public string Flags { get; set; } = string.Empty;
     //achievements
     //yell achievements
@@ -36,7 +36,7 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("scfes_profile")] public ScfesProfile ScfesProfile { get; set; } = new();
     //sif prints
     //travel
-    //travel pamphlets
+    [JsonPropertyName("travel_pamphlets")] public TravelPamphlet[] TravelPamphlets { get; set; } = new TravelPamphlet[0];
     //travel talks
     [JsonPropertyName("gacha_status")] public GachaStatus[] GachaStatus { get; set; } = new GachaStatus[0];
     //card frames
@@ -45,7 +45,7 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("nameplates")] public NamePlate[] NamePlates { get; set; } = new NamePlate[0];
     [JsonPropertyName("badges")] public Badge[] Badges { get; set; } = new Badge[0];
     //event status
-    //event rewards
+    [JsonPropertyName("event_rewards")] public EventReward[] EventRewards { get; set; } = new EventReward[0];
     //event result
     [JsonPropertyName("first_login")] public bool FirstLogin { get; set; } = true;
     //dice bonus

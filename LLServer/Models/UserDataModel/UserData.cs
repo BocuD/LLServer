@@ -79,6 +79,17 @@ public class SkillCardData
     [JsonPropertyName("new")] public bool New { get; set; } = false;
 }
 
+public class MemorialCardData
+{
+    [JsonPropertyName("m_card_memorial_id")] public int CardMemorialId { get; set; } = 0;
+    [JsonPropertyName("count")] public int Count { get; set; } = 0;
+    [JsonPropertyName("print_rest")] public int PrintRest { get; set; } = 0;
+    [JsonPropertyName("select_count")] public int SelectCount { get; set; } = 0;
+    [JsonPropertyName("talk_count")] public int TalkCount { get; set; } = 0;
+    [JsonPropertyName("goal_count")] public int GoalCount { get; set; } = 0;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
 public class Item
 {
     [JsonPropertyName("m_item_id")] public int ItemId { get; set; } = 0;
@@ -138,6 +149,13 @@ public class MailBoxItem
     [JsonPropertyName("count")] public int Count { get; set; } = 0;
 }
 
+//todo: the method responsible for parssing specials in the game (at 000140220DF0) seems to get the system time but it is currently not clear what this is used for
+public class SpecialData
+{
+    [JsonPropertyName("idol_kind")] public int IdolKind { get; set; } = 0;
+    [JsonPropertyName("special_id")] public int SpecialId { get; set; } = 0;
+}
+
 public class Mission
 {
     [JsonPropertyName("mission_id")] public int MissionId { get; set; } = 0;
@@ -173,6 +191,16 @@ public class ScfesProfileEnabled : ScfesProfile
     [JsonPropertyName("live_list")] public int[] LiveList { get; set; } = new int[0];
 }
 
+public class TravelPamphlet
+{
+    [JsonPropertyName("m_travel_pamphlet_id")] public int TravelPamphletId { get; set; } = 0;
+    [JsonPropertyName("round")] public int Round { get; set; } = 0;
+    [JsonPropertyName("total_talk_count")] public int TotalTalkCount { get; set; } = 0;
+    [JsonPropertyName("total_dice_count")] public int TotalDiceCount { get; set; } = 0;
+    [JsonPropertyName("is_new")] public bool IsNew { get; set; } = false;
+    [JsonPropertyName("travel_ex_rewards")] public int[] TravelExRewards { get; set; } = new int[0];
+}
+
 public class GachaStatus
 {
     [JsonPropertyName("m_gacha_id")] public int GachaId { get; set; } = 0;
@@ -191,6 +219,16 @@ public class Badge
 {
     [JsonPropertyName("m_badge_id")] public int BadgeId { get; set; } = 0;
     [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
+public class EventReward
+{
+    [JsonPropertyName("m_event_id")] public int EventId { get; set; } = 0;
+    [JsonPropertyName("reward_category")] public int RewardCategory { get; set; } = 0;
+    [JsonPropertyName("reward_id")] public int RewardId { get; set; } = 0;
+    [JsonPropertyName("event_point")] public int EventPoint { get; set; } = 0;
+    [JsonPropertyName("rank")] public int Rank { get; set; } = 0;
+    [JsonPropertyName("reward_num")] public int RewardNum { get; set; } = 0;
 }
 
 public class StampCard
