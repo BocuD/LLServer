@@ -58,7 +58,8 @@ public class UserDataContainer
     public EventReward[] EventRewards { get; set; } = new EventReward[0];
 
     //event result
-    public bool FirstLogin { get; set; } = true;
+    public string Now { get; set; } = "";
+    public string FirstLogin { get; set; } = "";
 
     //dice bonus
     public StampCard[] StampCards { get; set; } = new StampCard[0];
@@ -180,7 +181,7 @@ public class UserDataContainer
         {
             new LiveData()
             {
-                LiveId = 0,
+                LiveId = 10,
                 SelectCount = 0,
                 Unlocked = true,
                 New = false,
@@ -296,7 +297,7 @@ public class UserDataContainer
         {
             new Badge()
             {
-                BadgeId = 0,
+                BadgeId = 901001, //μ’s大好き badge
                 New = false
             }
         },
@@ -312,7 +313,9 @@ public class UserDataContainer
                 RewardNum = 0
             }
         },
-        FirstLogin = true,
+        //timestamp
+        Now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+        FirstLogin = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
         StampCards = new StampCard[1]
         {
             //todo: actual stamp card implementation is untested
@@ -372,6 +375,7 @@ public class UserDataContainer
             NamePlates = NamePlates,
             Badges = Badges,
             EventRewards = EventRewards,
+            Now = Now,
             FirstLogin = FirstLogin,
             StampCards = StampCards,
             StampCardRewards = StampCardRewards,
@@ -409,8 +413,6 @@ public class UserDataContainer
         //copy all properties
         if(input.UserData != null) UserData = input.UserData;
         if(input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
-
-        FirstLogin = false;
     }
     
     public void SetUserData(SetUserData input)

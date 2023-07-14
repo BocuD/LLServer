@@ -20,7 +20,7 @@ public class GameEntryResponse : ResponseBase
     
     [JsonPropertyName("specials")] public SpecialData[] Specials { get; set; } = new SpecialData[0];
     
-    [JsonPropertyName("first_login")] public bool FirstLogin { get; set; } = true;
+    [JsonPropertyName("first_login")] public string FirstLogin { get; set; } = "";
 
     [JsonPropertyName("travel_pamphlets")] public TravelPamphlet[] TravelPamphlets { get; set; } = new TravelPamphlet[0];
 
