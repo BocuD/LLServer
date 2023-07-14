@@ -27,8 +27,8 @@ public class UserData
     [JsonPropertyName("nameplate")] public int Nameplate { get; set; } = 0;
     
     //TODO: profile card ids seem to be parsed as 32 character strings, look into this and test it (.text:000000014021D08E and .text:000000014021BE00)
-    [JsonPropertyName("profile_card_id_1")] public int ProfileCardId1 { get; set; } = 0;
-    [JsonPropertyName("profile_card_id_2")] public int ProfileCardId2 { get; set; } = 0;
+    [JsonPropertyName("profile_card_id_1")] public string ProfileCardId1 { get; set; } = "";
+    [JsonPropertyName("profile_card_id_2")] public string ProfileCardId2 { get; set; } = "";
     
     [JsonPropertyName("credit_count_satellite")] public int CreditCountSatellite { get; set; } = 0;
     [JsonPropertyName("credit_count_center")] public int CreditCountCenter { get; set; } = 0;
@@ -41,8 +41,8 @@ public class UserDataAqours
     [JsonPropertyName("honor")] public int Honor { get; set; } = 0;
     [JsonPropertyName("badge")] public int Badge { get; set; } = 0;
     [JsonPropertyName("nameplate")] public int Nameplate { get; set; } = 0;
-    [JsonPropertyName("profile_card_id_1")] public int ProfileCardId1 { get; set; } = 0;
-    [JsonPropertyName("profile_card_id_2")] public int ProfileCardId2 { get; set; } = 0;
+    [JsonPropertyName("profile_card_id_1")] public string ProfileCardId1 { get; set; } = "";
+    [JsonPropertyName("profile_card_id_2")] public string ProfileCardId2 { get; set; } = "";
 }
 
 public class UserDataSaintSnow : UserDataAqours
@@ -139,6 +139,52 @@ public class StageData
     [JsonPropertyName("select_count")] public int SelectCount { get; set; } = 0;
     [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
     [JsonPropertyName("new")] public bool New { get; set; } = false;
+
+    public static int[] stages =
+    {
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312
+    };
 }
 
 public class MailBoxItem
@@ -239,7 +285,7 @@ public class StampCard
     [JsonPropertyName("achieved")] public bool Achieved { get; set; } = false;
     
     //seems to go up to 9 characters (see .text:0000000140226E52)
-    [JsonPropertyName("stamp_characters")] public int[] StampCharacters { get; set; } = new int[0];
+    [JsonPropertyName("stamp_characters")] public int[] StampCharacters { get; set; } = new int[9];
 }
 
 public class StampCardReward
