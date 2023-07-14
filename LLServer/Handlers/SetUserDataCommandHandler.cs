@@ -35,7 +35,7 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
         var response = new ResponseContainer
         {
             Result = 200,
-            Response = new ResponseBase()
+            Response = userDataContainer.GetUserData()
         };
         return response;
     }

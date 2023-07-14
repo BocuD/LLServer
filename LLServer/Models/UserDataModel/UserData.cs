@@ -2,6 +2,7 @@
 
 namespace LLServer.Models.UserDataModel;
 
+//todo decompile sub_14021C260 and figure out what this is responsible for parsing
 public class UserData
 {
     //returned directly by game in userdata.initialize

@@ -55,6 +55,14 @@ public class GameController : BaseController<GameController>
             case "auth":
                 response = await mediator.Send(new AuthCommand());
                 break;
+
+            case "gameentry":
+                response = await mediator.Send(new GetGameEntryQuery());
+                break;
+            
+            case "userdata.get":
+                response = await mediator.Send(new GetUserDataQuery());
+                break;
             
             case "userdata.initialize":
             {
@@ -68,14 +76,6 @@ public class GameController : BaseController<GameController>
 
                 response = await mediator.Send(new InitializeUserDataCommand(paramJson));
             }
-                break;
-
-            case "gameentry":
-                response = await mediator.Send(new GetGameEntryQuery());
-                break;
-            
-            case "userdata.get":
-                response = await mediator.Send(new GetUserDataQuery());
                 break;
             
             case "userdata.set":
