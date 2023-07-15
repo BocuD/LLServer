@@ -6,16 +6,13 @@ public class UserDataContainer
     public UserData UserData { get; set; } = new();
     public UserDataAqours UserDataAqours { get; set; } = new();
     public UserDataSaintSnow? UserDataSaintSnow { get; set; }
-
     public MemberData[] Members { get; set; } = new MemberData[0];
     public MemberCardData[] MemberCards { get; set; } = new MemberCardData[0];
     public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
-
     public MemorialCardData[] MemorialCards { get; set; } = new MemorialCardData[0];
     public Item[] Items { get; set; } = new Item[0];
     public MusicData[] Musics { get; set; } = new MusicData[0];
     public LiveData[] Lives { get; set; } = new LiveData[0];
-
     public StageData[] Stages { get; set; } = new StageData[0];
 
     //game history
@@ -24,26 +21,23 @@ public class UserDataContainer
     public TravelHistory[] TravelHistory { get; set; } = new TravelHistory[0];
     public TravelHistory[] TravelHistoryAqours { get; set; } = new TravelHistory[0];
     public TravelHistory[] TravelHistorySaintSnow { get; set; } = new TravelHistory[0];
-    //travel history aqours
-    //travel history saint snow
     public MailBoxItem[] MailBox { get; set; } = new MailBoxItem[0];
     public SpecialData[] Specials { get; set; } = new SpecialData[0];
-
-    public string Flags { get; set; } = string.Empty;
-    //achievements
+    public string Flags { get; set; } = "";
+    public Achievement[] Achievements { get; set; } = new Achievement[0];
+    public AchievementRecordBook[] RecordBooks { get; set; } = new AchievementRecordBook[0];
     public YellAchievement[] YellAchievements { get; set; } = new YellAchievement[0];
-    //limited achievements
+    public LimitedAchievement[] LimitedAchievements { get; set; } = new LimitedAchievement[0];
 
     //max amount seems to be 256
     public Mission[] Missions { get; set; } = new Mission[0];
     public MissionPoint MissionPoint { get; set; } = new();
     public int[] DailyRecords { get; set; } = new int[0];
     public HonorData[] Honors { get; set; } = new HonorData[0];
-
     public ScfesProfile ScfesProfile { get; set; } = new();
 
     //sif prints
-    //travel
+    public TravelData[] Travels { get; set; } = new TravelData[0];
     public TravelPamphlet[] TravelPamphlets { get; set; } = new TravelPamphlet[0];
 
     //travel talks
@@ -53,17 +47,13 @@ public class UserDataContainer
     //snap frames
     //snap stamps
     public NamePlate[] NamePlates { get; set; } = new NamePlate[0];
-
     public Badge[] Badges { get; set; } = new Badge[0];
-
-    //event status
+    public EventStatus[] EventStatus { get; set; } = new EventStatus[0];
     public EventReward[] EventRewards { get; set; } = new EventReward[0];
-
-    //event result
+    public EventResult EventResult { get; set; } = new EventResult();
     public string Now { get; set; } = "";
     public string FirstLogin { get; set; } = "";
-
-    //dice bonus
+    public bool DiceBonus { get; set; } = false;
     public StampCard[] StampCards { get; set; } = new StampCard[0];
     public StampCardReward[] StampCardRewards { get; set; } = new StampCardReward[0];
     public ActiveInformation[] ActiveInformation { get; set; } = new ActiveInformation[0];
@@ -87,8 +77,8 @@ public class UserDataContainer
             Level = 69,
             TotalExp = 1000,
             Honor = 5,
-            Badge = 1,
-            Nameplate = 0,
+            Badge = 901001, //μ’s大好き (default badge)
+            Nameplate = 201, //アキバ (test nameplate)
             ProfileCard1 = new ProfileCard(0),
             ProfileCard2 = new ProfileCard(0),
             CreditCountSatellite = 0,
@@ -99,8 +89,8 @@ public class UserDataContainer
         {
             CharacterId = 0,
             Honor = 0,
-            Badge = 0,
-            Nameplate = 0,
+            Badge = 902001, //Aqours大好き (default badge)
+            Nameplate = 201, //アキバ (test nameplate)
             ProfileCard1 = new ProfileCard(0),
             ProfileCard2 = new ProfileCard(0),
         },
@@ -174,7 +164,7 @@ public class UserDataContainer
         {
             new MusicData()
             {
-                MusicId = 0,
+                MusicId = 10,
                 Unlocked = true,
                 New = false
             }
@@ -222,8 +212,8 @@ public class UserDataContainer
                 SnapBackgroundId = 0,
                 OtherCharacterId = 0,
                 OtherPlayerName = "Player",
-                OtherPlayerNameplate = 0,
-                OtherPlayerBadge = 0,
+                OtherPlayerNameplate = 201, //アキバ (test nameplate)
+                OtherPlayerBadge = 901001, //μ’s大好き (default badge)
                 TravelPamphletId = 0,
                 CreateType = 0,
                 TenpoName = "1337",
@@ -255,11 +245,72 @@ public class UserDataContainer
             }
         },
         Flags = "0",
+        Achievements = new Achievement[1]
+        {
+            new Achievement()
+            {
+                AchievementId = 100,
+                Unlocked = false,
+                New = false
+            }
+        },
+        RecordBooks = new AchievementRecordBook[8]
+        {
+            new AchievementRecordBook()
+            {
+                Type = "countFinale",
+                Values = new int[0]
+            },
+            new AchievementRecordBook()
+            {
+                Type = "countSkillInvoke",
+                Values = new int[0]
+            },
+            new AchievementRecordBook()
+            {
+                Type = "countSelectMember",
+                Values = new int[0]
+            },
+            new AchievementRecordBook()
+            {
+                Type = "countSelectUnit",
+                Values = new int[0]
+            },
+            new AchievementRecordBook()
+            {
+                Type = "countGetMemberCard",
+                Values = new int[0]
+            },
+            new AchievementRecordBook()
+            {
+                Type = "countGetSkillCard",
+                Values = new int[0]
+            },
+            new AchievementRecordBook()
+            {
+                Type = "countPhotograph",
+                Values = new int[0]
+            },
+            new AchievementRecordBook()
+            {
+                Type = "countVisualScoreIconSuccess",
+                Values = new int[0]
+            }
+        },
         YellAchievements = new YellAchievement[1]
         {
             new YellAchievement()
             {
                 YellAchievementId = 0,
+                Unlocked = false,
+                New = false
+            }
+        },
+        LimitedAchievements = new LimitedAchievement[1]
+        {
+            new LimitedAchievement()
+            {
+                LimitedAchievementId = 0,
                 Unlocked = false,
                 New = false
             }
@@ -295,6 +346,19 @@ public class UserDataContainer
         {
             Enable = false
         },
+        Travels = new TravelData[1]
+        {
+            new TravelData()
+            {
+                Slot = 0,
+                TravelPamphletId = 0,
+                CharacterId = 0,
+                CardMemorialId = 0,
+                Positions = new int[] {0, 1, 2},
+                LastLandmark = 0,
+                Modified = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            }
+        },
         TravelPamphlets = new TravelPamphlet[1]
         {
             new TravelPamphlet()
@@ -321,16 +385,33 @@ public class UserDataContainer
         {
             new NamePlate()
             {
-                NamePlateId = 0,
+                NamePlateId = 201, //アキバ (test nameplate)
                 New = false
             }
         },
-        Badges = new Badge[1]
+        Badges = new Badge[2]
         {
             new Badge()
             {
                 BadgeId = 901001, //μ’s大好き badge
                 New = false
+            },
+            new Badge()
+            {
+                BadgeId = 901002, //Aqours大好き badge
+                New = false
+            }
+        },
+        EventStatus = new EventStatus[1]
+        {
+            new EventStatus()
+            {
+                EventId = 0,
+                EventPoint = 0,
+                Level = 1,
+                Rank = 0,
+                NextReward = 0,
+                FirstPlay = 0
             }
         },
         EventRewards = new EventReward[1]
@@ -345,9 +426,35 @@ public class UserDataContainer
                 RewardNum = 0
             }
         },
+        EventResult = new EventResult()
+        {
+            EventId = 0,
+            AddPoint = 0,
+            EventPoint = 0,
+            UpdateScore = 0,
+            Rewards = new EventResultReward[1]
+            {
+                new EventResultReward()
+                {
+                    Reward = new EventResultReward.EventResultRewardData()
+                    {
+                        RequirePoint = 0,
+                        RewardArg = 0,
+                        RewardType = 0
+                    },
+                    NextReward = new EventResultReward.EventResultRewardData()
+                    {
+                        RequirePoint = 0,
+                        RewardArg = 0,
+                        RewardType = 0
+                    }
+                }
+            }
+        },
         //timestamp
         Now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
         FirstLogin = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+        DiceBonus = false,
         StampCards = new StampCard[1]
         {
             //todo: actual stamp card implementation is untested
@@ -400,19 +507,26 @@ public class UserDataContainer
             MailBox = MailBox,
             Specials = Specials,
             Flags = Flags,
+            Achievements = Achievements,
+            RecordBooks = RecordBooks,
             YellAchievements = YellAchievements,
+            LimitedAchievements = LimitedAchievements,
             Missions = Missions,
             MissionPoint = MissionPoint,
             DailyRecords = DailyRecords,
             Honors = Honors,
             ScfesProfile = ScfesProfile,
+            Travels = Travels,
             TravelPamphlets = TravelPamphlets,
             GachaStatus = GachaStatus,
             NamePlates = NamePlates,
             Badges = Badges,
+            EventStatus = EventStatus,
             EventRewards = EventRewards,
+            EventResult = EventResult,
             Now = Now,
             FirstLogin = FirstLogin,
+            DiceBonus = DiceBonus,
             StampCards = StampCards,
             StampCardRewards = StampCardRewards,
             ActiveInformation = ActiveInformation

@@ -280,9 +280,29 @@ public class SpecialData
     [JsonPropertyName("special_id")] public int SpecialId { get; set; } = 0;
 }
 
+public class Achievement
+{
+    [JsonPropertyName("m_achievement_id")] public int AchievementId { get; set; } = 0;
+    [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
+public class AchievementRecordBook
+{
+    [JsonPropertyName("type")] public string Type { get; set; } = "";
+    [JsonPropertyName("values")] public int[] Values { get; set; } = new int[0];
+}
+
 public class YellAchievement
 {
     [JsonPropertyName("m_yell_achievement_id")] public int YellAchievementId { get; set; } = 0;
+    [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
+}
+
+public class LimitedAchievement
+{
+    [JsonPropertyName("m_limited_achievement_id")] public int LimitedAchievementId { get; set; } = 0;
     [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
     [JsonPropertyName("new")] public bool New { get; set; } = false;
 }
@@ -322,6 +342,20 @@ public class ScfesProfileEnabled : ScfesProfile
     [JsonPropertyName("live_list")] public int[] LiveList { get; set; } = new int[0];
 }
 
+public class TravelData
+{
+    [JsonPropertyName("slot")] public int Slot { get; set; } = 0;
+    [JsonPropertyName("m_travel_pamphlet_id")] public int TravelPamphletId { get; set; } = 0;
+    [JsonPropertyName("character_id")] public int CharacterId { get; set; } = 0;
+    [JsonPropertyName("m_card_memorial_id")] public int CardMemorialId { get; set; } = 0;
+    
+    //todo: double check the type of the data inside the positions array
+    //always seems to be 3 items
+    [JsonPropertyName("positions")] public int[] Positions { get; set; } = new int[3];
+    [JsonPropertyName("last_landmark")] public int LastLandmark { get; set; } = 0;
+    [JsonPropertyName("modified")] public string Modified { get; set; } = "";
+}
+
 public class TravelPamphlet
 {
     [JsonPropertyName("m_travel_pamphlet_id")] public int TravelPamphletId { get; set; } = 0;
@@ -352,6 +386,16 @@ public class Badge
     [JsonPropertyName("new")] public bool New { get; set; } = false;
 }
 
+public class EventStatus
+{
+    [JsonPropertyName("m_event_id")] public int EventId { get; set; } = 0;
+    [JsonPropertyName("event_point")] public int EventPoint { get; set; } = 0;
+    [JsonPropertyName("next_reward")] public int NextReward { get; set; } = 0;
+    [JsonPropertyName("level")] public int Level { get; set; } = 0;
+    [JsonPropertyName("rank")] public int Rank { get; set; } = 0;
+    [JsonPropertyName("first_play")] public int FirstPlay { get; set; } = 0;
+}
+
 public class EventReward
 {
     [JsonPropertyName("m_event_id")] public int EventId { get; set; } = 0;
@@ -360,6 +404,29 @@ public class EventReward
     [JsonPropertyName("event_point")] public int EventPoint { get; set; } = 0;
     [JsonPropertyName("rank")] public int Rank { get; set; } = 0;
     [JsonPropertyName("reward_num")] public int RewardNum { get; set; } = 0;
+}
+
+public class EventResult
+{
+    [JsonPropertyName("m_event_id")] public int EventId { get; set; } = 0;
+    [JsonPropertyName("add_point")] public int AddPoint { get; set; } = 0;
+    [JsonPropertyName("event_point")] public int EventPoint { get; set; } = 0;
+    [JsonPropertyName("update_score")] public int UpdateScore { get; set; } = 0;
+    [JsonPropertyName("rewards")] public EventResultReward[] Rewards { get; set; } = new EventResultReward[0];
+}
+
+public class EventResultReward
+{
+    [JsonPropertyName("reward")] public EventResultRewardData Reward { get; set; } = new EventResultRewardData();
+
+    [JsonPropertyName("next_reward")] public EventResultRewardData NextReward { get; set; } = new EventResultRewardData();
+    
+    public class EventResultRewardData
+    {
+        [JsonPropertyName("require_point")] public int RequirePoint { get; set; } = 0;
+        [JsonPropertyName("reward_type")] public int RewardType { get; set; } = 0;
+        [JsonPropertyName("reward_arg")] public int RewardArg { get; set; } = 0;
+    }
 }
 
 public class StampCard
