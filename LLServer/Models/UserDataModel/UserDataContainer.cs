@@ -21,7 +21,9 @@ public class UserDataContainer
     //game history
     //game history aqours
     //game history saint snow
-    //travel history
+    public TravelHistory[] TravelHistory { get; set; } = new TravelHistory[0];
+    public TravelHistory[] TravelHistoryAqours { get; set; } = new TravelHistory[0];
+    public TravelHistory[] TravelHistorySaintSnow { get; set; } = new TravelHistory[0];
     //travel history aqours
     //travel history saint snow
     public MailBoxItem[] MailBox { get; set; } = new MailBoxItem[0];
@@ -29,7 +31,7 @@ public class UserDataContainer
 
     public string Flags { get; set; } = string.Empty;
     //achievements
-    //yell achievements
+    public YellAchievement[] YellAchievements { get; set; } = new YellAchievement[0];
     //limited achievements
 
     //max amount seems to be 256
@@ -87,8 +89,8 @@ public class UserDataContainer
             Honor = 5,
             Badge = 1,
             Nameplate = 0,
-            ProfileCardId1 = "",
-            ProfileCardId2 = "",
+            ProfileCard1 = new ProfileCard(0),
+            ProfileCard2 = new ProfileCard(0),
             CreditCountSatellite = 0,
             CreditCountCenter = 0,
             PlayLs4 = 0
@@ -99,8 +101,8 @@ public class UserDataContainer
             Honor = 0,
             Badge = 0,
             Nameplate = 0,
-            ProfileCardId1 = "",
-            ProfileCardId2 = "",
+            ProfileCard1 = new ProfileCard(0),
+            ProfileCard2 = new ProfileCard(0),
         },
         UserDataSaintSnow = new UserDataSaintSnow()
         {
@@ -108,8 +110,8 @@ public class UserDataContainer
             Honor = 0,
             Badge = 0,
             Nameplate = 0,
-            ProfileCardId1 = "",
-            ProfileCardId2 = "",
+            ProfileCard1 = new ProfileCard(0),
+            ProfileCard2 = new ProfileCard(0),
         },
         Members = new MemberData[1]
         {
@@ -211,7 +213,28 @@ public class UserDataContainer
         Stages = StageData.stages.Select(x => new StageData() { StageId = x, New = false, SelectCount = 0, Unlocked = true })
                 .ToArray()
         ,
-
+        TravelHistory = new TravelHistory[1]
+        {
+            new TravelHistory()
+            {
+                Id = 0,
+                CardMemberId = 0,
+                SnapBackgroundId = 0,
+                OtherCharacterId = 0,
+                OtherPlayerName = "Player",
+                OtherPlayerNameplate = 0,
+                OtherPlayerBadge = 0,
+                TravelPamphletId = 0,
+                CreateType = 0,
+                TenpoName = "1337",
+                SnapStampList = new SnapStamp[0],
+                CoopInfo = new CoopInfo[0],
+                Created = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                PrintRest = false
+            }
+        },
+        TravelHistoryAqours = new TravelHistory[0],
+        TravelHistorySaintSnow = new TravelHistory[0],
         MailBox = new MailBoxItem[1]
         {
             new MailBoxItem()
@@ -232,6 +255,15 @@ public class UserDataContainer
             }
         },
         Flags = "0",
+        YellAchievements = new YellAchievement[1]
+        {
+            new YellAchievement()
+            {
+                YellAchievementId = 0,
+                Unlocked = false,
+                New = false
+            }
+        },
         Missions = new Mission[1]
         {
             new Mission()
@@ -362,9 +394,13 @@ public class UserDataContainer
             Musics = Musics,
             Lives = Lives,
             Stages = Stages,
+            TravelHistory = TravelHistory,
+            TravelHistoryAqours = TravelHistoryAqours,
+            TravelHistorySaintSnow = TravelHistorySaintSnow,
             MailBox = MailBox,
             Specials = Specials,
             Flags = Flags,
+            YellAchievements = YellAchievements,
             Missions = Missions,
             MissionPoint = MissionPoint,
             DailyRecords = DailyRecords,

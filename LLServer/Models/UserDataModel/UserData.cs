@@ -25,14 +25,43 @@ public class UserData
     [JsonPropertyName("honor")] public int Honor { get; set; } = 0;
     [JsonPropertyName("badge")] public int Badge { get; set; } = 0;
     [JsonPropertyName("nameplate")] public int Nameplate { get; set; } = 0;
+    [JsonIgnore] public ProfileCard ProfileCard1 { get; set; } = new ProfileCard(0);
+
+    [JsonPropertyName("profile_card_id_1")]
+    public string ProfileCardId1
+    {
+        get => ProfileCard1.ToString();
+        set => ProfileCard1 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+    }
+
+    [JsonIgnore] public ProfileCard ProfileCard2 { get; set; } = new ProfileCard(0);
     
-    //TODO: profile card ids seem to be parsed as 32 character strings, look into this and test it (.text:000000014021D08E and .text:000000014021BE00)
-    [JsonPropertyName("profile_card_id_1")] public string ProfileCardId1 { get; set; } = "";
-    [JsonPropertyName("profile_card_id_2")] public string ProfileCardId2 { get; set; } = "";
+    [JsonPropertyName("profile_card_id_2")]
+    public string ProfileCardId2
+    {
+        get => ProfileCard2.ToString();
+        set => ProfileCard2 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+    }
     
     [JsonPropertyName("credit_count_satellite")] public int CreditCountSatellite { get; set; } = 0;
     [JsonPropertyName("credit_count_center")] public int CreditCountCenter { get; set; } = 0;
     [JsonPropertyName("play_ls4")] public int PlayLs4 { get; set; } = 0;
+}
+
+public class ProfileCard
+{
+    private Int128 Id = 0;
+    
+    public ProfileCard(long id)
+    {
+        Id = id;
+    }
+    
+    public override string ToString()
+    {
+        //return as 32 character hex string
+        return Id.ToString("X32");
+    }
 }
 
 public class UserDataAqours
@@ -41,8 +70,25 @@ public class UserDataAqours
     [JsonPropertyName("honor")] public int Honor { get; set; } = 0;
     [JsonPropertyName("badge")] public int Badge { get; set; } = 0;
     [JsonPropertyName("nameplate")] public int Nameplate { get; set; } = 0;
-    [JsonPropertyName("profile_card_id_1")] public string ProfileCardId1 { get; set; } = "";
-    [JsonPropertyName("profile_card_id_2")] public string ProfileCardId2 { get; set; } = "";
+
+    
+    [JsonIgnore] public ProfileCard ProfileCard1 { get; set; } = new ProfileCard(0);
+
+    [JsonPropertyName("profile_card_id_1")]
+    public string ProfileCardId1
+    {
+        get => ProfileCard1.ToString();
+        set => ProfileCard1 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+    }
+
+    [JsonIgnore] public ProfileCard ProfileCard2 { get; set; } = new ProfileCard(0);
+    
+    [JsonPropertyName("profile_card_id_2")]
+    public string ProfileCardId2
+    {
+        get => ProfileCard2.ToString();
+        set => ProfileCard2 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+    }
 }
 
 public class UserDataSaintSnow : UserDataAqours
@@ -187,6 +233,37 @@ public class StageData
     };
 }
 
+public class TravelHistory
+{
+    [JsonPropertyName("id")] public long Id { get; set; } = 0;
+    [JsonPropertyName("m_card_member_id")] public int CardMemberId { get; set; } = 0;
+    [JsonPropertyName("m_snap_background_id")] public int SnapBackgroundId { get; set; } = 0;
+    [JsonPropertyName("other_character_id")] public int OtherCharacterId { get; set; } = 0;
+    [JsonPropertyName("other_player_name")] public string OtherPlayerName { get; set; } = "";
+    [JsonPropertyName("other_player_nameplate")] public int OtherPlayerNameplate { get; set; } = 0;
+    [JsonPropertyName("other_player_badge")] public int OtherPlayerBadge { get; set; } = 0;
+    [JsonPropertyName("m_travel_pamphlet_id")] public int TravelPamphletId { get; set; } = 0;
+    [JsonPropertyName("create_type")] public int CreateType { get; set; } = 0;
+    [JsonPropertyName("tenpo_name")] public string TenpoName { get; set; } = "";
+    [JsonPropertyName("snap_stamp_list")] public SnapStamp[] SnapStampList { get; set; } = new SnapStamp[0];
+    [JsonPropertyName("coop_info")] public CoopInfo[] CoopInfo { get; set; } = new CoopInfo[0];
+    [JsonPropertyName("created")] public string Created { get; set; } = "";
+    [JsonPropertyName("print_rest")] public bool PrintRest { get; set; } = false;
+}
+
+public class SnapStamp
+{
+    [JsonPropertyName("stamp_id")] public int StampId { get; set; } = 0;
+    [JsonPropertyName("stamp_nameplate_id")] public int StampNameplateId { get; set; } = 0;
+}
+
+public class CoopInfo
+{
+    [JsonPropertyName("coop_player_name")] public string CoopPlayerName { get; set; } = "";
+    [JsonPropertyName("coop_player_m_nameplate_id")] public int CoopPlayerMNameplateId { get; set; } = 0;
+    [JsonPropertyName("coop_player_m_badge_id")] public int CoopPlayerMBadgeId { get; set; } = 0;
+}
+
 public class MailBoxItem
 {
     [JsonPropertyName("id")] public int Id { get; set; } = 0;
@@ -201,6 +278,13 @@ public class SpecialData
 {
     [JsonPropertyName("idol_kind")] public int IdolKind { get; set; } = 0;
     [JsonPropertyName("special_id")] public int SpecialId { get; set; } = 0;
+}
+
+public class YellAchievement
+{
+    [JsonPropertyName("m_yell_achievement_id")] public int YellAchievementId { get; set; } = 0;
+    [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
+    [JsonPropertyName("new")] public bool New { get; set; } = false;
 }
 
 public class Mission

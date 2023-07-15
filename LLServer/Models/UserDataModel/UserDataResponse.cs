@@ -20,17 +20,17 @@ public class UserDataResponse : ResponseBase
     //game history
     //game history aqours
     //game history saint snow
-    //travel history
-    //travel history aqours
-    //travel history saint snow
+    [JsonPropertyName("travel_history")] public TravelHistory[] TravelHistory { get; set; } = new TravelHistory[0];
+    [JsonPropertyName("travel_history_aqours")] public TravelHistory[] TravelHistoryAqours { get; set; } = new TravelHistory[0];
+    [JsonPropertyName("travel_history_saintsnow")] public TravelHistory[] TravelHistorySaintSnow { get; set; } = new TravelHistory[0];
     [JsonPropertyName("mailbox")] public MailBoxItem[] MailBox { get; set; } = new MailBoxItem[0];
     [JsonPropertyName("specials")] public SpecialData[] Specials { get; set; } = new SpecialData[0];
     [JsonPropertyName("flags")] public string Flags { get; set; } = string.Empty;
     //achievements
-    //yell achievements
+    [JsonPropertyName("yell_achievements")] public YellAchievement[] YellAchievements { get; set; } = new YellAchievement[0];
     //limited achievements
     [JsonPropertyName("missions")] public Mission[] Missions { get; set; } = new Mission[0];
-    [JsonPropertyName("mission_point")] public MissionPoint MissionPoint { get; set; } = new(); 
+    [JsonPropertyName("mission_point")] public MissionPoint MissionPoint { get; set; } = new();
     [JsonPropertyName("daily_records")] public int[] DailyRecords { get; set; } = new int[0];
     [JsonPropertyName("honors")] public HonorData[] Honors { get; set; } = new HonorData[0];
     [JsonPropertyName("scfes_profile")] public ScfesProfile ScfesProfile { get; set; } = new();
