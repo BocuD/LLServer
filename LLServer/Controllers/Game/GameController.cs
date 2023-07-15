@@ -37,80 +37,31 @@ public class GameController : BaseController<GameController>
         
         Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
 
-        ResponseContainer response;
-        switch (request.Protocol)
+        var response = request.Protocol switch
         {
-            case "unlock":
-                response = await mediator.Send(new UnlockQuery());
-                break;
-            
-            case "gameconfig":
-                response = await mediator.Send(new GameConfigQuery());
-                break;
-            
-            case "information":
-                response = await mediator.Send(new InformationQuery(Request.Host.Value));
-                break;
-            
-            case "auth":
-                response = await mediator.Send(new AuthCommand());
-                break;
-
-            case "gameentry":
-                response = await mediator.Send(new GetGameEntryQuery());
-                break;
-            
-            case "userdata.get":
-                response = await mediator.Send(new GetUserDataQuery());
-                break;
-            
-            case "userdata.initialize":
-            {
-                if (request.Param == null)
-                {
-                    response = StaticResponses.BadRequestResponse;
-                    break;
-                }
-                //deserialize from param
-                var paramJson = request.Param.Value.GetRawText();
-
-                response = await mediator.Send(new InitializeUserDataCommand(paramJson));
-            }
-                break;
-            
-            case "userdata.set":
-            {
-                if (request.Param == null) 
-                {
-                    response = StaticResponses.BadRequestResponse;
-                    break;
-                }
-                
-                var paramJson = request.Param.Value.GetRawText();
-                
-                Logger.LogInformation("ParamJson {ParamJson}", paramJson);
-
-                response = await mediator.Send(new SetUserDataCommand(paramJson));
-            }
-                break;
-            case "checkword":
-                response = await mediator.Send(new CheckWordCommand());
-                break;
-            
-            case "ranking":
-                response = await mediator.Send(new GetRankingQuery());
-                break;
-            
-            default:
-                Logger.LogWarning("Unhandled protocol: {Protocol}", request.Protocol);
-                response = new ResponseContainer
-                {
-                    Result = 200,
-                    Response = new ResponseBase()
-                };
-                break;
-        }
+            "unlock" => await mediator.Send(new UnlockQuery()),
+            "gameconfig" => await mediator.Send(new GameConfigQuery()),
+            "information" => await mediator.Send(new InformationQuery(Request.Host.Value)),
+            "auth" => await mediator.Send(new AuthCommand()),
+            "gameentry" => await mediator.Send(new GetGameEntryQuery()),
+            "userdata.get" => await mediator.Send(new GetUserDataQuery()),
+            "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request.Param)),
+            "userdata.set" => await mediator.Send(new SetUserDataCommand(request.Param)),
+            "checkword" => await mediator.Send(new CheckWordCommand()),
+            "ranking" => await mediator.Send(new GetRankingQuery()),
+            _ => DefaultResponse(request.Protocol)
+        };
 
         return Ok(response);
+    }
+
+    private ResponseContainer DefaultResponse(string protocol)
+    {
+        Logger.LogWarning("Unhandled protocol: {Protocol}", protocol);
+        return new ResponseContainer
+        {
+            Result = 200,
+            Response = new ResponseBase()
+        };
     }
 }

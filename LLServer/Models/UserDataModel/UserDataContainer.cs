@@ -52,7 +52,7 @@ public class UserDataContainer
     public EventReward[] EventRewards { get; set; } = new EventReward[0];
     public EventResult EventResult { get; set; } = new EventResult();
     public string Now { get; set; } = "";
-    public string FirstLogin { get; set; } = "";
+    public bool FirstLogin { get; set; }
     public bool DiceBonus { get; set; } = false;
     public StampCard[] StampCards { get; set; } = new StampCard[0];
     public StampCardReward[] StampCardRewards { get; set; } = new StampCardReward[0];
@@ -219,7 +219,7 @@ public class UserDataContainer
                 TenpoName = "1337",
                 SnapStampList = new SnapStamp[0],
                 CoopInfo = new CoopInfo[0],
-                Created = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
                 PrintRest = false
             }
         },
@@ -356,7 +356,7 @@ public class UserDataContainer
                 CardMemorialId = 0,
                 Positions = new int[] {0, 1, 2},
                 LastLandmark = 0,
-                Modified = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                Modified = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss")
             }
         },
         TravelPamphlets = new TravelPamphlet[1]
@@ -452,8 +452,8 @@ public class UserDataContainer
             }
         },
         //timestamp
-        Now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-        FirstLogin = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+        Now = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
+        FirstLogin = false,
         DiceBonus = false,
         StampCards = new StampCard[1]
         {

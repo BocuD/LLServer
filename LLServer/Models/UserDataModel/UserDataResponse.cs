@@ -49,7 +49,7 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("event_rewards")] public EventReward[] EventRewards { get; set; } = new EventReward[0];
     [JsonPropertyName("event_result")] public EventResult EventResult { get; set; } = new EventResult();
     [JsonPropertyName("now")] public string Now { get; set; } = "";
-    [JsonPropertyName("first_login")] public string FirstLogin { get; set; } = "";
+    [JsonPropertyName("first_login")] public bool FirstLogin { get; set; }
     [JsonPropertyName("dice_bonus")] public bool DiceBonus { get; set; } = false;
     [JsonPropertyName("stamp_cards")] public StampCard[] StampCards { get; set; } = new StampCard[0];
     [JsonPropertyName("stamp_card_rewards")] public StampCardReward[] StampCardRewards { get; set; } = new StampCardReward[0];

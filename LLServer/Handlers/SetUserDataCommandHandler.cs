@@ -6,7 +6,7 @@ using MediatR;
 
 namespace LLServer.Handlers;
 
-public record SetUserDataCommand(string Param) : IRequest<ResponseContainer>;
+public record SetUserDataCommand(JsonElement? Param) : IRequest<ResponseContainer>;
 
 public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, ResponseContainer>
 {
@@ -19,7 +19,15 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
 
     public async Task<ResponseContainer> Handle(SetUserDataCommand request, CancellationToken cancellationToken)
     {
-        var setUserData = JsonSerializer.Deserialize<SetUserData>(request.Param);
+        if (request.Param is null) 
+        {
+            return StaticResponses.BadRequestResponse;
+        }
+                
+        var paramJson = request.Param.Value.GetRawText();
+        logger.LogInformation("ParamJson {ParamJson}", paramJson);
+        
+        var setUserData = JsonSerializer.Deserialize<SetUserData>(paramJson);
 
         if (setUserData is null)
         {

@@ -16,9 +16,10 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             {
                 AbnormalEnd = 0,
                 BlockSequence = 1,
-                Name = "",
+                Name = "Test123456",
                 SessionKey = "12345678901234567890123456789012",
-                Status = 0,
+                // 1 for new card?
+                Status = 1,
                 UserId = "1"
             }
         };

@@ -1,7 +1,9 @@
 using LLServer.Common;
+using LLServer.Database;
 using LLServer.Formatters;
 using LLServer.Middlewares;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +23,15 @@ builder.Services.AddHttpLogging(logging =>
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("DataSource=test.db3"));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
