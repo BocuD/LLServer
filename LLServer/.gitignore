@@ -436,4 +436,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 *.db3
+*.db3-*
 

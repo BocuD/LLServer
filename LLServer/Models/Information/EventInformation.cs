@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace LLServer.Models.EventInformation;
+namespace LLServer.Models.Information;
 
 public class EventInformation
 {
