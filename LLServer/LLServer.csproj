@@ -29,4 +29,10 @@
       <Folder Include="Database\Migrations\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="wwwroot\news.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
