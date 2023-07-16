@@ -171,36 +171,37 @@ public class UserDataContainer
                     New = false
                 }
             ).ToArray(),
-        Lives = Enumerable.Range(10, 100)
-            .Where(i => i % 10 == 0)
-            .Select(i => new LiveData
-            {
-                LiveId = i,
-                SelectCount = 0,
-                Unlocked = true,
-                New = false,
-                FullCombo = false,
-                TotalHiScore = 69420,
-                TechnicalHiScore = 420,
-                TechnicalHiRate = 1,
-                CoopTotalHiScore2 = 0,
-                CoopTotalHiScore3 = 0,
-                PlayerCount1 = 0,
-                PlayerCount2 = 0,
-                PlayerCount3 = 0,
-                RankCount0 = 0,
-                RankCount1 = 0,
-                RankCount2 = 0,
-                RankCount3 = 0,
-                RankCount4 = 0,
-                RankCount5 = 0,
-                RankCount6 = 0,
-                TrophyCountGold = 0,
-                TrophyCountSilver = 0,
-                TrophyCountBronze = 0,
-                FinaleCount = 0,
-                TechnicalRank = 0
-            }).ToArray(),
+        Lives = LiveData.LiveIds
+            .Select(x =>
+                new LiveData()
+                {
+                    LiveId = x,
+                    SelectCount = 0,
+                    Unlocked = true,
+                    New = false,
+                    FullCombo = false,
+                    TotalHiScore = 0,
+                    TechnicalHiScore = 0,
+                    TechnicalHiRate = 0,
+                    CoopTotalHiScore2 = 0,
+                    CoopTotalHiScore3 = 0,
+                    PlayerCount1 = 0,
+                    PlayerCount2 = 0,
+                    PlayerCount3 = 0,
+                    RankCount0 = 0,
+                    RankCount1 = 0,
+                    RankCount2 = 0,
+                    RankCount3 = 0,
+                    RankCount4 = 0,
+                    RankCount5 = 0,
+                    RankCount6 = 0,
+                    TrophyCountGold = 0,
+                    TrophyCountSilver = 0,
+                    TrophyCountBronze = 0,
+                    FinaleCount = 0,
+                    TechnicalRank = 0
+                })
+            .ToArray(),
         Stages = StageData.Stages
             .Select(x =>
                 new StageData
