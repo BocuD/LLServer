@@ -3,6 +3,7 @@ using LLServer.Common;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
+
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
@@ -22,11 +23,11 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
         if (request.Param is null)
         {
             return StaticResponses.BadRequestResponse;
-            
         }
+
         //deserialize from param
         var paramJson = request.Param.Value.GetRawText();
-        
+
         var initializeUserData = JsonSerializer.Deserialize<InitializeUserData>(paramJson);
 
         if (initializeUserData is null)
@@ -36,10 +37,10 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
 
         var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
         userDataContainer.InitializeUserData(initializeUserData);
-                
+
         logger.LogInformation("InitializeUserData {InitializeUserData}", JsonSerializer.Serialize(initializeUserData));
         logger.LogInformation("UserDataContainer {UserDataContainer}", JsonSerializer.Serialize(userDataContainer));
-                
+
         var response = new ResponseContainer
         {
             Result = 200,

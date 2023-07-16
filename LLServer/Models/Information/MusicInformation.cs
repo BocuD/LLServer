@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace LLServer.Models.Information;
 
 public class MusicInformation

@@ -32,22 +32,22 @@ public class GameController : BaseController<GameController>
             Logger.LogWarning("Request deserialize failed");
             return BadRequest();
         }
-        
+
         Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
 
         var response = request.Protocol switch
         {
-            "unlock" => await mediator.Send(new UnlockQuery()),
-            "gameconfig" => await mediator.Send(new GameConfigQuery()),
-            "information" => await mediator.Send(new InformationQuery(Request.Host.Value)),
-            "auth" => await mediator.Send(new AuthCommand()),
-            "gameentry" => await mediator.Send(new GetGameEntryQuery()),
-            "userdata.get" => await mediator.Send(new GetUserDataQuery()),
+            "unlock"              => await mediator.Send(new UnlockQuery()),
+            "gameconfig"          => await mediator.Send(new GameConfigQuery()),
+            "information"         => await mediator.Send(new InformationQuery(Request.Host.Value)),
+            "auth"                => await mediator.Send(new AuthCommand()),
+            "gameentry"           => await mediator.Send(new GetGameEntryQuery()),
+            "userdata.get"        => await mediator.Send(new GetUserDataQuery()),
             "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request.Param)),
-            "userdata.set" => await mediator.Send(new SetUserDataCommand(request.Param)),
-            "checkword" => await mediator.Send(new CheckWordCommand()),
-            "ranking" => await mediator.Send(new GetRankingQuery()),
-            _ => DefaultResponse(request.Protocol)
+            "userdata.set"        => await mediator.Send(new SetUserDataCommand(request.Param)),
+            "checkword"           => await mediator.Send(new CheckWordCommand()),
+            "ranking"             => await mediator.Send(new GetRankingQuery()),
+            _                     => DefaultResponse(request.Protocol)
         };
 
         return Ok(response);

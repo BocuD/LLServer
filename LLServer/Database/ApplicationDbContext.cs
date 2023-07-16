@@ -9,7 +9,7 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
-    
+
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -19,6 +19,5 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .HasAlternateKey(user => user.CardId);
-
     }
 }

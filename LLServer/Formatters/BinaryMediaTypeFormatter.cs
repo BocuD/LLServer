@@ -5,12 +5,11 @@ namespace LLServer.Formatters;
 
 public class BinaryMediaTypeFormatter : OutputFormatter
 {
-    private static readonly Type SUPPORTED_TYPE = typeof (byte[]);
-    
+    private static readonly Type SUPPORTED_TYPE = typeof(byte[]);
+
     public BinaryMediaTypeFormatter()
     {
         SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("application/octet-stream"));
-        
     }
 
     protected override bool CanWriteType(Type? type)
@@ -25,7 +24,7 @@ public class BinaryMediaTypeFormatter : OutputFormatter
         {
             value = bytes;
         }
-        
+
         await context.HttpContext.Response.BodyWriter.WriteAsync(value);
     }
 }

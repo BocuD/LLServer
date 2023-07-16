@@ -2,6 +2,7 @@
 using LLServer.Models.Information;
 using LLServer.Models.Responses;
 using MediatR;
+
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
@@ -9,7 +10,6 @@ public record InformationQuery(string BaseUrl) : IRequest<ResponseContainer>;
 
 public class InformationQueryHandler : IRequestHandler<InformationQuery, ResponseContainer>
 {
-
     private readonly ILogger<InformationQueryHandler> logger;
 
     public InformationQueryHandler(ILogger<InformationQueryHandler> logger)
@@ -26,7 +26,7 @@ public class InformationQueryHandler : IRequestHandler<InformationQuery, Respons
             {
                 BaseUrl = $"http://{request.BaseUrl}/game",
                 EncoreExpirationDate = (DateTime.Today + TimeSpan.FromDays(3650)).ToString("yyyy-MM-dd"),
-                MusicInformationItems = Enumerable.Range(10,100)
+                MusicInformationItems = Enumerable.Range(10, 100)
                     .Where(i => i % 10 == 0)
                     .Select(i => new MusicInformation
                     {

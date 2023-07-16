@@ -1,12 +1,16 @@
 ﻿using System.Text.Json.Serialization;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace LLServer.Models.Responses;
 
 public class AuthResponse : ResponseBase
 {
-    [JsonPropertyName("sessionkey")] public string SessionKey { get; set; } = string.Empty;
+    [JsonPropertyName("sessionkey")]
+    public string SessionKey { get; set; } = string.Empty;
 
-    [JsonPropertyName("user_id")] public string UserId { get; set; } = string.Empty;
+    [JsonPropertyName("user_id")]
+    public string UserId { get; set; } = string.Empty;
 
     [JsonPropertyName("blockseq")]
     public int BlockSequence { get; set; }

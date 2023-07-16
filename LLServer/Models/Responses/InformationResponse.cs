@@ -3,7 +3,6 @@ using LLServer.Models.Information;
 
 namespace LLServer.Models.Responses;
 
-
 // TODO: Figure out all the fields
 public class InformationResponse : ResponseBase
 {
@@ -12,7 +11,7 @@ public class InformationResponse : ResponseBase
     /// </summary>
     [JsonPropertyName("base_url")]
     public required string BaseUrl { get; set; }
-    
+
     [JsonPropertyName("information")]
     public List<Information.Information> InformationItems { get; set; } = new();
 

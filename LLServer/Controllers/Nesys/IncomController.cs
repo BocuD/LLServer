@@ -7,13 +7,13 @@ namespace LLServer.Controllers.Nesys;
 public class IncomController : ControllerBase
 {
     private const string INCOM_RESPONSE = "1+1";
-    
+
     [HttpPost("incom.php")]
     public IActionResult Incom()
     {
         return Ok(INCOM_RESPONSE);
     }
-    
+
     [HttpPost("incomALL.php")]
     public IActionResult IncomAll()
     {

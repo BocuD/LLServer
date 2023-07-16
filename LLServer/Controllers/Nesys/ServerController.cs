@@ -17,23 +17,23 @@ public class ServerController : BaseController<ServerController>
     [HttpGet("gameinfo.php")]
     public ActionResult<string> GetGameInfo()
     {
-        return Ok("0\n" +
-               "3\n" +
-               "301000,test1\n" +
-               "302000,test2\n" +
-               "303000,test3");
+        return Ok("0\n"            +
+                  "3\n"            +
+                  "301000,test1\n" +
+                  "302000,test2\n" +
+                  "303000,test3");
     }
 
     [HttpGet("certify.php")]
-    public ActionResult<string> Certify(string? gid, string? mac, 
-        [FromQuery(Name = "r")]string? random, [FromQuery(Name = "md")]string? md5)
+    public ActionResult<string> Certify(string? gid,    string?                          mac,
+        [FromQuery(Name = "r")] string?         random, [FromQuery(Name = "md")] string? md5)
     {
         var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
-        var ticket = string.Join(string.Empty, 
+        var ticket = string.Join(string.Empty,
             MD5.HashData(Encoding.UTF8.GetBytes(gid ?? "303807")).Select(b => b.ToString("x2")));
-        var response = $"host=http://{serverIpAddress}\n"                                     +
+        var response = $"host=http://{serverIpAddress}\n"                             +
                        "no=1337\n"                                                    +
-                       "name=LLServer\n"                                         +
+                       "name=LLServer\n"                                              +
                        "pref=nesys\n"                                                 +
                        "addr=Local\n"                                                 +
                        "x-next-time=15\n"                                             +

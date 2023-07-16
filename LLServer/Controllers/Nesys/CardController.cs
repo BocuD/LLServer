@@ -10,13 +10,15 @@ namespace LLServer.Controllers.Nesys;
 public class CardController : ControllerBase
 {
     private readonly ApplicationDbContext dbContext;
-    
-    public CardController(ApplicationDbContext dbContext) {
+
+    public CardController(ApplicationDbContext dbContext)
+    {
         this.dbContext = dbContext;
     }
 
     [HttpPost("cardn.cgi")]
-    public async Task<IActionResult> Card([FromForm(Name="card_no")]string cardNo, [FromForm(Name = "cmd_str")]int command)
+    public async Task<IActionResult> Card([FromForm(Name = "card_no")] string cardNo,
+        [FromForm(Name = "cmd_str")]                                   int    command)
     {
         switch (command)
         {
@@ -33,6 +35,7 @@ public class CardController : ControllerBase
                 {
                     return Ok($"{CardReturnCodes.ERROR}");
                 }
+
                 var user = new User
                 {
                     CardId = cardNo

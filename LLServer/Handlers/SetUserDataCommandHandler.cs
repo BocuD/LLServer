@@ -3,6 +3,7 @@ using LLServer.Common;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
+
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
@@ -19,23 +20,24 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
 
     public async Task<ResponseContainer> Handle(SetUserDataCommand request, CancellationToken cancellationToken)
     {
-        if (request.Param is null) 
+        if (request.Param is null)
         {
             return StaticResponses.BadRequestResponse;
         }
-                
+
         var paramJson = request.Param.Value.GetRawText();
         logger.LogInformation("ParamJson {ParamJson}", paramJson);
-        
+
         var setUserData = JsonSerializer.Deserialize<SetUserData>(paramJson);
 
         if (setUserData is null)
         {
             return StaticResponses.BadRequestResponse;
         }
+
         var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
         userDataContainer.SetUserData(setUserData);
-                
+
         //log setuserdata json and userdatacontainer json
         logger.LogInformation("SetUserData {SetUserData}", JsonSerializer.Serialize(setUserData));
         logger.LogInformation("UserDataContainer {UserDataContainer}", JsonSerializer.Serialize(userDataContainer));

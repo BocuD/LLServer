@@ -1,13 +1,13 @@
 ﻿using System.Text.Json.Serialization;
-
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.Responses;
 
 public class ResponseContainer
 {
-    [JsonPropertyName("result")] 
+    [JsonPropertyName("result")]
     public int Result { get; set; } = 200;
 
-    [JsonPropertyName("response")] 
+    [JsonPropertyName("response")]
     public required ResponseBase Response { get; set; }
 }
 
@@ -20,5 +20,4 @@ public class ResponseContainer
 [JsonDerivedType(typeof(GameConfigResponse))]
 public class ResponseBase
 {
-    
 }

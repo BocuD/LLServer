@@ -2,6 +2,7 @@
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
+
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 

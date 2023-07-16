@@ -36,10 +36,10 @@ public class BasicInfoController : BaseController<BasicInfoController>
         var jsonStr = JsonSerializer.Serialize(info);
         var privateKey = RsaKeyConvert.PrivateKeyPkcs8ToPkcs1(CryptoConstants.PRIVATE_KEY);
         var result = RsaEncryptWithPrivate(jsonStr, privateKey);
-        
+
         return Ok(result);
     }
-    
+
     private byte[] RsaEncryptWithPrivate(string clearText, string privateKey)
     {
         var bytesToEncrypt = Encoding.UTF8.GetBytes(clearText);
@@ -49,11 +49,11 @@ public class BasicInfoController : BaseController<BasicInfoController>
         using (var txtreader = new StringReader(privateKey))
         {
             var keyPair = (AsymmetricCipherKeyPair)new PemReader(txtreader).ReadObject();
-            
+
 
             encryptEngine.Init(true, keyPair.Private);
         }
-        
+
         return encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length);
     }
 }

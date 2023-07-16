@@ -4,7 +4,7 @@ namespace LLServer.Common;
 
 public static class CryptoConstants
 {
-    public  const string PRIVATE_KEY = @"-----BEGIN PRIVATE KEY-----
+    public const string PRIVATE_KEY = @"-----BEGIN PRIVATE KEY-----
 MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDLrefJsODZ3SXk
 SblFOzHRAnhaG5PgPCvMkP9J08Ns6i1cTkGJXJx83Fx9dVJrvhK+pOHJCzgpqxnI
 r81Yk3pfKLs1CCHbEphzd5WPxvwxKSHPljvrfV2xwtBFH2wOJN/b6NHy6Z3pT2in
@@ -32,7 +32,7 @@ PRiRMAl4gWCpQwSzmVGSnj1RJ3rmFZWfh2e/CB41AoGBAMKnczJq3cqd2Rzm6N+Q
 +qbmf/FcIAHHSA3HDXOyGM1lHUXUcPfGhPJ1GD3IBqNeNWjY0aSAYxR2pRX3Bb+4
 AIlPFSOu7jYSw5+prAXZxmm7
 -----END PRIVATE KEY-----";
-    
+
     public const string PUBLIC_KEY = @"-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy63nybDg2d0l5Em5RTsx
 0QJ4WhuT4DwrzJD/SdPDbOotXE5BiVycfNxcfXVSa74SvqThyQs4KasZyK/NWJN6
@@ -44,10 +44,10 @@ NwIDAQAB
 -----END PUBLIC KEY-----";
 
     public const string AES_KEY = "01234567890123456789012345678901";
-    
+
     public static readonly byte[] AES_KEY_BYTES = Encoding.ASCII.GetBytes(AES_KEY[..16]);
 
     public const string IV = "0123456789012345";
-    
+
     public static readonly byte[] IV_BYTES = Encoding.ASCII.GetBytes(IV);
 }

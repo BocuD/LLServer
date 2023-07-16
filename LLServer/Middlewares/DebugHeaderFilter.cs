@@ -11,7 +11,7 @@ public class DebugHeaderFilter : IOperationFilter
         {
             operation.Parameters = new List<OpenApiParameter>();
         }
-        
+
         operation.Parameters.Add(new OpenApiParameter
         {
             Name = "Debug",

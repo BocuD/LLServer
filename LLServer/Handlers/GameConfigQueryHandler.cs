@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using LLServer.Models.Responses;
 using MediatR;
+
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
@@ -14,7 +15,7 @@ public class GameConfigQueryHandler : IRequestHandler<GameConfigQuery, ResponseC
     {
         this.logger = logger;
     }
-    
+
     public async Task<ResponseContainer> Handle(GameConfigQuery request, CancellationToken cancellationToken)
     {
         var response = new ResponseContainer()
@@ -22,9 +23,9 @@ public class GameConfigQueryHandler : IRequestHandler<GameConfigQuery, ResponseC
             Result = 200,
             Response = GameConfigResponse.DefaultGameConfigResponse()
         };
-        
+
         logger.LogInformation("Get GameConfig response: {Response}", JsonSerializer.Serialize(response));
-        
+
         return response;
     }
 }
