@@ -1,11 +1,10 @@
 ﻿using LLServer.Common;
-using LLServer.Models;
 using LLServer.Models.Responses;
 using MediatR;
-
+// ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
-public record CheckWordCommand() : IRequest<ResponseContainer>;
+public record CheckWordCommand : IRequest<ResponseContainer>;
 
 public class CheckWordCommandHandler : IRequestHandler<CheckWordCommand, ResponseContainer>
 {

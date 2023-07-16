@@ -1,11 +1,10 @@
 ﻿using LLServer.Common;
-using LLServer.Models;
 using LLServer.Models.Responses;
 using MediatR;
-
+// ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
-public record UnlockQuery(): IRequest<ResponseContainer>;
+public record UnlockQuery : IRequest<ResponseContainer>;
 
 public class UnlockQueryHandler : IRequestHandler<UnlockQuery, ResponseContainer>
 {

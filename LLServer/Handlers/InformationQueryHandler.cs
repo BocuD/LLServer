@@ -1,9 +1,8 @@
 ﻿using System.Text.Json;
-using LLServer.Models;
 using LLServer.Models.Information;
 using LLServer.Models.Responses;
 using MediatR;
-
+// ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
 public record InformationQuery(string BaseUrl) : IRequest<ResponseContainer>;

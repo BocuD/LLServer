@@ -1,12 +1,10 @@
 ﻿using System.Text.Json;
-using LLServer.Common;
-using LLServer.Models;
 using LLServer.Models.Responses;
 using MediatR;
-
+// ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
-public record GameConfigQuery() : IRequest<ResponseContainer>;
+public record GameConfigQuery : IRequest<ResponseContainer>;
 
 public class GameConfigQueryHandler : IRequestHandler<GameConfigQuery, ResponseContainer>
 {

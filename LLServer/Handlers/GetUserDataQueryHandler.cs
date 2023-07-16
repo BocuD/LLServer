@@ -1,12 +1,11 @@
 ﻿using System.Text.Json;
-using LLServer.Models;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
-
+// ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
-public record GetUserDataQuery() : IRequest<ResponseContainer>;
+public record GetUserDataQuery : IRequest<ResponseContainer>;
 
 public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, ResponseContainer>
 {

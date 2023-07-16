@@ -1,10 +1,9 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
-using LLServer.Models;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
-
+// ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
 public record SetUserDataCommand(JsonElement? Param) : IRequest<ResponseContainer>;

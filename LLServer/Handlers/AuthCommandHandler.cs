@@ -1,10 +1,10 @@
-﻿using LLServer.Models;
-using LLServer.Models.Responses;
+﻿using LLServer.Models.Responses;
 using MediatR;
+// ReSharper disable UnusedType.Global
 
 namespace LLServer.Handlers;
 
-public record AuthCommand() : IRequest<ResponseContainer>;
+public record AuthCommand : IRequest<ResponseContainer>;
 
 public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer>
 {

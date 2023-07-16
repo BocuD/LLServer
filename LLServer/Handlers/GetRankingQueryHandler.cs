@@ -1,10 +1,9 @@
-﻿using LLServer.Models;
-using LLServer.Models.Responses;
+﻿using LLServer.Models.Responses;
 using MediatR;
-
+// ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
-public record GetRankingQuery() : IRequest<ResponseContainer>;
+public record GetRankingQuery : IRequest<ResponseContainer>;
 
 public class GetRankingQueryHandler : IRequestHandler<GetRankingQuery, ResponseContainer>
 {
