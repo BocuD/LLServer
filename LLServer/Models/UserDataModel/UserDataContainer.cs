@@ -3,41 +3,41 @@
 [Serializable]
 public class UserDataContainer
 {
-    public UserData UserData { get; set; } = new();
-    public UserDataAqours UserDataAqours { get; set; } = new();
+    public UserData           UserData          { get; set; } = new();
+    public UserDataAqours     UserDataAqours    { get; set; } = new();
     public UserDataSaintSnow? UserDataSaintSnow { get; set; }
-    public MemberData[] Members { get; set; } = new MemberData[0];
-    public MemberCardData[] MemberCards { get; set; } = new MemberCardData[0];
-    public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
-    public MemorialCardData[] MemorialCards { get; set; } = new MemorialCardData[0];
-    public Item[] Items { get; set; } = new Item[0];
-    public MusicData[] Musics { get; set; } = new MusicData[0];
-    public LiveData[] Lives { get; set; } = new LiveData[0];
-    public StageData[] Stages { get; set; } = new StageData[0];
+    public MemberData[]       Members           { get; set; } = new MemberData[0];
+    public MemberCardData[]   MemberCards       { get; set; } = new MemberCardData[0];
+    public SkillCardData[]    SkillCards        { get; set; } = new SkillCardData[0];
+    public MemorialCardData[] MemorialCards     { get; set; } = new MemorialCardData[0];
+    public Item[]             Items             { get; set; } = new Item[0];
+    public MusicData[]        Musics            { get; set; } = new MusicData[0];
+    public LiveData[]         Lives             { get; set; } = new LiveData[0];
+    public StageData[]        Stages            { get; set; } = new StageData[0];
 
     //game history
     //game history aqours
     //game history saint snow
-    public TravelHistory[] TravelHistory { get; set; } = new TravelHistory[0];
-    public TravelHistory[] TravelHistoryAqours { get; set; } = new TravelHistory[0];
-    public TravelHistory[] TravelHistorySaintSnow { get; set; } = new TravelHistory[0];
-    public MailBoxItem[] MailBox { get; set; } = new MailBoxItem[0];
-    public SpecialData[] Specials { get; set; } = new SpecialData[0];
-    public string Flags { get; set; } = "";
-    public Achievement[] Achievements { get; set; } = new Achievement[0];
-    public AchievementRecordBook[] RecordBooks { get; set; } = new AchievementRecordBook[0];
-    public YellAchievement[] YellAchievements { get; set; } = new YellAchievement[0];
-    public LimitedAchievement[] LimitedAchievements { get; set; } = new LimitedAchievement[0];
+    public TravelHistory[]         TravelHistory          { get; set; } = new TravelHistory[0];
+    public TravelHistory[]         TravelHistoryAqours    { get; set; } = new TravelHistory[0];
+    public TravelHistory[]         TravelHistorySaintSnow { get; set; } = new TravelHistory[0];
+    public MailBoxItem[]           MailBox                { get; set; } = new MailBoxItem[0];
+    public SpecialData[]           Specials               { get; set; } = new SpecialData[0];
+    public string                  Flags                  { get; set; } = "";
+    public Achievement[]           Achievements           { get; set; } = new Achievement[0];
+    public AchievementRecordBook[] RecordBooks            { get; set; } = new AchievementRecordBook[0];
+    public YellAchievement[]       YellAchievements       { get; set; } = new YellAchievement[0];
+    public LimitedAchievement[]    LimitedAchievements    { get; set; } = new LimitedAchievement[0];
 
     //max amount seems to be 256
-    public Mission[] Missions { get; set; } = new Mission[0];
+    public Mission[]    Missions     { get; set; } = new Mission[0];
     public MissionPoint MissionPoint { get; set; } = new();
-    public int[] DailyRecords { get; set; } = new int[0];
-    public HonorData[] Honors { get; set; } = new HonorData[0];
+    public int[]        DailyRecords { get; set; } = new int[0];
+    public HonorData[]  Honors       { get; set; } = new HonorData[0];
     public ScfesProfile ScfesProfile { get; set; } = new();
 
     //sif prints
-    public TravelData[] Travels { get; set; } = new TravelData[0];
+    public TravelData[]     Travels         { get; set; } = new TravelData[0];
     public TravelPamphlet[] TravelPamphlets { get; set; } = new TravelPamphlet[0];
 
     //travel talks
@@ -46,16 +46,16 @@ public class UserDataContainer
     //card frames
     //snap frames
     //snap stamps
-    public NamePlate[] NamePlates { get; set; } = new NamePlate[0];
-    public Badge[] Badges { get; set; } = new Badge[0];
-    public EventStatus[] EventStatus { get; set; } = new EventStatus[0];
-    public EventReward[] EventRewards { get; set; } = new EventReward[0];
-    public EventResult EventResult { get; set; } = new EventResult();
-    public string Now { get; set; } = "";
-    public bool FirstLogin { get; set; }
-    public bool DiceBonus { get; set; } = false;
-    public StampCard[] StampCards { get; set; } = new StampCard[0];
-    public StampCardReward[] StampCardRewards { get; set; } = new StampCardReward[0];
+    public NamePlate[]         NamePlates        { get; set; } = new NamePlate[0];
+    public Badge[]             Badges            { get; set; } = new Badge[0];
+    public EventStatus[]       EventStatus       { get; set; } = new EventStatus[0];
+    public EventReward[]       EventRewards      { get; set; } = new EventReward[0];
+    public EventResult         EventResult       { get; set; } = new EventResult();
+    public string              Now               { get; set; } = "";
+    public bool                FirstLogin        { get; set; }
+    public bool                DiceBonus         { get; set; } = false;
+    public StampCard[]         StampCards        { get; set; } = new StampCard[0];
+    public StampCardReward[]   StampCardRewards  { get; set; } = new StampCardReward[0];
     public ActiveInformation[] ActiveInformation { get; set; } = new ActiveInformation[0];
 
     private static UserDataContainer mockStorage = new()
@@ -160,20 +160,20 @@ public class UserDataContainer
                 Count = 1,
             }
         },
-        Musics = new MusicData[1]
-        {
-            new MusicData()
+        Musics = Enumerable.Range(10, 100)
+            .Where(i => i % 10 == 0)
+            .Select(i => new MusicData()
+                {
+                    MusicId = i,
+                    Unlocked = true,
+                    New = false
+                }
+            ).ToArray(),
+        Lives = Enumerable.Range(10, 100)
+            .Where(i => i % 10 == 0)
+            .Select(i => new LiveData()
             {
-                MusicId = 10,
-                Unlocked = true,
-                New = false
-            }
-        },
-        Lives = new LiveData[1]
-        {
-            new LiveData()
-            {
-                LiveId = 10,
+                LiveId = i,
                 SelectCount = 0,
                 Unlocked = true,
                 New = false,
@@ -198,11 +198,17 @@ public class UserDataContainer
                 TrophyCountBronze = 0,
                 FinaleCount = 0,
                 TechnicalRank = 0
-            }
-        },
-        Stages = StageData.stages.Select(x => new StageData() { StageId = x, New = false, SelectCount = 0, Unlocked = true })
-                .ToArray()
-        ,
+            }).ToArray(),
+        Stages = StageData.stages
+            .Select(x =>
+                new StageData()
+                {
+                    StageId = x,
+                    New = false,
+                    SelectCount = 0,
+                    Unlocked = true
+                })
+            .ToArray(),
         TravelHistory = new TravelHistory[1]
         {
             new TravelHistory()
@@ -354,7 +360,7 @@ public class UserDataContainer
                 TravelPamphletId = 0,
                 CharacterId = 0,
                 CardMemorialId = 0,
-                Positions = new int[] {0, 1, 2},
+                Positions = new int[] { 0, 1, 2 },
                 LastLandmark = 0,
                 Modified = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss")
             }
@@ -368,7 +374,7 @@ public class UserDataContainer
                 TotalTalkCount = 0,
                 TotalDiceCount = 0,
                 IsNew = false,
-                TravelExRewards = new int[1] {0}
+                TravelExRewards = new int[1] { 0 }
             }
         },
         GachaStatus = new GachaStatus[1]
@@ -463,7 +469,7 @@ public class UserDataContainer
                 StampCardId = 0,
                 StampCount = 10,
                 Achieved = false,
-                StampCharacters = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8}
+                StampCharacters = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
             }
         },
         StampCardRewards = new StampCardReward[1]
@@ -530,7 +536,7 @@ public class UserDataContainer
             StampCards = StampCards,
             StampCardRewards = StampCardRewards,
             ActiveInformation = ActiveInformation
-        }; 
+        };
     }
 
     public GameEntryResponse GetGameEntry()
@@ -561,18 +567,18 @@ public class UserDataContainer
     {
         // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
         //copy all properties
-        if(input.UserData != null) UserData = input.UserData;
-        if(input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
+        if (input.UserData       != null) UserData = input.UserData;
+        if (input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
     }
-    
+
     public void SetUserData(SetUserData input)
     {
         // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
-        
-        if(input.UserData != null) UserData = input.UserData;
-        if(input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
-        if(input.UserDataSaintSnow != null) UserDataSaintSnow = input.UserDataSaintSnow;
-        
+
+        if (input.UserData          != null) UserData = input.UserData;
+        if (input.UserDataAqours    != null) UserDataAqours = input.UserDataAqours;
+        if (input.UserDataSaintSnow != null) UserDataSaintSnow = input.UserDataSaintSnow;
+
         if (input.EquipSkills != null)
         {
             foreach (EquipSkill equipSkill in input.EquipSkills)
