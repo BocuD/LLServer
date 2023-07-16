@@ -1,7 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace LLServer.Models.UserDataModel;
+namespace LLServer.Models.UserData;
 
 //will be filled with the data from param in a userdata.set post request
 //mark as JsonDerivedType so it can be deserialized into the correct type

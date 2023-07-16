@@ -1,4 +1,6 @@
-﻿namespace LLServer.Models.UserDataModel;
+﻿using LLServer.Models.Responses;
+
+namespace LLServer.Models.UserData;
 
 [Serializable]
 public class UserDataContainer
@@ -53,14 +55,14 @@ public class UserDataContainer
     public EventResult         EventResult       { get; set; } = new EventResult();
     public string              Now               { get; set; } = "";
     public bool                FirstLogin        { get; set; }
-    public bool                DiceBonus         { get; set; } = false;
+    public bool                DiceBonus         { get; set; }
     public StampCard[]         StampCards        { get; set; } = new StampCard[0];
     public StampCardReward[]   StampCardRewards  { get; set; } = new StampCardReward[0];
     public ActiveInformation[] ActiveInformation { get; set; } = new ActiveInformation[0];
 
     private static UserDataContainer mockStorage = new()
     {
-        UserData = new UserData()
+        UserData = new UserData
         {
             CharacterId = 0,
             IdolKind = 0,
@@ -85,7 +87,7 @@ public class UserDataContainer
             CreditCountCenter = 0,
             PlayLs4 = 0
         },
-        UserDataAqours = new UserDataAqours()
+        UserDataAqours = new UserDataAqours
         {
             CharacterId = 0,
             Honor = 0,
@@ -94,7 +96,7 @@ public class UserDataContainer
             ProfileCard1 = new ProfileCard(0),
             ProfileCard2 = new ProfileCard(0),
         },
-        UserDataSaintSnow = new UserDataSaintSnow()
+        UserDataSaintSnow = new UserDataSaintSnow
         {
             CharacterId = 0,
             Honor = 0,
@@ -105,7 +107,7 @@ public class UserDataContainer
         },
         Members = new MemberData[1]
         {
-            new MemberData()
+            new MemberData
             {
                 CharacterId = 1,
                 CardMemberId = 0,
@@ -121,7 +123,7 @@ public class UserDataContainer
         },
         MemberCards = new MemberCardData[1]
         {
-            new MemberCardData()
+            new MemberCardData
             {
                 CardMemberId = 0,
                 Count = 2,
@@ -131,7 +133,7 @@ public class UserDataContainer
         },
         SkillCards = new SkillCardData[1]
         {
-            new SkillCardData()
+            new SkillCardData
             {
                 CardSkillId = 0,
                 SkillLevel = 0,
@@ -141,7 +143,7 @@ public class UserDataContainer
         },
         MemorialCards = new MemorialCardData[1]
         {
-            new MemorialCardData()
+            new MemorialCardData
             {
                 CardMemorialId = 0,
                 Count = 1,
@@ -154,7 +156,7 @@ public class UserDataContainer
         },
         Items = new Item[1]
         {
-            new Item()
+            new Item
             {
                 ItemId = 0,
                 Count = 1,
@@ -162,7 +164,7 @@ public class UserDataContainer
         },
         Musics = Enumerable.Range(10, 100)
             .Where(i => i % 10 == 0)
-            .Select(i => new MusicData()
+            .Select(i => new MusicData
                 {
                     MusicId = i,
                     Unlocked = true,
@@ -171,7 +173,7 @@ public class UserDataContainer
             ).ToArray(),
         Lives = Enumerable.Range(10, 100)
             .Where(i => i % 10 == 0)
-            .Select(i => new LiveData()
+            .Select(i => new LiveData
             {
                 LiveId = i,
                 SelectCount = 0,
@@ -199,9 +201,9 @@ public class UserDataContainer
                 FinaleCount = 0,
                 TechnicalRank = 0
             }).ToArray(),
-        Stages = StageData.stages
+        Stages = StageData.Stages
             .Select(x =>
-                new StageData()
+                new StageData
                 {
                     StageId = x,
                     New = false,
@@ -211,7 +213,7 @@ public class UserDataContainer
             .ToArray(),
         TravelHistory = new TravelHistory[1]
         {
-            new TravelHistory()
+            new TravelHistory
             {
                 Id = 0,
                 CardMemberId = 0,
@@ -233,7 +235,7 @@ public class UserDataContainer
         TravelHistorySaintSnow = new TravelHistory[0],
         MailBox = new MailBoxItem[1]
         {
-            new MailBoxItem()
+            new MailBoxItem
             {
                 Id = 0,
                 ItemId = 0,
@@ -244,7 +246,7 @@ public class UserDataContainer
         },
         Specials = new SpecialData[1]
         {
-            new SpecialData()
+            new SpecialData
             {
                 IdolKind = 0,
                 SpecialId = 0,
@@ -253,7 +255,7 @@ public class UserDataContainer
         Flags = "0",
         Achievements = new Achievement[1]
         {
-            new Achievement()
+            new Achievement
             {
                 AchievementId = 100,
                 Unlocked = false,
@@ -262,42 +264,42 @@ public class UserDataContainer
         },
         RecordBooks = new AchievementRecordBook[8]
         {
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countFinale",
                 Values = new int[0]
             },
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countSkillInvoke",
                 Values = new int[0]
             },
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countSelectMember",
                 Values = new int[0]
             },
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countSelectUnit",
                 Values = new int[0]
             },
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countGetMemberCard",
                 Values = new int[0]
             },
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countGetSkillCard",
                 Values = new int[0]
             },
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countPhotograph",
                 Values = new int[0]
             },
-            new AchievementRecordBook()
+            new AchievementRecordBook
             {
                 Type = "countVisualScoreIconSuccess",
                 Values = new int[0]
@@ -305,7 +307,7 @@ public class UserDataContainer
         },
         YellAchievements = new YellAchievement[1]
         {
-            new YellAchievement()
+            new YellAchievement
             {
                 YellAchievementId = 0,
                 Unlocked = false,
@@ -314,7 +316,7 @@ public class UserDataContainer
         },
         LimitedAchievements = new LimitedAchievement[1]
         {
-            new LimitedAchievement()
+            new LimitedAchievement
             {
                 LimitedAchievementId = 0,
                 Unlocked = false,
@@ -323,14 +325,14 @@ public class UserDataContainer
         },
         Missions = new Mission[1]
         {
-            new Mission()
+            new Mission
             {
                 MissionId = 0,
                 Achieved = false,
                 Value = 0
             }
         },
-        MissionPoint = new MissionPoint()
+        MissionPoint = new MissionPoint
         {
             Point = 0,
             AchievedPoint = 0
@@ -341,33 +343,33 @@ public class UserDataContainer
         },
         Honors = new HonorData[1]
         {
-            new HonorData()
+            new HonorData
             {
                 HonorId = 0,
                 Unlocked = false,
                 New = false
             }
         },
-        ScfesProfile = new ScfesProfile()
+        ScfesProfile = new ScfesProfile
         {
             Enable = false
         },
         Travels = new TravelData[1]
         {
-            new TravelData()
+            new TravelData
             {
                 Slot = 0,
                 TravelPamphletId = 0,
                 CharacterId = 0,
                 CardMemorialId = 0,
-                Positions = new int[] { 0, 1, 2 },
+                Positions = new[] { 0, 1, 2 },
                 LastLandmark = 0,
                 Modified = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss")
             }
         },
         TravelPamphlets = new TravelPamphlet[1]
         {
-            new TravelPamphlet()
+            new TravelPamphlet
             {
                 TravelPamphletId = 0,
                 Round = 0,
@@ -379,7 +381,7 @@ public class UserDataContainer
         },
         GachaStatus = new GachaStatus[1]
         {
-            new GachaStatus()
+            new GachaStatus
             {
                 GachaId = 0,
                 IdolKind = 0,
@@ -389,7 +391,7 @@ public class UserDataContainer
         },
         NamePlates = new NamePlate[1]
         {
-            new NamePlate()
+            new NamePlate
             {
                 NamePlateId = 201, //アキバ (test nameplate)
                 New = false
@@ -397,12 +399,12 @@ public class UserDataContainer
         },
         Badges = new Badge[2]
         {
-            new Badge()
+            new Badge
             {
                 BadgeId = 901001, //μ’s大好き badge
                 New = false
             },
-            new Badge()
+            new Badge
             {
                 BadgeId = 901002, //Aqours大好き badge
                 New = false
@@ -410,7 +412,7 @@ public class UserDataContainer
         },
         EventStatus = new EventStatus[1]
         {
-            new EventStatus()
+            new EventStatus
             {
                 EventId = 0,
                 EventPoint = 0,
@@ -422,7 +424,7 @@ public class UserDataContainer
         },
         EventRewards = new EventReward[1]
         {
-            new EventReward()
+            new EventReward
             {
                 EventId = 0,
                 RewardCategory = 0,
@@ -432,7 +434,7 @@ public class UserDataContainer
                 RewardNum = 0
             }
         },
-        EventResult = new EventResult()
+        EventResult = new EventResult
         {
             EventId = 0,
             AddPoint = 0,
@@ -440,15 +442,15 @@ public class UserDataContainer
             UpdateScore = 0,
             Rewards = new EventResultReward[1]
             {
-                new EventResultReward()
+                new EventResultReward
                 {
-                    Reward = new EventResultReward.EventResultRewardData()
+                    Reward = new EventResultReward.EventResultRewardData
                     {
                         RequirePoint = 0,
                         RewardArg = 0,
                         RewardType = 0
                     },
-                    NextReward = new EventResultReward.EventResultRewardData()
+                    NextReward = new EventResultReward.EventResultRewardData
                     {
                         RequirePoint = 0,
                         RewardArg = 0,
@@ -464,18 +466,18 @@ public class UserDataContainer
         StampCards = new StampCard[1]
         {
             //todo: actual stamp card implementation is untested
-            new StampCard()
+            new StampCard
             {
                 StampCardId = 0,
                 StampCount = 10,
                 Achieved = false,
-                StampCharacters = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
+                StampCharacters = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
             }
         },
         StampCardRewards = new StampCardReward[1]
         {
             //todo: actual stamp card implementation is untested
-            new StampCardReward()
+            new StampCardReward
             {
                 StampCardId = 0,
                 CardMemberId = 0,
@@ -492,7 +494,7 @@ public class UserDataContainer
 
     public UserDataResponse GetUserData()
     {
-        return new UserDataResponse()
+        return new UserDataResponse
         {
             // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
             //copy all properties
@@ -541,7 +543,7 @@ public class UserDataContainer
 
     public GameEntryResponse GetGameEntry()
     {
-        return new GameEntryResponse()
+        return new GameEntryResponse
         {
             // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
             //copy all properties

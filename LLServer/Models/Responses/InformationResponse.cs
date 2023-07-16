@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using LLServer.Models.Information;
 
-namespace LLServer.Models;
+namespace LLServer.Models.Responses;
 
 
 // TODO: Figure out all the fields

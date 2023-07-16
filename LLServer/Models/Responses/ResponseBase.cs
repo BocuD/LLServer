@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
-using LLServer.Models.UserDataModel;
 
-namespace LLServer.Models;
+namespace LLServer.Models.Responses;
 
 public class ResponseContainer
 {
@@ -12,7 +11,7 @@ public class ResponseContainer
     public required ResponseBase Response { get; set; }
 }
 
-[JsonDerivedType(typeof(BasicInfo))]
+[JsonDerivedType(typeof(BasicInfoResponse))]
 [JsonDerivedType(typeof(InformationResponse))]
 [JsonDerivedType(typeof(AuthResponse))]
 [JsonDerivedType(typeof(GameEntryResponse))]

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace LLServer.Models.UserDataModel;
+namespace LLServer.Models.UserData;
 
 public class InitializeUserData
 {

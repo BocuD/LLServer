@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using LLServer.Common;
 using LLServer.Models;
+using LLServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Encodings;
@@ -24,7 +25,7 @@ public class BasicInfoController : BaseController<BasicInfoController>
         var info = new ResponseContainer
         {
             Result = 200,
-            Response = new BasicInfo
+            Response = new BasicInfoResponse
             {
                 BaseUrl = $"http://{serverIpAddress}/game",
                 DownloadUrl = $"http://{serverIpAddress}/download",

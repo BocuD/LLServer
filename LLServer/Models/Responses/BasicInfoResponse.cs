@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace LLServer.Models;
+namespace LLServer.Models.Responses;
 
-public class BasicInfo : ResponseBase
+public class BasicInfoResponse : ResponseBase
 {
     /// <summary>
     /// This is the information url 

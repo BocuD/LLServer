@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using LLServer.Models;
-using LLServer.Models.UserDataModel;
+using LLServer.Models.Responses;
+using LLServer.Models.UserData;
 using MediatR;
 
 namespace LLServer.Handlers;

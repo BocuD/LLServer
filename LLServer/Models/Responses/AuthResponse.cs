@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace LLServer.Models;
+namespace LLServer.Models.Responses;
 
 public class AuthResponse : ResponseBase
 {

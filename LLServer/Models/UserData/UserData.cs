@@ -1,6 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 
-namespace LLServer.Models.UserDataModel;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace LLServer.Models.UserData;
 
 //todo decompile sub_14021C260 and figure out what this is responsible for parsing
 public class UserData
@@ -31,7 +34,7 @@ public class UserData
     public string ProfileCardId1
     {
         get => ProfileCard1.ToString();
-        set => ProfileCard1 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+        set => ProfileCard1 = new ProfileCard(long.Parse(value, NumberStyles.HexNumber));
     }
 
     [JsonIgnore] public ProfileCard ProfileCard2 { get; set; } = new ProfileCard(0);
@@ -40,7 +43,7 @@ public class UserData
     public string ProfileCardId2
     {
         get => ProfileCard2.ToString();
-        set => ProfileCard2 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+        set => ProfileCard2 = new ProfileCard(long.Parse(value, NumberStyles.HexNumber));
     }
     
     [JsonPropertyName("credit_count_satellite")] public int CreditCountSatellite { get; set; } = 0;
@@ -78,7 +81,7 @@ public class UserDataAqours
     public string ProfileCardId1
     {
         get => ProfileCard1.ToString();
-        set => ProfileCard1 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+        set => ProfileCard1 = new ProfileCard(long.Parse(value, NumberStyles.HexNumber));
     }
 
     [JsonIgnore] public ProfileCard ProfileCard2 { get; set; } = new ProfileCard(0);
@@ -87,7 +90,7 @@ public class UserDataAqours
     public string ProfileCardId2
     {
         get => ProfileCard2.ToString();
-        set => ProfileCard2 = new ProfileCard(long.Parse(value, System.Globalization.NumberStyles.HexNumber));
+        set => ProfileCard2 = new ProfileCard(long.Parse(value, NumberStyles.HexNumber));
     }
 }
 
@@ -186,50 +189,10 @@ public class StageData
     [JsonPropertyName("unlocked")] public bool Unlocked { get; set; } = false;
     [JsonPropertyName("new")] public bool New { get; set; } = false;
 
-    public static int[] stages =
+    public static readonly int[] Stages =
     {
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        101,
-        102,
-        103,
-        104,
-        105,
-        106,
-        107,
-        108,
-        109,
-        110,
-        111,
-        112,
-        301,
-        302,
-        303,
-        304,
-        305,
-        306,
-        307,
-        308,
-        309,
-        310,
-        311,
-        312
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 
+        111, 112, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312
     };
 }
 

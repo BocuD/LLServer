@@ -1,11 +1,12 @@
 ﻿using System.Text.Json.Serialization;
+using LLServer.Models.UserData;
 
-namespace LLServer.Models.UserDataModel;
+namespace LLServer.Models.Responses;
 
 public class UserDataResponse : ResponseBase
 {
-    [JsonPropertyName("userdata")] public UserData UserData { get; set; } = new();
-    [JsonPropertyName("userdata_aqours")] public UserDataAqours UserDataAqours { get; set; } = new();
+    [JsonPropertyName("userdata")]           public UserData.UserData  UserData          { get; set; } = new();
+    [JsonPropertyName("userdata_aqours")]    public UserDataAqours     UserDataAqours    { get; set; } = new();
     [JsonPropertyName("userdata_saintsnow")] public UserDataSaintSnow? UserDataSaintSnow { get; set; }
     
     [JsonPropertyName("members")] public MemberData[] Members { get; set; } = new MemberData[0];
