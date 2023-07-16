@@ -40,6 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseHttpLogging();
 app.MapControllers();
 app.UseWhen(context => context.Request.Path.StartsWithSegments("/game"), 
