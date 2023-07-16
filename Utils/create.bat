@@ -1,2 +1,2 @@
-sc.exe CREATE "nesys" binpath= "D:\system\Service\NesysService.exe" displayname="NesysCert"
+sc.exe create nesys BinPath="D:\system\Service\NesysService.exe"
 pause
