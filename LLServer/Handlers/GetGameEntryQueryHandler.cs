@@ -38,8 +38,11 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
             return StaticResponses.BadRequestResponse;
         }
         
+        // Mark the session as active and set the expire time
         session.IsActive = true;
         session.ExpireTime = DateTime.UtcNow.AddMinutes(60);
+        
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
 
