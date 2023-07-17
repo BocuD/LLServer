@@ -24,8 +24,7 @@ public class CardController : ControllerBase
         {
             case CardCommandCodes.READ:
             {
-                var card = await dbContext.Users.FirstOrDefaultAsync(user => user.CardId == cardNo);
-                return Ok(card is null ? $"{CardReturnCodes.NOT_REGISTERED}" : $"{CardReturnCodes.OK}\n1,1\n{cardNo}");
+                return Ok($"{CardReturnCodes.OK}\n1,1\n{cardNo}");
             }
             case CardCommandCodes.REISSUE:
                 return Ok($"{CardReturnCodes.NOT_REISSUE}");

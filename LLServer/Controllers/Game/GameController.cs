@@ -24,15 +24,14 @@ public class GameController : BaseController<GameController>
     public async Task<ActionResult<ResponseContainer>> BaseHandler()
     { 
         RequestBase? request;
-        string bodyString = String.Empty;
+        var bodyString = string.Empty;
         
         try
         {
-            //remove null characters
-            byte[] buffer = new byte[Request.Body.Length];
-            
-            await Request.Body.ReadAsync(buffer.AsMemory(0, (int)Request.Body.Length));
-            
+            var buffer = new byte[Request.Body.Length];
+
+            _ = await Request.Body.ReadAsync(buffer.AsMemory(0, (int)Request.Body.Length));
+
             bodyString = Encoding.UTF8.GetString(buffer).Replace("\0", "");
             request = JsonSerializer.Deserialize<RequestBase>(bodyString);
         }
@@ -40,7 +39,7 @@ public class GameController : BaseController<GameController>
         {
             Logger.LogWarning(e, "Request deserialize failed");
             
-            Logger.LogError($"{e.Message}\n{e.StackTrace}\n{bodyString}");
+            Logger.LogError("{Message}\n{StackTracee}\n{BodyString}", e.Message, e.StackTrace, bodyString);
             return BadRequest();
         }
 
@@ -53,12 +52,12 @@ public class GameController : BaseController<GameController>
         Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
         
 
-        ResponseContainer response = request.Protocol switch
+        var response = request.Protocol switch
         {
             "unlock"              => await mediator.Send(new UnlockQuery()),
             "gameconfig"          => await mediator.Send(new GameConfigQuery()),
             "information"         => await mediator.Send(new InformationQuery(Request.Host.Value)),
-            "auth"                => await mediator.Send(new AuthCommand()),
+            "auth"                => await mediator.Send(new AuthCommand(request.Param)),
             "gameentry"           => await mediator.Send(new GetGameEntryQuery()),
             "userdata.get"        => await mediator.Send(new GetUserDataQuery()),
             "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request.Param)),

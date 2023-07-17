@@ -5,88 +5,208 @@ namespace LLServer.Models;
 
 public class GameResult
 {
-    [JsonPropertyName("badge")] public int Badge { get; set; }
-    [JsonPropertyName("character_id")] public int CharacterId { get; set; }
-    [JsonPropertyName("combo_rank")] public int ComboRank { get; set; }
-    [JsonPropertyName("combo_score")] public int ComboScore { get; set; }
-    [JsonPropertyName("coop_mode")] public int CoopMode { get; set; }
-    [JsonPropertyName("coop_player_id_1")] public string CoopPlayerId1 { get; set; } = "";
-    [JsonPropertyName("coop_player_id_2")] public string CoopPlayerId2 { get; set; } = "";
-    [JsonPropertyName("coop_player_level_1")] public int CoopPlayerLevel1 { get; set; }
-    [JsonPropertyName("coop_player_level_2")] public int CoopPlayerLevel2 { get; set; }
-    [JsonPropertyName("coop_player_name_1")] public string CoopPlayerName1 { get; set; } = "";
-    [JsonPropertyName("coop_player_name_2")] public string CoopPlayerName2 { get; set; } = "";
-    [JsonPropertyName("coop_total_score")] public int CoopTotalScore { get; set; }
-    [JsonPropertyName("d_user_level")] public int DUserLevel { get; set; }
-    [JsonPropertyName("event_mode")] public int EventMode { get; set; }
-    [JsonPropertyName("finale_point")] public int FinalePoint { get; set; }
-    [JsonPropertyName("full_combo")] public int FullCombo { get; set; }
-    [JsonPropertyName("got_exp")] public int GotExp { get; set; }
-    [JsonPropertyName("honor")] public int Honor { get; set; }
-    [JsonPropertyName("idol_kind")] public int IdolKind { get; set; }
-    [JsonPropertyName("last_cut_focus")] public int LastCutFocus { get; set; }
-    [JsonPropertyName("live_break")] public int LiveBreak { get; set; }
-    [JsonPropertyName("m_live_id")] public int LiveId { get; set; }
-    [JsonPropertyName("m_membercard_id")] public int MembercardId { get; set; }
-    [JsonPropertyName("m_stage_id")] public int StageId { get; set; }
-    [JsonPropertyName("max_combo")] public int MaxCombo { get; set; }
-    [JsonPropertyName("member_count")] public int MemberCount { get; set; }
-    [JsonPropertyName("memorial_card")] public int MemorialCard { get; set; }
-    [JsonPropertyName("nameplate")] public int Nameplate { get; set; }
-    
-    [JsonPropertyName("note_bad_count")] public int NoteBadCount { get; set; }
-    [JsonPropertyName("note_good_count")] public int NoteGoodCount { get; set; }
-    [JsonPropertyName("note_great_count")] public int NoteGreatCount { get; set; }
-    [JsonPropertyName("note_miss_count")] public int NoteMissCount { get; set; }
-    [JsonPropertyName("note_perfect_count")] public int NotePerfectCount { get; set; }
-    
-    [JsonPropertyName("play_mode")] public int PlayMode { get; set; }
-    [JsonPropertyName("play_no")] public int PlayNo { get; set; }
-    [JsonPropertyName("play_part")] public int PlayPart { get; set; }
-    
-    [JsonPropertyName("profile_card_id_1")] public string ProfileCardId1 { get; set; } = "";
-    [JsonPropertyName("profile_card_id_2")] public string ProfileCardId2 { get; set; } = "";
-    [JsonPropertyName("profile_version")] public int ProfileVersion { get; set; }
-    
-    [JsonPropertyName("skill_arg_camera")] public int[] SkillArgCamera { get; set; } = new int[0];
-    [JsonPropertyName("skill_cards_camera")] public int[] SkillCardsCamera { get; set; } = new int[0];
-    [JsonPropertyName("skill_cards_main")] public int[] SkillCardsMain { get; set; } = new int[0];
-    [JsonPropertyName("skill_cards_stage")] public int[] SkillCardsStage { get; set; } = new int[0];
-    [JsonPropertyName("skill_levels_camera")] public int[] SkillLevelsCamera { get; set; } = new int[0];
-    [JsonPropertyName("skill_levels_main")] public int[] SkillLevelsMain { get; set; } = new int[0];
-    [JsonPropertyName("skill_levels_stage")] public int[] SkillLevelsStage { get; set; } = new int[0];
-    [JsonPropertyName("skill_rank")] public int SkillRank { get; set; }
-    [JsonPropertyName("skill_score")] public int SkillScore { get; set; }
-    [JsonPropertyName("skill_status_camera")] public int[] SkillStatusCamera { get; set; } = new int[0];
-    [JsonPropertyName("skill_status_main")] public int[] SkillStatusMain { get; set; } = new int[0];
-    [JsonPropertyName("skill_status_stage")] public int[] SkillStatusStage { get; set; } = new int[0];
-    
-    [JsonPropertyName("synchro_rank")] public int SynchroRank { get; set; }
-    [JsonPropertyName("synchro_score")] public int SynchroScore { get; set; }
-    [JsonPropertyName("technical_rank")] public int TechnicalRank { get; set; }
-    [JsonPropertyName("technical_rate")] public int TechnicalRate { get; set; }
-    [JsonPropertyName("technical_score")] public int TechnicalScore { get; set; }
-    
-    [JsonPropertyName("tenpo_name")] public string TenpoName { get; set; } = "";
-    [JsonPropertyName("total_exp")] public int TotalExp { get; set; }
-    [JsonPropertyName("total_rank")] public int TotalRank { get; set; }
-    [JsonPropertyName("total_score")] public int TotalScore { get; set; }
-    [JsonPropertyName("unlock_live_id")] public JsonElement? UnlockLiveId { get; set; }
-    [JsonIgnore] public int[] UnlockLiveIdArray
+    [JsonPropertyName("badge")]
+    public int Badge { get; set; }
+
+    [JsonPropertyName("character_id")]
+    public int CharacterId { get; set; }
+
+    [JsonPropertyName("combo_rank")]
+    public int ComboRank { get; set; }
+
+    [JsonPropertyName("combo_score")]
+    public int ComboScore { get; set; }
+
+    [JsonPropertyName("coop_mode")]
+    public int CoopMode { get; set; }
+
+    [JsonPropertyName("coop_player_id_1")]
+    public string CoopPlayerId1 { get; set; } = "";
+
+    [JsonPropertyName("coop_player_id_2")]
+    public string CoopPlayerId2 { get; set; } = "";
+
+    [JsonPropertyName("coop_player_level_1")]
+    public int CoopPlayerLevel1 { get; set; }
+
+    [JsonPropertyName("coop_player_level_2")]
+    public int CoopPlayerLevel2 { get; set; }
+
+    [JsonPropertyName("coop_player_name_1")]
+    public string CoopPlayerName1 { get; set; } = "";
+
+    [JsonPropertyName("coop_player_name_2")]
+    public string CoopPlayerName2 { get; set; } = "";
+
+    [JsonPropertyName("coop_total_score")]
+    public int CoopTotalScore { get; set; }
+
+    [JsonPropertyName("d_user_level")]
+    public int DUserLevel { get; set; }
+
+    [JsonPropertyName("event_mode")]
+    public int EventMode { get; set; }
+
+    [JsonPropertyName("finale_point")]
+    public int FinalePoint { get; set; }
+
+    [JsonPropertyName("full_combo")]
+    public int FullCombo { get; set; }
+
+    [JsonPropertyName("got_exp")]
+    public int GotExp { get; set; }
+
+    [JsonPropertyName("honor")]
+    public int Honor { get; set; }
+
+    [JsonPropertyName("idol_kind")]
+    public int IdolKind { get; set; }
+
+    [JsonPropertyName("last_cut_focus")]
+    public int LastCutFocus { get; set; }
+
+    [JsonPropertyName("live_break")]
+    public int LiveBreak { get; set; }
+
+    [JsonPropertyName("m_live_id")]
+    public int LiveId { get; set; }
+
+    [JsonPropertyName("m_membercard_id")]
+    public int MembercardId { get; set; }
+
+    [JsonPropertyName("m_stage_id")]
+    public int StageId { get; set; }
+
+    [JsonPropertyName("max_combo")]
+    public int MaxCombo { get; set; }
+
+    [JsonPropertyName("member_count")]
+    public int MemberCount { get; set; }
+
+    [JsonPropertyName("memorial_card")]
+    public int MemorialCard { get; set; }
+
+    [JsonPropertyName("nameplate")]
+    public int Nameplate { get; set; }
+
+    [JsonPropertyName("note_bad_count")]
+    public int NoteBadCount { get; set; }
+
+    [JsonPropertyName("note_good_count")]
+    public int NoteGoodCount { get; set; }
+
+    [JsonPropertyName("note_great_count")]
+    public int NoteGreatCount { get; set; }
+
+    [JsonPropertyName("note_miss_count")]
+    public int NoteMissCount { get; set; }
+
+    [JsonPropertyName("note_perfect_count")]
+    public int NotePerfectCount { get; set; }
+
+    [JsonPropertyName("play_mode")]
+    public int PlayMode { get; set; }
+
+    [JsonPropertyName("play_no")]
+    public int PlayNo { get; set; }
+
+    [JsonPropertyName("play_part")]
+    public int PlayPart { get; set; }
+
+    [JsonPropertyName("profile_card_id_1")]
+    public string ProfileCardId1 { get; set; } = "";
+
+    [JsonPropertyName("profile_card_id_2")]
+    public string ProfileCardId2 { get; set; } = "";
+
+    [JsonPropertyName("profile_version")]
+    public int ProfileVersion { get; set; }
+
+    [JsonPropertyName("skill_arg_camera")]
+    public int[] SkillArgCamera { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_cards_camera")]
+    public int[] SkillCardsCamera { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_cards_main")]
+    public int[] SkillCardsMain { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_cards_stage")]
+    public int[] SkillCardsStage { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_levels_camera")]
+    public int[] SkillLevelsCamera { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_levels_main")]
+    public int[] SkillLevelsMain { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_levels_stage")]
+    public int[] SkillLevelsStage { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_rank")]
+    public int SkillRank { get; set; }
+
+    [JsonPropertyName("skill_score")]
+    public int SkillScore { get; set; }
+
+    [JsonPropertyName("skill_status_camera")]
+    public int[] SkillStatusCamera { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_status_main")]
+    public int[] SkillStatusMain { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("skill_status_stage")]
+    public int[] SkillStatusStage { get; set; } = Array.Empty<int>();
+
+    [JsonPropertyName("synchro_rank")]
+    public int SynchroRank { get; set; }
+
+    [JsonPropertyName("synchro_score")]
+    public int SynchroScore { get; set; }
+
+    [JsonPropertyName("technical_rank")]
+    public int TechnicalRank { get; set; }
+
+    [JsonPropertyName("technical_rate")]
+    public int TechnicalRate { get; set; }
+
+    [JsonPropertyName("technical_score")]
+    public int TechnicalScore { get; set; }
+
+    [JsonPropertyName("tenpo_name")]
+    public string TenpoName { get; set; } = "";
+
+    [JsonPropertyName("total_exp")]
+    public int TotalExp { get; set; }
+
+    [JsonPropertyName("total_rank")]
+    public int TotalRank { get; set; }
+
+    [JsonPropertyName("total_score")]
+    public int TotalScore { get; set; }
+
+    [JsonPropertyName("unlock_live_id")]
+    public JsonElement? UnlockLiveId { get; set; }
+
+    [JsonIgnore]
+    public int[] UnlockLiveIdArray
     {
         get
         {
             if (UnlockLiveId is { ValueKind: JsonValueKind.Array })
-            {   
-                return UnlockLiveId?.EnumerateArray().Select(x => x.GetInt32()).ToArray() ?? new int[0];
+            {
+                return UnlockLiveId?.EnumerateArray().Select(x => x.GetInt32()).ToArray() ?? Array.Empty<int>();
             }
 
-            return new int[0];
+            return Array.Empty<int>();
         }
     }
 
-    [JsonPropertyName("used_member_card")] public int UsedMemberCard { get; set; }
-    [JsonPropertyName("yell_rank")] public int YellRank { get; set; }
+    [JsonPropertyName("used_member_card")]
+    public int UsedMemberCard { get; set; }
+
+    [JsonPropertyName("yell_rank")]
+    public int YellRank { get; set; }
 }
 
 
