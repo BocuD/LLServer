@@ -1,4 +1,5 @@
-﻿using LLServer.Models.Responses;
+﻿using LLServer.Mappers;
+using LLServer.Models.Responses;
 
 namespace LLServer.Models.UserData;
 
@@ -459,75 +460,16 @@ public class UserDataContainer
 
     public UserDataResponse GetUserData()
     {
-        return new UserDataResponse
-        {
-            // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
-            //copy all properties
-            UserData = UserData,
-            UserDataAqours = UserDataAqours,
-            UserDataSaintSnow = UserDataSaintSnow,
-            Members = Members,
-            MemberCards = MemberCards,
-            SkillCards = SkillCards,
-            MemorialCards = MemorialCards,
-            Items = Items,
-            Musics = Musics,
-            Lives = Lives,
-            Stages = Stages,
-            TravelHistory = TravelHistory,
-            TravelHistoryAqours = TravelHistoryAqours,
-            TravelHistorySaintSnow = TravelHistorySaintSnow,
-            MailBox = MailBox,
-            Specials = Specials,
-            Flags = Flags,
-            Achievements = Achievements,
-            RecordBooks = RecordBooks,
-            YellAchievements = YellAchievements,
-            LimitedAchievements = LimitedAchievements,
-            Missions = Missions,
-            MissionPoint = MissionPoint,
-            DailyRecords = DailyRecords,
-            Honors = Honors,
-            ScfesProfile = ScfesProfile,
-            Travels = Travels,
-            TravelPamphlets = TravelPamphlets,
-            GachaStatus = GachaStatus,
-            NamePlates = NamePlates,
-            Badges = Badges,
-            EventStatus = EventStatus,
-            EventRewards = EventRewards,
-            EventResult = EventResult,
-            Now = Now,
-            FirstLogin = FirstLogin,
-            DiceBonus = DiceBonus,
-            StampCards = StampCards,
-            StampCardRewards = StampCardRewards,
-            ActiveInformation = ActiveInformation
-        };
+        UserDataResponseMapper mapper = new();
+
+        return mapper.UserDataToUserDataResponse(this);
     }
 
     public GameEntryResponse GetGameEntry()
     {
-        return new GameEntryResponse
-        {
-            // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
-            //copy all properties
-            UserData = UserData,
-            UserDataAqours = UserDataAqours,
-            UserDataSaintSnow = UserDataSaintSnow,
-            MemberCards = MemberCards,
-            SkillCards = SkillCards,
-            MemorialCards = MemorialCards,
-            Items = Items,
-            MailBox = MailBox,
-            Specials = Specials,
-            FirstLogin = FirstLogin,
-            TravelPamphlets = TravelPamphlets,
-            StampCardRewards = StampCardRewards,
-            ActiveInformation = ActiveInformation,
-            EventRewards = EventRewards,
-            Members = Members
-        };
+        GameEntryResponseMapper mapper = new();
+
+        return mapper.UserDataToGameEntryResponse(this);
     }
 
     public void InitializeUserData(InitializeUserData input)
