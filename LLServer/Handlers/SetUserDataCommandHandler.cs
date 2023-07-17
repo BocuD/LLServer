@@ -25,24 +25,19 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
             return StaticResponses.BadRequestResponse;
         }
 
-        var paramJson = request.Param.Value.GetRawText();
-        logger.LogInformation("ParamJson {ParamJson}", paramJson);
+        string paramJson = request.Param.Value.GetRawText();
 
-        var setUserData = JsonSerializer.Deserialize<SetUserData>(paramJson);
+        SetUserData? setUserData = JsonSerializer.Deserialize<SetUserData>(paramJson);
 
         if (setUserData is null)
         {
             return StaticResponses.BadRequestResponse;
         }
 
-        var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
+        UserDataContainer userDataContainer = UserDataContainer.GetDummyUserDataContainer();
         userDataContainer.SetUserData(setUserData);
 
-        //log setuserdata json and userdatacontainer json
-        logger.LogInformation("SetUserData {SetUserData}", JsonSerializer.Serialize(setUserData));
-        logger.LogInformation("UserDataContainer {UserDataContainer}", JsonSerializer.Serialize(userDataContainer));
-
-        var response = new ResponseContainer
+        ResponseContainer response = new ResponseContainer
         {
             Result = 200,
             Response = userDataContainer.GetUserData()
