@@ -536,6 +536,9 @@ public class UserDataContainer
         //copy all properties
         if (input.UserData       != null) UserData = input.UserData;
         if (input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
+
+        //initialize this manually for now
+        UserData.PlayLs4 = 1;
     }
 
     public void SetUserData(SetUserData input)
@@ -545,6 +548,9 @@ public class UserDataContainer
         if (input.UserData          != null) UserData = input.UserData;
         if (input.UserDataAqours    != null) UserDataAqours = input.UserDataAqours;
         if (input.UserDataSaintSnow != null) UserDataSaintSnow = input.UserDataSaintSnow;
+
+        //initialize this manually for now
+        UserData.PlayLs4 = 1;
 
         if (input.EquipSkills != null)
         {
