@@ -116,9 +116,6 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
                         data.Unlocked = true;
                 }
             }
-            
-            //log the whole thing for good measure
-            logger.LogInformation("userdata {UserData}", userDataContainer);
         }
 
         ResponseContainer response = new ResponseContainer

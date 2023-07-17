@@ -38,9 +38,6 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
         var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
         userDataContainer.InitializeUserData(initializeUserData);
 
-        logger.LogInformation("InitializeUserData {InitializeUserData}", JsonSerializer.Serialize(initializeUserData));
-        logger.LogInformation("UserDataContainer {UserDataContainer}", JsonSerializer.Serialize(userDataContainer));
-
         var response = new ResponseContainer
         {
             Result = 200,
