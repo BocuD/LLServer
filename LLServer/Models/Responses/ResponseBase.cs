@@ -18,6 +18,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(UserDataResponse))]
 [JsonDerivedType(typeof(RankingResponse))]
 [JsonDerivedType(typeof(GameConfigResponse))]
+[JsonDerivedType(typeof(GameResultResponse))]
 public class ResponseBase
 {
 }
