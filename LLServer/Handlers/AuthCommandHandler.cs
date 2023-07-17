@@ -102,21 +102,12 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         User user = new()
         {
             CardId = nesicaId,
-            //random 20 digit long number based on random guid
-            UserId = GenerateUserId()
         };
         
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
 
         return user;
-    }
-
-    private static ulong GenerateUserId()
-    {
-        Random random = new();
-        ulong randomNumber = (ulong)random.Next(100000, 1000000000) * 10000000000UL + (ulong)random.Next(1000000000);
-        return randomNumber;
     }
 
     private async Task<Session> GenerateNewSession(User user, CancellationToken cancellationToken)
@@ -126,8 +117,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             SessionId = Guid.NewGuid().ToString("N"),
             UserId = user.UserId,
             CreateTime = DateTime.Now,
-            ExpireTime = DateTime.Now.AddMinutes(15),
-            IsActive = true
+            IsActive = false,
+            User = user
         };
         dbContext.Sessions.Add(session);
         await dbContext.SaveChangesAsync(cancellationToken);

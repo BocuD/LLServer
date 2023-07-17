@@ -1,25 +1,48 @@
 ﻿using System.Text.Json;
+using LLServer.Common;
+using LLServer.Database;
+using LLServer.Database.Models;
+using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
-public record GetGameEntryQuery : IRequest<ResponseContainer>;
+public record GetGameEntryQuery(RequestBase request) : IRequest<ResponseContainer>;
 
 public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, ResponseContainer>
 {
+    private readonly ApplicationDbContext dbContext;
     private readonly ILogger<GetGameEntryQueryHandler> logger;
 
-    public GetGameEntryQueryHandler(ILogger<GetGameEntryQueryHandler> logger)
+    public GetGameEntryQueryHandler(ApplicationDbContext dbContext, ILogger<GetGameEntryQueryHandler> logger)
     {
+        this.dbContext = dbContext;
         this.logger = logger;
     }
 
-    public async Task<ResponseContainer> Handle(GetGameEntryQuery request, CancellationToken cancellationToken)
+    public async Task<ResponseContainer> Handle(GetGameEntryQuery query, CancellationToken cancellationToken)
     {
+        //get user data from db
+        Session? session = await dbContext.Sessions
+            .Include(s => s.User)
+            .FirstOrDefaultAsync(s => 
+                    s.SessionId == query.request.SessionKey, 
+                cancellationToken);
+        
+        if (session is null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
+        
+        session.IsActive = true;
+        session.ExpireTime = DateTime.UtcNow.AddMinutes(60);
+
         var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
+
         var response = new ResponseContainer()
         {
             Result = 200,
