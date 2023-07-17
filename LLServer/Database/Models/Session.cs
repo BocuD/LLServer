@@ -4,7 +4,7 @@ public class Session
 {
     public string SessionId { get; set; } = Guid.Empty.ToString("N");
 
-    public long UserId { get; set; }
+    public ulong UserId { get; set; }
 
     public DateTime CreateTime { get; set; } = DateTime.MinValue;
 
