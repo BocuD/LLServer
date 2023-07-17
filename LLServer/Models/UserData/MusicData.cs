@@ -13,7 +13,7 @@ public class MusicData
     [JsonPropertyName("new")]
     public required bool New { get; set; }
     
-    [JsonIgnore] public static int[] MusicIds = new[]
+    [JsonIgnore] private static readonly int[] MusicIds = new[]
     {
         10,
         20,
@@ -299,11 +299,10 @@ public class MusicData
         9010,
         9020,
         9030,
-        9999,
     };
 
-    [JsonIgnore]
-    public static int[] AlwaysLockedMusicIds { get; } =
+    [JsonIgnore] 
+    private static readonly int[] AlwaysLockedMusicIds =
     {
         9999,
     };
