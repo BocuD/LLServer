@@ -26,8 +26,6 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
             Response = userDataContainer.GetGameEntry()
         };
 
-        //log response json
-        logger.LogInformation("GameEntry response: {Response}", JsonSerializer.Serialize(response));
         return response;
     }
 }

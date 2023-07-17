@@ -26,8 +26,6 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
             Response = userDataContainer.GetUserData()
         };
 
-        //log response json
-        logger.LogInformation("Get Userdata response: {Response}", JsonSerializer.Serialize(response));
         return response;
     }
 }
