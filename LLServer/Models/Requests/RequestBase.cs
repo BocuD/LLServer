@@ -10,4 +10,7 @@ public class RequestBase
 
     [JsonPropertyName("param")]
     public JsonElement? Param { get; set; }
+    
+    [JsonPropertyName("sessionkey")]
+    public string SessionKey { get; set; } = string.Empty;
 }
