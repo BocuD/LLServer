@@ -15,28 +15,28 @@ public class UserDataResponse : ResponseBase
     public UserDataSaintSnow? UserDataSaintSnow { get; set; }
 
     [JsonPropertyName("members")]
-    public MemberData[] Members { get; set; } = Array.Empty<MemberData>();
+    public List<MemberData> Members { get; set; } = new();
 
     [JsonPropertyName("membercard")]
-    public MemberCardData[] MemberCards { get; set; } = Array.Empty<MemberCardData>();
+    public List<MemberCardData> MemberCards { get; set; } = new();
 
     [JsonPropertyName("skillcard")]
-    public SkillCardData[] SkillCards { get; set; } = Array.Empty<SkillCardData>();
+    public List<SkillCardData> SkillCards { get; set; } = new();
 
     [JsonPropertyName("memorialcard")]
-    public MemorialCardData[] MemorialCards { get; set; } = Array.Empty<MemorialCardData>();
+    public List<MemorialCardData> MemorialCards { get; set; } = new();
 
     [JsonPropertyName("item")]
-    public Item[] Items { get; set; } = Array.Empty<Item>();
+    public List<Item> Items { get; set; } = new();
 
     [JsonPropertyName("musics")]
-    public MusicData[] Musics { get; set; } = Array.Empty<MusicData>();
+    public List<MusicData> Musics { get; set; } = new();
 
-    [JsonPropertyName("lives")]
-    public LiveData[] Lives { get; set; } = Array.Empty<LiveData>();
+    [JsonPropertyName("lives")] 
+    public List<LiveData> Lives { get; set; } = new();
 
-    [JsonPropertyName("stages")]
-    public StageData[] Stages { get; set; } = Array.Empty<StageData>();
+    [JsonPropertyName("stages")] 
+    public List<StageData> Stages { get; set; } = new();
 
     //game history
     //game history aqours
@@ -51,10 +51,10 @@ public class UserDataResponse : ResponseBase
     public TravelHistory[] TravelHistorySaintSnow { get; set; } = Array.Empty<TravelHistory>();
 
     [JsonPropertyName("mailbox")]
-    public MailBoxItem[] MailBox { get; set; } = Array.Empty<MailBoxItem>();
+    public List<MailBoxItem> MailBox { get; set; } = new();
 
     [JsonPropertyName("specials")]
-    public SpecialData[] Specials { get; set; } = Array.Empty<SpecialData>();
+    public List<SpecialData> Specials { get; set; } = new();
 
     [JsonPropertyName("flags")]
     public string Flags { get; set; } = "";

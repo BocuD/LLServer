@@ -15,22 +15,22 @@ public class GameEntryResponse : ResponseBase
     public UserDataSaintSnow? UserDataSaintSnow { get; set; }
 
     [JsonPropertyName("membercard")]
-    public MemberCardData[] MemberCards { get; set; } = new MemberCardData[0];
+    public List<MemberCardData> MemberCards { get; set; } = new();
 
     [JsonPropertyName("skillcard")]
-    public SkillCardData[] SkillCards { get; set; } = new SkillCardData[0];
+    public List<SkillCardData> SkillCards { get; set; } = new();
 
     [JsonPropertyName("memorialcard")]
-    public MemorialCardData[] MemorialCards { get; set; } = new MemorialCardData[0];
+    public List<MemorialCardData> MemorialCards { get; set; } = new();
 
     [JsonPropertyName("item")]
-    public Item[] Items { get; set; } = new Item[0];
+    public List<Item> Items { get; set; } = new();
 
     [JsonPropertyName("mailbox")]
-    public MailBoxItem[] MailBox { get; set; } = new MailBoxItem[0];
+    public List<MailBoxItem> MailBox { get; set; } = new();
 
     [JsonPropertyName("specials")]
-    public SpecialData[] Specials { get; set; } = new SpecialData[0];
+    public List<SpecialData> Specials { get; set; } = new();
 
     [JsonPropertyName("first_login")]
     public bool FirstLogin { get; set; }
@@ -48,5 +48,5 @@ public class GameEntryResponse : ResponseBase
     public EventReward[] EventRewards { get; set; } = new EventReward[0];
 
     [JsonPropertyName("members")]
-    public MemberData[] Members { get; set; } = new MemberData[0];
+    public List<MemberData> Members { get; set; } = new();
 }
