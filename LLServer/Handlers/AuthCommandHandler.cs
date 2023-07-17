@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Security.Cryptography;
+using System.Text.Json;
 using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
@@ -15,9 +16,7 @@ public record AuthCommand(JsonElement? Param) : IRequest<ResponseContainer>;
 
 public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer>
 {
-
     private readonly ApplicationDbContext dbContext;
-
     private readonly ILogger<AuthCommandHandler> logger;
 
     public AuthCommandHandler(ApplicationDbContext dbContext, ILogger<AuthCommandHandler> logger)
@@ -50,7 +49,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             Name = "Test123456",
             AbnormalEnd = 0
         };
-        
+
         var user = await dbContext.Users.FirstOrDefaultAsync(u => u.CardId == authParam.NesicaId, 
             cancellationToken);
         if (user is null)
@@ -87,6 +86,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         }
         
         var session = await GenerateNewSession(user, cancellationToken);
+        
         authResponse.SessionKey = session.SessionId;
         return new ResponseContainer
         {
@@ -97,9 +97,11 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
     
     private async Task<User> RegisterNewUser(string nesicaId)
     {
-        var user = new User
+        User user = new()
         {
-            CardId = nesicaId
+            CardId = nesicaId,
+            //random 20 digit long number based on random guid
+            UserId = ulong.Parse(new Guid(MD5.HashData(Guid.NewGuid().ToByteArray())).ToString("N")[..20])
         };
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
