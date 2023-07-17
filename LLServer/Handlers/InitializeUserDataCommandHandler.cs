@@ -35,7 +35,9 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
         var paramJson = command.request.Param.Value.GetRawText();
 
         //get user data from db
-        Session? session = await dbContext.Sessions.FirstOrDefaultAsync(s => 
+        Session? session = await dbContext.Sessions
+            .Include(s => s.User)
+            .FirstOrDefaultAsync(s => 
                 s.SessionId == command.request.SessionKey, 
             cancellationToken);
 
@@ -53,6 +55,8 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
 
         var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
         userDataContainer.InitializeUserData(initializeUserData);
+        
+        session.User.Name = initializeUserData.UserData.Name;
         
         var response = new ResponseContainer
         {
