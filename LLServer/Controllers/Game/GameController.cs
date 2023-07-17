@@ -5,6 +5,7 @@ using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace LLServer.Controllers.Game;
 
@@ -21,21 +22,38 @@ public class GameController : BaseController<GameController>
 
     [HttpPost]
     public async Task<ActionResult<ResponseContainer>> BaseHandler()
-    {
-        var body = await Request.BodyReader.ReadAsync();
-        var bodyString = Encoding.Default.GetString(body.Buffer).Replace("\0", string.Empty);
+    { 
+        RequestBase? request;
+        string bodyString = String.Empty;
+        
+        try
+        {
+            //remove null characters
+            byte[] buffer = new byte[Request.Body.Length];
+            
+            await Request.Body.ReadAsync(buffer.AsMemory(0, (int)Request.Body.Length));
+            
+            bodyString = Encoding.UTF8.GetString(buffer).Replace("\0", "");
+            request = JsonSerializer.Deserialize<RequestBase>(bodyString);
+        }
+        catch (Exception e)
+        {
+            Logger.LogWarning(e, "Request deserialize failed");
+            
+            Logger.LogError($"{e.Message}\n{e.StackTrace}\n{bodyString}");
+            return BadRequest();
+        }
 
-        // Parse body as json
-        var request = JsonSerializer.Deserialize<RequestBase>(bodyString);
         if (request is null)
         {
             Logger.LogWarning("Request deserialize failed");
             return BadRequest();
         }
-
+        
         Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
+        
 
-        var response = request.Protocol switch
+        ResponseContainer response = request.Protocol switch
         {
             "unlock"              => await mediator.Send(new UnlockQuery()),
             "gameconfig"          => await mediator.Send(new GameConfigQuery()),
@@ -47,6 +65,7 @@ public class GameController : BaseController<GameController>
             "userdata.set"        => await mediator.Send(new SetUserDataCommand(request.Param)),
             "checkword"           => await mediator.Send(new CheckWordCommand()),
             "ranking"             => await mediator.Send(new GetRankingQuery()),
+            "gameresult"          => await mediator.Send(new GameResultCommand(request.Param)),
             _                     => DefaultResponse(request.Protocol)
         };
 
