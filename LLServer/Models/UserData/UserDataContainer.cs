@@ -75,10 +75,10 @@ public class UserDataContainer
             TenpoName = "1337",
             PlayDate = DateTime.Now.ToString("yyyy-MM-dd"),
             PlaySatellite = 0,
-            PlayCenter = 1,
-            Level = 69,
-            TotalExp = 1000,
-            Honor = 5,
+            PlayCenter = 0,
+            Level = 1,
+            TotalExp = 0,
+            Honor = 0,
             Badge = 901001, //μ’s大好き (default badge)
             Nameplate = 201, //アキバ (test nameplate)
             ProfileCard1 = new ProfileCard(0),
