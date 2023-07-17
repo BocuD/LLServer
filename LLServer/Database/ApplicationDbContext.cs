@@ -21,7 +21,7 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .HasAlternateKey(user => user.CardId);
-        
+
         modelBuilder.Entity<Session>()
             .HasKey(s => s.SessionId);
         
@@ -42,8 +42,8 @@ public class ApplicationDbContext : DbContext
             .IsRequired();
 
         modelBuilder.Entity<Session>()
-            .HasOne<User>()
-            .WithOne()
+            .HasOne<User>(s => s.User)
+            .WithOne(u => u.Session)
             .HasForeignKey<Session>(s => s.UserId);
     }
 }

@@ -11,4 +11,6 @@ public class Session
     public DateTime ExpireTime { get; set; } = DateTime.MinValue;
 
     public bool IsActive { get; set; }
+
+    public User User { get; set; } = null!;
 }
