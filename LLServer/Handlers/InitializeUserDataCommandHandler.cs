@@ -1,33 +1,49 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
+using LLServer.Database;
+using LLServer.Database.Models;
+using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers;
 
-public record InitializeUserDataCommand(JsonElement? Param) : IRequest<ResponseContainer>;
+public record InitializeUserDataCommand(RequestBase request) : IRequest<ResponseContainer>;
 
 public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDataCommand, ResponseContainer>
 {
+    private readonly ApplicationDbContext dbContext;
     private readonly ILogger<InitializeUserDataCommandHandler> logger;
 
-    public InitializeUserDataCommandHandler(ILogger<InitializeUserDataCommandHandler> logger)
+    public InitializeUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<InitializeUserDataCommandHandler> logger)
     {
+        this.dbContext = dbContext;
         this.logger = logger;
     }
 
-    public async Task<ResponseContainer> Handle(InitializeUserDataCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseContainer> Handle(InitializeUserDataCommand command, CancellationToken cancellationToken)
     {
-        if (request.Param is null)
+        if (command.request.Param is null)
         {
             return StaticResponses.BadRequestResponse;
         }
 
         //deserialize from param
-        var paramJson = request.Param.Value.GetRawText();
+        var paramJson = command.request.Param.Value.GetRawText();
 
+        //get user data from db
+        Session? session = await dbContext.Sessions.FirstOrDefaultAsync(s => 
+                s.SessionId == command.request.SessionKey, 
+            cancellationToken);
+
+        if (session is null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
+        
         var initializeUserData = JsonSerializer.Deserialize<InitializeUserData>(paramJson);
 
         if (initializeUserData is null)
@@ -37,7 +53,7 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
 
         var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
         userDataContainer.InitializeUserData(initializeUserData);
-
+        
         var response = new ResponseContainer
         {
             Result = 200,

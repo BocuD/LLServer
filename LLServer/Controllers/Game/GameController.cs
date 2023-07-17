@@ -60,7 +60,7 @@ public class GameController : BaseController<GameController>
             "auth"                => await mediator.Send(new AuthCommand(request.Param)),
             "gameentry"           => await mediator.Send(new GetGameEntryQuery()),
             "userdata.get"        => await mediator.Send(new GetUserDataQuery()),
-            "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request.Param)),
+            "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request)),
             "userdata.set"        => await mediator.Send(new SetUserDataCommand(request.Param)),
             "checkword"           => await mediator.Send(new CheckWordCommand()),
             "ranking"             => await mediator.Send(new GetRankingQuery()),
