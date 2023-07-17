@@ -26,7 +26,6 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         }
         
         var paramJson = request.Param.Value.GetRawText();
-        logger.LogInformation("ParamJson {ParamJson}", paramJson);
 
         var gameResult = JsonSerializer.Deserialize<GameResult>(paramJson);
 
