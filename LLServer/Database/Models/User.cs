@@ -6,6 +6,8 @@ public class User
 
     public string CardId { get; set; } = "7020392000000000";
 
+    public bool Initialized { get; set; }
+
     public string Name { get; set; } = "";
 
     public Session? Session { get; set; }

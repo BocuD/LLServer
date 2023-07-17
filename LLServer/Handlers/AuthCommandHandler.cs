@@ -41,31 +41,34 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         {
             return StaticResponses.BadRequestResponse;
         }
-        
-        var authResponse = new AuthResponse
-        {
-            BlockSequence = 1,
-            Status = 0,
-            Name = "Test123456",
-            AbnormalEnd = 0
-        };
 
-        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.CardId == authParam.NesicaId, 
-            cancellationToken);
+        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.CardId == authParam.NesicaId, cancellationToken);
         if (user is null)
         {
+            logger.LogInformation("User with nesica id {NesicaId} not found, creating new user", authParam.NesicaId);
             user = await RegisterNewUser(authParam.NesicaId);
-            authResponse.Status = 1;
-            authResponse.Name = user.Name;
         }
-        authResponse.UserId = user.UserId.ToString();
+        else
+        {
+            logger.LogInformation("User with nesica id {NesicaId} found", authParam.NesicaId);
+        }
 
+        AuthResponse authResponse = new()
+        {
+            BlockSequence = 1,
+            Status = user.Initialized ? 0 : 1,
+            Name = user.Name,
+            AbnormalEnd = 0,
+            UserId = user.UserId.ToString()
+        };
+
+        // Try to find existing session
         var existingSession = await dbContext.Sessions
             .FirstOrDefaultAsync(s => 
                 s.UserId == user.UserId, 
             cancellationToken);
 
-        // No existing session
+        // Make sure the existing session is cleared if it exists
         if (existingSession is not null)
         {
             switch (existingSession.IsActive)
@@ -89,7 +92,9 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         
         var session = await GenerateNewSession(user, cancellationToken);
         
+        authResponse.Name = user.Name;
         authResponse.SessionKey = session.SessionId;
+
         return new ResponseContainer
         {
             Result = 200,
@@ -102,11 +107,12 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         User user = new()
         {
             CardId = nesicaId,
+            Initialized = false
         };
         
         dbContext.Users.Add(user);
         await dbContext.SaveChangesAsync();
-
+        
         return user;
     }
 

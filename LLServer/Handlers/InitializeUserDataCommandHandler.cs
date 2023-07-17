@@ -57,6 +57,9 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
         userDataContainer.InitializeUserData(initializeUserData);
         
         session.User.Name = initializeUserData.UserData.Name;
+        session.User.Initialized = true;
+        
+        await dbContext.SaveChangesAsync(cancellationToken);
         
         var response = new ResponseContainer
         {
