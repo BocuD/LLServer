@@ -5,17 +5,17 @@ namespace LLServer.Models.UserData;
 [Serializable]
 public class UserDataContainer
 {
-    public UserData           UserData          { get; set; } = new();
-    public UserDataAqours     UserDataAqours    { get; set; } = new();
-    public UserDataSaintSnow? UserDataSaintSnow { get; set; }
-    public MemberData[]       Members           { get; set; } = new MemberData[0];
-    public MemberCardData[]   MemberCards       { get; set; } = new MemberCardData[0];
-    public SkillCardData[]    SkillCards        { get; set; } = new SkillCardData[0];
-    public MemorialCardData[] MemorialCards     { get; set; } = new MemorialCardData[0];
-    public Item[]             Items             { get; set; } = new Item[0];
-    public MusicData[]        Musics            { get; set; } = new MusicData[0];
-    public LiveData[]         Lives             { get; set; } = new LiveData[0];
-    public StageData[]        Stages            { get; set; } = new StageData[0];
+    public UserData               UserData          { get; set; } = new();
+    public UserDataAqours         UserDataAqours    { get; set; } = new();
+    public UserDataSaintSnow?     UserDataSaintSnow { get; set; }
+    public List<MemberData>       Members           { get; set; } = new();
+    public List<MemberCardData>   MemberCards       { get; set; } = new();
+    public List<SkillCardData>    SkillCards        { get; set; } = new();
+    public List<MemorialCardData> MemorialCards     { get; set; } = new();
+    public List<Item>             Items             { get; set; } = new();
+    public List<MusicData>        Musics            { get; set; } = new();
+    public List<LiveData>         Lives             { get; set; } = new();
+    public List<StageData>        Stages            { get; set; } = new();
 
     //game history
     //game history aqours
@@ -23,8 +23,8 @@ public class UserDataContainer
     public TravelHistory[]         TravelHistory          { get; set; } = new TravelHistory[0];
     public TravelHistory[]         TravelHistoryAqours    { get; set; } = new TravelHistory[0];
     public TravelHistory[]         TravelHistorySaintSnow { get; set; } = new TravelHistory[0];
-    public MailBoxItem[]           MailBox                { get; set; } = new MailBoxItem[0];
-    public SpecialData[]           Specials               { get; set; } = new SpecialData[0];
+    public List<MailBoxItem>       MailBox                { get; set; } = new();
+    public List<SpecialData>       Specials               { get; set; } = new();
     public string                  Flags                  { get; set; } = "";
     public Achievement[]           Achievements           { get; set; } = new Achievement[0];
     public AchievementRecordBook[] RecordBooks            { get; set; } = new AchievementRecordBook[0];
@@ -105,7 +105,7 @@ public class UserDataContainer
             ProfileCard1 = new ProfileCard(0),
             ProfileCard2 = new ProfileCard(0),
         },
-        Members = new MemberData[1]
+        Members = new List<MemberData>
         {
             new MemberData
             {
@@ -121,7 +121,7 @@ public class UserDataContainer
                 New = true
             }
         },
-        MemberCards = new MemberCardData[1]
+        MemberCards = new List<MemberCardData>
         {
             new MemberCardData
             {
@@ -131,7 +131,7 @@ public class UserDataContainer
                 PrintRest = 0
             }
         },
-        SkillCards = new SkillCardData[1]
+        SkillCards = new List<SkillCardData>
         {
             new SkillCardData
             {
@@ -141,7 +141,7 @@ public class UserDataContainer
                 PrintRest = 0
             }
         },
-        MemorialCards = new MemorialCardData[1]
+        MemorialCards = new List<MemorialCardData>
         {
             new MemorialCardData
             {
@@ -154,7 +154,7 @@ public class UserDataContainer
                 TalkCount = 0
             }
         },
-        Items = new Item[1]
+        Items = new List<Item>
         {
             new Item
             {
@@ -162,46 +162,10 @@ public class UserDataContainer
                 Count = 1,
             }
         },
-        Musics = Enumerable.Range(10, 100)
-            .Where(i => i % 10 == 0)
-            .Select(i => new MusicData
-                {
-                    MusicId = i,
-                    Unlocked = true,
-                    New = false
-                }
-            ).ToArray(),
-        Lives = LiveData.LiveIds
-            .Select(x =>
-                new LiveData()
-                {
-                    LiveId = x,
-                    SelectCount = 0,
-                    Unlocked = true,
-                    New = false,
-                    FullCombo = false,
-                    TotalHiScore = 0,
-                    TechnicalHiScore = 0,
-                    TechnicalHiRate = 0,
-                    CoopTotalHiScore2 = 0,
-                    CoopTotalHiScore3 = 0,
-                    PlayerCount1 = 0,
-                    PlayerCount2 = 0,
-                    PlayerCount3 = 0,
-                    RankCount0 = 0,
-                    RankCount1 = 0,
-                    RankCount2 = 0,
-                    RankCount3 = 0,
-                    RankCount4 = 0,
-                    RankCount5 = 0,
-                    RankCount6 = 0,
-                    TrophyCountGold = 0,
-                    TrophyCountSilver = 0,
-                    TrophyCountBronze = 0,
-                    FinaleCount = 0,
-                    TechnicalRank = 0
-                })
-            .ToArray(),
+        Musics = MusicData.GetBaseMusicData(),
+        
+        Lives = LiveData.GetBaseLiveData(),
+        
         Stages = StageData.Stages
             .Select(x =>
                 new StageData
@@ -211,7 +175,7 @@ public class UserDataContainer
                     SelectCount = 0,
                     Unlocked = true
                 })
-            .ToArray(),
+            .ToList(),
         TravelHistory = new TravelHistory[1]
         {
             new TravelHistory
@@ -234,7 +198,7 @@ public class UserDataContainer
         },
         TravelHistoryAqours = new TravelHistory[0],
         TravelHistorySaintSnow = new TravelHistory[0],
-        MailBox = new MailBoxItem[1]
+        MailBox = new List<MailBoxItem>
         {
             new MailBoxItem
             {
@@ -245,7 +209,7 @@ public class UserDataContainer
                 Count = 1
             }
         },
-        Specials = new SpecialData[1]
+        Specials = new List<SpecialData>
         {
             new SpecialData
             {
@@ -591,7 +555,7 @@ public class UserDataContainer
                 if (member == null)
                 {
                     member = new MemberData();
-                    Members = Members.Append(member).ToArray();
+                    Members = Members.Append(member).ToList();
                 }
 
                 member.Camera = equipSkill.Camera;
@@ -612,7 +576,7 @@ public class UserDataContainer
                 if (member == null)
                 {
                     member = new MemberData();
-                    Members = Members.Append(member).ToArray();
+                    Members = Members.Append(member).ToList();
                 }
 
                 member.YellPoint = memberYell.YellPoint;
