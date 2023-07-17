@@ -85,7 +85,7 @@ public class UserDataContainer
             ProfileCard2 = new ProfileCard(0),
             CreditCountSatellite = 0,
             CreditCountCenter = 0,
-            PlayLs4 = 0
+            PlayLs4 = 1
         },
         UserDataAqours = new UserDataAqours
         {
