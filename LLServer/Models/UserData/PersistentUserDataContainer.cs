@@ -65,9 +65,6 @@ public class PersistentUserDataContainer
                 new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(initializeCommand.UserDataSaintSnow,
                     UserDataSaintSnow);
 
-        //initialize this manually for now
-        UserData.PlayLs4 = 1;
-        
         Console.WriteLine($"Updated user data {JsonSerializer.Serialize(this)}");
     }
 
@@ -82,9 +79,6 @@ public class PersistentUserDataContainer
             UserDataSaintSnow =
                 new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(input.UserDataSaintSnow,
                     UserDataSaintSnow);
-
-        //initialize this manually for now
-        UserData.PlayLs4 = 1;
 
         if (input.EquipSkills != null)
         {

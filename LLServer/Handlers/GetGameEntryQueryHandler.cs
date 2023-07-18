@@ -1,7 +1,7 @@
-﻿using System.Text.Json;
-using LLServer.Common;
+﻿using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
+using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
@@ -29,6 +29,10 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         //get user data from db
         Session? session = await dbContext.Sessions
             .Include(s => s.User)
+            .Include(s => s.User.UserData)
+            .Include(s => s.User.UserDataAqours)
+            .Include(s => s.User.UserDataSaintSnow)
+            .Include(s => s.User.Members)
             .FirstOrDefaultAsync(s => 
                     s.SessionId == query.request.SessionKey, 
                 cancellationToken);
@@ -44,14 +48,15 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
+        PersistentUserDataContainer container = new(dbContext, session.User);
 
-        var response = new ResponseContainer()
+        //response
+        GameEntryResponseMapper mapper = new();
+
+        return new ResponseContainer
         {
             Result = 200,
-            Response = userDataContainer.GetGameEntry()
+            Response = mapper.FromPersistentUserData(container)
         };
-
-        return response;
     }
 }

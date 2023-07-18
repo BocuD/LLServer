@@ -85,8 +85,7 @@ public class UserDataContainer
             ProfileCard1 = new ProfileCard(0),
             ProfileCard2 = new ProfileCard(0),
             CreditCountSatellite = 0,
-            CreditCountCenter = 0,
-            PlayLs4 = 1
+            CreditCountCenter = 0
         },
         UserDataAqours = new UserDataAqours
         {
@@ -484,9 +483,6 @@ public class UserDataContainer
             UserDataSaintSnow =
                 new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(input.UserDataSaintSnow,
                     UserDataSaintSnow);
-
-        //initialize this manually for now
-        UserData.PlayLs4 = 1;
     }
 
     public void SetUserData(SetUserData input)
@@ -500,9 +496,6 @@ public class UserDataContainer
             UserDataSaintSnow =
                 new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(input.UserDataSaintSnow,
                     UserDataSaintSnow);
-
-        //initialize this manually for now
-        UserData.PlayLs4 = 1;
 
         if (input.EquipSkills != null)
         {

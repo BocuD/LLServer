@@ -57,8 +57,8 @@ public class UserData : UserDataBase
     [JsonPropertyName("credit_count_center")]
     public int CreditCountCenter { get; set; }
 
-    [JsonPropertyName("play_ls4")]
-    public int PlayLs4 { get; set; }
+    [JsonPropertyName("play_ls4")] 
+    public int PlayLs4 { get; set; } = 1;
     
     [JsonIgnore, Key, ForeignKey("User")] public ulong UserID { get; set; }
     
