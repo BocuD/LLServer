@@ -1,4 +1,5 @@
 ﻿using LLServer.Database.Models;
+using LLServer.Models.UserData;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Database;
@@ -11,8 +12,11 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
-
     public DbSet<Session> Sessions { get; set; }
+    public DbSet<UserData> UserData { get; set; }
+    public DbSet<UserDataAqours> UserDataAqours { get; set; }
+    public DbSet<UserDataSaintSnow> UserDataSaintSnow { get; set; }
+    public DbSet<MemberData> MemberData { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,6 +25,8 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .HasAlternateKey(user => user.CardId);
+
+
 
         modelBuilder.Entity<Session>()
             .HasKey(s => s.SessionId);
