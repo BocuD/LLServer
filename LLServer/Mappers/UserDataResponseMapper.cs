@@ -7,5 +7,6 @@ namespace LLServer.Mappers;
 [Mapper]
 public partial class UserDataResponseMapper
 {
-    public partial UserDataResponse UserDataToUserDataResponse(UserDataContainer input);
+    public partial UserDataResponse FromUserData(UserDataContainer input);
+    public partial UserDataResponse FromPersistentUserData(PersistentUserDataContainer input);
 }

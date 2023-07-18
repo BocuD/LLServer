@@ -592,15 +592,14 @@ public class LiveData
     {
         List<LiveData> baseLiveData = new();
         
-        baseLiveData.AddRange(LiveIds.SelectMany(x => 
-            Enumerable.Range(0, 4).Select(y =>
-                new LiveData
+        baseLiveData.AddRange(LiveIds.Select(x =>
+            new LiveData
                 {
                     LiveId = x,
                     New = false,
                     Unlocked = true
-                })));
-        
+                }));
+
         return baseLiveData;
     }
 }
