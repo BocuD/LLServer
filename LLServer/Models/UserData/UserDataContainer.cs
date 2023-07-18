@@ -474,28 +474,16 @@ public class UserDataContainer
     public void InitializeUserData(InitializeUserData input)
     {
         //copy all properties
-        if (input.UserData != null) UserData = new ReflectionMapper<UserData, UserData>().Map(input.UserData, UserData);
-        if (input.UserDataAqours != null)
-            UserDataAqours =
-                new ReflectionMapper<UserDataAqours, UserDataAqours>().Map(input.UserDataAqours, UserDataAqours);
-        
-        if (input.UserDataSaintSnow != null)
-            UserDataSaintSnow =
-                new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(input.UserDataSaintSnow,
-                    UserDataSaintSnow);
+        if (input.UserData != null) ReflectionMapper.Map(input.UserData, UserData);
+        if (input.UserDataAqours != null) ReflectionMapper.Map(input.UserDataAqours, UserDataAqours);
+        if (input.UserDataSaintSnow != null) ReflectionMapper.Map(input.UserDataSaintSnow, UserDataSaintSnow);
     }
 
     public void SetUserData(SetUserData input)
     {
-        if (input.UserData != null) UserData = new ReflectionMapper<UserData, UserData>().Map(input.UserData, UserData);
-        if (input.UserDataAqours != null)
-            UserDataAqours =
-                new ReflectionMapper<UserDataAqours, UserDataAqours>().Map(input.UserDataAqours, UserDataAqours);
-        
-        if (input.UserDataSaintSnow != null)
-            UserDataSaintSnow =
-                new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(input.UserDataSaintSnow,
-                    UserDataSaintSnow);
+        if (input.UserData != null) ReflectionMapper.Map(input.UserData, UserData);
+        if (input.UserDataAqours != null) ReflectionMapper.Map(input.UserDataAqours, UserDataAqours);
+        if (input.UserDataSaintSnow != null) ReflectionMapper.Map(input.UserDataSaintSnow, UserDataSaintSnow);
 
         if (input.EquipSkills != null)
         {

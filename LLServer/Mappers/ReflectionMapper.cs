@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace LLServer.Mappers;
 
-public class ReflectionMapper<TInput, TOutput>
+public static class ReflectionMapper
 {
-    public TOutput Map(TInput input, TOutput target)
+    public static TOutput Map<TInput, TOutput>(TInput input, TOutput target)
     {
         Type inputType = typeof(TInput);
         Type targetType = typeof(TOutput);
