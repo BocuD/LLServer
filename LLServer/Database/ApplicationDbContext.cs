@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserDataAqours> UserDataAqours { get; set; }
     public DbSet<UserDataSaintSnow> UserDataSaintSnow { get; set; }
     public DbSet<MemberData> MemberData { get; set; }
+    public DbSet<MemberCardData> MemberCardData { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

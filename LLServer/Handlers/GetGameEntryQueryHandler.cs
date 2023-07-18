@@ -33,6 +33,7 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
             .Include(s => s.User.UserDataAqours)
             .Include(s => s.User.UserDataSaintSnow)
             .Include(s => s.User.Members)
+            .Include(s => s.User.MemberCards)
             .FirstOrDefaultAsync(s => 
                     s.SessionId == query.request.SessionKey, 
                 cancellationToken);
@@ -46,9 +47,12 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         session.IsActive = true;
         session.ExpireTime = DateTime.UtcNow.AddMinutes(60);
         
-        await dbContext.SaveChangesAsync(cancellationToken);
-
         PersistentUserDataContainer container = new(dbContext, session.User);
+        
+        container.UserData.PlayCenter++;
+        container.UserData.PlaySatellite++;
+        
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         //response
         GameEntryResponseMapper mapper = new();

@@ -34,6 +34,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
             .Include(s => s.User.UserDataAqours)
             .Include(s => s.User.UserDataSaintSnow)
             .Include(s => s.User.Members)
+            .Include(s => s.User.MemberCards)
             .FirstOrDefaultAsync(s => 
                     s.SessionId == query.request.SessionKey, 
                 cancellationToken);
@@ -53,11 +54,13 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
         
         //response
         UserDataResponseMapper mapper = new();
+        UserDataResponse response = mapper.FromPersistentUserData(container);
+        response.Lives = LiveData.GetBaseLiveData();
 
         return new ResponseContainer
         {
             Result = 200,
-            Response = mapper.FromPersistentUserData(container)
+            Response = response
         };
     }
 }

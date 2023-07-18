@@ -23,6 +23,6 @@ public class User
     public UserDataSaintSnow? UserDataSaintSnow { get; set; }
     
     //member data
-    [Required]
-    public List<MemberData>? Members { get; set; }
+    [Required] public List<MemberData>? Members { get; set; } = new();
+    [Required] public List<MemberCardData>? MemberCards { get; set; } = new();
 }
