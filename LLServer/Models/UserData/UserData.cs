@@ -1,17 +1,16 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using LLServer.Database.Models;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace LLServer.Models.UserData;
 
 //todo decompile sub_14021C260 and figure out what this is responsible for parsing
-public class UserData
+public class UserData : UserDataBase
 {
     //returned directly by game in userdata.initialize
-    [JsonPropertyName("character_id")]
-    public int CharacterId { get; set; }
-
     [JsonPropertyName("idol_kind")]
     public int IdolKind { get; set; }
 
@@ -52,35 +51,6 @@ public class UserData
     [JsonPropertyName("total_exp")]
     public int TotalExp { get; set; }
 
-    [JsonPropertyName("honor")]
-    public int Honor { get; set; }
-
-    [JsonPropertyName("badge")]
-    public int Badge { get; set; }
-
-    [JsonPropertyName("nameplate")]
-    public int Nameplate { get; set; }
-
-    [JsonIgnore]
-    public ProfileCard ProfileCard1 { get; set; } = new(0);
-
-    [JsonPropertyName("profile_card_id_1")]
-    public string ProfileCardId1
-    {
-        get => ProfileCard1.ToString();
-        set => ProfileCard1 = new ProfileCard(long.Parse(value, NumberStyles.HexNumber));
-    }
-
-    [JsonIgnore]
-    public ProfileCard ProfileCard2 { get; set; } = new(0);
-
-    [JsonPropertyName("profile_card_id_2")]
-    public string ProfileCardId2
-    {
-        get => ProfileCard2.ToString();
-        set => ProfileCard2 = new ProfileCard(long.Parse(value, NumberStyles.HexNumber));
-    }
-
     [JsonPropertyName("credit_count_satellite")]
     public int CreditCountSatellite { get; set; }
 
@@ -89,6 +59,11 @@ public class UserData
 
     [JsonPropertyName("play_ls4")]
     public int PlayLs4 { get; set; }
+    
+    [JsonIgnore, Key, ForeignKey("User")] public ulong UserID { get; set; }
+    
+    //One to one relationship with user
+    [JsonIgnore] public User? User { get; set; }
 }
 
 //todo: the method responsible for parssing specials in the game (at 000140220DF0) seems to get the system time but it is currently not clear what this is used for
