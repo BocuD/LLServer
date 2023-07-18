@@ -35,6 +35,7 @@ public class CardController : ControllerBase
                     return Ok($"{CardReturnCodes.ERROR}");
                 }
 
+                //todo: make sure this follows the same model as AuthController
                 var user = new User
                 {
                     CardId = cardNo
