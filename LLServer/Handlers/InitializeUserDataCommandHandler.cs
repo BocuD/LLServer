@@ -2,6 +2,7 @@
 using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
+using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
@@ -30,13 +31,15 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
         {
             return StaticResponses.BadRequestResponse;
         }
-
-        //deserialize from param
+        
         var paramJson = command.request.Param.Value.GetRawText();
 
-        //get user data from db
+        //get session
         Session? session = await dbContext.Sessions
             .Include(s => s.User)
+            .Include(s => s.User.UserData)
+            .Include(s => s.User.UserDataAqours)
+            .Include(s => s.User.UserDataSaintSnow)
             .FirstOrDefaultAsync(s => 
                 s.SessionId == command.request.SessionKey, 
             cancellationToken);
@@ -46,26 +49,28 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
             return StaticResponses.BadRequestResponse;
         }
         
-        var initializeUserData = JsonSerializer.Deserialize<InitializeUserData>(paramJson);
-
+        //get the initialize command
+        InitializeUserData? initializeUserData = JsonSerializer.Deserialize<InitializeUserData>(paramJson);
         if (initializeUserData is null)
         {
             return StaticResponses.BadRequestResponse;
         }
-
-        var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
-        userDataContainer.InitializeUserData(initializeUserData);
         
-        session.User.Name = initializeUserData.UserData.Name;
+        //write to db
+        PersistentUserDataContainer container = new(dbContext, session.User);
+
+        container.Initialize(initializeUserData);
         session.User.Initialized = true;
         
         await dbContext.SaveChangesAsync(cancellationToken);
-        
-        var response = new ResponseContainer
+
+        //response
+        UserDataResponseMapper mapper = new();
+
+        return new ResponseContainer
         {
             Result = 200,
-            Response = userDataContainer.GetUserData()
+            Response = mapper.FromPersistentUserData(container)
         };
-        return response;
     }
 }

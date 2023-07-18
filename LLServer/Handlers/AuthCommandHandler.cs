@@ -1,10 +1,10 @@
-﻿using System.Security.Cryptography;
-using System.Text.Json;
+﻿using System.Text.Json;
 using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
+using LLServer.Models.UserData;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,7 +42,10 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             return StaticResponses.BadRequestResponse;
         }
 
-        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.CardId == authParam.NesicaId, cancellationToken);
+        var user = await dbContext.Users
+            .Include(u => u.UserData)
+            .FirstOrDefaultAsync(u => u.CardId == authParam.NesicaId, cancellationToken);
+        
         if (user is null)
         {
             logger.LogInformation("User with nesica id {NesicaId} not found, creating new user", authParam.NesicaId);
@@ -57,7 +60,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         {
             BlockSequence = 1,
             Status = user.Initialized ? 0 : 1,
-            Name = user.Name,
+            Name = user.UserData.Name,
             AbnormalEnd = 0,
             UserId = user.UserId.ToString()
         };
@@ -92,7 +95,10 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         
         var session = await GenerateNewSession(user, cancellationToken);
         
-        authResponse.Name = user.Name;
+        //get username from persistent data container
+        PersistentUserDataContainer container = new(dbContext, user);
+        
+        authResponse.Name = container.UserData.Name;
         authResponse.SessionKey = session.SessionId;
 
         return new ResponseContainer
@@ -107,10 +113,19 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         User user = new()
         {
             CardId = nesicaId,
-            Initialized = false
+            Initialized = false,
+            UserData = new UserData(),
+            UserDataAqours = new UserDataAqours(),
+            UserDataSaintSnow = new UserDataSaintSnow(),
+            Members = new List<MemberData>()
         };
         
         dbContext.Users.Add(user);
+        dbContext.UserData.Add(user.UserData);
+        dbContext.UserDataAqours.Add(user.UserDataAqours);
+        dbContext.UserDataSaintSnow.Add(user.UserDataSaintSnow);
+        dbContext.MemberData.AddRange(user.Members);
+        
         await dbContext.SaveChangesAsync();
         
         return user;

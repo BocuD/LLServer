@@ -8,7 +8,7 @@ public class UserDataContainer
 {
     public UserData               UserData          { get; set; } = new();
     public UserDataAqours         UserDataAqours    { get; set; } = new();
-    public UserDataSaintSnow?     UserDataSaintSnow { get; set; }
+    public UserDataSaintSnow      UserDataSaintSnow { get; set; } = new();
     public List<MemberData>       Members           { get; set; } = new();
     public List<MemberCardData>   MemberCards       { get; set; } = new();
     public List<SkillCardData>    SkillCards        { get; set; } = new();
@@ -462,7 +462,7 @@ public class UserDataContainer
     {
         UserDataResponseMapper mapper = new();
 
-        return mapper.UserDataToUserDataResponse(this);
+        return mapper.FromUserData(this);
     }
 
     public GameEntryResponse GetGameEntry()
@@ -474,10 +474,16 @@ public class UserDataContainer
 
     public void InitializeUserData(InitializeUserData input)
     {
-        // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
         //copy all properties
-        if (input.UserData       != null) UserData = input.UserData;
-        if (input.UserDataAqours != null) UserDataAqours = input.UserDataAqours;
+        if (input.UserData != null) UserData = new ReflectionMapper<UserData, UserData>().Map(input.UserData, UserData);
+        if (input.UserDataAqours != null)
+            UserDataAqours =
+                new ReflectionMapper<UserDataAqours, UserDataAqours>().Map(input.UserDataAqours, UserDataAqours);
+        
+        if (input.UserDataSaintSnow != null)
+            UserDataSaintSnow =
+                new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(input.UserDataSaintSnow,
+                    UserDataSaintSnow);
 
         //initialize this manually for now
         UserData.PlayLs4 = 1;
@@ -485,11 +491,15 @@ public class UserDataContainer
 
     public void SetUserData(SetUserData input)
     {
-        // TODO: Use a proper mapper for this, like https://mapperly.riok.app/docs/intro
-
-        if (input.UserData          != null) UserData = input.UserData;
-        if (input.UserDataAqours    != null) UserDataAqours = input.UserDataAqours;
-        if (input.UserDataSaintSnow != null) UserDataSaintSnow = input.UserDataSaintSnow;
+        if (input.UserData != null) UserData = new ReflectionMapper<UserData, UserData>().Map(input.UserData, UserData);
+        if (input.UserDataAqours != null)
+            UserDataAqours =
+                new ReflectionMapper<UserDataAqours, UserDataAqours>().Map(input.UserDataAqours, UserDataAqours);
+        
+        if (input.UserDataSaintSnow != null)
+            UserDataSaintSnow =
+                new ReflectionMapper<UserDataSaintSnow, UserDataSaintSnow>().Map(input.UserDataSaintSnow,
+                    UserDataSaintSnow);
 
         //initialize this manually for now
         UserData.PlayLs4 = 1;

@@ -9,4 +9,7 @@ public class InitializeUserData
 
     [JsonPropertyName("userdata_aqours")]
     public UserDataAqours? UserDataAqours { get; set; }
+    
+    [JsonPropertyName("userdata_saintsnow")]
+    public UserDataSaintSnow? UserDataSaintSnow { get; set; }
 }
