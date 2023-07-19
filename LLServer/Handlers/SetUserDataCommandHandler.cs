@@ -39,6 +39,7 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
             .Include(s => s.User.UserDataAqours)
             .Include(s => s.User.UserDataSaintSnow)
             .Include(s => s.User.Members)
+            .Include(s => s.User.MemberCards)
             .FirstOrDefaultAsync(s => 
                     s.SessionId == command.request.SessionKey, 
                 cancellationToken);
