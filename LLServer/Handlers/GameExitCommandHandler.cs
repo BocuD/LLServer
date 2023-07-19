@@ -58,6 +58,9 @@ public class GameExitCommandHandler : IRequestHandler<GameExitCommand, ResponseC
         //update flags
         container.Flags = gameResult.Flags;
         
+        //remove session
+        dbContext.Sessions.Remove(session);
+        
         //write to database
         await dbContext.SaveChangesAsync(cancellationToken);
         

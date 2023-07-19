@@ -64,6 +64,7 @@ public class GameController : BaseController<GameController>
             "checkword"           => await mediator.Send(new CheckWordCommand()),
             "ranking"             => await mediator.Send(new GetRankingQuery()),
             "gameresult"          => await mediator.Send(new GameResultCommand(request)),
+            "gametotalresult"     => await mediator.Send(new GameTotalResultQuery()),
             "gameexit"            => await mediator.Send(new GameExitCommand(request)),
             _                     => DefaultResponse(request.Protocol)
         };
