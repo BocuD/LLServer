@@ -163,19 +163,8 @@ public class UserDataContainer
             }
         },
         Musics = MusicData.GetBaseMusicData(),
-        
         Lives = LiveData.GetBaseLiveData(),
-        
-        Stages = StageData.Stages
-            .Select(x =>
-                new StageData
-                {
-                    StageId = x,
-                    New = false,
-                    SelectCount = 0,
-                    Unlocked = true
-                })
-            .ToList(),
+        Stages = StageData.GetBaseStageData(),
         TravelHistory = new TravelHistory[1]
         {
             new TravelHistory

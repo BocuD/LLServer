@@ -21,4 +21,20 @@ public class StageData
         1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
         111, 112, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312
     };
+    
+    public static List<StageData> GetBaseStageData()
+    {
+        List<StageData> baseStageData = new();
+        
+        baseStageData.AddRange(Stages.Select(x =>
+            new StageData
+            {
+                StageId = x,
+                SelectCount = 0,
+                Unlocked = true,
+                New = false
+            }));
+
+        return baseStageData;
+    }
 }
