@@ -24,6 +24,11 @@ public class PersistentUserDataContainer
     public List<MusicData> Musics => MusicData.GetBaseMusicData();
     public List<LiveData> Lives => LiveData.GetBaseLiveData();
     public List<StageData> Stages => StageData.GetBaseStageData();
+    public string Flags
+    {
+        get => User.Flags;
+        set => User.Flags = value;
+    }
 
     public void Initialize(InitializeUserData initializeCommand)
     {
@@ -65,8 +70,6 @@ public class PersistentUserDataContainer
         
         //initialize other data
         UserData.Level = 1;
-
-        Console.WriteLine($"Updated user data {JsonSerializer.Serialize(this)}");
     }
 
     public void SetUserData(SetUserData input)
@@ -112,7 +115,5 @@ public class PersistentUserDataContainer
                 member.AchieveRank = memberYell.YellRank;
             }
         }
-        
-        Console.WriteLine($"Updated user data {JsonSerializer.Serialize(this)}");
     }
 }

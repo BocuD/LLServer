@@ -25,4 +25,7 @@ public class User
     //member data
     [Required] public List<MemberData>? Members { get; set; } = new();
     [Required] public List<MemberCardData>? MemberCards { get; set; } = new();
+    
+    //other data
+    public string Flags { get; set; } = "";
 }
