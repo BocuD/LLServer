@@ -5,7 +5,6 @@ using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace LLServer.Controllers.Game;
 

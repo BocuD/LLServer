@@ -70,3 +70,60 @@ public class UserData : UserDataBase
 }
 
 //todo: the method responsible for parssing specials in the game (at 000140220DF0) seems to get the system time but it is currently not clear what this is used for
+
+
+public class NullableUserData : NullableUserDataBase
+{
+    //returned directly by game in userdata.initialize
+    [JsonPropertyName("idol_kind")]
+    public int? IdolKind { get; set; }
+
+    [JsonPropertyName("name")] 
+    public string? Name { get; set; } = "";
+
+    [JsonPropertyName("volume_bgm")]
+    public int? VolumeBgm { get; set; }
+
+    [JsonPropertyName("volume_se")]
+    public int? VolumeSe { get; set; } 
+
+    [JsonPropertyName("volume_voice")]
+    public int? VolumeVoice { get; set; }
+    
+    [JsonPropertyName("screen_filter_level")]
+    public int? ScreenFilterLevel { get; set; }
+    
+    [JsonPropertyName("note_speed_level")]
+    public int? NoteSpeedLevel { get; set; }
+
+    [JsonPropertyName("submonitor_type")]
+    public int? SubMonitorType { get; set; }
+
+    //from decompiled method parsePlayerDataJson
+    [JsonPropertyName("tenpo_name")]
+    public string? TenpoName { get; set; } = "Test";
+    
+    [JsonPropertyName("play_date")]
+    public string? PlayDate { get; set; } = "2021-01-01";
+
+    [JsonPropertyName("play_satellite")]
+    public int? PlaySatellite { get; set; }
+
+    [JsonPropertyName("play_center")]
+    public int? PlayCenter { get; set; }
+
+    [JsonPropertyName("level")]
+    public int? Level { get; set; }
+
+    [JsonPropertyName("total_exp")]
+    public int? TotalExp { get; set; }
+
+    [JsonPropertyName("credit_count_satellite")]
+    public int? CreditCountSatellite { get; set; }
+
+    [JsonPropertyName("credit_count_center")]
+    public int? CreditCountCenter { get; set; }
+
+    [JsonPropertyName("play_ls4")]
+    public int? PlayLs4 { get; set; } = 1;
+}
