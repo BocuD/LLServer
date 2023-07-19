@@ -40,6 +40,8 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
             .Include(s => s.User.UserData)
             .Include(s => s.User.UserDataAqours)
             .Include(s => s.User.UserDataSaintSnow)
+            .Include(s => s.User.Members)
+            .Include(s => s.User.MemberCards)
             .FirstOrDefaultAsync(s => 
                 s.SessionId == command.request.SessionKey, 
             cancellationToken);
