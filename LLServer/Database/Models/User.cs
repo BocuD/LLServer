@@ -23,8 +23,11 @@ public class User
     public UserDataSaintSnow? UserDataSaintSnow { get; set; }
     
     //member data
-    [Required] public List<MemberData>? Members { get; set; } = new();
-    [Required] public List<MemberCardData>? MemberCards { get; set; } = new();
+    [Required] public List<MemberData> Members { get; set; } = new();
+    [Required] public List<MemberCardData> MemberCards { get; set; } = new();
+    
+    //score and unlock data
+    [Required] public List<PersistentLiveData> LiveDatas { get; set; } = new();
     
     //other data
     public string Flags { get; set; } = "";

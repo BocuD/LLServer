@@ -35,9 +35,8 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
             .Include(s => s.User.UserDataSaintSnow)
             .Include(s => s.User.Members)
             .Include(s => s.User.MemberCards)
-            .FirstOrDefaultAsync(s => 
-                    s.SessionId == query.request.SessionKey, 
-                cancellationToken);
+            .Include(s => s.User.LiveDatas)
+            .FirstOrDefaultAsync(s => s.SessionId == query.request.SessionKey, cancellationToken);
 
         if (session is null)
         {

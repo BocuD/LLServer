@@ -5,11 +5,11 @@ namespace LLServer.Models.UserData;
 public class InitializeUserData
 {
     [JsonPropertyName("userdata")]
-    public UserData? UserData { get; set; }
+    public NullableUserData? UserData { get; set; }
 
     [JsonPropertyName("userdata_aqours")]
-    public UserDataAqours? UserDataAqours { get; set; }
+    public NullableUserDataBase? UserDataAqours { get; set; }
     
     [JsonPropertyName("userdata_saintsnow")]
-    public UserDataSaintSnow? UserDataSaintSnow { get; set; }
+    public NullableUserDataBase? UserDataSaintSnow { get; set; }
 }

@@ -38,6 +38,7 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
             .Include(s => s.User.UserDataAqours)
             .Include(s => s.User.UserDataSaintSnow)
             .Include(s => s.User.Members)
+            .Include(s => s.User.LiveDatas)
             .FirstOrDefaultAsync(s => 
                     s.SessionId == command.request.SessionKey, 
                 cancellationToken);
@@ -61,7 +62,8 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         
         //update profile data
         container.UserData.Honor += gameResult.Honor;
-        container.UserData.TotalExp += gameResult.GotExp;
+        container.UserData.TotalExp = gameResult.TotalExp;
+        container.UserData.Level = gameResult.DUserLevel;
         
         //update member usage count
         MemberData? memberData = container.Members.FirstOrDefault(x => x.CharacterId == gameResult.CharacterId);
@@ -85,32 +87,34 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         {
             foreach (int id in gameResult.UnlockLiveIdArray)
             {
-                LiveData? data = container.Lives.FirstOrDefault(x => x.LiveId == id);
+                //check if we already have the chart unlocked (so if it exists in the cache)
+                PersistentLiveData? data = container.PersistentLives.FirstOrDefault(x => x.LiveId == id);
                 if (data == null)
                 {
-                    container.Lives.Add(new LiveData() { LiveId = id });
-                    data = container.Lives.FirstOrDefault(x => x.LiveId == id);
-                }
-
-                if (data != null)
-                {
-                    data.Unlocked = true;
-                    data.New = true;
+                    //add it to the persistent data
+                    container.PersistentLives.Add(new PersistentLiveData
+                    {
+                        LiveId = id,
+                        Unlocked = true,
+                        New = true
+                    });
                 }
             }
         }
 
         //add score to user data
-        LiveData? liveData = container.Lives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
+        PersistentLiveData? liveData = container.PersistentLives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
+        
         if (liveData == null)
         {
-            container.Lives.Add(new LiveData()
-            {
-                LiveId = gameResult.LiveId,
-                Unlocked = true
-            });
+            container.PersistentLives.Add(new PersistentLiveData
+                {
+                    LiveId = gameResult.LiveId,
+                    Unlocked = true,
+                    New = false
+                });
 
-            liveData = container.Lives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
+            liveData = container.PersistentLives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
         }
         
         if (liveData != null)
@@ -139,18 +143,26 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
             {
                 liveData.FullCombo = gameResult.FullCombo;
             }
+            
+            if (gameResult.FinalePoint > 0)
+            {
+                liveData.FinaleCount++;
+            }
 
             liveData.SelectCount++;
             liveData.PlayerCount1++;
         }
+        
+        //write to db
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return new ResponseContainer
         {
             Result = 200,
             Response = new GameResultResponse()
             {
-                Musics = MusicData.GetBaseMusicData(),
-                Stages = StageData.GetBaseStageData(),
+                Musics = container.Musics,
+                Stages = container.Stages,
                 EventResult = new EventResult(),
                 EventRewards = new List<EventReward>(),
                 EventStatus = new EventStatus()

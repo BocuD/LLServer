@@ -21,9 +21,25 @@ public class PersistentUserDataContainer
     public UserDataSaintSnow UserDataSaintSnow => User.UserDataSaintSnow;
     public List<MemberData> Members => User.Members;
     public List<MemberCardData> MemberCards => User.MemberCards;
-    public List<MusicData> Musics => MusicData.GetBaseMusicData();
-    public List<LiveData> Lives => LiveData.GetBaseLiveData();
-    public List<StageData> Stages => StageData.GetBaseStageData();
+    public List<MusicData> Musics => new();
+
+    //wrapper to get livedata from database
+    public List<LiveData> Lives
+    {
+        get
+        {
+            //get persistent live data from user
+            List<LiveData> liveDatas = new();
+            LiveDataMapper mapper = new();
+            
+            liveDatas.AddRange(User.LiveDatas.Select(x => mapper.FromPersistentLiveData(x)));
+            return liveDatas;
+        }
+    }
+    
+    public List<PersistentLiveData> PersistentLives => User.LiveDatas;
+
+    public List<StageData> Stages => new();
     public string Flags
     {
         get => User.Flags;
@@ -32,9 +48,13 @@ public class PersistentUserDataContainer
 
     public void Initialize(InitializeUserData initializeCommand)
     {
+        if (initializeCommand.UserData == null)
+        {
+            return;
+        }
+        
         //copy all properties
-        if (initializeCommand.UserData != null) 
-            ReflectionMapper.Map(initializeCommand.UserData, UserData);
+        ReflectionMapper.Map(initializeCommand.UserData, UserData);
         
         if (initializeCommand.UserDataAqours != null)
             ReflectionMapper.Map(initializeCommand.UserDataAqours, UserDataAqours);
@@ -42,23 +62,14 @@ public class PersistentUserDataContainer
         if (initializeCommand.UserDataSaintSnow != null)
             ReflectionMapper.Map(initializeCommand.UserDataSaintSnow, UserDataSaintSnow);
 
-        int newMemberCharacterId = 1;
-        
         //assign first member cards
-        switch (initializeCommand.UserData.IdolKind)
+        int newMemberCharacterId = initializeCommand.UserData.IdolKind switch
         {
-            case 0:
-                newMemberCharacterId = initializeCommand.UserData.CharacterId;
-                break;
-            
-            case 1:
-                newMemberCharacterId = initializeCommand.UserDataAqours.CharacterId;
-                break;
-            
-            case 2:
-                newMemberCharacterId = initializeCommand.UserDataSaintSnow.CharacterId;
-                break;
-        }
+            0 => initializeCommand.UserData.CharacterId!.Value,
+            1 => initializeCommand.UserDataAqours!.CharacterId!.Value,
+            2 => initializeCommand.UserDataSaintSnow!.CharacterId!.Value,
+            _ => 1
+        };
 
         //add first member card
         MemberCards.Add(new MemberCardData

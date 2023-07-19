@@ -118,7 +118,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             UserDataAqours = new UserDataAqours(),
             UserDataSaintSnow = new UserDataSaintSnow(),
             Members = new List<MemberData>(),
-            MemberCards = new List<MemberCardData>()
+            MemberCards = new List<MemberCardData>(),
+            LiveDatas = new List<PersistentLiveData>()
         };
         
         dbContext.Users.Add(user);
@@ -127,6 +128,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.UserDataSaintSnow.Add(user.UserDataSaintSnow);
         dbContext.MemberData.AddRange(user.Members);
         dbContext.MemberCardData.AddRange(user.MemberCards);
+        dbContext.LiveDatas.AddRange(user.LiveDatas);
         
         await dbContext.SaveChangesAsync();
         
