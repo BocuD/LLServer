@@ -53,8 +53,7 @@ public class UserDataContainer
     public Badge[]             Badges            { get; set; } = new Badge[0];
     public EventStatus[]       EventStatus       { get; set; } = new EventStatus[0];
     public EventReward[]       EventRewards      { get; set; } = new EventReward[0];
-    public EventResult         EventResult       { get; set; } = new EventResult();
-    public string              Now               { get; set; } = "";
+    public EventResult         EventResult       { get; set; } = new();
     public bool                FirstLogin        { get; set; }
     public bool                DiceBonus         { get; set; }
     public StampCard[]         StampCards        { get; set; } = new StampCard[0];
@@ -108,7 +107,7 @@ public class UserDataContainer
         },
         Members = new List<MemberData>
         {
-            new MemberData
+            new()
             {
                 CharacterId = 1,
                 CardMemberId = 0,
@@ -124,7 +123,7 @@ public class UserDataContainer
         },
         MemberCards = new List<MemberCardData>
         {
-            new MemberCardData
+            new()
             {
                 CardMemberId = 0,
                 Count = 2,
@@ -134,7 +133,7 @@ public class UserDataContainer
         },
         SkillCards = new List<SkillCardData>
         {
-            new SkillCardData
+            new()
             {
                 CardSkillId = 0,
                 SkillLevel = 0,
@@ -144,7 +143,7 @@ public class UserDataContainer
         },
         MemorialCards = new List<MemorialCardData>
         {
-            new MemorialCardData
+            new()
             {
                 CardMemorialId = 0,
                 Count = 1,
@@ -157,18 +156,18 @@ public class UserDataContainer
         },
         Items = new List<Item>
         {
-            new Item
+            new()
             {
                 ItemId = 0,
                 Count = 1,
             }
         },
-        Musics = MusicData.GetBaseMusicData(),
-        Lives = LiveData.GetBaseLiveData(),
-        Stages = StageData.GetBaseStageData(),
-        TravelHistory = new TravelHistory[1]
+        Musics = new(),
+        Lives = new(),
+        Stages = new(),
+        TravelHistory = new TravelHistory[]
         {
-            new TravelHistory
+            new()
             {
                 Id = 0,
                 CardMemberId = 0,
@@ -190,7 +189,7 @@ public class UserDataContainer
         TravelHistorySaintSnow = new TravelHistory[0],
         MailBox = new List<MailBoxItem>
         {
-            new MailBoxItem
+            new()
             {
                 Id = 0,
                 ItemId = 0,
@@ -201,86 +200,86 @@ public class UserDataContainer
         },
         Specials = new List<SpecialData>
         {
-            new SpecialData
+            new()
             {
                 IdolKind = 0,
                 SpecialId = 0,
             }
         },
         Flags = "0",
-        Achievements = new Achievement[1]
+        Achievements = new Achievement[]
         {
-            new Achievement
+            new()
             {
                 AchievementId = 100,
                 Unlocked = false,
                 New = false
             }
         },
-        RecordBooks = new AchievementRecordBook[8]
+        RecordBooks = new AchievementRecordBook[]
         {
-            new AchievementRecordBook
+            new()
             {
                 Type = "countFinale",
                 Values = new int[0]
             },
-            new AchievementRecordBook
+            new()
             {
                 Type = "countSkillInvoke",
                 Values = new int[0]
             },
-            new AchievementRecordBook
+            new()
             {
                 Type = "countSelectMember",
                 Values = new int[0]
             },
-            new AchievementRecordBook
+            new()
             {
                 Type = "countSelectUnit",
                 Values = new int[0]
             },
-            new AchievementRecordBook
+            new()
             {
                 Type = "countGetMemberCard",
                 Values = new int[0]
             },
-            new AchievementRecordBook
+            new()
             {
                 Type = "countGetSkillCard",
                 Values = new int[0]
             },
-            new AchievementRecordBook
+            new()
             {
                 Type = "countPhotograph",
                 Values = new int[0]
             },
-            new AchievementRecordBook
+            new()
             {
                 Type = "countVisualScoreIconSuccess",
                 Values = new int[0]
             }
         },
-        YellAchievements = new YellAchievement[1]
+        YellAchievements = new YellAchievement[]
         {
-            new YellAchievement
+            new()
             {
                 YellAchievementId = 0,
                 Unlocked = false,
                 New = false
             }
         },
-        LimitedAchievements = new LimitedAchievement[1]
+        LimitedAchievements = new LimitedAchievement[]
         {
-            new LimitedAchievement
+            new()
             {
                 LimitedAchievementId = 0,
                 Unlocked = false,
                 New = false
             }
         },
-        Missions = new Mission[1]
+        Missions = new Mission[]
         {
-            new Mission
+            new()
             {
                 MissionId = 0,
                 Achieved = false,
@@ -292,13 +291,13 @@ public class UserDataContainer
             Point = 0,
             AchievedPoint = 0
         },
-        DailyRecords = new int[1]
+        DailyRecords = new []
         {
             0
         },
-        Honors = new HonorData[1]
+        Honors = new HonorData[]
         {
-            new HonorData
+            new()
             {
                 HonorId = 0,
                 Unlocked = false,
@@ -309,9 +308,9 @@ public class UserDataContainer
         {
             Enable = false
         },
-        Travels = new TravelData[1]
+        Travels = new TravelData[]
         {
-            new TravelData
+            new()
             {
                 Slot = 0,
                 TravelPamphletId = 0,
@@ -322,21 +321,21 @@ public class UserDataContainer
                 Modified = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss")
             }
         },
-        TravelPamphlets = new TravelPamphlet[1]
+        TravelPamphlets = new TravelPamphlet[]
         {
-            new TravelPamphlet
+            new()
             {
                 TravelPamphletId = 0,
                 Round = 0,
                 TotalTalkCount = 0,
                 TotalDiceCount = 0,
                 IsNew = false,
-                TravelExRewards = new int[1] { 0 }
+                TravelExRewards = new [] { 0 }
             }
         },
-        GachaStatus = new GachaStatus[1]
+        GachaStatus = new GachaStatus[]
         {
-            new GachaStatus
+            new()
             {
                 GachaId = 0,
                 IdolKind = 0,
@@ -344,30 +343,30 @@ public class UserDataContainer
                 UsageCount = 0
             }
         },
-        NamePlates = new NamePlate[1]
+        NamePlates = new NamePlate[]
         {
-            new NamePlate
+            new()
             {
                 NamePlateId = 201, //アキバ (test nameplate)
                 New = false
             }
         },
-        Badges = new Badge[2]
+        Badges = new Badge[]
         {
-            new Badge
+            new()
             {
                 BadgeId = 901001, //μ’s大好き badge
                 New = false
             },
-            new Badge
+            new()
             {
                 BadgeId = 901002, //Aqours大好き badge
                 New = false
             }
         },
-        EventStatus = new EventStatus[1]
+        EventStatus = new EventStatus[]
         {
-            new EventStatus
+            new()
             {
                 EventId = 0,
                 EventPoint = 0,
@@ -377,9 +376,9 @@ public class UserDataContainer
                 FirstPlay = 0
             }
         },
-        EventRewards = new EventReward[1]
+        EventRewards = new EventReward[]
         {
-            new EventReward
+            new()
             {
                 EventId = 0,
                 RewardCategory = 0,
@@ -395,9 +394,9 @@ public class UserDataContainer
             AddPoint = 0,
             EventPoint = 0,
             UpdateScore = 0,
-            Rewards = new EventResultReward[1]
+            Rewards = new EventResultReward[]
             {
-                new EventResultReward
+                new()
                 {
                     Reward = new EventResultReward.EventResultRewardData
                     {
@@ -415,13 +414,12 @@ public class UserDataContainer
             }
         },
         //timestamp
-        Now = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
         FirstLogin = false,
         DiceBonus = false,
-        StampCards = new StampCard[1]
+        StampCards = new StampCard[]
         {
             //todo: actual stamp card implementation is untested
-            new StampCard
+            new()
             {
                 StampCardId = 0,
                 StampCount = 10,
@@ -429,10 +427,10 @@ public class UserDataContainer
                 StampCharacters = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
             }
         },
-        StampCardRewards = new StampCardReward[1]
+        StampCardRewards = new StampCardReward[]
         {
             //todo: actual stamp card implementation is untested
-            new StampCardReward
+            new()
             {
                 StampCardId = 0,
                 CardMemberId = 0,

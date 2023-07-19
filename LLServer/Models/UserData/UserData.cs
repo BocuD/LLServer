@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using LLServer.Database.Models;
 
@@ -38,9 +39,15 @@ public class UserData : UserDataBase
     //from decompiled method parsePlayerDataJson
     [JsonPropertyName("tenpo_name")]
     public string TenpoName { get; set; } = "Test";
-    
-    [JsonPropertyName("play_date")]
-    public string PlayDate { get; set; } = "2021-01-01";
+
+    [JsonPropertyName("play_date")] 
+    public string PlayDate
+    {
+        get => PlayDateTime.DateTimeString;
+        set => PlayDateTime.DateTimeString = value;
+    }
+
+    [JsonIgnore, NotMapped] public GameDateTime PlayDateTime = new();
 
     [JsonPropertyName("play_satellite")]
     public int PlaySatellite { get; set; }
@@ -79,7 +86,7 @@ public class NullableUserData : NullableUserDataBase
     public int? IdolKind { get; set; }
 
     [JsonPropertyName("name")] 
-    public string? Name { get; set; } = "";
+    public string? Name { get; set; }
 
     [JsonPropertyName("volume_bgm")]
     public int? VolumeBgm { get; set; }
@@ -101,10 +108,10 @@ public class NullableUserData : NullableUserDataBase
 
     //from decompiled method parsePlayerDataJson
     [JsonPropertyName("tenpo_name")]
-    public string? TenpoName { get; set; } = "Test";
+    public string? TenpoName { get; set; }
     
     [JsonPropertyName("play_date")]
-    public string? PlayDate { get; set; } = "2021-01-01";
+    public string? PlayDate { get; set; }
 
     [JsonPropertyName("play_satellite")]
     public int? PlaySatellite { get; set; }

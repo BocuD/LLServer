@@ -115,8 +115,8 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("event_result")]
     public EventResult EventResult { get; set; } = new EventResult();
 
-    [JsonPropertyName("now")]
-    public string Now { get; set; } = "";
+    [JsonPropertyName("now")] 
+    public string Now => DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss");
 
     [JsonPropertyName("first_login")]
     public bool FirstLogin { get; set; }

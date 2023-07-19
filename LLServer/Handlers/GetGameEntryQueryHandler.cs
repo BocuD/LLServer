@@ -45,11 +45,14 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         
         // Mark the session as active and set the expire time
         session.IsActive = true;
-        session.ExpireTime = DateTime.UtcNow.AddMinutes(60);
-        
+        session.ExpireTime = DateTime.Now.AddMinutes(60);
+
         PersistentUserDataContainer container = new(dbContext, session.User);
         
         container.UserData.PlaySatellite++;
+        
+        //update last play time
+        container.UserData.PlayDateTime.DateTime = DateTime.Now;
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
