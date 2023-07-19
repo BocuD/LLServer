@@ -1,55 +1,118 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
+using LLServer.Database;
+using LLServer.Database.Models;
 using LLServer.Models;
+using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers;
 
-public record GameResultCommand(JsonElement? Param) : IRequest<ResponseContainer>;
+public record GameResultCommand(RequestBase request) : IRequest<ResponseContainer>;
 
 public class GameResultCommandHandler : IRequestHandler<GameResultCommand, ResponseContainer>
 {
+    private readonly ApplicationDbContext dbContext;
     private readonly ILogger<GameResultCommandHandler> logger;
 
-    public GameResultCommandHandler(ILogger<GameResultCommandHandler> logger)
+    public GameResultCommandHandler(ApplicationDbContext dbContext, ILogger<GameResultCommandHandler> logger)
     {
+        this.dbContext = dbContext;
         this.logger = logger;
     }
     
-    public async Task<ResponseContainer> Handle(GameResultCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseContainer> Handle(GameResultCommand command, CancellationToken cancellationToken)
     {
-        if (request.Param is null)
+        if (command.request.Param is null)
         {
             return StaticResponses.BadRequestResponse;
         }
+
+        //get session
+        Session? session = await dbContext.Sessions
+            .Include(s => s.User)
+            .Include(s => s.User.UserData)
+            .Include(s => s.User.UserDataAqours)
+            .Include(s => s.User.UserDataSaintSnow)
+            .Include(s => s.User.Members)
+            .FirstOrDefaultAsync(s => 
+                    s.SessionId == command.request.SessionKey, 
+                cancellationToken);
         
-        var paramJson = request.Param.Value.GetRawText();
+        if (session is null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
 
-        var gameResult = JsonSerializer.Deserialize<GameResult>(paramJson);
+        string paramJson = command.request.Param.Value.GetRawText();
 
-        // Null is only possible when json string is "null"
+        //get game result
+        GameResult? gameResult = JsonSerializer.Deserialize<GameResult>(paramJson);
         if (gameResult is null)
         {
             return StaticResponses.BadRequestResponse;
         }
 
-        var userDataContainer = UserDataContainer.GetDummyUserDataContainer();
+        //get persistent data container
+        PersistentUserDataContainer container = new(dbContext, session.User);
+        
+        //update profile data
+        container.UserData.Honor += gameResult.Honor;
+        container.UserData.TotalExp += gameResult.GotExp;
+        
+        //update member usage count
+        MemberData? memberData = container.Members.FirstOrDefault(x => x.CharacterId == gameResult.CharacterId);
+        if (memberData == null)
+        {
+            container.Members.Add(new MemberData()
+            {
+                CharacterId = gameResult.CharacterId,
+                CardMemberId = gameResult.UsedMemberCard
+            });
+            memberData = container.Members.FirstOrDefault(x => x.CharacterId == gameResult.CharacterId);
+        }
+
+        if (memberData != null)
+        {
+            memberData.SelectCount++;
+        }
+
+        //unlock lives
+        if (gameResult.UnlockLiveIdArray.Length > 0)
+        {
+            foreach (int id in gameResult.UnlockLiveIdArray)
+            {
+                LiveData? data = container.Lives.FirstOrDefault(x => x.LiveId == id);
+                if (data == null)
+                {
+                    container.Lives.Add(new LiveData() { LiveId = id });
+                    data = container.Lives.FirstOrDefault(x => x.LiveId == id);
+                }
+
+                if (data != null)
+                {
+                    data.Unlocked = true;
+                    data.New = true;
+                }
+            }
+        }
 
         //add score to user data
-        var liveData = userDataContainer.Lives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
+        LiveData? liveData = container.Lives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
         if (liveData == null)
         {
-            userDataContainer.Lives.Add(new LiveData()
+            container.Lives.Add(new LiveData()
             {
                 LiveId = gameResult.LiveId,
                 Unlocked = true
             });
 
-            liveData = userDataContainer.Lives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
+            liveData = container.Lives.FirstOrDefault(x => x.LiveId == gameResult.LiveId);
         }
-
+        
         if (liveData != null)
         {
             if (gameResult.TotalScore > liveData.TotalHiScore)
@@ -81,58 +144,17 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
             liveData.PlayerCount1++;
         }
 
-        //update profile data
-        userDataContainer.UserData.Honor += gameResult.Honor;
-        userDataContainer.UserData.TotalExp += gameResult.GotExp;
-
-        //update member usage count
-        var memberData =
-            userDataContainer.Members.FirstOrDefault(x => x.CharacterId == gameResult.CharacterId);
-        if (memberData == null)
-        {
-            userDataContainer.Members.Add(new MemberData()
-            {
-                CharacterId = gameResult.CharacterId,
-                CardMemberId = gameResult.UsedMemberCard
-            });
-            memberData = userDataContainer.Members.FirstOrDefault(x => x.CharacterId == gameResult.CharacterId);
-        }
-
-        if (memberData != null)
-        {
-            memberData.SelectCount++;
-        }
-
-        //unlock lives
-        if (gameResult.UnlockLiveIdArray.Length > 0)
-        {
-            foreach (var id in gameResult.UnlockLiveIdArray)
-            {
-                var data = userDataContainer.Lives.FirstOrDefault(x => x.LiveId == id);
-                if (data == null)
-                {
-                    userDataContainer.Lives.Add(new LiveData() { LiveId = id });
-                    data = userDataContainer.Lives.FirstOrDefault(x => x.LiveId == id);
-                }
-
-                if (data != null)
-                    data.Unlocked = true;
-            }
-        }
-
-        var response = new ResponseContainer
+        return new ResponseContainer
         {
             Result = 200,
             Response = new GameResultResponse()
             {
-                Musics = userDataContainer.Musics,
+                Musics = MusicData.GetBaseMusicData(),
+                Stages = StageData.GetBaseStageData(),
                 EventResult = new EventResult(),
                 EventRewards = new List<EventReward>(),
-                EventStatus = new EventStatus(),
-                Stages = userDataContainer.Stages
+                EventStatus = new EventStatus()
             }
         };
-        
-        return response;
     }
 }

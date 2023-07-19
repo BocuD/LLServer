@@ -316,7 +316,7 @@ public class MusicData
                 new MusicData
                 {
                     MusicId = x,
-                    New = false,
+                    New = true,
                     Unlocked = true
                 }));
         

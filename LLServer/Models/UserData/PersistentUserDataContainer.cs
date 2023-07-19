@@ -16,36 +16,14 @@ public class PersistentUserDataContainer
         User = user;
     }
     
-    public UserData UserData
-    {
-        get => User.UserData;
-        set
-        {
-            User.UserData = value;
-        }
-    }
-    
-    public UserDataAqours UserDataAqours
-    {
-        get => User.UserDataAqours;
-        set
-        {
-            User.UserDataAqours = value;
-        }
-    }
-    
-    public UserDataSaintSnow UserDataSaintSnow
-    {
-        get => User.UserDataSaintSnow;
-        set
-        {
-            User.UserDataSaintSnow = value;
-        }
-    }
-    
+    public UserData UserData => User.UserData;
+    public UserDataAqours UserDataAqours => User.UserDataAqours;
+    public UserDataSaintSnow UserDataSaintSnow => User.UserDataSaintSnow;
     public List<MemberData> Members => User.Members;
-
     public List<MemberCardData> MemberCards => User.MemberCards;
+    public List<MusicData> Musics => MusicData.GetBaseMusicData();
+    public List<LiveData> Lives => LiveData.GetBaseLiveData();
+    public List<StageData> Stages => StageData.GetBaseStageData();
 
     public void Initialize(InitializeUserData initializeCommand)
     {

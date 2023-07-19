@@ -31,9 +31,7 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
         {
             return StaticResponses.BadRequestResponse;
         }
-
-        string paramJson = command.request.Param.Value.GetRawText();
-
+        
         //get session
         Session? session = await dbContext.Sessions
             .Include(s => s.User)
@@ -51,6 +49,8 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
         }
         
         //get setuserdata command
+        string paramJson = command.request.Param.Value.GetRawText();
+
         SetUserData? setUserData = JsonSerializer.Deserialize<SetUserData>(paramJson);
         if (setUserData is null)
         {
