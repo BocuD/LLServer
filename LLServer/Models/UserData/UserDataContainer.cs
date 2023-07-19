@@ -73,6 +73,7 @@ public class UserDataContainer
             VolumeBgm = 0,
             VolumeSe = 0,
             VolumeVoice = 0,
+            ScreenFilterLevel = 0,
             TenpoName = "1337",
             PlayDate = DateTime.Now.ToString("yyyy-MM-dd"),
             PlaySatellite = 0,

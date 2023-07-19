@@ -17,12 +17,6 @@ public class UserData : UserDataBase
     [JsonPropertyName("name")]
     public string Name { get; set; } = "Test";
 
-    [JsonPropertyName("note_speed_level")]
-    public int NoteSpeedLevel { get; set; }
-
-    [JsonPropertyName("submonitor_type")]
-    public int SubMonitorType { get; set; }
-
     [JsonPropertyName("volume_bgm")]
     public int VolumeBgm { get; set; }
 
@@ -30,7 +24,16 @@ public class UserData : UserDataBase
     public int VolumeSe { get; set; } 
 
     [JsonPropertyName("volume_voice")]
-    public int VolumeVoice { get; set; } 
+    public int VolumeVoice { get; set; }
+    
+    [JsonPropertyName("screen_filter_level")]
+    public int ScreenFilterLevel { get; set; }
+    
+    [JsonPropertyName("note_speed_level")]
+    public int NoteSpeedLevel { get; set; }
+
+    [JsonPropertyName("submonitor_type")]
+    public int SubMonitorType { get; set; }
 
     //from decompiled method parsePlayerDataJson
     [JsonPropertyName("tenpo_name")]
