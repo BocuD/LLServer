@@ -14,8 +14,8 @@ public class UserData : UserDataBase
     [JsonPropertyName("idol_kind")]
     public int IdolKind { get; set; }
 
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = "Test";
+    [JsonPropertyName("name")] 
+    public string Name { get; set; } = "";
 
     [JsonPropertyName("volume_bgm")]
     public int VolumeBgm { get; set; }
@@ -38,7 +38,7 @@ public class UserData : UserDataBase
     //from decompiled method parsePlayerDataJson
     [JsonPropertyName("tenpo_name")]
     public string TenpoName { get; set; } = "Test";
-
+    
     [JsonPropertyName("play_date")]
     public string PlayDate { get; set; } = "2021-01-01";
 

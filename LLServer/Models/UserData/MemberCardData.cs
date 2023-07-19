@@ -23,10 +23,6 @@ public class MemberCardData
     [JsonPropertyName("new")]
     public bool New { get; set; }
     
-    //Database association to user
-    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User User { get; set; }
-
     [JsonIgnore, NotMapped] public static int[] InitialMemberCards =
     {
         0,
@@ -53,4 +49,8 @@ public class MemberCardData
         212000,
         222000
     };
+    
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User User { get; set; }
 }

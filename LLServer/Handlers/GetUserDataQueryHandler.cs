@@ -38,7 +38,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
             .FirstOrDefaultAsync(s => 
                     s.SessionId == query.request.SessionKey, 
                 cancellationToken);
-        
+
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
@@ -55,7 +55,6 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
         //response
         UserDataResponseMapper mapper = new();
         UserDataResponse response = mapper.FromPersistentUserData(container);
-        response.Lives = LiveData.GetBaseLiveData();
 
         return new ResponseContainer
         {

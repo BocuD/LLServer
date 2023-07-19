@@ -49,7 +49,6 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         
         PersistentUserDataContainer container = new(dbContext, session.User);
         
-        container.UserData.PlayCenter++;
         container.UserData.PlaySatellite++;
         
         await dbContext.SaveChangesAsync(cancellationToken);

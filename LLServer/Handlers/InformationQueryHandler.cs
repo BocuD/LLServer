@@ -26,12 +26,7 @@ public class InformationQueryHandler : IRequestHandler<InformationQuery, Respons
             {
                 BaseUrl = $"http://{request.BaseUrl}/game",
                 EncoreExpirationDate = (DateTime.Today + TimeSpan.FromDays(3650)).ToString("yyyy-MM-dd"),
-                MusicInformationItems = Enumerable.Range(10, 100)
-                    .Where(i => i % 10 == 0)
-                    .Select(i => new MusicInformation
-                    {
-                        MusicId = i
-                    }).ToList()
+                MusicInformationItems = new List<MusicInformation>()
             }
         };
         logger.LogInformation("Information: {Info}", JsonSerializer.Serialize(response));
