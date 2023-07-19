@@ -51,8 +51,7 @@ public class GameController : BaseController<GameController>
         
         Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
         
-
-        var response = request.Protocol switch
+        ResponseContainer response = request.Protocol switch
         {
             "unlock"              => await mediator.Send(new UnlockQuery()),
             "gameconfig"          => await mediator.Send(new GameConfigQuery()),
@@ -65,9 +64,29 @@ public class GameController : BaseController<GameController>
             "checkword"           => await mediator.Send(new CheckWordCommand()),
             "ranking"             => await mediator.Send(new GetRankingQuery()),
             "gameresult"          => await mediator.Send(new GameResultCommand(request)),
+            "gameexit"            => await mediator.Send(new GameExitCommand(request)),
             _                     => DefaultResponse(request.Protocol)
         };
 
+        #if DEBUG
+        //for each successful request, log to the request log
+        string fullRequest = $"{request.Protocol}\n{bodyString}\n";
+        
+        //serialize the response using prettyprint
+        string fullResponse = $"{response.Result}\n{JsonSerializer.Serialize(response.Response, new JsonSerializerOptions { WriteIndented = true })}\n";
+        
+        //write to text files
+        await System.IO.File.AppendAllTextAsync("requests.log", fullRequest);
+        await System.IO.File.AppendAllTextAsync("requests.log", "------------------------\n");
+        
+        await System.IO.File.AppendAllTextAsync("responses.log", fullResponse);
+        await System.IO.File.AppendAllTextAsync("responses.log", "------------------------\n");
+        
+        await System.IO.File.AppendAllTextAsync("server.log", fullRequest);
+        await System.IO.File.AppendAllTextAsync("server.log", fullResponse);
+        await System.IO.File.AppendAllTextAsync("server.log", "------------------------\n");
+        #endif
+        
         return Ok(response);
     }
 
