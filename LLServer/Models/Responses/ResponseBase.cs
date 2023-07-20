@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using LLServer.Models.Responses.Travel;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.Responses;
 
@@ -19,6 +21,8 @@ public class ResponseContainer
 [JsonDerivedType(typeof(RankingResponse))]
 [JsonDerivedType(typeof(GameConfigResponse))]
 [JsonDerivedType(typeof(GameResultResponse))]
+[JsonDerivedType(typeof(TravelStartResponse))]
+[JsonDerivedType(typeof(TravelResultResponse))]
 public class ResponseBase
 {
 }

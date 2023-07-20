@@ -19,6 +19,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<MemberData> MemberData { get; set; }
     public DbSet<MemberCardData> MemberCardData { get; set; }
     public DbSet<PersistentLiveData> LiveDatas { get; set; }
+    public DbSet<TravelData> TravelData { get; set; }
+    public DbSet<TravelPamphlet> TravelPamphlets { get; set; }
+    public DbSet<TravelHistory> TravelHistory { get; set; }
+    public DbSet<TravelHistoryAqours> TravelHistoryAqours { get; set; }
+    public DbSet<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,8 +32,8 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .HasAlternateKey(user => user.CardId);
-
-
+        
+        
 
         modelBuilder.Entity<Session>()
             .HasKey(s => s.SessionId);

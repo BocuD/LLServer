@@ -42,13 +42,13 @@ public class UserDataResponse : ResponseBase
     //game history aqours
     //game history saint snow
     [JsonPropertyName("travel_history")]
-    public TravelHistory[] TravelHistory { get; set; } = Array.Empty<TravelHistory>();
+    public TravelHistoryBase[] TravelHistory { get; set; } = Array.Empty<TravelHistoryBase>();
 
     [JsonPropertyName("travel_history_aqours")]
-    public TravelHistory[] TravelHistoryAqours { get; set; } = Array.Empty<TravelHistory>();
+    public TravelHistoryBase[] TravelHistoryAqours { get; set; } = Array.Empty<TravelHistoryBase>();
 
     [JsonPropertyName("travel_history_saintsnow")]
-    public TravelHistory[] TravelHistorySaintSnow { get; set; } = Array.Empty<TravelHistory>();
+    public TravelHistoryBase[] TravelHistorySaintSnow { get; set; } = Array.Empty<TravelHistoryBase>();
 
     [JsonPropertyName("mailbox")]
     public List<MailBoxItem> MailBox { get; set; } = new();

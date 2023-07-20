@@ -29,6 +29,13 @@ public class User
     //score and unlock data
     [Required] public List<PersistentLiveData> LiveDatas { get; set; } = new();
     
+    //travel data
+    [Required] public List<TravelData> TravelData { get; set; } = new();
+    [Required] public List<TravelPamphlet> TravelPamphlets { get; set; } = new();
+    [Required] public List<TravelHistory> TravelHistory { get; set; } = new();
+    [Required] public List<TravelHistoryAqours> TravelHistoryAqours { get; set; } = new();
+    [Required] public List<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; } = new();
+    
     //other data
     public string Flags { get; set; } = "";
 }

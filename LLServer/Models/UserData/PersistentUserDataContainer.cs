@@ -45,6 +45,13 @@ public class PersistentUserDataContainer
         get => User.Flags;
         set => User.Flags = value;
     }
+    
+    //Travel data
+    public List<TravelData> Travels => User.TravelData;
+    public List<TravelPamphlet> TravelPamphlets => User.TravelPamphlets;
+    public List<TravelHistory> TravelHistory => User.TravelHistory;
+    public List<TravelHistoryAqours> TravelHistoryAqours => User.TravelHistoryAqours;
+    public List<TravelHistorySaintSnow> TravelHistorySaintSnow => User.TravelHistorySaintSnow;
 
     public void Initialize(InitializeUserData initializeCommand)
     {
@@ -118,12 +125,18 @@ public class PersistentUserDataContainer
                 MemberData? member = Members.FirstOrDefault(m => m.CharacterId == memberYell.CharacterId);
                 if (member == null)
                 {
-                    Members.Add(new MemberData());
-                    member = Members.Last();
+                    Members.Add(new MemberData()
+                    {
+                        CharacterId = memberYell.CharacterId,
+                    });
+                    member = Members.FirstOrDefault(m => m.CharacterId == memberYell.CharacterId);
                 }
 
-                member.YellPoint = memberYell.YellPoint;
-                member.AchieveRank = memberYell.YellRank;
+                if (member != null)
+                {
+                    member.YellPoint = memberYell.YellPoint;
+                    member.AchieveRank = memberYell.YellRank;
+                }
             }
         }
     }

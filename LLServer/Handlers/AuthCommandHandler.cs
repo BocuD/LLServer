@@ -114,22 +114,42 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         {
             CardId = nesicaId,
             Initialized = false,
+            
             UserData = new UserData(),
             UserDataAqours = new UserDataAqours(),
             UserDataSaintSnow = new UserDataSaintSnow(),
+            
             Members = new List<MemberData>(),
             MemberCards = new List<MemberCardData>(),
-            LiveDatas = new List<PersistentLiveData>()
+            
+            LiveDatas = new List<PersistentLiveData>(),
+            
+            TravelData = new List<TravelData>(),
+            TravelPamphlets = new List<TravelPamphlet>(),
+            
+            TravelHistory = new List<TravelHistory>(),
+            TravelHistoryAqours = new List<TravelHistoryAqours>(),
+            TravelHistorySaintSnow = new List<TravelHistorySaintSnow>()
         };
         
         dbContext.Users.Add(user);
+        
         dbContext.UserData.Add(user.UserData);
         dbContext.UserDataAqours.Add(user.UserDataAqours);
         dbContext.UserDataSaintSnow.Add(user.UserDataSaintSnow);
+        
         dbContext.MemberData.AddRange(user.Members);
         dbContext.MemberCardData.AddRange(user.MemberCards);
+        
         dbContext.LiveDatas.AddRange(user.LiveDatas);
         
+        dbContext.TravelData.AddRange(user.TravelData);
+        dbContext.TravelPamphlets.AddRange(user.TravelPamphlets);
+        
+        dbContext.TravelHistory.AddRange(user.TravelHistory);
+        dbContext.TravelHistoryAqours.AddRange(user.TravelHistoryAqours);
+        dbContext.TravelHistorySaintSnow.AddRange(user.TravelHistorySaintSnow);
+
         await dbContext.SaveChangesAsync();
         
         return user;

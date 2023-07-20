@@ -33,9 +33,17 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
             .Include(s => s.User.UserData)
             .Include(s => s.User.UserDataAqours)
             .Include(s => s.User.UserDataSaintSnow)
+            
             .Include(s => s.User.Members)
             .Include(s => s.User.MemberCards)
+            
             .Include(s => s.User.LiveDatas)
+            .Include(s => s.User.TravelData)
+            .Include(s => s.User.TravelPamphlets)
+            .Include(s => s.User.TravelHistory)
+            .Include(s => s.User.TravelHistoryAqours)
+            .Include(s => s.User.TravelHistorySaintSnow)
+            
             .FirstOrDefaultAsync(s => s.SessionId == query.request.SessionKey, cancellationToken);
 
         if (session is null)

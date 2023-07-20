@@ -34,6 +34,7 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
             .Include(s => s.User.UserDataSaintSnow)
             .Include(s => s.User.Members)
             .Include(s => s.User.MemberCards)
+            .Include(s => s.User.TravelPamphlets)
             .FirstOrDefaultAsync(s => 
                     s.SessionId == query.request.SessionKey, 
                 cancellationToken);

@@ -8,9 +8,6 @@ namespace LLServer.Models.UserData;
 
 public class MemberData
 {
-    //Database key
-    [JsonIgnore, Key] public int Id { get; set; }
-    
     [JsonPropertyName("character_id")]
     public int CharacterId { get; set; }
 
@@ -41,6 +38,8 @@ public class MemberData
     [JsonPropertyName("new")]
     public bool New { get; set; } = true;
     
+    //Database key
+    [JsonIgnore, Key] public int Id { get; set; }
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
     [JsonIgnore] public User User { get; set; }

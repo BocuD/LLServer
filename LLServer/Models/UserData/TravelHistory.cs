@@ -1,8 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using LLServer.Database.Models;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.UserData;
 
-public class TravelHistory
+public class TravelHistoryBase
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -33,16 +37,48 @@ public class TravelHistory
 
     [JsonPropertyName("tenpo_name")]
     public string TenpoName { get; set; } = "";
-
-    [JsonPropertyName("snap_stamp_list")]
+    
+    /*//todo: map these to the database
+    [JsonPropertyName("snap_stamp_list"), NotMapped]
     public SnapStamp[] SnapStampList { get; set; } = Array.Empty<SnapStamp>();
-
-    [JsonPropertyName("coop_info")]
-    public CoopInfo[] CoopInfo { get; set; } = Array.Empty<CoopInfo>();
+    
+    //todo: map these to the database
+    [JsonPropertyName("coop_info"), NotMapped]
+    public CoopInfo[] CoopInfo { get; set; } = Array.Empty<CoopInfo>();*/
 
     [JsonPropertyName("created")]
     public string Created { get; set; } = "";
 
     [JsonPropertyName("print_rest")]
-    public bool PrintRest { get; set; } 
+    public bool PrintRest { get; set; }
+}
+
+public class TravelHistory : TravelHistoryBase
+{
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User User { get; set; }
+}
+
+public class TravelHistoryAqours : TravelHistoryBase
+{
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User User { get; set; }
+}
+
+public class TravelHistorySaintSnow : TravelHistoryBase
+{
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User User { get; set; }
 }

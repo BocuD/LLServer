@@ -1,4 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using LLServer.Database.Models;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.UserData;
 
@@ -16,8 +20,7 @@ public class TravelData
     [JsonPropertyName("m_card_memorial_id")]
     public int CardMemorialId { get; set; }
 
-    //todo: double check the type of the data inside the positions array
-    //always seems to be 3 items
+    //always seems to be 3 integers
     [JsonPropertyName("positions")]
     public int[] Positions { get; set; } = new int[3];
 
@@ -26,4 +29,10 @@ public class TravelData
 
     [JsonPropertyName("modified")]
     public string Modified { get; set; } = "";
+    
+    //Database key
+    [JsonIgnore, Key] public int Id { get; set; }
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User User { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using LLServer.Handlers;
+using LLServer.Handlers.Travel;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using MediatR;
@@ -65,6 +66,9 @@ public class GameController : BaseController<GameController>
             "gameresult"          => await mediator.Send(new GameResultCommand(request)),
             "gametotalresult"     => await mediator.Send(new GameTotalResultQuery()),
             "gameexit"            => await mediator.Send(new GameExitCommand(request)),
+            "TravelStart"         => await mediator.Send(new TravelStartCommand(request)),
+            "TravelResult"        => await mediator.Send(new TravelResultCommand(request)),
+            //"achievement"         => await mediator.Send(new AchievementCommand(request)),
             _                     => DefaultResponse(request.Protocol)
         };
 
