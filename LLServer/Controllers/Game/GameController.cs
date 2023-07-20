@@ -68,7 +68,7 @@ public class GameController : BaseController<GameController>
             "gameexit"            => await mediator.Send(new GameExitCommand(request)),
             "TravelStart"         => await mediator.Send(new TravelStartCommand(request)),
             "TravelResult"        => await mediator.Send(new TravelResultCommand(request)),
-            //"achievement"         => await mediator.Send(new AchievementCommand(request)),
+            "achievement"         => await mediator.Send(new AchievementCommand(request)),
             _                     => DefaultResponse(request.Protocol)
         };
 
