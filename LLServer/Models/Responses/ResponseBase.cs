@@ -23,6 +23,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(GameResultResponse))]
 [JsonDerivedType(typeof(TravelStartResponse))]
 [JsonDerivedType(typeof(TravelResultResponse))]
+[JsonDerivedType(typeof(TravelStampResponse))]
 [JsonDerivedType(typeof(AchievementResponse))]
 public class ResponseBase
 {
