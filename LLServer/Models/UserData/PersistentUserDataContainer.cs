@@ -52,6 +52,9 @@ public class PersistentUserDataContainer
     public List<TravelHistory> TravelHistory => User.TravelHistory;
     public List<TravelHistoryAqours> TravelHistoryAqours => User.TravelHistoryAqours;
     public List<TravelHistorySaintSnow> TravelHistorySaintSnow => User.TravelHistorySaintSnow;
+    
+    //Achievements
+    public List<AchievementRecordBook> AchievementRecordBooks => User.AchievementRecordBooks;
 
     public void Initialize(InitializeUserData initializeCommand)
     {

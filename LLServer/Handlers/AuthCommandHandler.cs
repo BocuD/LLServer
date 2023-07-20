@@ -129,7 +129,9 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             
             TravelHistory = new List<TravelHistory>(),
             TravelHistoryAqours = new List<TravelHistoryAqours>(),
-            TravelHistorySaintSnow = new List<TravelHistorySaintSnow>()
+            TravelHistorySaintSnow = new List<TravelHistorySaintSnow>(),
+            
+            AchievementRecordBooks = new List<AchievementRecordBook>()
         };
         
         dbContext.Users.Add(user);
@@ -149,6 +151,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.TravelHistory.AddRange(user.TravelHistory);
         dbContext.TravelHistoryAqours.AddRange(user.TravelHistoryAqours);
         dbContext.TravelHistorySaintSnow.AddRange(user.TravelHistorySaintSnow);
+        
+        dbContext.AchievementRecordBooks.AddRange(user.AchievementRecordBooks);
 
         await dbContext.SaveChangesAsync();
         

@@ -24,6 +24,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<TravelHistory> TravelHistory { get; set; }
     public DbSet<TravelHistoryAqours> TravelHistoryAqours { get; set; }
     public DbSet<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; }
+    
+    public DbSet<AchievementRecordBook> AchievementRecordBooks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

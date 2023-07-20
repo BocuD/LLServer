@@ -36,6 +36,9 @@ public class User
     [Required] public List<TravelHistoryAqours> TravelHistoryAqours { get; set; } = new();
     [Required] public List<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; } = new();
     
+    //achievements
+    [Required] public List<AchievementRecordBook> AchievementRecordBooks { get; set; } = new();
+    
     //other data
     public string Flags { get; set; } = "";
 }

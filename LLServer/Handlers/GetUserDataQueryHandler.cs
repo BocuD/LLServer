@@ -44,6 +44,8 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
             .Include(s => s.User.TravelHistoryAqours)
             .Include(s => s.User.TravelHistorySaintSnow)
             
+            .Include(s => s.User.AchievementRecordBooks)
+            
             .FirstOrDefaultAsync(s => s.SessionId == query.request.SessionKey, cancellationToken);
 
         if (session is null)
