@@ -61,7 +61,6 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         PersistentUserDataContainer container = new(dbContext, session.User);
         
         //update profile data
-        container.UserData.Honor += gameResult.Honor;
         container.UserData.TotalExp = gameResult.TotalExp;
         container.UserData.Level = gameResult.DUserLevel;
         
