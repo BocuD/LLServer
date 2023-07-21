@@ -22,7 +22,14 @@ builder.Services.AddHttpLogging(logging =>
     logging.RequestBodyLogLimit = 4096;
 });
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("DataSource=test.db3"));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlite("DataSource=test.db3");
+    
+    var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.None));
+
+    options.UseLoggerFactory(loggerFactory);
+});
 
 var app = builder.Build();
 
