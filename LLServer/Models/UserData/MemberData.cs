@@ -20,7 +20,7 @@ public class MemberData
     [JsonPropertyName("m_card_memorial_id")]
     public int CardMemorialId { get; set; }
 
-    [JsonPropertyName("achieve_rank")]
+    [JsonPropertyName("yell_achieve_rank")]
     public int AchieveRank { get; set; }
 
     [JsonPropertyName("main")]
