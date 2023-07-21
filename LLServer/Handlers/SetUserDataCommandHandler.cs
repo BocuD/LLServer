@@ -33,26 +33,26 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
         }
         
         //get session
-        Session? session = await dbContext.Sessions
-            .Include(s => s.User)
-            .Include(s => s.User.UserData)
-            .Include(s => s.User.UserDataAqours)
-            .Include(s => s.User.UserDataSaintSnow)
-            
-            .Include(s => s.User.Members)
-            .Include(s => s.User.MemberCards)
-            
-            .Include(s => s.User.TravelData)
-            .Include(s => s.User.TravelPamphlets)
-            .Include(s => s.User.TravelHistory)
-            .Include(s => s.User.TravelHistoryAqours)
-            .Include(s => s.User.TravelHistorySaintSnow)
-            
-            .Include(s => s.User.AchievementRecordBooks)
-            
-            .FirstOrDefaultAsync(s => 
-                    s.SessionId == command.request.SessionKey, 
-                cancellationToken);
+        var session = await dbContext.Sessions
+            .AsSplitQuery()
+            .Where(s => s.SessionId == command.request.SessionKey)
+            .Select(s => new
+            {
+                Session = s,
+                User = s.User,
+                UserData = s.User.UserData,
+                UserDataAqours = s.User.UserDataAqours,
+                UserDataSaintSnow = s.User.UserDataSaintSnow,
+                Members = s.User.Members,
+                MemberCards = s.User.MemberCards,
+                LiveDatas = s.User.LiveDatas,
+                TravelData = s.User.TravelData,
+                TravelPamphlets = s.User.TravelPamphlets,
+                TravelHistory = s.User.TravelHistory,
+                TravelHistoryAqours = s.User.TravelHistoryAqours,
+                TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
+                AchievementRecordBooks = s.User.AchievementRecordBooks
+            }).FirstOrDefaultAsync(cancellationToken);
         
         if (session is null)
         {

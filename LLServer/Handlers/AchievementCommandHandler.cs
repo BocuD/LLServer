@@ -31,12 +31,15 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
         }
 
         //get session
-        Session? session = await dbContext.Sessions
-            .Include(s => s.User)
-            .Include(s => s.User.AchievementRecordBooks)
-            .FirstOrDefaultAsync(s =>
-                    s.SessionId == command.request.SessionKey,
-                cancellationToken);
+        var session = await dbContext.Sessions
+            .AsSplitQuery()
+            .Where(s => s.SessionId == command.request.SessionKey)
+            .Select(s => new
+            {
+                Session = s,
+                User = s.User,
+                AchievementRecordBooks = s.User.AchievementRecordBooks
+            }).FirstOrDefaultAsync(cancellationToken);
 
         if (session is null)
         {

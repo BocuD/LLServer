@@ -32,7 +32,7 @@ public class GameExitCommandHandler : IRequestHandler<GameExitCommand, ResponseC
         }
 
         //get session (we only need User here since we're not updating anything else right now)
-        Session? session = await dbContext.Sessions
+        var session = await dbContext.Sessions
             .Include(s => s.User)
             .FirstOrDefaultAsync(s => 
                     s.SessionId == command.request.SessionKey, 

@@ -27,28 +27,31 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
     public async Task<ResponseContainer> Handle(GetGameEntryQuery query, CancellationToken cancellationToken)
     {
         //get user data from db
-        Session? session = await dbContext.Sessions
-            .Include(s => s.User)
-            .Include(s => s.User.UserData)
-            .Include(s => s.User.UserDataAqours)
-            .Include(s => s.User.UserDataSaintSnow)
-            .Include(s => s.User.Members)
-            .Include(s => s.User.MemberCards)
-            .Include(s => s.User.TravelPamphlets)
-            .FirstOrDefaultAsync(s => 
-                    s.SessionId == query.request.SessionKey, 
-                cancellationToken);
-        
-        if (session is null)
+        var data = await dbContext.Sessions
+            .AsSplitQuery()
+            .Where(s => s.SessionId == query.request.SessionKey)
+            .Select(s => new
+            {
+                Session = s,
+                User = s.User,
+                UserData = s.User.UserData,
+                UserDataAqours = s.User.UserDataAqours,
+                UserDataSaintSnow = s.User.UserDataSaintSnow,
+                Members = s.User.Members,
+                MemberCards = s.User.MemberCards,
+                TravelPamphlets = s.User.TravelPamphlets
+            }).FirstOrDefaultAsync(cancellationToken);
+
+        if (data?.Session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
         
         // Mark the session as active and set the expire time
-        session.IsActive = true;
-        session.ExpireTime = DateTime.Now.AddMinutes(60);
+        data.Session.IsActive = true;
+        data.Session.ExpireTime = DateTime.Now.AddMinutes(60);
 
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, data.Session.User);
         
         container.UserData.PlaySatellite++;
         
