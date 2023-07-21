@@ -54,7 +54,7 @@ public class UserDataResponse : ResponseBase
     public List<MailBoxItem> MailBox { get; set; } = new();
 
     [JsonPropertyName("specials")]
-    public List<SpecialData> Specials { get; set; } = new();
+    public List<SpecialItem> SpecialItems { get; set; } = new();
 
     [JsonPropertyName("flags")]
     public string Flags { get; set; } = "";

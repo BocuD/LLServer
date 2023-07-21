@@ -47,7 +47,10 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 TravelHistory = s.User.TravelHistory,
                 TravelHistoryAqours = s.User.TravelHistoryAqours,
                 TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
-                AchievementRecordBooks = s.User.AchievementRecordBooks
+                YellAchievements = s.User.YellAchievements,
+                AchievementRecordBooks = s.User.AchievementRecordBooks,
+                Items = s.User.Items,
+                SpecialItems = s.User.SpecialItems
             }).FirstOrDefaultAsync(cancellationToken);
 
         if (session is null)
@@ -57,12 +60,6 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
 
         //get persistent userdata container
         PersistentUserDataContainer container = new(dbContext, session.User);
-
-        //log userdata, userdata_aqours, userdata_saintsnow
-        logger.LogInformation("UserData: {@UserData}", JsonSerializer.Serialize(container.UserData));
-        logger.LogInformation("UserDataAqours: {@UserDataAqours}", JsonSerializer.Serialize(container.UserDataAqours));
-        logger.LogInformation("UserDataSaintSnow: {@UserDataSaintSnow}",
-            JsonSerializer.Serialize(container.UserDataSaintSnow));
 
         //response
         UserDataResponseMapper mapper = new();

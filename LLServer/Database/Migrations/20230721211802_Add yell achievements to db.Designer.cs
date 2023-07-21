@@ -3,6 +3,7 @@ using System;
 using LLServer.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LLServer.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230721211802_Add yell achievements to db")]
+    partial class Addyellachievementstodb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0-preview.6.23329.4");
@@ -151,30 +154,6 @@ namespace LLServer.Database.Migrations
                     b.ToTable("AchievementRecordBooks");
                 });
 
-            modelBuilder.Entity("LLServer.Models.UserData.Item", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "count");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "m_item_id");
-
-                    b.Property<ulong>("UserID")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Items");
-                });
-
             modelBuilder.Entity("LLServer.Models.UserData.MemberCardData", b =>
                 {
                     b.Property<int>("Id")
@@ -261,30 +240,6 @@ namespace LLServer.Database.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("MemberData");
-                });
-
-            modelBuilder.Entity("LLServer.Models.UserData.SpecialItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("IdolKind")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "idol_kind");
-
-                    b.Property<int>("SpecialId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "special_id");
-
-                    b.Property<ulong>("UserID")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("SpecialItems");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelData", b =>
@@ -815,17 +770,6 @@ namespace LLServer.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LLServer.Models.UserData.Item", b =>
-                {
-                    b.HasOne("LLServer.Database.Models.User", "User")
-                        .WithMany("Items")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("LLServer.Models.UserData.MemberCardData", b =>
                 {
                     b.HasOne("LLServer.Database.Models.User", "User")
@@ -841,17 +785,6 @@ namespace LLServer.Database.Migrations
                 {
                     b.HasOne("LLServer.Database.Models.User", "User")
                         .WithMany("Members")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LLServer.Models.UserData.SpecialItem", b =>
-                {
-                    b.HasOne("LLServer.Database.Models.User", "User")
-                        .WithMany("SpecialItems")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -962,8 +895,6 @@ namespace LLServer.Database.Migrations
                 {
                     b.Navigation("AchievementRecordBooks");
 
-                    b.Navigation("Items");
-
                     b.Navigation("LiveDatas");
 
                     b.Navigation("MemberCards");
@@ -971,8 +902,6 @@ namespace LLServer.Database.Migrations
                     b.Navigation("Members");
 
                     b.Navigation("Session");
-
-                    b.Navigation("SpecialItems");
 
                     b.Navigation("TravelData");
 

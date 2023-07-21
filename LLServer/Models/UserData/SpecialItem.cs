@@ -6,13 +6,13 @@ using LLServer.Database.Models;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.UserData;
 
-public class Item
+public class SpecialItem
 {
-    [JsonPropertyName("m_item_id")]
-    public int ItemId { get; set; } 
+    [JsonPropertyName("idol_kind")]
+    public int IdolKind { get; set; }
 
-    [JsonPropertyName("count")]
-    public int Count { get; set; }
+    [JsonPropertyName("special_id")]
+    public int SpecialId { get; set; } 
     
     //todo: don't store this in a separate table
     //Database key

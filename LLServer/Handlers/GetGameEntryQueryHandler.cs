@@ -39,7 +39,9 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
                 UserDataSaintSnow = s.User.UserDataSaintSnow,
                 Members = s.User.Members,
                 MemberCards = s.User.MemberCards,
-                TravelPamphlets = s.User.TravelPamphlets
+                TravelPamphlets = s.User.TravelPamphlets,
+                Items = s.User.Items,
+                SpecialItems = s.User.SpecialItems
             }).FirstOrDefaultAsync(cancellationToken);
 
         if (data?.Session is null)

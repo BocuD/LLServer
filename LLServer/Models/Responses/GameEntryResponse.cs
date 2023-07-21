@@ -30,7 +30,7 @@ public class GameEntryResponse : ResponseBase
     public List<MailBoxItem> MailBox { get; set; } = new();
 
     [JsonPropertyName("specials")]
-    public List<SpecialData> Specials { get; set; } = new();
+    public List<SpecialItem> Specials { get; set; } = new();
 
     [JsonPropertyName("first_login")]
     public bool FirstLogin { get; set; }

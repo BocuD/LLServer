@@ -25,7 +25,7 @@ public class UserDataContainer
     public TravelHistoryBase[]     TravelHistoryAqours    { get; set; } = new TravelHistoryBase[0];
     public TravelHistoryBase[]     TravelHistorySaintSnow { get; set; } = new TravelHistoryBase[0];
     public List<MailBoxItem>       MailBox                { get; set; } = new();
-    public List<SpecialData>       Specials               { get; set; } = new();
+    public List<SpecialItem>       Specials               { get; set; } = new();
     public string                  Flags                  { get; set; } = "";
     public Achievement[]           Achievements           { get; set; } = new Achievement[0];
     public AchievementRecordBook[] RecordBooks            { get; set; } = new AchievementRecordBook[0];
@@ -198,7 +198,7 @@ public class UserDataContainer
                 Count = 1
             }
         },
-        Specials = new List<SpecialData>
+        Specials = new List<SpecialItem>
         {
             new()
             {

@@ -54,7 +54,19 @@ public class PersistentUserDataContainer
     public List<TravelHistorySaintSnow> TravelHistorySaintSnow => User.TravelHistorySaintSnow;
     
     //Achievements
+    public List<YellAchievement> YellAchievements => User.YellAchievements;
     public List<AchievementRecordBook> AchievementRecordBooks => User.AchievementRecordBooks;
+    
+    //Items
+    public List<Item> Items => User.Items;
+    public List<SpecialItem> SpecialItems => User.SpecialItems;
+    
+    
+    //Active information
+    public List<ActiveInformation> ActiveInformation => Enumerable.Range(0, 99).Select(x => new ActiveInformation
+    {
+        Id = x
+    }).ToList();
 
     public void Initialize(InitializeUserData initializeCommand)
     {

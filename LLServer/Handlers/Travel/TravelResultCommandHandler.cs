@@ -106,7 +106,9 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
                 TravelPamphlets = s.User.TravelPamphlets,
                 TravelHistory = s.User.TravelHistory,
                 TravelHistoryAqours = s.User.TravelHistoryAqours,
-                TravelHistorySaintSnow = s.User.TravelHistorySaintSnow
+                TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
+                Items = s.User.Items,
+                SpecialItems = s.User.SpecialItems
             }).FirstOrDefaultAsync(cancellationToken);
         
         if (session is null)
@@ -141,8 +143,57 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         //todo: badges
         //todo: card frames
         //todo: coop player ids
-        //todo: earned items
-        //todo: earned special ids
+
+        //items
+        foreach (Item resultItem in travelResult.Item)
+        {
+            //find a matching item id in items, if it doesn't exist add a new item entry
+            Item? dataItem = container.Items.FirstOrDefault(i => i.ItemId == resultItem.ItemId);
+            if (dataItem == null)
+            {
+                container.Items.Add(new Item()
+                {
+                    ItemId = resultItem.ItemId,
+                });
+                dataItem = container.Items.FirstOrDefault(i => i.ItemId == resultItem.ItemId);
+            }
+
+            if (dataItem != null)
+            {
+                dataItem.Count += dataItem.Count;
+            }
+        }
+        
+        //special ids
+        foreach (int specialId in travelResult.SpecialIds)
+        {
+            container.SpecialItems.Add(new SpecialItem()
+            {
+                IdolKind = container.UserData.IdolKind,
+                SpecialId = specialId,
+            });
+        }
+        
+        //make sure we don't have more than 3 special items per idol kind
+        for (int idolKind = 0; idolKind < 3; idolKind++)
+        {
+            //get all special items for this idol kind
+            List<SpecialItem> specialItems = container.SpecialItems.Where(s => s.IdolKind == idolKind).ToList();
+            
+            //if we have more than 3, remove the oldest ones
+            if (specialItems.Count > 3)
+            {
+                //create list of items from front of list to remove from SpecialItems list
+                List<SpecialItem> itemsToRemove = specialItems.Take(specialItems.Count - 3).ToList();
+                
+                //remove items
+                foreach (SpecialItem item in itemsToRemove)
+                {
+                    container.SpecialItems.Remove(item);
+                }
+            }
+        }
+
         //todo: stage ids
         //todo: earned nameplayes
         //todo: earned skill cards
