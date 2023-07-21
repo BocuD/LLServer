@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
