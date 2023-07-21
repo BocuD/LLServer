@@ -222,7 +222,6 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             if (member != null)
             {
                 member.YellPoint = memberYell.YellPoint;
-                member.AchieveRank = memberYell.YellRank;
             }
         }
 
