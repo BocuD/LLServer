@@ -208,7 +208,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             travelData.CharacterId = travelResult.UserTravel.CharacterId;
             travelData.CardMemorialId = travelResult.UserTravel.CardMemorialId;
             travelData.LastLandmark = travelResult.UserTravel.LastLandmark;
-            travelData.Positions = travelResult.UserTravel.Positions;
+            travelData.Positions = travelResult.UserTravel.Positions.ToArray();
             travelData.Modified = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
@@ -255,6 +255,9 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
                     break;
             }
         }
+        
+        //save changes
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return new ResponseContainer()
         {
