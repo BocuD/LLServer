@@ -164,6 +164,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             }
         }
         
+        //todo: check if the game returns the full array of special ids or the ones that were obtained in this session
         //special ids
         foreach (int specialId in travelResult.SpecialIds)
         {
