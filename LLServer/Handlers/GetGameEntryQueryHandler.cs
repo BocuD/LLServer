@@ -57,8 +57,8 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         
         container.UserData.PlaySatellite++;
         
-        //update last play time
-        container.UserData.PlayDateTime.DateTime = DateTime.Now;
+        //update last play time (format is "2023-07-02 00:00:00")
+        container.UserData.PlayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         
         await dbContext.SaveChangesAsync(cancellationToken);
 

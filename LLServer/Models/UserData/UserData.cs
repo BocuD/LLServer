@@ -41,13 +41,7 @@ public class UserData : UserDataBase
     public string TenpoName { get; set; } = "Test";
 
     [JsonPropertyName("play_date")] 
-    public string PlayDate
-    {
-        get => PlayDateTime.DateTimeString;
-        set => PlayDateTime.DateTimeString = value;
-    }
-
-    [JsonIgnore, NotMapped] public GameDateTime PlayDateTime = new();
+    public string PlayDate { get; set; } = "";
 
     [JsonPropertyName("play_satellite")]
     public int PlaySatellite { get; set; }

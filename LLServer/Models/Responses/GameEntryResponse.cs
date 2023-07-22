@@ -32,6 +32,9 @@ public class GameEntryResponse : ResponseBase
     [JsonPropertyName("specials")]
     public List<SpecialItem> Specials { get; set; } = new();
 
+    [JsonPropertyName("now")] 
+    public string Now => DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss");
+
     [JsonPropertyName("first_login")]
     public bool FirstLogin { get; set; }
 

@@ -164,8 +164,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             }
         }
         
-        //todo: check if the game returns the full array of special ids or the ones that were obtained in this session
-        //special ids
+        //special ids: add new special items; only the new items are sent in the request
         foreach (int specialId in travelResult.SpecialIds)
         {
             container.SpecialItems.Add(new SpecialItem()
@@ -196,10 +195,9 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         }
 
         //todo: stage ids
-        //todo: earned nameplayes
+        //todo: earned nameplates
         //todo: earned skill cards
         //todo: earned memorial cards
-        //todo: record travel history
 
         //update level and exp
         container.UserData.Level = travelResult.Level;
