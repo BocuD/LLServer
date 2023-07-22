@@ -65,6 +65,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             UserId = user.UserId.ToString()
         };
 
+        //todo: correctly handle guest 'login'
         // Try to find existing session
         var existingSession = await dbContext.Sessions
             .FirstOrDefaultAsync(s => 

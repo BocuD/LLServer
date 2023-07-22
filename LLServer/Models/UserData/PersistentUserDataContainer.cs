@@ -150,7 +150,6 @@ public class PersistentUserDataContainer
                 if (member != null)
                 {
                     member.YellPoint = memberYell.YellPoint;
-                    member.AchieveRank = memberYell.YellRank;
                 }
             }
         }

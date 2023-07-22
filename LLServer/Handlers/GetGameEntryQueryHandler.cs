@@ -49,6 +49,7 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
             return StaticResponses.BadRequestResponse;
         }
         
+        //todo: this seems to not be working
         // Mark the session as active and set the expire time
         data.Session.IsActive = true;
         data.Session.ExpireTime = DateTime.Now.AddMinutes(60);

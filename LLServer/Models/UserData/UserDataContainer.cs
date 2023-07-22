@@ -507,7 +507,6 @@ public class UserDataContainer
                 }
 
                 member.YellPoint = memberYell.YellPoint;
-                member.AchieveRank = memberYell.YellRank;
             }
         }
     }
