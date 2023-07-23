@@ -153,6 +153,9 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
 
             liveData.SelectCount++;
             liveData.PlayerCount1++;
+            
+            liveData.Unlocked = true;
+            liveData.New = false;
         }
         
         //record game history
