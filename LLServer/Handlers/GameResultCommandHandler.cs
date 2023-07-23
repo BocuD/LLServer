@@ -162,13 +162,13 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         {
             case 0:
             default:
-                gameHistory = PersistentUserDataContainer.GameHistory;
+                gameHistory = container.GameHistory;
                 break;
             case 1:
-                gameHistory = PersistentUserDataContainer.GameHistoryAqours;
+                gameHistory = container.GameHistoryAqours;
                 break;
             case 2:
-                gameHistory = PersistentUserDataContainer.GameHistorySaintSnow;
+                gameHistory = container.GameHistorySaintSnow;
                 break;
         }
 
