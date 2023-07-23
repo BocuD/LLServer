@@ -62,6 +62,8 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("specials")]
     public List<SpecialItem> SpecialItems { get; set; } = new();
 
+    //example value:
+    //00100000010110001000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000
     [JsonPropertyName("flags")]
     public string Flags { get; set; } = "";
 

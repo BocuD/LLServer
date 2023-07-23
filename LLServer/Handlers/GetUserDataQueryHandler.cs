@@ -65,6 +65,10 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
         UserDataResponseMapper mapper = new();
         UserDataResponse response = mapper.FromPersistentUserData(container);
 
+        //todo: get rid of this
+        //stupid hack to prevent the name entry popup and tutorials from showing up
+        response.Flags = response.Flags.Replace("0", "1");
+
         return new ResponseContainer
         {
             Result = 200,
