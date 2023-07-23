@@ -155,6 +155,76 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
             liveData.PlayerCount1++;
         }
         
+        //record game history
+        //todo: make game history actually persistent
+        List<GameHistoryBase> gameHistory;
+        switch (gameResult.IdolKind)
+        {
+            case 0:
+            default:
+                gameHistory = PersistentUserDataContainer.GameHistory;
+                break;
+            case 1:
+                gameHistory = PersistentUserDataContainer.GameHistoryAqours;
+                break;
+            case 2:
+                gameHistory = PersistentUserDataContainer.GameHistorySaintSnow;
+                break;
+        }
+
+        //todo: figure out if the game expects incrementing ids per type or of all histories together
+        ulong highestId = gameHistory.Count == 0 ? 0 : gameHistory.Max(x => x.Id);
+
+        GameHistoryBase newHistory = new()
+        {
+            Id = highestId + 1,
+            PlayPlace = "test",
+            Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
+            DUserId = session.User.UserId,
+            CharacterId = gameResult.CharacterId,
+            MemberCardId = gameResult.MembercardId,
+            UsedMemberCard = gameResult.UsedMemberCard,
+            YellRank = gameResult.YellRank,
+            Badge = gameResult.Badge,
+            Nameplate = gameResult.Nameplate,
+            Honor = gameResult.Honor,
+            SkillCardsMain = gameResult.SkillCardsMain,
+            SkillCardsCamera = gameResult.SkillCardsCamera,
+            SkillCardsStage = gameResult.SkillCardsStage,
+            SkillLevelsMain = gameResult.SkillLevelsMain,
+            SkillLevelsCamera = gameResult.SkillLevelsCamera,
+            SkillLevelsStage = gameResult.SkillLevelsStage,
+            SkillStatusMain = gameResult.SkillStatusMain,
+            SkillStatusCamera = gameResult.SkillStatusCamera,
+            SkillStatusStage = gameResult.SkillStatusStage,
+            LiveId = gameResult.LiveId,
+            StageId = gameResult.StageId,
+            EventMode = gameResult.EventMode,
+            MemberCount = gameResult.MemberCount,
+            PlayPart = gameResult.PlayPart,
+            MaxCombo = gameResult.MaxCombo,
+            FullCombo = gameResult.FullCombo,
+            NoteMissCount = gameResult.NoteMissCount,
+            NoteBadCount = gameResult.NoteBadCount,
+            NoteGoodCount = gameResult.NoteGoodCount,
+            NoteGreatCount = gameResult.NoteGreatCount,
+            NotePerfectCount = gameResult.NotePerfectCount,
+            FinalePoint = gameResult.FinalePoint,
+            TechnicalScore = gameResult.TechnicalScore,
+            SkillScore = gameResult.SkillScore,
+            SynchroScore = gameResult.SynchroScore,
+            ComboScore = gameResult.ComboScore,
+            TechnicalRank = gameResult.TechnicalRank
+        };
+        //add to history
+        gameHistory.Add(newHistory);
+        
+        //remove the first history if we have more than 10
+        if (gameHistory.Count > 10)
+        {
+            gameHistory.RemoveAt(0);
+        }
+        
         //write to db
         await dbContext.SaveChangesAsync(cancellationToken);
 

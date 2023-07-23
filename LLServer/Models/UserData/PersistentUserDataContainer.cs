@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using LLServer.Database.Models;
+﻿using LLServer.Database.Models;
 using LLServer.Mappers;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,6 +48,13 @@ public class PersistentUserDataContainer
     //Travel data
     public List<TravelData> Travels => User.TravelData;
     public List<TravelPamphlet> TravelPamphlets => User.TravelPamphlets;
+    
+    //Game history
+    public static List<GameHistoryBase> GameHistory = new();
+    public static List<GameHistoryBase> GameHistoryAqours = new();
+    public static List<GameHistoryBase> GameHistorySaintSnow = new();
+
+    //Travel history
     public List<TravelHistory> TravelHistory => User.TravelHistory;
     public List<TravelHistoryAqours> TravelHistoryAqours => User.TravelHistoryAqours;
     public List<TravelHistorySaintSnow> TravelHistorySaintSnow => User.TravelHistorySaintSnow;
@@ -63,10 +69,12 @@ public class PersistentUserDataContainer
     
     
     //Active information
-    public List<ActiveInformation> ActiveInformation => Enumerable.Range(0, 99).Select(x => new ActiveInformation
-    {
-        Id = x
-    }).ToList();
+    public List<ActiveInformation> ActiveInformation => new();
+    
+    //Other
+    public bool FirstLogin { get; set; } = true;
+    
+    
 
     public void Initialize(InitializeUserData initializeCommand)
     {

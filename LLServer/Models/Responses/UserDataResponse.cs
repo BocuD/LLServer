@@ -38,9 +38,15 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("stages")] 
     public List<StageData> Stages { get; set; } = new();
 
-    //game history
-    //game history aqours
-    //game history saint snow
+    [JsonPropertyName("game_history")]
+    public List<GameHistoryBase> GameHistory { get; set; } = new();
+    
+    [JsonPropertyName("game_history_aqours")]
+    public List<GameHistoryBase> GameHistoryAqours { get; set; } = new();
+    
+    [JsonPropertyName("game_history_saintsnow")]
+    public List<GameHistoryBase> GameHistorySaintSnow { get; set; } = new();
+    
     [JsonPropertyName("travel_history")]
     public TravelHistoryBase[] TravelHistory { get; set; } = Array.Empty<TravelHistoryBase>();
 
