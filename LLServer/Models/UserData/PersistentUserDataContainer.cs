@@ -76,7 +76,7 @@ public class PersistentUserDataContainer
     public List<ActiveInformation> ActiveInformation => new();
     
     //Other
-    public bool FirstLogin { get; set; } = true;
+    public bool FirstLogin { get; set; } = false;
     
     
 
