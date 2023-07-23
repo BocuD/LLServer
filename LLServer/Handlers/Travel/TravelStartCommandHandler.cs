@@ -98,7 +98,7 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
         }
         
         //make sure the travel pamphlet exists
-        TravelPamphlet? travelPamphlet = container.TravelPamphlets.FirstOrDefault(x => x.Id == travelStart.TravelPamphletId);
+        TravelPamphlet? travelPamphlet = container.TravelPamphlets.FirstOrDefault(x => x.TravelPamphletId == travelStart.TravelPamphletId);
 
         if (travelPamphlet is null)
         {
