@@ -224,7 +224,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         }
 
         //update travel pamphlet
-        TravelPamphlet? travelPamphlet = container.TravelPamphlets.FirstOrDefault(t => t.Id == travelResult.UserTravel.TravelPamphletId);
+        TravelPamphlet? travelPamphlet = container.TravelPamphlets.FirstOrDefault(t => t.TravelPamphletId == travelResult.UserTravel.TravelPamphletId);
 
         if (travelPamphlet is null)
         {
@@ -233,7 +233,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
                 TravelPamphletId = travelResult.UserTravel.TravelPamphletId,
                 IsNew = true
             });
-            travelPamphlet = container.TravelPamphlets.FirstOrDefault(t => t.Id == travelResult.UserTravel.TravelPamphletId);
+            travelPamphlet = container.TravelPamphlets.FirstOrDefault(t => t.TravelPamphletId == travelResult.UserTravel.TravelPamphletId);
         }
 
         if (travelPamphlet != null)
