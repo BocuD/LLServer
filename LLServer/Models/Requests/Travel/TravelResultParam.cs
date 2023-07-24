@@ -12,43 +12,57 @@ namespace LLServer.Models.Requests.Travel;
         "dice_count": 1,
         "get_memorial_cards": [],
         "get_skill_cards": [],
-        "item": [
+        "item": [],
+        "level": 30,
+        "lot_gachas": [
             {
-                "count": 1,
-                "m_item_id": 20102
+                "card_count": 1,
+                "gacha_id": "gta_travel_member_106",
+                "location": 500,
+                "order": 0
+            },
+            {
+                "card_count": 1,
+                "gacha_id": "gta_travel_member_4",
+                "location": 202,
+                "order": 0
             }
         ],
-        "level": 9,
-        "lot_gachas": [],
         "m_card_member_id": 40011,
         "member_yell": [],
         "nameplates": [],
         "release_pamphlet_ids": [],
-        "special_ids": [
-            1
-        ],
+        "special_ids": [],
         "stage_ids": [],
-        "talk_count": 0,
+        "talk_count": 1,
         "tenpo_name": "LLServer",
-        "total_exp": 2223,
+        "total_exp": 28617,
         "travel_ex_rewards": [],
         "travel_history": [
             {
-                "create_type": 0,
+                "create_type": 2,
                 "m_snap_background_id": 20100,
-                "other_character_id": 0,
+                "other_character_id": 6,
                 "other_d_user_id": 0
             }
         ],
-        "travel_talks": [],
+        "travel_talks": [
+            {
+                "my_character_id": 4,
+                "other_character_id": 6,
+                "talk_id": 400006
+            }
+        ],
         "user_travel": {
             "character_id": 4,
             "is_goal": 0,
-            "last_landmark": 2,
+            "last_landmark": 9,
             "m_card_memorial_id": 4000,
             "m_travel_pamphlet_id": 201,
             "positions": [
-                43
+                2,
+                7,
+                7
             ],
             "slot": 0
         },
@@ -105,7 +119,7 @@ public class GetSkillCard
 //todo: actual type is unknown, test this with the game (this is purely based on vague decompiled code)
 public class LotGacha
 {
-    [JsonPropertyName("gacha_id")] public int GachaId { get; set; }
+    [JsonPropertyName("gacha_id")] public string GachaId { get; set; } = "";
     [JsonPropertyName("card_count")] public int CardCount { get; set; }
     [JsonPropertyName("location")] public int Location { get; set; }
     [JsonPropertyName("order")] public int Order { get; set; }
