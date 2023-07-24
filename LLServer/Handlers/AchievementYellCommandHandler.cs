@@ -67,6 +67,8 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
         {
             return StaticResponses.BadRequestResponse;
         }
+        
+        //todo: record mobile points (found in smallrewardcount)
 
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session.User);
@@ -78,7 +80,7 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
             MemberData? member = container.Members.FirstOrDefault(m => m.CharacterId == memberYellAchievement.CharacterId);
             if (member == null)
             {
-                container.Members.Add(new MemberData()
+                container.Members.Add(new MemberData
                 {
                     CharacterId = memberYellAchievement.CharacterId,
                 });

@@ -1,7 +1,5 @@
-﻿using System.Text.Json;
-using LLServer.Common;
+﻿using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -50,7 +48,9 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 YellAchievements = s.User.YellAchievements,
                 AchievementRecordBooks = s.User.AchievementRecordBooks,
                 Items = s.User.Items,
-                SpecialItems = s.User.SpecialItems
+                SpecialItems = s.User.SpecialItems,
+                NamePlates = s.User.NamePlates,
+                Badges = s.User.Badges,
             }).FirstOrDefaultAsync(cancellationToken);
 
         if (session is null)

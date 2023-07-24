@@ -54,7 +54,9 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
                 YellAchievements = s.User.YellAchievements,
                 AchievementRecordBooks = s.User.AchievementRecordBooks,
                 Items = s.User.Items,
-                SpecialItems = s.User.SpecialItems
+                SpecialItems = s.User.SpecialItems,
+                NamePlates = s.User.NamePlates,
+                Badges = s.User.Badges
             }).FirstOrDefaultAsync(cancellationToken);
         
         if (session is null)

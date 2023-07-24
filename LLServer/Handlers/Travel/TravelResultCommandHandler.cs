@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
@@ -153,9 +152,38 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         */
         
         //these are mainly not implemented because they are not stored in the database
-        //todo: badges
         //todo: card frames
         //todo: coop player ids
+        
+        //badges
+        foreach (int badge in travelResult.Badges)
+        {
+            //find matching batch id in badges, if it doesn't exist add a new badge entry
+            Badge? dataBadge = container.Badges.FirstOrDefault(b => b.BadgeId == badge);
+            if (dataBadge == null)
+            {
+                container.Badges.Add(new Badge
+                {
+                    BadgeId = badge,
+                    New = true
+                });
+            }
+        }
+        
+        //nameplates
+        foreach (int nameplate in travelResult.Nameplates)
+        {
+            //find matching nameplate id in nameplates, if it doesn't exist add a new nameplate entry
+            NamePlate? dataNameplate = container.NamePlates.FirstOrDefault(n => n.NamePlateId == nameplate);
+            if (dataNameplate == null)
+            {
+                container.NamePlates.Add(new NamePlate
+                {
+                    NamePlateId = nameplate,
+                    New = true
+                });
+            }
+        }
 
         //items
         foreach (Item resultItem in travelResult.Item)
@@ -208,7 +236,6 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         }
 
         //todo: stage ids
-        //todo: earned nameplates
         //todo: earned skill cards
         //todo: earned memorial cards
 

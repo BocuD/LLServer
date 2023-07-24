@@ -117,6 +117,19 @@ public class PersistentUserDataContainer
             New = true,
         });
         
+        //add nameplate and badge from userdata
+        NamePlates.Add(new NamePlate
+        {
+            Id = UserData.Nameplate,
+            New = false,
+        });
+        
+        Badges.Add(new Badge
+        {
+            Id = UserData.Badge,
+            New = false,
+        });
+        
         //initialize other data
         UserData.Level = 1;
     }
