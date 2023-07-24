@@ -22,43 +22,57 @@ namespace LLServer.Handlers.Travel;
         "dice_count": 1,
         "get_memorial_cards": [],
         "get_skill_cards": [],
-        "item": [
+        "item": [],
+        "level": 30,
+        "lot_gachas": [
             {
-                "count": 1,
-                "m_item_id": 20102
+                "card_count": 1,
+                "gacha_id": "gta_travel_member_106",
+                "location": 500,
+                "order": 0
+            },
+            {
+                "card_count": 1,
+                "gacha_id": "gta_travel_member_4",
+                "location": 202,
+                "order": 0
             }
         ],
-        "level": 9,
-        "lot_gachas": [],
         "m_card_member_id": 40011,
         "member_yell": [],
         "nameplates": [],
         "release_pamphlet_ids": [],
-        "special_ids": [
-            1
-        ],
+        "special_ids": [],
         "stage_ids": [],
-        "talk_count": 0,
+        "talk_count": 1,
         "tenpo_name": "LLServer",
-        "total_exp": 2223,
+        "total_exp": 28617,
         "travel_ex_rewards": [],
         "travel_history": [
             {
-                "create_type": 0,
+                "create_type": 2,
                 "m_snap_background_id": 20100,
-                "other_character_id": 0,
+                "other_character_id": 6,
                 "other_d_user_id": 0
             }
         ],
-        "travel_talks": [],
+        "travel_talks": [
+            {
+                "my_character_id": 4,
+                "other_character_id": 6,
+                "talk_id": 400006
+            }
+        ],
         "user_travel": {
             "character_id": 4,
             "is_goal": 0,
-            "last_landmark": 2,
+            "last_landmark": 9,
             "m_card_memorial_id": 4000,
             "m_travel_pamphlet_id": 201,
             "positions": [
-                43
+                2,
+                7,
+                7
             ],
             "slot": 0
         },
@@ -136,7 +150,6 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         "release_pamphlet_ids": [],
         "travel_ex_rewards": [],
         "travel_talks": [],
-        "walk_count": 5
         */
         
         //these are mainly not implemented because they are not stored in the database
@@ -310,6 +323,27 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             }
         }
         
+        //parse lot gachas
+        List<GetCardData> getCardDatas = new();
+        
+        //todo: replace this with incrementing mailbox id from mailbox in database
+        int mailboxId = 0;
+        
+        foreach (LotGacha gacha in travelResult.LotGachas)
+        {
+            for (int i = 0; i < gacha.CardCount; i++)
+            {
+                getCardDatas.Add(new GetCardData()
+                {
+                    Location = gacha.Location,
+                    MailBoxId = mailboxId
+                });
+            }
+
+            mailboxId++;
+        }
+        
+        
         //save changes
         await dbContext.SaveChangesAsync(cancellationToken);
 
@@ -318,8 +352,9 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             Result = 200,
             Response = new TravelResultResponse()
             {
-                GetCardDatas = Array.Empty<GetCardData>(),
+                GetCardDatas = getCardDatas.ToArray(),
                 TravelHistoryIds = travelHistoryIds.Select(x => x.ToString()).ToArray(),
+                //todo figure out what is expected here
                 MailBox = Array.Empty<MailBoxItem>()
             }
         };
