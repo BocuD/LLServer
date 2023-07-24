@@ -316,7 +316,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             TravelHistoryBase newHistory = new()
             {
                 CardMemberId = travelResult.CardMemberId,
-                Created = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
                 CreateType = toRecord.CreateType,
                 OtherCharacterId = toRecord.OtherCharacterId,
 
@@ -326,6 +326,9 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
                 OtherPlayerBadge = 901001,
                 OtherPlayerNameplate = 19001,
                 Id = highestTravelId + 1,
+                TravelPamphletId = travelResult.UserTravel.TravelPamphletId,
+                TenpoName = travelResult.TenpoName,
+                SnapBackgroundId = toRecord.SnapBackgroundId,
             };
             
             travelHistoryIds.Add(newHistory.Id);
