@@ -71,6 +71,10 @@ public class PersistentUserDataContainer
     public List<Item> Items => User.Items;
     public List<SpecialItem> SpecialItems => User.SpecialItems;
     
+    //Unlockables
+    public List<NamePlate> NamePlates => User.NamePlates;
+    public List<Badge> Badges => User.Badges;
+    
     
     //Active information
     public List<ActiveInformation> ActiveInformation => new();

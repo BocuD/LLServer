@@ -43,6 +43,10 @@ public class User
     //items
     [Required] public List<Item> Items { get; set; } = new();
     [Required] public List<SpecialItem> SpecialItems { get; set; } = new();
+    
+    //Unlockables
+    [Required] public List<NamePlate> NamePlates { get; set; } = new();
+    [Required] public List<Badge> Badges { get; set; } = new();
 
     //other data
     public string Flags { get; set; } = "";

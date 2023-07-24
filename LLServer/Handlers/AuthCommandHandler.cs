@@ -136,7 +136,10 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             AchievementRecordBooks = new List<AchievementRecordBook>(),
             
             Items = new List<Item>(),
-            SpecialItems = new List<SpecialItem>()
+            SpecialItems = new List<SpecialItem>(),
+            
+            NamePlates = new List<NamePlate>(),
+            Badges = new List<Badge>(),
         };
         
         dbContext.Users.Add(user);
@@ -162,6 +165,9 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         
         dbContext.Items.AddRange(user.Items);
         dbContext.SpecialItems.AddRange(user.SpecialItems);
+        
+        dbContext.NamePlates.AddRange(user.NamePlates);
+        dbContext.Badges.AddRange(user.Badges);
 
         await dbContext.SaveChangesAsync();
         

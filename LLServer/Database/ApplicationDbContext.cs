@@ -32,6 +32,9 @@ public class ApplicationDbContext : DbContext
     
     public DbSet<Item> Items { get; set; }
     public DbSet<SpecialItem> SpecialItems { get; set; }
+    
+    public DbSet<NamePlate> NamePlates { get; set; }
+    public DbSet<Badge> Badges { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
