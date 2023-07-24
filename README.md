@@ -6,15 +6,15 @@ Currently in active development.
 ## Supported Features
 
 - Profile creation
-- Song unlocks
+- Live (difficulty) unlocks
 - Score saving
 - Card saving and leveling
+- Badges and nameplates
 - おでかけ♪スクールアイドル (the board game at the end of the game)
 
 ## Currently unsaved data
 
 - Game history (only used in terminal mode so this doesn't matter right now)
-- Unlocked badges, nameplates
 - Stage unlocks (these are all unlocked by default)
 - Music unlocks (these are all unlocked by default - note that you still need the right member cards to be able to play a song)
 
@@ -22,7 +22,7 @@ Currently in active development.
 
 - Guest mode
 - Terminal (card printer) support
-- Gacha mode support
+- おでかけ♪スクールアイドル card earning
 - Some way to get more member cards
 - Save above mentioned data
 - Ranking (is a placeholder right now)
