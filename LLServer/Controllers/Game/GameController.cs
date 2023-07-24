@@ -14,10 +14,13 @@ namespace LLServer.Controllers.Game;
 public class GameController : BaseController<GameController>
 {
     private readonly IMediator mediator;
+    private bool detailedLogging = false;
 
-    public GameController(IMediator mediator)
+    public GameController(IMediator mediator, IConfiguration configuration)
     {
         this.mediator = mediator;
+        
+        detailedLogging = configuration["DetailedLogging"] == "true";
     }
 
     [HttpPost]
@@ -50,15 +53,17 @@ public class GameController : BaseController<GameController>
         }
         
         Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
-        
-#if DEBUG
-        //for each successful request, log to the request log
-        string fullRequest = $"{request.Protocol}\n{bodyString}\n";
-        
-        //write to text files
-        await System.IO.File.AppendAllTextAsync("requests.log", fullRequest);
-        await System.IO.File.AppendAllTextAsync("requests.log", "------------------------\n");
-#endif
+
+
+        if (detailedLogging)
+        {
+            //for each successful request, log to the request log
+            string fullRequest = $"{request.Protocol}\n{bodyString}\n";
+
+            //write to text files
+            await System.IO.File.AppendAllTextAsync("requests.log", fullRequest);
+            await System.IO.File.AppendAllTextAsync("requests.log", "------------------------\n");
+        }
 
         ResponseContainer response;
         
@@ -89,40 +94,51 @@ public class GameController : BaseController<GameController>
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "Unhandled exception while handling request ({}): {Message}\n{StackTrace}\nOriginal request header: {fullRequest}", request.Protocol, e.Message, e.StackTrace, fullRequest);
-            
-#if DEBUG
-            //log to request log
-            await System.IO.File.AppendAllTextAsync("requests.log", "Unhandled exception while handling request: " + fullRequest);
-            await System.IO.File.AppendAllTextAsync("requests.log", e.Message);
-            await System.IO.File.AppendAllTextAsync("requests.log", e.StackTrace);
-            
-            //log to response log
-            await System.IO.File.AppendAllTextAsync("responses.log", "Unhandled exception while handling request: " + fullRequest);
-            await System.IO.File.AppendAllTextAsync("responses.log", e.Message);
-            await System.IO.File.AppendAllTextAsync("responses.log", e.StackTrace);
+            string fullRequest = $"{request.Protocol}\n{bodyString}\n";
 
-            //log to the server log
-            await System.IO.File.AppendAllTextAsync("server.log", "Unhandled exception while handling request: " + fullRequest);
-            await System.IO.File.AppendAllTextAsync("server.log", e.Message);
-            await System.IO.File.AppendAllTextAsync("server.log", e.StackTrace);
-#endif
-            
+            Logger.LogError(e, "Unhandled exception while handling request ({}): {Message}\n{StackTrace}\nOriginal request header: {fullRequest}", request.Protocol, e.Message, e.StackTrace, fullRequest);
+
+            if (detailedLogging)
+            {
+                //log to request log
+                await System.IO.File.AppendAllTextAsync("requests.log",
+                    "Unhandled exception while handling request: " + fullRequest);
+                await System.IO.File.AppendAllTextAsync("requests.log", e.Message);
+                await System.IO.File.AppendAllTextAsync("requests.log", e.StackTrace);
+
+                //log to response log
+                await System.IO.File.AppendAllTextAsync("responses.log",
+                    "Unhandled exception while handling request: " + fullRequest);
+                await System.IO.File.AppendAllTextAsync("responses.log", e.Message);
+                await System.IO.File.AppendAllTextAsync("responses.log", e.StackTrace);
+
+                //log to the server log
+                await System.IO.File.AppendAllTextAsync("server.log",
+                    "Unhandled exception while handling request: " + fullRequest);
+                await System.IO.File.AppendAllTextAsync("server.log", e.Message);
+                await System.IO.File.AppendAllTextAsync("server.log", e.StackTrace);
+            }
+
             return BadRequest();
         }
 
-#if DEBUG
-        //serialize the response using prettyprint
-        string fullResponse = $"{response.Result}\n{JsonSerializer.Serialize(response.Response, new JsonSerializerOptions { WriteIndented = true })}\n";
 
-        await System.IO.File.AppendAllTextAsync("responses.log", fullResponse);
-        await System.IO.File.AppendAllTextAsync("responses.log", "------------------------\n");
-        
-        await System.IO.File.AppendAllTextAsync("server.log", fullRequest);
-        await System.IO.File.AppendAllTextAsync("server.log", fullResponse);
-        await System.IO.File.AppendAllTextAsync("server.log", "------------------------\n");
-#endif
-        
+        if (detailedLogging)
+        {
+            string fullRequest = $"{request.Protocol}\n{bodyString}\n";
+            
+            //serialize the response using prettyprint
+            string fullResponse =
+                $"{response.Result}\n{JsonSerializer.Serialize(response.Response, new JsonSerializerOptions { WriteIndented = true })}\n";
+
+            await System.IO.File.AppendAllTextAsync("responses.log", fullResponse);
+            await System.IO.File.AppendAllTextAsync("responses.log", "------------------------\n");
+
+            await System.IO.File.AppendAllTextAsync("server.log", fullRequest);
+            await System.IO.File.AppendAllTextAsync("server.log", fullResponse);
+            await System.IO.File.AppendAllTextAsync("server.log", "------------------------\n");
+        }
+
         return Ok(response);
     }
 

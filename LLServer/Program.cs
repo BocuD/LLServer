@@ -4,11 +4,19 @@ using LLServer.Formatters;
 using LLServer.Middlewares;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
+    .CreateLogger();
 
+Log.Information("Starting server...");
+
+builder.Host.UseSerilog();
+
+// Add services to the container.
 builder.Services.AddControllers(
         options => options.OutputFormatters.Insert(0, new BinaryMediaTypeFormatter()))
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new DateTimeConverterUsingDateTimeParse()));
@@ -18,8 +26,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.OperationFilter<DebugHeaderFilter>());
 builder.Services.AddHttpLogging(logging =>
 {
-    logging.LoggingFields =
-        HttpLoggingFields.RequestPath | HttpLoggingFields.RequestQuery | HttpLoggingFields.RequestMethod;
+    logging.LoggingFields = HttpLoggingFields.RequestPath | HttpLoggingFields.RequestQuery | HttpLoggingFields.RequestMethod;
     logging.RequestBodyLogLimit = 4096;
 });
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
