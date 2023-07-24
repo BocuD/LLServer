@@ -83,7 +83,7 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
 
         if (travelData is null)
         {
-            container.Travels.Add(new TravelData()
+            container.Travels.Add(new TravelData
             {
                 Slot = travelStart.Slot,
             });
@@ -102,7 +102,7 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
 
         if (travelPamphlet is null)
         {
-            container.TravelPamphlets.Add(new TravelPamphlet()
+            container.TravelPamphlets.Add(new TravelPamphlet
             {
                 TravelPamphletId = travelStart.TravelPamphletId,
                 IsNew = true,
@@ -117,10 +117,10 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
         await dbContext.SaveChangesAsync(cancellationToken);
 
         //todo: implement other player data to appear on map
-        return new ResponseContainer()
+        return new ResponseContainer
         {
             Result = 200,
-            Response = new TravelStartResponse()
+            Response = new TravelStartResponse
             {
                 OtherPlayers = new TravelOtherPlayerData[0],
             }

@@ -192,7 +192,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             Item? dataItem = container.Items.FirstOrDefault(i => i.ItemId == resultItem.ItemId);
             if (dataItem == null)
             {
-                container.Items.Add(new Item()
+                container.Items.Add(new Item
                 {
                     ItemId = resultItem.ItemId,
                 });
@@ -208,7 +208,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         //special ids: add new special items; only the new items are sent in the request
         foreach (int specialId in travelResult.SpecialIds)
         {
-            container.SpecialItems.Add(new SpecialItem()
+            container.SpecialItems.Add(new SpecialItem
             {
                 IdolKind = container.UserData.IdolKind,
                 SpecialId = specialId,
@@ -250,7 +250,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             MemberData? member = container.Members.FirstOrDefault(m => m.CharacterId == memberYell.CharacterId);
             if (member == null)
             {
-                container.Members.Add(new MemberData()
+                container.Members.Add(new MemberData
                 {
                     CharacterId = memberYell.CharacterId,
                 });
@@ -268,7 +268,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
 
         if (travelPamphlet is null)
         {
-            container.TravelPamphlets.Add(new TravelPamphlet()
+            container.TravelPamphlets.Add(new TravelPamphlet
             {
                 TravelPamphletId = travelResult.UserTravel.TravelPamphletId,
                 IsNew = true
@@ -288,7 +288,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         
         if(travelData is null)
         {
-            container.Travels.Add(new TravelData()
+            container.Travels.Add(new TravelData
             {
                 Slot = travelResult.UserTravel.Slot
             });
@@ -360,7 +360,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         {
             for (int i = 0; i < gacha.CardCount; i++)
             {
-                getCardDatas.Add(new GetCardData()
+                getCardDatas.Add(new GetCardData
                 {
                     Location = gacha.Location,
                     MailBoxId = mailboxId
@@ -374,10 +374,10 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         //save changes
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return new ResponseContainer()
+        return new ResponseContainer
         {
             Result = 200,
-            Response = new TravelResultResponse()
+            Response = new TravelResultResponse
             {
                 GetCardDatas = getCardDatas.ToArray(),
                 TravelHistoryIds = travelHistoryIds.Select(x => x.ToString()).ToArray(),

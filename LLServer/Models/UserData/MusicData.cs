@@ -322,7 +322,7 @@ public class MusicData
         
         musicData.AddRange(
             AlwaysLockedMusicIds.Select(x =>
-                new MusicData()
+                new MusicData
                 {
                     MusicId = x,
                     New = false,

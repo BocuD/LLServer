@@ -103,7 +103,7 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
         await dbContext.SaveChangesAsync(cancellationToken);
 
         //todo: return actual data
-        return new ResponseContainer()
+        return new ResponseContainer
         {
             Result = 200,
             Response = new AchievementYellResponse

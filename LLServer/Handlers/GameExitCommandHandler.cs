@@ -64,7 +64,7 @@ public class GameExitCommandHandler : IRequestHandler<GameExitCommand, ResponseC
         //write to database
         await dbContext.SaveChangesAsync(cancellationToken);
         
-        return new ResponseContainer()
+        return new ResponseContainer
         {
             Result = 200,
             Response = new ResponseBase()

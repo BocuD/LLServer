@@ -70,10 +70,10 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
         await dbContext.SaveChangesAsync(cancellationToken);
 
         //todo: return actual data
-        return new ResponseContainer()
+        return new ResponseContainer
         {
             Result = 200,
-            Response = new AchievementResponse()
+            Response = new AchievementResponse
             {
                 Achievements = new Achievement[0],
                 RecordBooks = container.AchievementRecordBooks.ToArray(),

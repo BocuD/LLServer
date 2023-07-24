@@ -18,7 +18,7 @@ public class GameConfigQueryHandler : IRequestHandler<GameConfigQuery, ResponseC
 
     public async Task<ResponseContainer> Handle(GameConfigQuery request, CancellationToken cancellationToken)
     {
-        var response = new ResponseContainer()
+        var response = new ResponseContainer
         {
             Result = 200,
             Response = GameConfigResponse.DefaultGameConfigResponse()

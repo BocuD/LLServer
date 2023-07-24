@@ -169,7 +169,7 @@ public class PersistentUserDataContainer
                 MemberData? member = Members.FirstOrDefault(m => m.CharacterId == memberYell.CharacterId);
                 if (member == null)
                 {
-                    Members.Add(new MemberData()
+                    Members.Add(new MemberData
                     {
                         CharacterId = memberYell.CharacterId,
                     });

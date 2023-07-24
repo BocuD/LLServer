@@ -71,7 +71,7 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         MemberData? memberData = container.Members.FirstOrDefault(x => x.CharacterId == gameResult.CharacterId);
         if (memberData == null)
         {
-            container.Members.Add(new MemberData()
+            container.Members.Add(new MemberData
             {
                 CharacterId = gameResult.CharacterId,
                 CardMemberId = gameResult.UsedMemberCard
@@ -234,7 +234,7 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         return new ResponseContainer
         {
             Result = 200,
-            Response = new GameResultResponse()
+            Response = new GameResultResponse
             {
                 Musics = container.Musics,
                 Stages = container.Stages,
