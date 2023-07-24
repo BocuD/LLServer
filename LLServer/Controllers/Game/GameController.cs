@@ -24,11 +24,11 @@ public class GameController : BaseController<GameController>
     public async Task<ActionResult<ResponseContainer>> BaseHandler()
     { 
         RequestBase? request;
-        var bodyString = string.Empty;
+        string bodyString = string.Empty;
         
         try
         {
-            var buffer = new byte[Request.Body.Length];
+            byte[] buffer = new byte[Request.Body.Length];
 
             _ = await Request.Body.ReadAsync(buffer.AsMemory(0, (int)Request.Body.Length));
 
@@ -51,47 +51,77 @@ public class GameController : BaseController<GameController>
         
         Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
         
-        ResponseContainer response = request.Protocol switch
-        {
-            "unlock"              => await mediator.Send(new UnlockQuery()),
-            "gameconfig"          => await mediator.Send(new GameConfigQuery()),
-            "information"         => await mediator.Send(new InformationQuery(Request.Host.Value)),
-            "auth"                => await mediator.Send(new AuthCommand(request.Param)),
-            "gameentry"           => await mediator.Send(new GetGameEntryQuery(request)),
-            "userdata.get"        => await mediator.Send(new GetUserDataQuery(request)),
-            "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request)),
-            "userdata.set"        => await mediator.Send(new SetUserDataCommand(request)),
-            "checkword"           => await mediator.Send(new CheckWordCommand()),
-            "ranking"             => await mediator.Send(new GetRankingQuery()),
-            "gameresult"          => await mediator.Send(new GameResultCommand(request)),
-            "gametotalresult"     => await mediator.Send(new GameTotalResultQuery()),
-            "gameexit"            => await mediator.Send(new GameExitCommand(request)),
-            "TravelStart"         => await mediator.Send(new TravelStartCommand(request)),
-            "TravelResult"        => await mediator.Send(new TravelResultCommand(request)),
-            "travelstamp"         => await mediator.Send(new TravelStampCommand(request)),
-            "achievement"         => await mediator.Send(new AchievementCommand(request)),
-            "achievementyell"     => await mediator.Send(new AchievementYellCommand(request)),
-            _                     => DefaultResponse(request.Protocol)
-        };
-
-        #if DEBUG
+#if DEBUG
         //for each successful request, log to the request log
         string fullRequest = $"{request.Protocol}\n{bodyString}\n";
-        
-        //serialize the response using prettyprint
-        string fullResponse = $"{response.Result}\n{JsonSerializer.Serialize(response.Response, new JsonSerializerOptions { WriteIndented = true })}\n";
         
         //write to text files
         await System.IO.File.AppendAllTextAsync("requests.log", fullRequest);
         await System.IO.File.AppendAllTextAsync("requests.log", "------------------------\n");
+#endif
+
+        ResponseContainer response;
         
+        try
+        {
+            response = request.Protocol switch
+            {
+                "unlock" => await mediator.Send(new UnlockQuery()),
+                "gameconfig" => await mediator.Send(new GameConfigQuery()),
+                "information" => await mediator.Send(new InformationQuery(Request.Host.Value)),
+                "auth" => await mediator.Send(new AuthCommand(request.Param)),
+                "gameentry" => await mediator.Send(new GetGameEntryQuery(request)),
+                "userdata.get" => await mediator.Send(new GetUserDataQuery(request)),
+                "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request)),
+                "userdata.set" => await mediator.Send(new SetUserDataCommand(request)),
+                "checkword" => await mediator.Send(new CheckWordCommand()),
+                "ranking" => await mediator.Send(new GetRankingQuery()),
+                "gameresult" => await mediator.Send(new GameResultCommand(request)),
+                "gametotalresult" => await mediator.Send(new GameTotalResultQuery()),
+                "gameexit" => await mediator.Send(new GameExitCommand(request)),
+                "TravelStart" => await mediator.Send(new TravelStartCommand(request)),
+                "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
+                "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
+                "achievement" => await mediator.Send(new AchievementCommand(request)),
+                "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),
+                _ => DefaultResponse(request.Protocol)
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "Unhandled exception while handling request ({}): {Message}\n{StackTrace}\nOriginal request header: {fullRequest}", request.Protocol, e.Message, e.StackTrace, fullRequest);
+            
+#if DEBUG
+            //log to request log
+            await System.IO.File.AppendAllTextAsync("requests.log", "Unhandled exception while handling request: " + fullRequest);
+            await System.IO.File.AppendAllTextAsync("requests.log", e.Message);
+            await System.IO.File.AppendAllTextAsync("requests.log", e.StackTrace);
+            
+            //log to response log
+            await System.IO.File.AppendAllTextAsync("responses.log", "Unhandled exception while handling request: " + fullRequest);
+            await System.IO.File.AppendAllTextAsync("responses.log", e.Message);
+            await System.IO.File.AppendAllTextAsync("responses.log", e.StackTrace);
+
+            //log to the server log
+            await System.IO.File.AppendAllTextAsync("server.log", "Unhandled exception while handling request: " + fullRequest);
+            await System.IO.File.AppendAllTextAsync("server.log", e.Message);
+            await System.IO.File.AppendAllTextAsync("server.log", e.StackTrace);
+#endif
+            
+            return BadRequest();
+        }
+
+#if DEBUG
+        //serialize the response using prettyprint
+        string fullResponse = $"{response.Result}\n{JsonSerializer.Serialize(response.Response, new JsonSerializerOptions { WriteIndented = true })}\n";
+
         await System.IO.File.AppendAllTextAsync("responses.log", fullResponse);
         await System.IO.File.AppendAllTextAsync("responses.log", "------------------------\n");
         
         await System.IO.File.AppendAllTextAsync("server.log", fullRequest);
         await System.IO.File.AppendAllTextAsync("server.log", fullResponse);
         await System.IO.File.AppendAllTextAsync("server.log", "------------------------\n");
-        #endif
+#endif
         
         return Ok(response);
     }
