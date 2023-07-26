@@ -152,8 +152,6 @@ public class MusicData
         6630,
         6640,
         6650,
-        6660,
-        6670,
         6680,
         6690,
         6700,
@@ -304,6 +302,8 @@ public class MusicData
     [JsonIgnore] 
     private static readonly int[] AlwaysLockedMusicIds =
     {
+        6660,
+        6670,
         9999,
     };
 
