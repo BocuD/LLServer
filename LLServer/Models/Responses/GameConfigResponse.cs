@@ -65,10 +65,10 @@ public class GameConfigResponse : ResponseBase
     public int CheerEnable { get; set; } = 1;
 
     [JsonPropertyName("achievement_release_version")]
-    public int AchievementReleaseVersion { get; set; } = 1;
+    public int AchievementReleaseVersion { get; set; } = 9999;
 
     [JsonPropertyName("travel_pamphlet_release_version")]
-    public int TravelPamphletReleaseVersion { get; set; } = 1;
+    public int TravelPamphletReleaseVersion { get; set; } = 9999;
 
     [JsonPropertyName("live_break_max")]
     public int LiveBreakMax { get; set; } = 1;
