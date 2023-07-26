@@ -15,9 +15,9 @@ public class PersistentUserDataContainer
         User = user;
     }
     
-    public UserData UserData => User.UserData;
-    public UserDataAqours UserDataAqours => User.UserDataAqours;
-    public UserDataSaintSnow UserDataSaintSnow => User.UserDataSaintSnow;
+    public UserData UserData => User.UserData!;
+    public UserDataAqours UserDataAqours => User.UserDataAqours!;
+    public UserDataSaintSnow UserDataSaintSnow => User.UserDataSaintSnow!;
     public List<MemberData> Members => User.Members;
     public List<MemberCardData> MemberCards => User.MemberCards;
     public List<MusicData> Musics => new();

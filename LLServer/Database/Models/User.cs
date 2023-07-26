@@ -15,7 +15,7 @@ public class User
     public Session? Session { get; set; }
 
     //user data
-    [Required]
+    [Required] 
     public UserData? UserData { get; set; }
     [Required]
     public UserDataAqours? UserDataAqours { get; set; }

@@ -18,5 +18,5 @@ public class Badge
     [JsonIgnore, Key] public int Id { get; set; }
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User User { get; set; }
+    [JsonIgnore] public User? User { get; set; }
 }

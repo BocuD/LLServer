@@ -60,7 +60,7 @@ public class TravelHistory : TravelHistoryBase
 
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User User { get; set; }
+    [JsonIgnore] public User? User { get; set; }
 }
 
 public class TravelHistoryAqours : TravelHistoryBase
@@ -70,7 +70,7 @@ public class TravelHistoryAqours : TravelHistoryBase
 
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User User { get; set; }
+    [JsonIgnore] public User? User { get; set; }
 }
 
 public class TravelHistorySaintSnow : TravelHistoryBase
@@ -80,5 +80,5 @@ public class TravelHistorySaintSnow : TravelHistoryBase
 
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User User { get; set; }
+    [JsonIgnore] public User? User { get; set; }
 }
