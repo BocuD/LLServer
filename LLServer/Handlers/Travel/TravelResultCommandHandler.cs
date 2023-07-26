@@ -271,7 +271,6 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             container.TravelPamphlets.Add(new TravelPamphlet
             {
                 TravelPamphletId = travelResult.UserTravel.TravelPamphletId,
-                IsNew = true
             });
             travelPamphlet = container.TravelPamphlets.FirstOrDefault(t => t.TravelPamphletId == travelResult.UserTravel.TravelPamphletId);
         }
@@ -280,7 +279,9 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         {
             travelPamphlet.TotalDiceCount += travelResult.DiceCount;
             travelPamphlet.TotalTalkCount += travelResult.TalkCount;
-            travelPamphlet.Round += 1;
+            travelPamphlet.IsNew = false;
+            
+            //todo: figure out when the end of a pamphlet is reached and increment round to indicate it being cleared
         }
 
         //save traveldata
