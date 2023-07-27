@@ -11,12 +11,14 @@ Currently in active development.
 - Card saving and leveling
 - Badges and nameplates
 - おでかけ♪スクールアイドル (the board game at the end of the game)
+- Achievement data
 
 ## Currently unsaved data
 
 - Game history (only used in terminal mode so this doesn't matter right now)
 - Stage unlocks (these are all unlocked by default)
 - Music unlocks (these are all unlocked by default - note that you still need the right member cards to be able to play a song)
+- Skill cards
 
 ## To do
 
@@ -27,6 +29,7 @@ Currently in active development.
 - Save above mentioned data
 - Ranking (is a placeholder right now)
 - Stock machine compatibility / setup guide
+- Couple achievement data to nameplate, badge and card unlocks
 
 # Usage
 ## Host computer
