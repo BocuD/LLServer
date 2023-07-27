@@ -132,6 +132,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             TravelHistoryAqours = new List<TravelHistoryAqours>(),
             TravelHistorySaintSnow = new List<TravelHistorySaintSnow>(),
             
+            Achievements = new List<Achievement>(),
             YellAchievements = new List<YellAchievement>(),
             AchievementRecordBooks = new List<AchievementRecordBook>(),
             
@@ -160,6 +161,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.TravelHistoryAqours.AddRange(user.TravelHistoryAqours);
         dbContext.TravelHistorySaintSnow.AddRange(user.TravelHistorySaintSnow);
         
+        dbContext.Achievements.AddRange(user.Achievements);
         dbContext.YellAchievements.AddRange(user.YellAchievements);
         dbContext.AchievementRecordBooks.AddRange(user.AchievementRecordBooks);
         

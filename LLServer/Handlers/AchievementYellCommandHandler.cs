@@ -93,12 +93,22 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
             }
         }
         
-        //todo: figure out if all yell achievements are in the request or just the new ones
-        //apply yell achievements
-        //if all yell achievements are in the request, clear the old ones first:
-        //container.YellAchievements.Clear();
-        container.YellAchievements.AddRange(achievementData.YellAchievements);
-        
+        //add new yell achievements
+        foreach(int yellAchievement in achievementData.YellAchievements)
+        {
+            //find a matching yell achievement id in yell achievements, if it doesn't exist add a new yell achievement entry
+            YellAchievement? yellAchievementEntry = container.YellAchievements.FirstOrDefault(ya => ya.YellAchievementId == yellAchievement);
+            if (yellAchievementEntry == null)
+            {
+                container.YellAchievements.Add(new YellAchievement
+                {
+                    YellAchievementId = yellAchievement,
+                    New = true,
+                    Unlocked = true
+                });
+            }
+        }
+
         //save changes
         await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -64,6 +64,7 @@ public class PersistentUserDataContainer
     public List<TravelHistorySaintSnow> TravelHistorySaintSnow => User.TravelHistorySaintSnow;
     
     //Achievements
+    public List<Achievement> Achievements => User.Achievements;
     public List<YellAchievement> YellAchievements => User.YellAchievements;
     public List<AchievementRecordBook> AchievementRecordBooks => User.AchievementRecordBooks;
     

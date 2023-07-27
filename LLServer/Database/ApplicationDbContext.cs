@@ -27,6 +27,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<TravelHistoryAqours> TravelHistoryAqours { get; set; }
     public DbSet<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; }
     
+    public DbSet<Achievement> Achievements { get; set; }
     public DbSet<YellAchievement> YellAchievements { get; set; }
     public DbSet<AchievementRecordBook> AchievementRecordBooks { get; set; }
     

@@ -53,6 +53,7 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
                 TravelHistory = s.User.TravelHistory,
                 TravelHistoryAqours = s.User.TravelHistoryAqours,
                 TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
+                Achievements = s.User.Achievements,
                 YellAchievements = s.User.YellAchievements,
                 AchievementRecordBooks = s.User.AchievementRecordBooks,
                 Items = s.User.Items,

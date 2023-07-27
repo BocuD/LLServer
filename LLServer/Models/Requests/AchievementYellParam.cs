@@ -26,7 +26,7 @@ public class AchievementYellParam
     public int SmallRewardCount { get; set; }
     
     [JsonPropertyName("yell_achievements")]
-    public YellAchievement[] YellAchievements { get; set; } = Array.Empty<YellAchievement>();
+    public int[] YellAchievements { get; set; } = Array.Empty<int>();
 }
 
 public class MemberYellAchievement

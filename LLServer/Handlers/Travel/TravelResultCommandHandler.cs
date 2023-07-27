@@ -310,7 +310,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         //record travel history
         long highestTravelId = container.TravelHistory.Count > 0 ? container.TravelHistory.Max(x => x.Id) : 0;
 
-        List<long> travelHistoryIds = new List<long>();
+        List<long> travelHistoryIds = new();
         
         foreach (TravelHistory_ toRecord in travelResult.TravelHistory)
         {

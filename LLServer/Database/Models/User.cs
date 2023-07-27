@@ -37,6 +37,7 @@ public class User
     [Required] public List<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; } = new();
     
     //achievements
+    [Required] public List<Achievement> Achievements { get; set; } = new();
     [Required] public List<YellAchievement> YellAchievements { get; set; } = new();
     [Required] public List<AchievementRecordBook> AchievementRecordBooks { get; set; } = new();
     

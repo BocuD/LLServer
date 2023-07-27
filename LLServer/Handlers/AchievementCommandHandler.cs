@@ -37,7 +37,8 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
             {
                 Session = s,
                 User = s.User,
-                AchievementRecordBooks = s.User.AchievementRecordBooks
+                AchievementRecordBooks = s.User.AchievementRecordBooks,
+                Achievements = s.User.Achievements
             }).FirstOrDefaultAsync(cancellationToken);
 
         if (session is null)
@@ -57,13 +58,58 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session.User);
         
+        //update achievement data
+        foreach (int achievementId in achievementData.Achievements)
+        {
+            Achievement? achievement = container.Achievements.FirstOrDefault(a => a.AchievementId == achievementId);
+            if (achievement is null)
+            {
+                container.Achievements.Add(new Achievement
+                {
+                    AchievementId = achievementId,
+                    Unlocked = true,
+                    New = true
+                });
+            }
+            else
+            {
+                achievement.Unlocked = true;
+                achievement.New = true;
+            }
+        }
+        
+        //todo: update limited achievements
+        
+        
         //update achievement record books
         //todo: figure out if the game returns the full list of record books everytime or just the deltas (+1 on elements)
+        //todo: update: seems to be just the deltas
+        
+        //version that replaces data:
+        /*
         container.AchievementRecordBooks.Clear();
         
         foreach (AchievementRecordBook recordBook in achievementData.RecordBooks)
         {
             container.AchievementRecordBooks.Add(recordBook);
+        }*/
+        
+        //version that updates data:
+        foreach (AchievementRecordBook recordBook in achievementData.RecordBooks)
+        {
+            AchievementRecordBook? existingRecordBook = container.AchievementRecordBooks.FirstOrDefault(r => r.Type == recordBook.Type);
+            if (existingRecordBook is null)
+            {
+                container.AchievementRecordBooks.Add(recordBook);
+            }
+            else
+            {
+                //increment the values by the values in the request
+                for(int i = 0; i < existingRecordBook.Values.Length; i++)
+                {
+                    existingRecordBook.Values[i] += recordBook.Values[i];
+                }
+            }
         }
         
         //save changes
