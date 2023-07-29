@@ -14,10 +14,10 @@ public class GameConfigResponse : ResponseBase
     public int LevelCap { get; set; } = 100;
 
     [JsonPropertyName("skill_level_cap")]
-    public int SkillLevelCap { get; set; } = 100;
+    public int SkillLevelCap { get; set; } = 999;
 
     [JsonPropertyName("yell_rank_cap")]
-    public int YellRankCap { get; set; } = 100;
+    public int YellRankCap { get; set; } = 999;
 
     [JsonPropertyName("card_sells_value")]
     public int CardSellsValue { get; set; } = 1;
