@@ -24,9 +24,19 @@ public class InformationResponse : ResponseBase
     [JsonPropertyName("encore_expiration_date")]
     public required string EncoreExpirationDate { get; set; }
 
-    [JsonPropertyName("sif_music_information")]
-    public List<MusicInformation> MusicInformationItems { get; set; } = new();
-
     [JsonPropertyName("resource_information")]
     public List<ResourceInformation> ResourceInformationItems { get; set; } = new();
+    
+    [JsonPropertyName("gacha_information")]
+    public GachaInformation GachaInformation { get; set; } = new();
+    
+    //sif print information
+    
+    [JsonPropertyName("sif_music_information")]
+    public List<MusicInformation> MusicInformationItems { get; set; } = new();
+    
+    //extra invalid music shops
+    
+    [JsonPropertyName("ranking_information")]
+    public RankingInformation RankingInformation { get; set; } = new();
 }
