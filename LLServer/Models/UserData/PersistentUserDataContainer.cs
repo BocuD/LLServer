@@ -121,13 +121,13 @@ public class PersistentUserDataContainer
         //add nameplate and badge from userdata
         NamePlates.Add(new NamePlate
         {
-            Id = UserData.Nameplate,
+            NamePlateId = UserData.Nameplate,
             New = false,
         });
         
         Badges.Add(new Badge
         {
-            Id = UserData.Badge,
+            BadgeId = UserData.Badge,
             New = false,
         });
         
