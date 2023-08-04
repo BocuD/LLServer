@@ -13,4 +13,22 @@ public class RequestBase
     
     [JsonPropertyName("sessionkey")]
     public string SessionKey { get; set; } = string.Empty;
+
+    [JsonPropertyName("terminal")]
+    public TerminalData Terminal { get; set; } = null!;
+}
+
+public class TerminalData
+{
+    [JsonPropertyName("tenpo_id")]
+    public string TenpoId { get; set; } = string.Empty;
+    
+    [JsonPropertyName("tenpo_index")]
+    public string TenpoIndex { get; set; } = string.Empty;
+    
+    [JsonPropertyName("terminal_attrib")]
+    public int TerminalAttrib { get; set; } = -1;
+    
+    [JsonPropertyName("terminal_id")]
+    public string TerminalId { get; set; } = string.Empty;
 }
