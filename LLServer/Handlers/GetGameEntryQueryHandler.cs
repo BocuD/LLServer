@@ -1,5 +1,6 @@
 ﻿using LLServer.Common;
 using LLServer.Database;
+using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -26,34 +27,51 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
     public async Task<ResponseContainer> Handle(GetGameEntryQuery query, CancellationToken cancellationToken)
     {
         //get user data from db
-        var data = await dbContext.Sessions
-            .AsSplitQuery()
+        Session? session = await dbContext.Sessions
             .Where(s => s.SessionId == query.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                MemberCards = s.User.MemberCards,
-                TravelPamphlets = s.User.TravelPamphlets,
-                Items = s.User.Items,
-                SpecialItems = s.User.SpecialItems
-            }).FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
-        if (data?.Session is null)
+        if (session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
         
         //todo: this seems to not be working
         // Mark the session as active and set the expire time
-        data.Session.IsActive = true;
-        data.Session.ExpireTime = DateTime.Now.AddMinutes(60);
+        session.IsActive = true;
+        session.ExpireTime = DateTime.Now.AddMinutes(60);
 
-        PersistentUserDataContainer container = new(dbContext, data.Session.User);
+        User? user;
+
+        if (session.IsGuest)
+        {
+            user = User.GuestUser;
+        }
+        else
+        {
+            //load user from db
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.UserData)
+                .Include(u => u.UserDataAqours)
+                .Include(u => u.UserDataSaintSnow)
+                .Include(u => u.Members)
+                .Include(u => u.MemberCards)
+                .Include(u => u.TravelPamphlets)
+                .Include(u => u.Items)
+                .Include(u => u.SpecialItems)
+                .FirstOrDefaultAsync(cancellationToken);
+            
+            user = session.User;
+        }
+
+        if (user == null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
+        
+        PersistentUserDataContainer container = new(dbContext, user);
         
         container.UserData.PlaySatellite++;
         

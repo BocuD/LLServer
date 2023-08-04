@@ -90,7 +90,6 @@ public class GameController : BaseController<GameController>
                 "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
                 "achievement" => await mediator.Send(new AchievementCommand(request)),
                 "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),
-                
                 "setterminallog" => await mediator.Send(new SetTerminalLogCommand(request)),
                 _ => DefaultResponse(request.Protocol)
             };

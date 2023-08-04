@@ -42,6 +42,25 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             return StaticResponses.BadRequestResponse;
         }
 
+        if (authParam.GuestFlag == 2)
+        {
+            Session guestSession = await GenerateNewSession(User.GuestUser, cancellationToken, true);
+
+            return new ResponseContainer
+            {
+                Result = 200,
+                Response = new AuthResponse()
+                {
+                    BlockSequence = 1,
+                    Status = 0,
+                    Name = "ゲストプレイヤー",
+                    AbnormalEnd = 0,
+                    UserId = "1",
+                    SessionKey = guestSession.SessionId,
+                }
+            };
+        }
+
         var user = await dbContext.Users
             .Include(u => u.UserData)
             .FirstOrDefaultAsync(u => u.CardId == authParam.NesicaId, cancellationToken);
@@ -176,16 +195,22 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         return user;
     }
 
-    private async Task<Session> GenerateNewSession(User user, CancellationToken cancellationToken)
+    private async Task<Session> GenerateNewSession(User user, CancellationToken cancellationToken, bool isGuestSession = false)
     {
         var session = new Session
         {
             SessionId = Guid.NewGuid().ToString("N"),
-            UserId = user.UserId,
             CreateTime = DateTime.Now,
             IsActive = false,
-            User = user
+            IsGuest = isGuestSession
         };
+
+        if (!isGuestSession)
+        {
+            session.UserId = user.UserId;
+            session.User = user;
+        }
+
         dbContext.Sessions.Add(session);
         await dbContext.SaveChangesAsync(cancellationToken);
         return session;

@@ -1,5 +1,6 @@
 ﻿using LLServer.Common;
 using LLServer.Database;
+using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -25,42 +26,57 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
 
     public async Task<ResponseContainer> Handle(GetUserDataQuery query, CancellationToken cancellationToken)
     {
-        //get session
-        //todo: abstract this into PersistentUserDataContainer completely
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
+        //get user data from db
+        Session? session = await dbContext.Sessions
             .Where(s => s.SessionId == query.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                MemberCards = s.User.MemberCards,
-                LiveDatas = s.User.LiveDatas,
-                TravelData = s.User.TravelData,
-                TravelPamphlets = s.User.TravelPamphlets,
-                TravelHistory = s.User.TravelHistory,
-                TravelHistoryAqours = s.User.TravelHistoryAqours,
-                TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
-                Achievements = s.User.Achievements,
-                YellAchievements = s.User.YellAchievements,
-                AchievementRecordBooks = s.User.AchievementRecordBooks,
-                Items = s.User.Items,
-                SpecialItems = s.User.SpecialItems,
-                NamePlates = s.User.NamePlates,
-                Badges = s.User.Badges,
-            }).FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
 
+        User user;
+        
+        if (session.IsGuest)
+        {
+            user = User.GuestUser;
+        }
+        else
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.UserData)
+                .Include(u => u.UserDataAqours)
+                .Include(u => u.UserDataSaintSnow)
+                .Include(u => u.Members)
+                .Include(u => u.MemberCards)
+                .Include(u => u.LiveDatas)
+                .Include(u => u.TravelData)
+                .Include(u => u.TravelPamphlets)
+                .Include(u => u.TravelHistory)
+                .Include(u => u.TravelHistoryAqours)
+                .Include(u => u.TravelHistorySaintSnow)
+                .Include(u => u.Achievements)
+                .Include(u => u.YellAchievements)
+                .Include(u => u.AchievementRecordBooks)
+                .Include(u => u.Items)
+                .Include(u => u.SpecialItems)
+                .Include(u => u.NamePlates)
+                .Include(u => u.Badges)
+                .FirstOrDefaultAsync(cancellationToken);
+            
+            user = session.User;
+        }
+        
+        if(user is null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
+        
         //get persistent userdata container
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, user);
 
         //response
         UserDataResponseMapper mapper = new();
