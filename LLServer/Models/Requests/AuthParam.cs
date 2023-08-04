@@ -4,7 +4,7 @@ namespace LLServer.Models.Requests;
 
 public class AuthParam
 {
-    [JsonPropertyName("guest_flag")]
+    [JsonPropertyName("guestflag")]
     public int GuestFlag { get; set; }
 
     [JsonPropertyName("nesicaid")]

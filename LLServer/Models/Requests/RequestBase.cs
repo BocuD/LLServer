@@ -24,7 +24,7 @@ public class TerminalData
     public string TenpoId { get; set; } = string.Empty;
     
     [JsonPropertyName("tenpo_index")]
-    public string TenpoIndex { get; set; } = string.Empty;
+    public int TenpoIndex { get; set; } = 0;
     
     [JsonPropertyName("terminal_attrib")]
     public int TerminalAttrib { get; set; } = -1;
