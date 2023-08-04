@@ -26,7 +26,7 @@ public class MemberCardData
     [JsonIgnore, NotMapped] public static int[] InitialMemberCards =
     {
         0,
-        0,
+        10011,
         20011,
         30011,
         40011,
