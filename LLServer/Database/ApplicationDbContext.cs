@@ -66,9 +66,11 @@ public class ApplicationDbContext : DbContext
             .Property(s => s.ExpireTime)
             .IsRequired();
 
+        //optional user on sessions
         modelBuilder.Entity<Session>()
-            .HasOne<User>(s => s.User)
+            .HasOne(s => s.User)
             .WithOne(u => u.Session)
-            .HasForeignKey<Session>(s => s.UserId);
+            .HasForeignKey<Session>(s => s.UserId)
+            .IsRequired(false);
     }
 }

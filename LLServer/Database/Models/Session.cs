@@ -1,10 +1,12 @@
-﻿namespace LLServer.Database.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LLServer.Database.Models;
 
 public class Session
 {
     public string SessionId { get; set; } = Guid.Empty.ToString("N");
 
-    public ulong UserId { get; set; }
+    public ulong? UserId { get; set; }
 
     public DateTime CreateTime { get; set; } = DateTime.MinValue;
 
@@ -12,5 +14,7 @@ public class Session
 
     public bool IsActive { get; set; }
 
-    public User User { get; set; } = null!;
+    public bool IsGuest { get; set; }
+
+    public User? User { get; set; }
 }
