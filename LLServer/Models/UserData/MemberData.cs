@@ -38,6 +38,30 @@ public class MemberData
     [JsonPropertyName("new")]
     public bool New { get; set; } = true;
     
+    [JsonIgnore, NotMapped] public static int[] MemberIds =
+    {
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        21,
+        22
+    };
+    
     //Database key
     [JsonIgnore, Key] public int Id { get; set; }
     //Database association to user

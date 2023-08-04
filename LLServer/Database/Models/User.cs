@@ -51,4 +51,55 @@ public class User
 
     //other data
     public string Flags { get; set; } = "";
+
+    public static User GuestUser { get; } = InitializeGuestUser();
+
+    private static User InitializeGuestUser()
+    {
+        User u = new()
+        {
+            UserId = 0,
+            CardId = "7020392000000000",
+            Initialized = false,
+            UserData = new UserData()
+            {
+                IdolKind = 0,
+                CharacterId = 0,
+                PlayLs4 = 1
+            },
+            UserDataAqours = new UserDataAqours(),
+            UserDataSaintSnow = new UserDataSaintSnow(),
+            //add member data for all members
+            Members = MemberData.MemberIds.Select(x => new MemberData()
+            {
+                CharacterId = x,
+                CardMemberId = MemberCardData.InitialMemberCards[x],
+                CardMemorialId = MemberCardData.InitialMemorialCards[x],
+                AchieveRank = 1,
+                New = false
+            }).ToList(),
+            //add default cards for all members
+            MemberCards = MemberCardData.InitialMemberCards.Where(x => x != 0).Select(x => new MemberCardData()
+            {
+                CardMemberId = x,
+                Count = 1,
+                New = true
+            }).ToList(),
+            LiveDatas = new List<PersistentLiveData>(),
+            TravelData = new List<TravelData>(),
+            TravelPamphlets = new List<TravelPamphlet>(),
+            TravelHistory = new List<TravelHistory>(),
+            TravelHistoryAqours = new List<TravelHistoryAqours>(),
+            TravelHistorySaintSnow = new List<TravelHistorySaintSnow>(),
+            Achievements = new List<Achievement>(),
+            YellAchievements = new List<YellAchievement>(),
+            AchievementRecordBooks = new List<AchievementRecordBook>(),
+            Items = new List<Item>(),
+            SpecialItems = new List<SpecialItem>(),
+            NamePlates = new List<NamePlate>(),
+            Badges = new List<Badge>(),
+        };
+
+        return u;
+    }
 }

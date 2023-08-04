@@ -49,6 +49,33 @@ public class MemberCardData
         212000,
         222000
     };
+
+    [JsonIgnore, NotMapped] public static int[] InitialMemorialCards =
+    {
+        0,
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000,
+        9000,
+        0,
+        11100,
+        12100,
+        13100,
+        14100,
+        15100,
+        16100,
+        17100,
+        18100,
+        19100,
+        0,
+        21200,
+        22200
+    };
     
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
