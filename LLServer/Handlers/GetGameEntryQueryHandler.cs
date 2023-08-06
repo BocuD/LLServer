@@ -71,6 +71,12 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         GameEntryResponseMapper mapper = new();
         GameEntryResponse response = mapper.FromPersistentUserData(container);
         
+        //copy over userdata and userdataaqours manually so we can safely modify them
+        response.UserData = new UserData();
+        response.UserDataAqours = new UserDataAqours();
+        response.UserData = ReflectionMapper.Map(container.UserData, response.UserData);
+        response.UserDataAqours = ReflectionMapper.Map(container.UserDataAqours, response.UserDataAqours);
+        
         //this prevents the character selection screen from showing up in guest mode
         if (session.IsGuest)
         {
