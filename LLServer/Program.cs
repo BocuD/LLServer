@@ -2,6 +2,7 @@ using LLServer.Common;
 using LLServer.Database;
 using LLServer.Formatters;
 using LLServer.Middlewares;
+using LLServer.Session;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -38,6 +39,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
     options.UseLoggerFactory(loggerFactory);
 });
+builder.Services.AddScoped<SessionHandler>();
 
 var app = builder.Build();
 
