@@ -12,6 +12,7 @@ Currently in active development.
 - Badges and nameplates
 - おでかけ♪スクールアイドル (the board game at the end of the game)
 - Achievement data
+- Guest mode
 
 ## Currently unsaved data
 
@@ -22,7 +23,6 @@ Currently in active development.
 
 ## To do
 
-- Guest mode
 - Terminal (card printer) support
 - おでかけ♪スクールアイドル card earning
 - Some way to get more member cards
@@ -30,6 +30,7 @@ Currently in active development.
 - Ranking (is a placeholder right now)
 - Stock machine compatibility / setup guide
 - Couple achievement data to nameplate, badge and card unlocks
+- Fix some oddities with guest mode
 
 # Usage
 ## Host computer
