@@ -4,7 +4,8 @@ using Riok.Mapperly.Abstractions;
 
 namespace LLServer.Mappers;
 
-[Mapper]
+//this will prevent modifications to the cloned data from affecting the input data
+[Mapper(UseDeepCloning = true)]
 public partial class GameEntryResponseMapper
 {
     public partial GameEntryResponse UserDataToGameEntryResponse(UserDataContainer input);

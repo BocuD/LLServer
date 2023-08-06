@@ -4,6 +4,11 @@ public class ProfileCard
 {
     private Int128 id;
 
+    public ProfileCard(ProfileCard profileCard)
+    {
+        id = profileCard.id;
+    }
+    
     public ProfileCard(Int128 id)
     {
         this.id = id;

@@ -4,7 +4,7 @@ using Riok.Mapperly.Abstractions;
 
 namespace LLServer.Mappers;
 
-[Mapper]
+[Mapper(UseDeepCloning = true)]
 public partial class UserDataResponseMapper
 {
     public partial UserDataResponse FromUserData(UserDataContainer input);
