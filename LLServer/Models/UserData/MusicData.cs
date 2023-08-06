@@ -1,4 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using LLServer.Database.Models;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.UserData;
 
@@ -13,7 +17,13 @@ public class MusicData
     [JsonPropertyName("new")]
     public required bool New { get; set; }
     
-    [JsonIgnore] private static readonly int[] MusicIds = new[]
+    //Database key
+    [JsonIgnore, Key] public int Id { get; set; }
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User? User { get; set; }
+    
+    [JsonIgnore, NotMapped] private static readonly int[] MusicIds = new[]
     {
         10,
         20,
@@ -299,7 +309,7 @@ public class MusicData
         9030,
     };
 
-    [JsonIgnore] 
+    [JsonIgnore, NotMapped] 
     private static readonly int[] AlwaysLockedMusicIds =
     {
         6660,

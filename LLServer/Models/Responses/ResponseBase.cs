@@ -26,6 +26,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(TravelStampResponse))]
 [JsonDerivedType(typeof(AchievementResponse))]
 [JsonDerivedType(typeof(AchievementYellResponse))]
+[JsonDerivedType(typeof(MusicUnlockResponse))]
 public class ResponseBase
 {
 }

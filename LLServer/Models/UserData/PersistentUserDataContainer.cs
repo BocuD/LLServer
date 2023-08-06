@@ -39,7 +39,7 @@ public class PersistentUserDataContainer
     public UserDataSaintSnow UserDataSaintSnow => User.UserDataSaintSnow!;
     public List<MemberData> Members => User.Members;
     public List<MemberCardData> MemberCards => User.MemberCards;
-    public List<MusicData> Musics => new();
+    public List<MusicData> Musics => User.Musics;
 
     //wrapper to get livedata from database
     public List<LiveData> Lives

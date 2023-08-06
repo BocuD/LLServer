@@ -59,6 +59,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 .Include(u => u.SpecialItems)
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
+                .Include(u => u.Musics)
                 .FirstOrDefaultAsync(cancellationToken);
         }
 

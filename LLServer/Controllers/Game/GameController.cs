@@ -100,6 +100,8 @@ public class GameController : BaseController<GameController>
                 "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
                 "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
                 
+                "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
+                
                 "achievement" => await mediator.Send(new AchievementCommand(request)),
                 "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),
                 _ => DefaultResponse(request.Protocol)

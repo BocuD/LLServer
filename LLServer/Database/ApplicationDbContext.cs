@@ -36,6 +36,8 @@ public class ApplicationDbContext : DbContext
     
     public DbSet<NamePlate> NamePlates { get; set; }
     public DbSet<Badge> Badges { get; set; }
+    
+    public DbSet<MusicData> Musics { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

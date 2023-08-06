@@ -15,12 +15,9 @@ public class User
     public GameSession? Session { get; set; }
 
     //user data
-    [Required] 
-    public UserData? UserData { get; set; }
-    [Required]
-    public UserDataAqours? UserDataAqours { get; set; }
-    [Required]
-    public UserDataSaintSnow? UserDataSaintSnow { get; set; }
+    [Required] public UserData UserData { get; set; } = new();
+    [Required] public UserDataAqours UserDataAqours { get; set; } = new();
+    [Required] public UserDataSaintSnow UserDataSaintSnow { get; set; } = new();
     
     //member data
     [Required] public List<MemberData> Members { get; set; } = new();
@@ -48,6 +45,10 @@ public class User
     //Unlockables
     [Required] public List<NamePlate> NamePlates { get; set; } = new();
     [Required] public List<Badge> Badges { get; set; } = new();
+
+    //Music
+    [Required] public List<MusicData> Musics { get; set; } = new();
+
 
     //other data
     public string Flags { get; set; } = "";

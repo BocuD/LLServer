@@ -160,6 +160,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             
             NamePlates = new List<NamePlate>(),
             Badges = new List<Badge>(),
+            
+            Musics = new List<MusicData>(),
         };
         
         dbContext.Users.Add(user);
@@ -189,6 +191,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         
         dbContext.NamePlates.AddRange(user.NamePlates);
         dbContext.Badges.AddRange(user.Badges);
+        
+        dbContext.Musics.AddRange(user.Musics);
 
         await dbContext.SaveChangesAsync();
         
