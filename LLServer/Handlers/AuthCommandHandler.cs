@@ -52,7 +52,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             return new ResponseContainer
             {
                 Result = 200,
-                Response = new AuthResponse()
+                Response = new AuthResponse
                 {
                     BlockSequence = 1,
                     Status = 0,

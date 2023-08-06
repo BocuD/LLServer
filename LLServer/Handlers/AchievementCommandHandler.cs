@@ -16,13 +16,11 @@ public record AchievementCommand(RequestBase request) : IRequest<ResponseContain
 public class AchievementCommandHandler : IRequestHandler<AchievementCommand, ResponseContainer>
 {
     private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<AchievementCommandHandler> logger;
     private readonly SessionHandler sessionHandler;
 
-    public AchievementCommandHandler(ApplicationDbContext dbContext, ILogger<AchievementCommandHandler> logger, SessionHandler sessionHandler)
+    public AchievementCommandHandler(ApplicationDbContext dbContext, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
-        this.logger = logger;
         this.sessionHandler = sessionHandler;
     }
 
@@ -56,7 +54,7 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
 
         string paramJson = command.request.Param.Value.GetRawText();
 
-        //get game result
+        //get achievement data
         AchievementParam? achievementData = JsonSerializer.Deserialize<AchievementParam>(paramJson);
         if (achievementData is null)
         {

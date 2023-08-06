@@ -61,7 +61,7 @@ public class User
             UserId = 0,
             CardId = "7020392000000000",
             Initialized = false,
-            UserData = new UserData()
+            UserData = new UserData
             {
                 Name = "ゲストプレイヤー",
                 IdolKind = 0,
@@ -71,7 +71,7 @@ public class User
             UserDataAqours = new UserDataAqours(),
             UserDataSaintSnow = new UserDataSaintSnow(),
             //add member data for all members
-            Members = MemberData.MemberIds.Select(x => new MemberData()
+            Members = MemberData.MemberIds.Select(x => new MemberData
             {
                 CharacterId = x,
                 CardMemberId = MemberCardData.InitialMemberCards[x],
@@ -80,7 +80,7 @@ public class User
                 New = false
             }).ToList(),
             //add default cards for all members
-            MemberCards = MemberCardData.InitialMemberCards.Where(x => x != 0).Select(x => new MemberCardData()
+            MemberCards = MemberCardData.InitialMemberCards.Where(x => x != 0).Select(x => new MemberCardData
             {
                 CardMemberId = x,
                 Count = 1,
