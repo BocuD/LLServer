@@ -18,13 +18,11 @@ public record InitializeUserDataCommand(RequestBase request) : IRequest<Response
 public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDataCommand, ResponseContainer>
 {
     private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<InitializeUserDataCommandHandler> logger;
     private readonly SessionHandler sessionHandler;
 
-    public InitializeUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<InitializeUserDataCommandHandler> logger, SessionHandler sessionHandler)
+    public InitializeUserDataCommandHandler(ApplicationDbContext dbContext, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
-        this.logger = logger;
         this.sessionHandler = sessionHandler;
     }
 
@@ -47,17 +45,6 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
                 .Include(u => u.UserDataSaintSnow)
                 .Include(u => u.Members)
                 .Include(u => u.MemberCards)
-                .Include(u => u.LiveDatas)
-                .Include(u => u.TravelData)
-                .Include(u => u.TravelPamphlets)
-                .Include(u => u.TravelHistory)
-                .Include(u => u.TravelHistoryAqours)
-                .Include(u => u.TravelHistorySaintSnow)
-                .Include(u => u.Achievements)
-                .Include(u => u.YellAchievements)
-                .Include(u => u.AchievementRecordBooks)
-                .Include(u => u.Items)
-                .Include(u => u.SpecialItems)
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
                 .FirstOrDefaultAsync(cancellationToken);

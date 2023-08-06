@@ -42,6 +42,9 @@ public class GameController : BaseController<GameController>
             _ = await Request.Body.ReadAsync(buffer.AsMemory(0, (int)Request.Body.Length));
 
             bodyString = Encoding.UTF8.GetString(buffer).Replace("\0", "");
+            
+            Logger.LogInformation("Incoming game request: {a}", bodyString);
+            
             request = JsonSerializer.Deserialize<RequestBase>(bodyString);
         }
         catch (Exception e)
