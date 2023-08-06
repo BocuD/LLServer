@@ -12,7 +12,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
-    public DbSet<Session> Sessions { get; set; }
+    public DbSet<GameSession> Sessions { get; set; }
     public DbSet<UserData> UserData { get; set; }
     public DbSet<UserDataAqours> UserDataAqours { get; set; }
     public DbSet<UserDataSaintSnow> UserDataSaintSnow { get; set; }
@@ -47,30 +47,30 @@ public class ApplicationDbContext : DbContext
         
         
 
-        modelBuilder.Entity<Session>()
+        modelBuilder.Entity<GameSession>()
             .HasKey(s => s.SessionId);
         
-        modelBuilder.Entity<Session>()
+        modelBuilder.Entity<GameSession>()
             .Property(s => s.SessionId)
             .HasMaxLength(32);
 
-        modelBuilder.Entity<Session>()
+        modelBuilder.Entity<GameSession>()
             .Property(s => s.IsActive)
             .IsRequired();
 
-        modelBuilder.Entity<Session>()
+        modelBuilder.Entity<GameSession>()
             .Property(s => s.CreateTime)
             .IsRequired();
 
-        modelBuilder.Entity<Session>()
+        modelBuilder.Entity<GameSession>()
             .Property(s => s.ExpireTime)
             .IsRequired();
 
         //optional user on sessions
-        modelBuilder.Entity<Session>()
+        modelBuilder.Entity<GameSession>()
             .HasOne(s => s.User)
             .WithOne(u => u.Session)
-            .HasForeignKey<Session>(s => s.UserId)
+            .HasForeignKey<GameSession>(s => s.UserId)
             .IsRequired(false);
     }
 }

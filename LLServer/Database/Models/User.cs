@@ -12,7 +12,7 @@ public class User
 
     public bool Initialized { get; set; }
     
-    public Session? Session { get; set; }
+    public GameSession? Session { get; set; }
 
     //user data
     [Required] 
@@ -63,6 +63,7 @@ public class User
             Initialized = false,
             UserData = new UserData()
             {
+                Name = "ゲストプレイヤー",
                 IdolKind = 0,
                 CharacterId = 0,
                 PlayLs4 = 1
@@ -85,19 +86,7 @@ public class User
                 Count = 1,
                 New = true
             }).ToList(),
-            LiveDatas = new List<PersistentLiveData>(),
-            TravelData = new List<TravelData>(),
-            TravelPamphlets = new List<TravelPamphlet>(),
-            TravelHistory = new List<TravelHistory>(),
-            TravelHistoryAqours = new List<TravelHistoryAqours>(),
-            TravelHistorySaintSnow = new List<TravelHistorySaintSnow>(),
-            Achievements = new List<Achievement>(),
-            YellAchievements = new List<YellAchievement>(),
-            AchievementRecordBooks = new List<AchievementRecordBook>(),
-            Items = new List<Item>(),
-            SpecialItems = new List<SpecialItem>(),
-            NamePlates = new List<NamePlate>(),
-            Badges = new List<Badge>(),
+            Flags = "00100000010110001000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000"
         };
 
         return u;

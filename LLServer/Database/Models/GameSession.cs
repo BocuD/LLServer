@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace LLServer.Database.Models;
 
-namespace LLServer.Database.Models;
-
-public class Session
+public class GameSession
 {
     public string SessionId { get; set; } = Guid.Empty.ToString("N");
 
