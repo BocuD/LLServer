@@ -5,6 +5,7 @@ using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,32 +18,25 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<GetUserDataQueryHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public GetUserDataQueryHandler(ApplicationDbContext dbContext, ILogger<GetUserDataQueryHandler> logger)
+    public GetUserDataQueryHandler(ApplicationDbContext dbContext, ILogger<GetUserDataQueryHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(GetUserDataQuery query, CancellationToken cancellationToken)
     {
-        //get user data from db
-        Session? session = await dbContext.Sessions
-            .Where(s => s.SessionId == query.request.SessionKey)
-            .FirstOrDefaultAsync(cancellationToken);
+        GameSession? session = await sessionHandler.GetSession(query.request, cancellationToken);
 
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
-
-        User user;
         
-        if (session.IsGuest)
-        {
-            user = User.GuestUser;
-        }
-        else
+        if (!session.IsGuest)
         {
             session.User = await dbContext.Users
                 .Where(u => u.UserId == session.UserId)
@@ -66,17 +60,10 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
                 .FirstOrDefaultAsync(cancellationToken);
-            
-            user = session.User;
         }
-        
-        if(user is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
+
         //get persistent userdata container
-        PersistentUserDataContainer container = new(dbContext, user);
+        PersistentUserDataContainer container = new(dbContext, session);
 
         //response
         UserDataResponseMapper mapper = new();
@@ -85,7 +72,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
         //todo: get rid of this
         //stupid hack to prevent the name entry popup and tutorials from showing up
         response.Flags = response.Flags.Replace("0", "1");
-
+        
         return new ResponseContainer
         {
             Result = 200,

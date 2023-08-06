@@ -25,7 +25,7 @@ public class InformationQueryHandler : IRequestHandler<InformationQuery, Respons
             Response = new InformationResponse
             {
                 BaseUrl = $"http://{request.BaseUrl}/game",
-                EncoreExpirationDate = (DateTime.Today + TimeSpan.FromDays(3650)).ToString("yyyy-MM-dd"),
+                EncoreExpirationDate = (DateTime.Today + TimeSpan.FromDays(3650)).ToString("yyyy-MM-ddhh:mm:ss"),
                 MusicInformationItems = new List<MusicInformation>()
             }
         };

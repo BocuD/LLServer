@@ -5,6 +5,7 @@ using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,37 +18,30 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<GetGameEntryQueryHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public GetGameEntryQueryHandler(ApplicationDbContext dbContext, ILogger<GetGameEntryQueryHandler> logger)
+    public GetGameEntryQueryHandler(ApplicationDbContext dbContext, ILogger<GetGameEntryQueryHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(GetGameEntryQuery query, CancellationToken cancellationToken)
     {
-        //get user data from db
-        Session? session = await dbContext.Sessions
-            .Where(s => s.SessionId == query.request.SessionKey)
-            .FirstOrDefaultAsync(cancellationToken);
+        GameSession? session = await sessionHandler.GetSession(query.request, cancellationToken);
 
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
-        
+
         //todo: this seems to not be working
         // Mark the session as active and set the expire time
         session.IsActive = true;
         session.ExpireTime = DateTime.Now.AddMinutes(60);
 
-        User? user;
-
-        if (session.IsGuest)
-        {
-            user = User.GuestUser;
-        }
-        else
+        if (!session.IsGuest)
         {
             //load user from db
             session.User = await dbContext.Users
@@ -62,31 +56,32 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)
                 .FirstOrDefaultAsync(cancellationToken);
-            
-            user = session.User;
         }
 
-        if (user == null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
-        PersistentUserDataContainer container = new(dbContext, user);
+        PersistentUserDataContainer container = new(dbContext, session);
         
         container.UserData.PlaySatellite++;
         
         //update last play time (format is "2023-07-02 00:00:00")
         container.UserData.PlayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await container.SaveChanges(cancellationToken);
 
         //response
         GameEntryResponseMapper mapper = new();
+        GameEntryResponse response = mapper.FromPersistentUserData(container);
+        
+        //this prevents the character selection screen from showing up in guest mode
+        if (session.IsGuest)
+        {
+            response.UserData.CharacterId = 1;
+            response.UserDataAqours.CharacterId = 11;
+        }
 
         return new ResponseContainer
         {
             Result = 200,
-            Response = mapper.FromPersistentUserData(container)
+            Response = response
         };
     }
 }

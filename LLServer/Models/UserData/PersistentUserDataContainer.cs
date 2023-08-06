@@ -8,11 +8,30 @@ public class PersistentUserDataContainer
 {
     private DbContext Context { get; }
     private User User { get; }
+    private readonly bool isGuestUser;
     
-    public PersistentUserDataContainer(DbContext context, User user)
+    public PersistentUserDataContainer(DbContext context, GameSession session)
     {
         Context = context;
-        User = user;
+
+        isGuestUser = session.IsGuest;
+
+        if (session.IsGuest)
+        {
+            User = User.GuestUser;
+        }
+        else
+        {
+            User = session.User;
+        }
+    }
+
+    public async Task SaveChanges(CancellationToken cancellationToken)
+    {
+        if (!isGuestUser)
+        {
+            await Context.SaveChangesAsync(cancellationToken);
+        }
     }
     
     public UserData UserData => User.UserData!;

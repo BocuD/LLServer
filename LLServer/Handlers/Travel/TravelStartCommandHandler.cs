@@ -7,6 +7,7 @@ using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,11 +30,13 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<TravelStartCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public TravelStartCommandHandler(ApplicationDbContext dbContext, ILogger<TravelStartCommandHandler> logger)
+    public TravelStartCommandHandler(ApplicationDbContext dbContext, ILogger<TravelStartCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
     
     public async Task<ResponseContainer> Handle(TravelStartCommand command, CancellationToken cancellationToken)
@@ -43,29 +46,40 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
             return StaticResponses.BadRequestResponse;
         }
 
-        //get session
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
-            .Where(s => s.SessionId == command.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                MemberCards = s.User.MemberCards,
-                LiveDatas = s.User.LiveDatas,
-                TravelData = s.User.TravelData,
-                TravelPamphlets = s.User.TravelPamphlets
-            }).FirstOrDefaultAsync(cancellationToken);
-        
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
+
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
 
+        if (!session.IsGuest)
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.UserData)
+                .Include(u => u.UserDataAqours)
+                .Include(u => u.UserDataSaintSnow)
+                .Include(u => u.Members)
+                .Include(u => u.MemberCards)
+                .Include(u => u.LiveDatas)
+                .Include(u => u.TravelData)
+                .Include(u => u.TravelPamphlets)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+        else
+        {
+            return new ResponseContainer
+            {
+                Result = 200,
+                Response = new TravelStartResponse
+                {
+                    OtherPlayers = Array.Empty<TravelOtherPlayerData>(),
+                }
+            };
+        }
+        
         string paramJson = command.request.Param.Value.GetRawText();
 
         //get game result
@@ -76,7 +90,7 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
         }
 
         //get persistent data container
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, session);
         
         //make sure the traveldata for this slot exists
         TravelData? travelData = container.Travels.FirstOrDefault(x => x.Slot == travelStart.Slot);
@@ -114,7 +128,7 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
         }
         
         //save changes
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await container.SaveChanges(cancellationToken);
 
         //todo: implement other player data to appear on map
         return new ResponseContainer
@@ -122,7 +136,7 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
             Result = 200,
             Response = new TravelStartResponse
             {
-                OtherPlayers = new TravelOtherPlayerData[0],
+                OtherPlayers = Array.Empty<TravelOtherPlayerData>(),
             }
         };
     }

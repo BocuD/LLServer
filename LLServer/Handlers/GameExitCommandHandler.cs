@@ -6,6 +6,7 @@ using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,11 +18,13 @@ public class GameExitCommandHandler : IRequestHandler<GameExitCommand, ResponseC
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<GameExitCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public GameExitCommandHandler(ApplicationDbContext dbContext, ILogger<GameExitCommandHandler> logger)
+    public GameExitCommandHandler(ApplicationDbContext dbContext, ILogger<GameExitCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(GameExitCommand command, CancellationToken cancellationToken)
@@ -31,13 +34,8 @@ public class GameExitCommandHandler : IRequestHandler<GameExitCommand, ResponseC
             return StaticResponses.BadRequestResponse;
         }
 
-        //get session (we only need User here since we're not updating anything else right now)
-        var session = await dbContext.Sessions
-            .Include(s => s.User)
-            .FirstOrDefaultAsync(s => 
-                    s.SessionId == command.request.SessionKey, 
-                cancellationToken);
-        
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
+
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
@@ -53,7 +51,7 @@ public class GameExitCommandHandler : IRequestHandler<GameExitCommand, ResponseC
         }
 
         //get persistent data container
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, session);
         
         //update flags
         container.Flags = gameResult.Flags;
@@ -62,7 +60,7 @@ public class GameExitCommandHandler : IRequestHandler<GameExitCommand, ResponseC
         dbContext.Sessions.Remove(session);
         
         //write to database
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await container.SaveChanges(cancellationToken);
         
         return new ResponseContainer
         {

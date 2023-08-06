@@ -1,9 +1,11 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
 using LLServer.Database;
+using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +17,13 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<AchievementYellCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public AchievementYellCommandHandler(ApplicationDbContext dbContext, ILogger<AchievementYellCommandHandler> logger)
+    public AchievementYellCommandHandler(ApplicationDbContext dbContext, ILogger<AchievementYellCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(AchievementYellCommand command, CancellationToken cancellationToken)
@@ -29,34 +33,25 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
             return StaticResponses.BadRequestResponse;
         }
 
-        //get session
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
-            .Where(s => s.SessionId == command.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                MemberCards = s.User.MemberCards,
-                LiveDatas = s.User.LiveDatas,
-                TravelData = s.User.TravelData,
-                TravelPamphlets = s.User.TravelPamphlets,
-                TravelHistory = s.User.TravelHistory,
-                TravelHistoryAqours = s.User.TravelHistoryAqours,
-                TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
-                YellAchievements = s.User.YellAchievements,
-                AchievementRecordBooks = s.User.AchievementRecordBooks,
-                Items = s.User.Items,
-                SpecialItems = s.User.SpecialItems
-            }).FirstOrDefaultAsync(cancellationToken);
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
 
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
+        }
+
+        if (!session.IsGuest)
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.Members)
+                .Include(u => u.YellAchievements)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+        else
+        {
+            return StaticResponses.EmptyResponse;
         }
 
         string paramJson = command.request.Param.Value.GetRawText();
@@ -71,7 +66,7 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
         //todo: record mobile points (found in smallrewardcount)
 
         //get persistent data container
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, session);
 
         //apply yell_achieve_rank
         foreach (MemberYellAchievement memberYellAchievement in achievementData.MemberYellAchievements)
@@ -110,7 +105,7 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
         }
 
         //save changes
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await container.SaveChanges(cancellationToken);
 
         //todo: return actual data
         return new ResponseContainer

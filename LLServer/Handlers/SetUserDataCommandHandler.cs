@@ -6,6 +6,7 @@ using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,53 +19,55 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<SetUserDataCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public SetUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<SetUserDataCommandHandler> logger)
+    public SetUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<SetUserDataCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(SetUserDataCommand command, CancellationToken cancellationToken)
     {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
-        //get session
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
-            .Where(s => s.SessionId == command.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                MemberCards = s.User.MemberCards,
-                LiveDatas = s.User.LiveDatas,
-                TravelData = s.User.TravelData,
-                TravelPamphlets = s.User.TravelPamphlets,
-                TravelHistory = s.User.TravelHistory,
-                TravelHistoryAqours = s.User.TravelHistoryAqours,
-                TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
-                Achievements = s.User.Achievements,
-                YellAchievements = s.User.YellAchievements,
-                AchievementRecordBooks = s.User.AchievementRecordBooks,
-                Items = s.User.Items,
-                SpecialItems = s.User.SpecialItems,
-                NamePlates = s.User.NamePlates,
-                Badges = s.User.Badges
-            }).FirstOrDefaultAsync(cancellationToken);
-        
+        //get user data from db
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
+
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
-        
+
+        if (!session.IsGuest)
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.UserData)
+                .Include(u => u.UserDataAqours)
+                .Include(u => u.UserDataSaintSnow)
+                .Include(u => u.Members)
+                .Include(u => u.MemberCards)
+                .Include(u => u.LiveDatas)
+                .Include(u => u.TravelData)
+                .Include(u => u.TravelPamphlets)
+                .Include(u => u.TravelHistory)
+                .Include(u => u.TravelHistoryAqours)
+                .Include(u => u.TravelHistorySaintSnow)
+                .Include(u => u.Achievements)
+                .Include(u => u.YellAchievements)
+                .Include(u => u.AchievementRecordBooks)
+                .Include(u => u.Items)
+                .Include(u => u.SpecialItems)
+                .Include(u => u.NamePlates)
+                .Include(u => u.Badges)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+        else
+        {
+            return StaticResponses.EmptyResponse;
+        }
+
         //get setuserdata command
         string paramJson = command.request.Param.Value.GetRawText();
 
@@ -75,11 +78,14 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
         }
 
         //write to db
-        PersistentUserDataContainer container = new(dbContext, session.User);
-        
-        container.SetUserData(setUserData);
+        PersistentUserDataContainer container = new(dbContext, session);
 
-        await dbContext.SaveChangesAsync(cancellationToken);
+        if (!session.IsGuest)
+        {
+            container.SetUserData(setUserData);
+
+            await container.SaveChanges(cancellationToken);
+        }
 
         //response
         UserDataResponseMapper mapper = new();

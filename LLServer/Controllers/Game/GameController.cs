@@ -1,5 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
+using LLServer.Common;
+using LLServer.Database;
+using LLServer.Database.Models;
 using LLServer.Handlers;
 using LLServer.Handlers.Terminal;
 using LLServer.Handlers.Travel;
@@ -7,6 +10,7 @@ using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Controllers.Game;
 
@@ -15,13 +19,14 @@ namespace LLServer.Controllers.Game;
 public class GameController : BaseController<GameController>
 {
     private readonly IMediator mediator;
-    private bool detailedLogging = false;
+    private readonly bool detailedLogging = false;
+    private readonly ApplicationDbContext dbContext;
 
-    public GameController(IMediator mediator, IConfiguration configuration)
+    public GameController(IMediator mediator, IConfiguration configuration, ApplicationDbContext dbContext)
     {
         this.mediator = mediator;
-        
         detailedLogging = configuration["DetailedLogging"] == "true";
+        this.dbContext = dbContext;
     }
 
     [HttpPost]
@@ -75,22 +80,28 @@ public class GameController : BaseController<GameController>
                 "unlock" => await mediator.Send(new UnlockQuery()),
                 "gameconfig" => await mediator.Send(new GameConfigQuery()),
                 "information" => await mediator.Send(new InformationQuery(Request.Host.Value)),
+                "setterminallog" => await mediator.Send(new SetTerminalLogCommand(request)),
+                
+                "checkword" => await mediator.Send(new CheckWordCommand()),
+                "ranking" => await mediator.Send(new GetRankingQuery()),
+
                 "auth" => await mediator.Send(new AuthCommand(request.Param)),
-                "gameentry" => await mediator.Send(new GetGameEntryQuery(request)),
+                
                 "userdata.get" => await mediator.Send(new GetUserDataQuery(request)),
                 "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request)),
                 "userdata.set" => await mediator.Send(new SetUserDataCommand(request)),
-                "checkword" => await mediator.Send(new CheckWordCommand()),
-                "ranking" => await mediator.Send(new GetRankingQuery()),
+                    
+                "gameentry" => await mediator.Send(new GetGameEntryQuery(request)),
                 "gameresult" => await mediator.Send(new GameResultCommand(request)),
                 "gametotalresult" => await mediator.Send(new GameTotalResultQuery()),
                 "gameexit" => await mediator.Send(new GameExitCommand(request)),
+                
                 "TravelStart" => await mediator.Send(new TravelStartCommand(request)),
                 "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
                 "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
+                
                 "achievement" => await mediator.Send(new AchievementCommand(request)),
                 "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),
-                "setterminallog" => await mediator.Send(new SetTerminalLogCommand(request)),
                 _ => DefaultResponse(request.Protocol)
             };
         }

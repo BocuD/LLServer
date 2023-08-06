@@ -6,6 +6,7 @@ using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,15 +19,50 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<InitializeUserDataCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public InitializeUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<InitializeUserDataCommandHandler> logger)
+    public InitializeUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<InitializeUserDataCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(InitializeUserDataCommand command, CancellationToken cancellationToken)
     {
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
+
+        if (session is null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
+        
+        if (!session.IsGuest)
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.UserData)
+                .Include(u => u.UserDataAqours)
+                .Include(u => u.UserDataSaintSnow)
+                .Include(u => u.Members)
+                .Include(u => u.MemberCards)
+                .Include(u => u.LiveDatas)
+                .Include(u => u.TravelData)
+                .Include(u => u.TravelPamphlets)
+                .Include(u => u.TravelHistory)
+                .Include(u => u.TravelHistoryAqours)
+                .Include(u => u.TravelHistorySaintSnow)
+                .Include(u => u.Achievements)
+                .Include(u => u.YellAchievements)
+                .Include(u => u.AchievementRecordBooks)
+                .Include(u => u.Items)
+                .Include(u => u.SpecialItems)
+                .Include(u => u.NamePlates)
+                .Include(u => u.Badges)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
         if (command.request.Param is null)
         {
             return StaticResponses.BadRequestResponse;
@@ -34,37 +70,6 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
         
         var paramJson = command.request.Param.Value.GetRawText();
 
-        //get session
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
-            .Where(s => s.SessionId == command.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                MemberCards = s.User.MemberCards,
-                LiveDatas = s.User.LiveDatas,
-                TravelData = s.User.TravelData,
-                TravelPamphlets = s.User.TravelPamphlets,
-                TravelHistory = s.User.TravelHistory,
-                TravelHistoryAqours = s.User.TravelHistoryAqours,
-                TravelHistorySaintSnow = s.User.TravelHistorySaintSnow,
-                Achievements = s.User.Achievements,
-                YellAchievements = s.User.YellAchievements,
-                AchievementRecordBooks = s.User.AchievementRecordBooks,
-                Items = s.User.Items,
-                SpecialItems = s.User.SpecialItems
-            }).FirstOrDefaultAsync(cancellationToken);
-        
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
         //get the initialize command
         InitializeUserData? initializeUserData = JsonSerializer.Deserialize<InitializeUserData>(paramJson);
         if (initializeUserData is null)
@@ -73,12 +78,15 @@ public class InitializeUserDataCommandHandler : IRequestHandler<InitializeUserDa
         }
         
         //write to db
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, session);
 
-        container.Initialize(initializeUserData);
-        session.User.Initialized = true;
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
+        if (!session.IsGuest)
+        {
+            container.Initialize(initializeUserData);
+            session.User.Initialized = true;
+
+            await container.SaveChanges(cancellationToken);
+        }
 
         //response
         UserDataResponseMapper mapper = new();

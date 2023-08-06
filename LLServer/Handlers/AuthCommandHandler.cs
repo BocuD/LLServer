@@ -5,6 +5,7 @@ using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,11 +19,13 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<AuthCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public AuthCommandHandler(ApplicationDbContext dbContext, ILogger<AuthCommandHandler> logger)
+    public AuthCommandHandler(ApplicationDbContext dbContext, ILogger<AuthCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(AuthCommand request, CancellationToken cancellationToken)
@@ -42,9 +45,9 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             return StaticResponses.BadRequestResponse;
         }
 
-        if (authParam.GuestFlag == 2)
+        if (authParam.GuestFlag == 1)
         {
-            Session guestSession = await GenerateNewSession(User.GuestUser, cancellationToken, true);
+            GameSession guestSession = await sessionHandler.GenerateNewSession(User.GuestUser, cancellationToken, true);
 
             return new ResponseContainer
             {
@@ -84,12 +87,9 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             UserId = user.UserId.ToString()
         };
 
-        //todo: correctly handle guest 'login'
         // Try to find existing session
-        var existingSession = await dbContext.Sessions
-            .FirstOrDefaultAsync(s => 
-                s.UserId == user.UserId, 
-            cancellationToken);
+        GameSession? existingSession = await dbContext.Sessions
+            .FirstOrDefaultAsync(s => s.UserId == user.UserId, cancellationToken);
 
         // Make sure the existing session is cleared if it exists
         if (existingSession is not null)
@@ -113,10 +113,10 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             await dbContext.SaveChangesAsync(cancellationToken);
         }
         
-        var session = await GenerateNewSession(user, cancellationToken);
+        GameSession session = await sessionHandler.GenerateNewSession(user, cancellationToken);
         
         //get username from persistent data container
-        PersistentUserDataContainer container = new(dbContext, user);
+        PersistentUserDataContainer container = new(dbContext, session);
         
         authResponse.Name = container.UserData.Name;
         authResponse.SessionKey = session.SessionId;
@@ -193,26 +193,5 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         await dbContext.SaveChangesAsync();
         
         return user;
-    }
-
-    private async Task<Session> GenerateNewSession(User user, CancellationToken cancellationToken, bool isGuestSession = false)
-    {
-        var session = new Session
-        {
-            SessionId = Guid.NewGuid().ToString("N"),
-            CreateTime = DateTime.Now,
-            IsActive = false,
-            IsGuest = isGuestSession
-        };
-
-        if (!isGuestSession)
-        {
-            session.UserId = user.UserId;
-            session.User = user;
-        }
-
-        dbContext.Sessions.Add(session);
-        await dbContext.SaveChangesAsync(cancellationToken);
-        return session;
     }
 }

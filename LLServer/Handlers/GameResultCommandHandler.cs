@@ -6,6 +6,7 @@ using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,11 +18,13 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<GameResultCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public GameResultCommandHandler(ApplicationDbContext dbContext, ILogger<GameResultCommandHandler> logger)
+    public GameResultCommandHandler(ApplicationDbContext dbContext, ILogger<GameResultCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
     
     public async Task<ResponseContainer> Handle(GameResultCommand command, CancellationToken cancellationToken)
@@ -31,26 +34,34 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
             return StaticResponses.BadRequestResponse;
         }
         
-        //get session
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
-            .Where(s => s.SessionId == command.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                LiveDatas = s.User.LiveDatas,
-            }).FirstOrDefaultAsync(cancellationToken);
-        
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
+
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
         }
-
+        
+        if (!session.IsGuest)
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.UserData)
+                .Include(u => u.UserDataAqours)
+                .Include(u => u.UserDataSaintSnow)
+                .Include(u => u.Members)
+                .Include(u => u.LiveDatas)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+        else
+        {
+            return new ResponseContainer
+            {
+                Result = 200,
+                Response = new GameResultResponse()
+            };
+        }
+        
         string paramJson = command.request.Param.Value.GetRawText();
 
         //get game result
@@ -61,12 +72,8 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         }
 
         //get persistent data container
-        PersistentUserDataContainer container = new(dbContext, session.User);
-        
-        //update profile data
-        container.UserData.TotalExp = gameResult.TotalExp;
-        container.UserData.Level = gameResult.DUserLevel;
-        
+        PersistentUserDataContainer container = new(dbContext, session);
+
         //update member usage count
         MemberData? memberData = container.Members.FirstOrDefault(x => x.CharacterId == gameResult.CharacterId);
         if (memberData == null)
@@ -178,6 +185,7 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         //todo: figure out if the game expects incrementing ids per type or of all histories together
         ulong highestId = gameHistory.Count == 0 ? 0 : gameHistory.Max(x => x.Id);
 
+        //todo: use a mapper lol
         GameHistoryBase newHistory = new()
         {
             Id = highestId + 1,
@@ -228,8 +236,12 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
             gameHistory.RemoveAt(0);
         }
         
+        //update level data
+        container.UserData.TotalExp = gameResult.TotalExp;
+        container.UserData.Level = gameResult.DUserLevel;
+        
         //write to db
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await container.SaveChanges(cancellationToken);
 
         return new ResponseContainer
         {

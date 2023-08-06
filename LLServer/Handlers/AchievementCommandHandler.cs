@@ -1,9 +1,11 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
 using LLServer.Database;
+using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +17,13 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<AchievementCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public AchievementCommandHandler(ApplicationDbContext dbContext, ILogger<AchievementCommandHandler> logger)
+    public AchievementCommandHandler(ApplicationDbContext dbContext, ILogger<AchievementCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(AchievementCommand command, CancellationToken cancellationToken)
@@ -29,21 +33,25 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
             return StaticResponses.BadRequestResponse;
         }
 
-        //get session
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
-            .Where(s => s.SessionId == command.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                AchievementRecordBooks = s.User.AchievementRecordBooks,
-                Achievements = s.User.Achievements
-            }).FirstOrDefaultAsync(cancellationToken);
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
 
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
+        }
+
+        if (!session.IsGuest)
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.AchievementRecordBooks)
+                .Include(u => u.Achievements)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+        else
+        {
+            return StaticResponses.EmptyResponse;
         }
 
         string paramJson = command.request.Param.Value.GetRawText();
@@ -56,9 +64,10 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
         }
         
         //get persistent data container
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, session);
         
         //update achievement data
+        //todo: couple achievement rewards (such as nameplates, badges, etc) with the achievement data
         foreach (int achievementId in achievementData.Achievements)
         {
             Achievement? achievement = container.Achievements.FirstOrDefault(a => a.AchievementId == achievementId);
@@ -113,7 +122,7 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
         }
         
         //save changes
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await container.SaveChanges(cancellationToken);
 
         //todo: return actual data
         return new ResponseContainer

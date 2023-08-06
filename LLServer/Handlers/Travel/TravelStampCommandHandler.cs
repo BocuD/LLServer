@@ -7,6 +7,7 @@ using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
 using LLServer.Models.Responses.Travel;
 using LLServer.Models.UserData;
+using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,11 +30,13 @@ public class TravelStampCommandHandler : IRequestHandler<TravelStampCommand, Res
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<TravelStampCommandHandler> logger;
+    private readonly SessionHandler sessionHandler;
 
-    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<TravelStampCommandHandler> logger)
+    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<TravelStampCommandHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.sessionHandler = sessionHandler;
     }
 
     public async Task<ResponseContainer> Handle(TravelStampCommand command, CancellationToken cancellationToken)
@@ -43,27 +46,35 @@ public class TravelStampCommandHandler : IRequestHandler<TravelStampCommand, Res
             return StaticResponses.BadRequestResponse;
         }
 
-        //get session
-        var session = await dbContext.Sessions
-            .AsSplitQuery()
-            .Where(s => s.SessionId == command.request.SessionKey)
-            .Select(s => new
-            {
-                Session = s,
-                User = s.User,
-                UserData = s.User.UserData,
-                UserDataAqours = s.User.UserDataAqours,
-                UserDataSaintSnow = s.User.UserDataSaintSnow,
-                Members = s.User.Members,
-                MemberCards = s.User.MemberCards,
-                LiveDatas = s.User.LiveDatas,
-                TravelData = s.User.TravelData,
-                TravelPamphlets = s.User.TravelPamphlets
-            }).FirstOrDefaultAsync(cancellationToken);
+        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
 
         if (session is null)
         {
             return StaticResponses.BadRequestResponse;
+        }
+
+        if (!session.IsGuest)
+        {
+            session.User = await dbContext.Users
+                .Where(u => u.UserId == session.UserId)
+                .AsSplitQuery()
+                .Include(u => u.UserData)
+                .Include(u => u.UserDataAqours)
+                .Include(u => u.UserDataSaintSnow)
+                .Include(u => u.Members)
+                .Include(u => u.MemberCards)
+                .Include(u => u.LiveDatas)
+                .Include(u => u.TravelData)
+                .Include(u => u.TravelPamphlets)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+        else
+        {
+            return new ResponseContainer
+            {
+                Result = 200,
+                Response = new TravelStampResponse()
+            };
         }
 
         string paramJson = command.request.Param.Value.GetRawText();
@@ -76,7 +87,7 @@ public class TravelStampCommandHandler : IRequestHandler<TravelStampCommand, Res
         }
         
         //get persistent user data
-        PersistentUserDataContainer container = new(dbContext, session.User);
+        PersistentUserDataContainer container = new(dbContext, session);
         
         foreach(string id in travelStamp.TravelHistoryIds)
         {
