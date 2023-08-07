@@ -212,7 +212,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
 
             if (dataItem != null)
             {
-                dataItem.Count += dataItem.Count;
+                dataItem.Count += resultItem.Count;
             }
         }
         
@@ -367,25 +367,46 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         
         //parse lot gachas
         List<GetCardData> getCardDatas = new();
-        
-        //todo: replace this with incrementing mailbox id from mailbox in database
-        int mailboxId = 0;
-        
-        foreach (LotGacha gacha in travelResult.LotGachas)
+
+        List<MailBoxItem> mailBoxItems = new();
+
+        int mailBoxId = 0;
+
+        /*foreach (LotGacha gacha in travelResult.LotGachas)
         {
             for (int i = 0; i < gacha.CardCount; i++)
             {
                 getCardDatas.Add(new GetCardData
                 {
                     Location = gacha.Location,
-                    MailBoxId = mailboxId
+                    MailBoxId = mailBoxId
                 });
+                
+                mailBoxItems.Add(new MailBoxItem
+                {
+                    Attrib = 0,
+                    Category = 0,
+                    Count = 1,
+                    Id = mailBoxId,
+                    ItemId = 40071
+                });
+                
+                mailBoxId++;
             }
-
-            mailboxId++;
         }
-        
-        
+
+        for (int i = 0; i < 10; i++)
+        {
+            mailBoxItems.Add(new MailBoxItem()
+            {
+                Attrib = 0,
+                Category = i,
+                Count = 1,
+                Id = mailBoxId,
+                ItemId = 0
+            });
+        }*/
+
         //save changes
         await container.SaveChanges(cancellationToken);
 
@@ -397,7 +418,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
                 GetCardDatas = getCardDatas.ToArray(),
                 TravelHistoryIds = travelHistoryIds.Select(x => x.ToString()).ToArray(),
                 //todo figure out what is expected here
-                MailBox = Array.Empty<MailBoxItem>()
+                MailBox = mailBoxItems.ToArray()
             }
         };
     }
