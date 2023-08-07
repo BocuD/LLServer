@@ -100,7 +100,7 @@ public class TravelResultParam
     [JsonPropertyName("travel_history")] public TravelHistory_[] TravelHistory { get; set; } = Array.Empty<TravelHistory_>();
     [JsonPropertyName("travel_talks")] public TravelTalk[] TravelTalks { get; set; } = Array.Empty<TravelTalk>();
     //note: traveldata is a perfect match aside from the modified property which is missing. Keep in mind when implementing this. 
-    [JsonPropertyName("user_travel")] public TravelData UserTravel { get; set; } = new();
+    [JsonPropertyName("user_travel")] public UserTravel UserTravel { get; set; } = new();
     [JsonPropertyName("walk_count")] public int WalkCount { get; set; }
 }
 
@@ -130,6 +130,47 @@ public class TravelTalk
     [JsonPropertyName("talk_id")] public int TalkId { get; set; }
     [JsonPropertyName("my_character_id")] public int MyCharacterId { get; set; }
     [JsonPropertyName("other_character_id")] public int OtherCharacterId { get; set; }
+}
+
+/*
+{
+  "character_id": 17,
+  "is_goal": 1,
+  "last_landmark": 9,
+  "m_card_memorial_id": 17100,
+  "m_travel_pamphlet_id": 100221,
+  "positions": [
+    47,
+    56,
+    56
+  ],
+  "slot": 10
+}
+ */
+
+public class UserTravel
+{
+    [JsonPropertyName("character_id")]
+    public int CharacterId { get; set; } 
+    
+    [JsonPropertyName("is_goal")]
+    public int IsGoal { get; set; }
+    
+    [JsonPropertyName("last_landmark")]
+    public int LastLandmark { get; set; } 
+    
+    [JsonPropertyName("m_card_memorial_id")]
+    public int CardMemorialId { get; set; }
+    
+    [JsonPropertyName("m_travel_pamphlet_id")]
+    public int TravelPamphletId { get; set; }
+    
+    //always seems to be 3 integers
+    [JsonPropertyName("positions")]
+    public int[] Positions { get; set; } = new int[3];
+    
+    [JsonPropertyName("slot")]
+    public int Slot { get; set; }
 }
 
 public class TravelHistory_
