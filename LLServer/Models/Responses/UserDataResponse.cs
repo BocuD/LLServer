@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using LLServer.Models.UserData;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.Responses;
 
