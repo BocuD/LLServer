@@ -157,7 +157,24 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
         /*
         "lot_gachas": [],
         "m_card_member_id": 40011,
-        "release_pamphlet_ids": [],
+        */
+
+        foreach (int releasedId in travelResult.ReleasePamphletIds)
+        {
+            //add the pamphlet as new if it doesn't exist
+            TravelPamphlet? pamphlet = container.TravelPamphlets.FirstOrDefault(p => p.TravelPamphletId == releasedId);
+
+            if (pamphlet == null)
+            {
+                container.TravelPamphlets.Add(new TravelPamphlet()
+                {
+                    TravelPamphletId = releasedId,
+                    IsNew = true,
+                    Round = 0
+                });
+            }
+        }
+        /*
         "travel_ex_rewards": [],
         "travel_talks": [],
         */
@@ -291,8 +308,11 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
             travelPamphlet.TotalDiceCount += travelResult.DiceCount;
             travelPamphlet.TotalTalkCount += travelResult.TalkCount;
             travelPamphlet.IsNew = false;
-            
-            //todo: figure out when the end of a pamphlet is reached and increment round to indicate it being cleared
+
+            if (travelResult.UserTravel.IsGoal == 1)
+            {
+                travelPamphlet.Round++;
+            }
         }
 
         //save traveldata
