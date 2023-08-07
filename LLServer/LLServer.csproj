@@ -30,6 +30,7 @@
 
     <ItemGroup>
       <Folder Include="Database\Migrations\" />
+      <Folder Include="wwwroot\info\" />
     </ItemGroup>
 
     <ItemGroup>

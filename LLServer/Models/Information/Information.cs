@@ -41,8 +41,8 @@ public class Information
     public required string Title { get; set; }
 
     [JsonPropertyName("start_datetime")]
-    public required DateTime StartDatetime { get; set; }
+    public required string StartDatetime { get; set; }
 
     [JsonPropertyName("end_datetime")]
-    public required DateTime EndDatetime { get; set; }
+    public required string EndDatetime { get; set; }
 }
