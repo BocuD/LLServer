@@ -70,7 +70,7 @@ public class UserData : UserDataBase
     [JsonIgnore] public User? User { get; set; }
 }
 
-//todo: the method responsible for parsing specials in the game (at 000140220DF0) seems to get the system time but it is currently not clear what this is used for
+//todo: the method responsible for parssing specials in the game (at 000140220DF0) seems to get the system time but it is currently not clear what this is used for
 
 
 public class NullableUserData : NullableUserDataBase
