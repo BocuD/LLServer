@@ -58,8 +58,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseHttpLogging();
-app.MapControllers();
 app.UseWhen(context => context.Request.Path.StartsWithSegments("/game"),
     applicationBuilder => applicationBuilder.UseMiddleware<AesMiddleware>());
+
+//Log unhandled requests
+app.Use(async (context, next) =>
+{
+    await next();
+    
+    if (context.Response.StatusCode >= 400)
+    {
+        Log.Error($"Unhandled request: {context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}");
+    }
+});
+
+app.MapControllers();
 
 app.Run();
