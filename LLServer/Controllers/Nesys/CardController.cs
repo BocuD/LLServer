@@ -7,7 +7,7 @@ namespace LLServer.Controllers.Nesys;
 
 [ApiController]
 [Route("service/card")]
-public class CardController : ControllerBase
+public class CardController : BaseController<CardController>
 {
     private readonly ApplicationDbContext dbContext;
 
@@ -20,6 +20,8 @@ public class CardController : ControllerBase
     public async Task<IActionResult> Card([FromForm(Name = "card_no")] string cardNo,
         [FromForm(Name = "cmd_str")]                                   int    command)
     {
+        Logger.LogInformation("cardn request: Card: {cardNo} Command: {command}", cardNo, command);
+        
         switch (command)
         {
             case CardCommandCodes.READ:

@@ -23,9 +23,7 @@ public class GameConfigQueryHandler : IRequestHandler<GameConfigQuery, ResponseC
             Result = 200,
             Response = GameConfigResponse.DefaultGameConfigResponse()
         };
-
-        logger.LogInformation("Get GameConfig response: {Response}", JsonSerializer.Serialize(response));
-
+        
         return response;
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
-using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Handlers;
 using LLServer.Handlers.Information;
 using LLServer.Handlers.Terminal;
@@ -11,7 +9,6 @@ using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Controllers.Game;
 
@@ -44,8 +41,6 @@ public class GameController : BaseController<GameController>
 
             bodyString = Encoding.UTF8.GetString(buffer).Replace("\0", "");
             
-            Logger.LogInformation("Incoming game request: {a}", bodyString);
-            
             request = JsonSerializer.Deserialize<RequestBase>(bodyString);
         }
         catch (Exception e)
@@ -62,7 +57,7 @@ public class GameController : BaseController<GameController>
             return BadRequest();
         }
         
-        Logger.LogInformation("Protocol: {Protocol}\nBody {Body}", request.Protocol, bodyString);
+        Logger.LogInformation("Game request from {ip} Protocol: {Protocol}\nBody {Body}", Request.HttpContext.Connection.RemoteIpAddress, request.Protocol, bodyString);
 
 
         if (detailedLogging)

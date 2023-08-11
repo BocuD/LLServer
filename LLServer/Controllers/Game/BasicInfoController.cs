@@ -19,6 +19,8 @@ public class BasicInfoController : BaseController<BasicInfoController>
     [Produces("application/octet-stream")]
     public ActionResult<byte[]> GetBasicInfo()
     {
+        Logger.LogInformation("basicinfo request from {ipAddress}", Request.HttpContext.Connection.RemoteIpAddress);
+        
         var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
         var info = new ResponseContainer
         {

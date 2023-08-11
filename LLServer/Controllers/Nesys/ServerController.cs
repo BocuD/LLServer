@@ -11,12 +11,16 @@ public class ServerController : BaseController<ServerController>
     [HttpGet("cursel.php")]
     public ActionResult<string> GetCursel()
     {
+        Logger.LogInformation("Cursel request from {RemoteIpAddress}", Request.HttpContext.Connection.RemoteIpAddress);
+        
         return Ok("1\n");
     }
 
     [HttpGet("gameinfo.php")]
     public ActionResult<string> GetGameInfo()
     {
+        Logger.LogInformation("Game info request from {RemoteIpAddress}", Request.HttpContext.Connection.RemoteIpAddress);
+        
         return Ok("0\n"            +
                   "3\n"            +
                   "301000,test1\n" +
@@ -28,6 +32,8 @@ public class ServerController : BaseController<ServerController>
     public ActionResult<string> Certify(string? gid,    string?                          mac,
         [FromQuery(Name = "r")] string?         random, [FromQuery(Name = "md")] string? md5)
     {
+        Logger.LogInformation("Certify request from {RemoteIpAddress}", Request.HttpContext.Connection.RemoteIpAddress);
+        
         var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
         var ticket = string.Join(string.Empty,
             MD5.HashData(Encoding.UTF8.GetBytes(gid ?? "303807")).Select(b => b.ToString("x2")));
@@ -46,6 +52,8 @@ public class ServerController : BaseController<ServerController>
     [HttpGet("data.php")]
     public ActionResult<string> GetData()
     {
+        Logger.LogInformation("Data request from {RemoteIpAddress}", Request.HttpContext.Connection.RemoteIpAddress);
+        
         const string response = "count=0\n" +
                                 "nexttime=0\n";
         return Ok(response);
@@ -54,6 +62,7 @@ public class ServerController : BaseController<ServerController>
     [HttpGet("FireAlert.php")]
     public ActionResult<string> FireAlert()
     {
+        Logger.LogInformation("Fire alert from {RemoteIpAddress}", Request.HttpContext.Connection.RemoteIpAddress);
         return Ok("Success");
     }
 }
