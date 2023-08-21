@@ -8,9 +8,11 @@ namespace MainServer.Controllers.Game;
 public class ResponeController : BaseController<ResponeController>
 {
     [HttpPost("respone.php")]
-    public IActionResult Respone()
+    public async Task<IActionResult> Respone()
     {
-        Logger.LogInformation("Respone data from {RemoteIpAddress} {data}", Request.HttpContext.Connection.RemoteIpAddress, Request.Body);
+        //get body from request
+        string body = await new StreamReader(Request.Body).ReadToEndAsync();
+        Logger.LogInformation("Respone data from {RemoteIpAddress} {data}", Request.HttpContext.Connection.RemoteIpAddress, body);
         
         return Ok("1");
     }
