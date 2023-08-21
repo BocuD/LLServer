@@ -34,9 +34,9 @@ public class ServerController : BaseController<ServerController>
     {
         Logger.LogInformation("Certify request from {RemoteIpAddress}", Request.HttpContext.Connection.RemoteIpAddress);
         
-        var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
+        var serverIpAddress = "data.nesys.jp";
         var ticket = string.Join(string.Empty,
-            MD5.HashData(Encoding.UTF8.GetBytes(gid ?? "303807")).Select(b => b.ToString("x2")));
+            MD5.HashData(Encoding.UTF8.GetBytes(gid ?? "3800")).Select(b => b.ToString("x2")));
         var response = $"host=http://{serverIpAddress}\n"                             +
                        "no=1337\n"                                                    +
                        "name=LLServer\n"                                              +

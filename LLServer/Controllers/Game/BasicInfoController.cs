@@ -21,7 +21,7 @@ public class BasicInfoController : BaseController<BasicInfoController>
     {
         Logger.LogInformation("basicinfo request from {ipAddress}", Request.HttpContext.Connection.RemoteIpAddress);
         
-        var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
+        var serverIpAddress = "data.nesys.jp";
         var info = new ResponseContainer
         {
             Result = 200,
@@ -37,6 +37,8 @@ public class BasicInfoController : BaseController<BasicInfoController>
 
         var jsonStr = JsonSerializer.Serialize(info);
         var privateKey = RsaKeyConvert.PrivateKeyPkcs8ToPkcs1(CryptoConstants.PRIVATE_KEY);
+        //var privateKey = CryptoConstants.PRIVATE_KEY; //when using pkcs1 format in CryptoConstants.PRIVATE_KEY
+        
         var result = RsaEncryptWithPrivate(jsonStr, privateKey);
 
         return Ok(result);
