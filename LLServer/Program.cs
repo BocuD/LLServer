@@ -68,7 +68,12 @@ app.Use(async (context, next) =>
     
     if (context.Response.StatusCode >= 400)
     {
-        Log.Error($"Unhandled request: {context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}");
+        Log.Error("Unknown request from: {RemoteIpAddress} {Method} {Path} {StatusCode}",
+            context.Connection.RemoteIpAddress, context.Request.Method, context.Request.Path, context.Response.StatusCode);
+    }
+    else
+    {
+        Log.Information($"Handled request: {context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}");
     }
 });
 
