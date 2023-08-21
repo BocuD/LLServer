@@ -10,9 +10,9 @@ public class AliveController : BaseController<AliveController>
     public IActionResult AliveCheck()
     {
         var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
-        var serverIpAddress = Request.HttpContext.Connection.LocalIpAddress;
+        var serverIpAddress = "127.0.0.1";
         var response = $"REMOTE ADDRESS:{remoteIpAddress}\n" +
-                       "SERVER NAME:GCLocalServer\n"         +
+                       "SERVER NAME:LLSERVER\n"         +
                        $"SERVER ADDR:{serverIpAddress}";
         
         Logger.LogInformation("Alive check from {RemoteIpAddress}", remoteIpAddress);
