@@ -24,13 +24,11 @@ Currently in active development.
 ## To do
 
 - Terminal (card printer) support
-- おでかけ♪スクールアイドル card earning
-- Some way to get more member cards and skill cards
-- Save above mentioned data
+- おでかけ♪スクールアイドル item usage and rewards
+- Unlocking new member and skill cards
 - Ranking (is a placeholder right now)
 - Stock machine compatibility / setup guide
 - Couple achievement data to nameplate, badge and card unlocks
-- Fix some oddities with guest mode
 
 # Usage
 ## Host computer
