@@ -22,6 +22,7 @@ public class User
     //member data
     [Required] public List<MemberData> Members { get; set; } = new();
     [Required] public List<MemberCardData> MemberCards { get; set; } = new();
+    [Required] public List<SkillCardData> SkillCards { get; set; } = new();
     
     //score and unlock data
     [Required] public List<PersistentLiveData> LiveDatas { get; set; } = new();
@@ -85,6 +86,12 @@ public class User
             {
                 CardMemberId = x,
                 Count = 1,
+                New = true
+            }).ToList(),
+            SkillCards = SkillCardData.InitialSkillCards.Select(x => new SkillCardData
+            {
+                CardSkillId = x,
+                SkillLevel = 1,
                 New = true
             }).ToList(),
             Flags = "00100000010110001000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000"

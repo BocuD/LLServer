@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserDataSaintSnow> UserDataSaintSnow { get; set; }
     public DbSet<MemberData> MemberData { get; set; }
     public DbSet<MemberCardData> MemberCardData { get; set; }
+    public DbSet<SkillCardData> SkillCardData { get; set; }
     
     public DbSet<PersistentLiveData> LiveDatas { get; set; }
     

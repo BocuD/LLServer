@@ -141,6 +141,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             
             Members = new List<MemberData>(),
             MemberCards = new List<MemberCardData>(),
+            SkillCards = new List<SkillCardData>(),
             
             LiveDatas = new List<PersistentLiveData>(),
             
@@ -172,6 +173,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         
         dbContext.MemberData.AddRange(user.Members);
         dbContext.MemberCardData.AddRange(user.MemberCards);
+        dbContext.SkillCardData.AddRange(user.SkillCards);
         
         dbContext.LiveDatas.AddRange(user.LiveDatas);
         

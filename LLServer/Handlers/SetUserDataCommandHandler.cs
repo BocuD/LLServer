@@ -48,6 +48,7 @@ public class SetUserDataCommandHandler : IRequestHandler<SetUserDataCommand, Res
                 .Include(u => u.UserDataSaintSnow)
                 .Include(u => u.Members)
                 .Include(u => u.MemberCards)
+                .Include(u => u.SkillCards)
                 .Include(u => u.LiveDatas)
                 .Include(u => u.TravelData)
                 .Include(u => u.TravelPamphlets)
