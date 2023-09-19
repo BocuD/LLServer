@@ -79,6 +79,7 @@ public class GameController : BaseController<GameController>
                 "unlock" => await mediator.Send(new UnlockQuery()),
                 "gameconfig" => await mediator.Send(new GameConfigQuery()),
                 "information" => await mediator.Send(new InformationQuery(Request.Host.Value)),
+                
                 "setterminallog" => await mediator.Send(new SetTerminalLogCommand(request)),
                 
                 "checkword" => await mediator.Send(new CheckWordCommand()),
@@ -91,6 +92,7 @@ public class GameController : BaseController<GameController>
                 "userdata.set" => await mediator.Send(new SetUserDataCommand(request)),
                     
                 "gameentry" => await mediator.Send(new GetGameEntryQuery(request)),
+                "gameentry.center" => await mediator.Send(new GetGameEntryQuery(request)),
                 "gameresult" => await mediator.Send(new GameResultCommand(request)),
                 "gametotalresult" => await mediator.Send(new GameTotalResultQuery()),
                 "gameexit" => await mediator.Send(new GameExitCommand(request)),
@@ -98,6 +100,7 @@ public class GameController : BaseController<GameController>
                 "TravelStart" => await mediator.Send(new TravelStartCommand(request)),
                 "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
                 "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
+                "TravelSnap.print" => await mediator.Send(new TravelSnapPrintCommand(request)),
                 
                 "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
                 
