@@ -173,12 +173,19 @@ public class PersistentUserDataContainer
                     member = Members.Last();
                 }
 
-                member.Camera = equipSkill.Camera;
                 member.CharacterId = equipSkill.CharacterId;
                 member.CardMemberId = equipSkill.CardMemberId;
                 member.CardMemorialId = equipSkill.CardMemorialId;
+                
+                member.Camera = equipSkill.Camera;
                 member.Main = equipSkill.Main;
                 member.Stage = equipSkill.Stage;
+                
+                //update new state for equipped skill data
+                foreach (SkillCardData skillCard in SkillCards.Where(s => s.CardSkillId == equipSkill.CardMemberId))
+                {
+                    skillCard.New = false;
+                }
             }
         }
 
