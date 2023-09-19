@@ -25,4 +25,13 @@ public class IncomController : BaseController<IncomController>
 
         return Ok(INCOM_RESPONSE);
     }
+    
+    [HttpPost("shop.php")]
+    public async Task<IActionResult> Shop()
+    {
+        string body = await new StreamReader(Request.Body).ReadToEndAsync();
+        Logger.LogInformation("Shop data from {RemoteIpAddress} {data}", Request.HttpContext.Connection.RemoteIpAddress, body);
+
+        return Ok(INCOM_RESPONSE);
+    }
 }
