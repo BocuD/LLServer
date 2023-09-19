@@ -52,6 +52,7 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
                 .Include(u => u.UserDataSaintSnow)
                 .Include(u => u.Members)
                 .Include(u => u.MemberCards)
+                .Include(u => u.SkillCards)
                 .Include(u => u.TravelPamphlets)
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)
@@ -82,6 +83,29 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
         {
             response.UserData.CharacterId = 1;
             response.UserDataAqours.CharacterId = 11;
+        }
+        
+        //todo: this is a temporary solution to add skill card functionality
+        //check if the user has any skill cards; if not add them and the remaining default character cards
+        if (container.SkillCards.Count == 0)
+        {
+            //add default skill cards for all members
+            container.SkillCards.AddRange(SkillCardData.InitialSkillCards.Select(x => new SkillCardData
+            {
+                CardSkillId = x,
+                SkillLevel = 1,
+                New = true
+            }));
+            
+            //add default cards for all members
+            container.MemberCards.AddRange(MemberCardData.InitialMemberCards.Where(x => x != 0 && container.MemberCards.All(y => y.CardMemberId != x)).Select(x => new MemberCardData
+            {
+                CardMemberId = x,
+                Count = 1,
+                New = true
+            }));
+            
+            await container.SaveChanges(cancellationToken);
         }
 
         return new ResponseContainer
