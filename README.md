@@ -8,7 +8,8 @@ Currently in active development.
 - Profile creation
 - Live (difficulty) unlocks
 - Score saving
-- Card saving and leveling
+- Character leveling
+- Member and skill cards (only the default guest mode cards are unlocked right now and new cards can't be unlocked yet)
 - Badges and nameplates
 - おでかけ♪スクールアイドル (the board game at the end of the game)
 - Achievement data
@@ -19,13 +20,12 @@ Currently in active development.
 - Game history (only used in terminal mode so this doesn't matter right now)
 - Stage unlocks (these are all unlocked by default)
 - Music unlocks (these are all unlocked by default - note that you still need the right member cards to be able to play a song)
-- Skill cards
 
 ## To do
 
 - Terminal (card printer) support
 - おでかけ♪スクールアイドル card earning
-- Some way to get more member cards
+- Some way to get more member cards and skill cards
 - Save above mentioned data
 - Ranking (is a placeholder right now)
 - Stock machine compatibility / setup guide
