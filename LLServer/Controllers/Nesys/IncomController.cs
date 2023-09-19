@@ -9,17 +9,19 @@ public class IncomController : BaseController<IncomController>
     private const string INCOM_RESPONSE = "1+1";
 
     [HttpPost("incom.php")]
-    public IActionResult Incom()
+    public async Task<IActionResult> Incom()
     {
-        Logger.LogInformation("Incom data from {RemoteIpAddress} {data}", Request.HttpContext.Connection.RemoteIpAddress, Request.Body);
+        string body = await new StreamReader(Request.Body).ReadToEndAsync();
+        Logger.LogInformation("Incom data from {RemoteIpAddress} {data}", Request.HttpContext.Connection.RemoteIpAddress, body);
         
         return Ok(INCOM_RESPONSE);
     }
 
     [HttpPost("incomALL.php")]
-    public IActionResult IncomAll()
+    public async Task<IActionResult> IncomAll()
     {
-        Logger.LogInformation("incomAll data from {RemoteIpAddress} {data}", Request.HttpContext.Connection.RemoteIpAddress, Request.Body);
+        string body = await new StreamReader(Request.Body).ReadToEndAsync();
+        Logger.LogInformation("incomAll data from {RemoteIpAddress} {data}", Request.HttpContext.Connection.RemoteIpAddress, body);
 
         return Ok(INCOM_RESPONSE);
     }
