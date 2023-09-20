@@ -5,7 +5,7 @@ namespace LLServer.Models.UserData;
 public class GameHistoryBase
 {
     [JsonPropertyName("id")]
-    public ulong Id { get; set; }
+    public string Id { get; set; }
 
     [JsonPropertyName("play_place")] 
     public string PlayPlace { get; set; } = "";
@@ -14,7 +14,7 @@ public class GameHistoryBase
     public string Created { get; set; } = "";
     
     [JsonPropertyName("d_user_id")]
-    public ulong DUserId { get; set; }
+    public string DUserId { get; set; }
     
     [JsonPropertyName("character_id")]
     public int CharacterId { get; set; }
