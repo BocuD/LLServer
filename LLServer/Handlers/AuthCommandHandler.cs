@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers;
 
-public record AuthCommand(JsonElement? Param) : IRequest<ResponseContainer>;
+public record AuthCommand(RequestBase request) : IRequest<ResponseContainer>;
 
 public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer>
 {
@@ -28,15 +28,15 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         this.sessionHandler = sessionHandler;
     }
 
-    public async Task<ResponseContainer> Handle(AuthCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseContainer> Handle(AuthCommand command, CancellationToken cancellationToken)
     {
-        if (request.Param is null)
+        if (command.request.Param is null)
         {
             return StaticResponses.BadRequestResponse;
         }
 
         //deserialize from param
-        var paramJson = request.Param.Value.GetRawText();
+        string paramJson = command.request.Param.Value.GetRawText();
 
         var authParam = JsonSerializer.Deserialize<AuthParam>(paramJson);
 
@@ -47,7 +47,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
 
         if (authParam.GuestFlag == 1)
         {
-            GameSession guestSession = await sessionHandler.GenerateNewSession(User.GuestUser, cancellationToken, true);
+            GameSession guestSession = await sessionHandler.GenerateNewSession(User.GuestUser, cancellationToken, false, true);
 
             return new ResponseContainer
             {
@@ -113,7 +113,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             await dbContext.SaveChangesAsync(cancellationToken);
         }
         
-        GameSession session = await sessionHandler.GenerateNewSession(user, cancellationToken);
+        GameSession session = await sessionHandler.GenerateNewSession(user, cancellationToken, command.request.Terminal.TerminalAttrib == 1);
         
         //get username from persistent data container
         PersistentUserDataContainer container = new(dbContext, session);

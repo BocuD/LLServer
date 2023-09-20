@@ -13,6 +13,7 @@ public class GameSession
     public bool IsActive { get; set; }
 
     public bool IsGuest { get; set; }
+    public bool IsTerminal { get; set; }
 
     public User? User { get; set; }
 }

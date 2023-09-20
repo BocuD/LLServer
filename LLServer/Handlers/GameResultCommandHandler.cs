@@ -183,15 +183,16 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
         }
 
         //todo: figure out if the game expects incrementing ids per type or of all histories together
-        ulong highestId = gameHistory.Count == 0 ? 0 : gameHistory.Max(x => x.Id);
+        ulong highestId = gameHistory.Count == 0 ? 0 : gameHistory.Max(x => ulong.Parse(x.Id));
 
         //todo: use a mapper lol
         GameHistoryBase newHistory = new()
         {
-            Id = highestId + 1,
+            Id = highestId + 1.ToString().PadLeft(20, '0'),
             PlayPlace = "test",
             Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
-            DUserId = session.User.UserId,
+            //number format is 20 characters long, so we pad the id with 0s
+            DUserId = session.User.UserId.ToString().PadLeft(20, '0'),
             CharacterId = gameResult.CharacterId,
             MemberCardId = gameResult.MembercardId,
             UsedMemberCard = gameResult.UsedMemberCard,

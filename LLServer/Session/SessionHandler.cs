@@ -7,7 +7,7 @@ namespace LLServer.Session;
 
 public interface ISessionHandler
 {
-    public Task<GameSession> GenerateNewSession(User user, CancellationToken cancellationToken, bool isGuestSession = false);
+    public Task<GameSession> GenerateNewSession(User user, CancellationToken cancellationToken, bool isTerminal = false, bool isGuestSession = false);
 }
 
 public class SessionHandler : ISessionHandler
@@ -19,7 +19,7 @@ public class SessionHandler : ISessionHandler
         this.dbContext = dbContext;
     }
     
-    public async Task<GameSession> GenerateNewSession(User user, CancellationToken cancellationToken, bool isGuestSession = false)
+    public async Task<GameSession> GenerateNewSession(User user, CancellationToken cancellationToken, bool isTerminal = false, bool isGuestSession = false)
     {
         var session = new GameSession
         {
@@ -34,6 +34,8 @@ public class SessionHandler : ISessionHandler
             session.UserId = user.UserId;
             session.User = user;
         }
+
+        session.IsTerminal = isTerminal;
 
         dbContext.Sessions.Add(session);
         await dbContext.SaveChangesAsync(cancellationToken);
