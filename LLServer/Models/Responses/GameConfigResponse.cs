@@ -41,19 +41,19 @@ public class GameConfigResponse : ResponseBase
     public int SkillCardReleaseVersion { get; set; } = 99999;
 
     [JsonPropertyName("advertise_movie_status_0")]
-    public int AdvertiseMovieStatus0 { get; set; } = 1;
+    public bool AdvertiseMovieStatus0 { get; set; } = true;
 
     [JsonPropertyName("advertise_movie_status_1")]
-    public int AdvertiseMovieStatus1 { get; set; } = 1;
+    public bool AdvertiseMovieStatus1 { get; set; } = false;
 
     [JsonPropertyName("advertise_movie_status_2")]
-    public int AdvertiseMovieStatus2 { get; set; } = 1;
+    public bool AdvertiseMovieStatus2 { get; set; } = false;
 
     [JsonPropertyName("advertise_movie_status_3")]
-    public int AdvertiseMovieStatus3 { get; set; } = 1;
+    public bool AdvertiseMovieStatus3 { get; set; } = false;
 
     [JsonPropertyName("live_demo_table_id")]
-    public int LiveDemoTableId { get; set; } = 1;
+    public int LiveDemoTableId { get; set; } = 2;
 
     [JsonPropertyName("exp_mag")]
     public float ExpMag { get; set; } = 1.0f;
@@ -84,6 +84,11 @@ public class GameConfigResponse : ResponseBase
 
     public static ResponseBase DefaultGameConfigResponse()
     {
-        return new GameConfigResponse();
+        GameConfigResponse response = new GameConfigResponse();
+        
+        //random number between 0 and 10
+        response.LiveDemoTableId = new Random().Next(0, 10);
+
+        return response;
     }
 }
