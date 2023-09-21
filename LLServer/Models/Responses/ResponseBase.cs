@@ -31,6 +31,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(MusicUnlockResponse))]
 [JsonDerivedType(typeof(TravelPrintResponse))]
 [JsonDerivedType(typeof(MemberGachaResponse))]
+[JsonDerivedType(typeof(GetMemberCardResponse))]
 public class ResponseBase
 {
 }

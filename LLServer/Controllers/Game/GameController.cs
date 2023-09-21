@@ -104,8 +104,11 @@ public class GameController : BaseController<GameController>
                 "TravelSnap.print" => await mediator.Send(new TravelSnapPrintCommand(request)),
                 
                 "gacha.member" => await mediator.Send(new MemberGachaQuery(request)),
-                
+                //"gacha.finish" => await mediator.Send(new GachaFinishCommmand(request)),
+
                 "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
+                
+                "getmembercard" => await mediator.Send(new GetMemberCardQuery(request)),
                 
                 "achievement" => await mediator.Send(new AchievementCommand(request)),
                 "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),

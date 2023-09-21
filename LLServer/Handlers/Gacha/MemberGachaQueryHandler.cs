@@ -13,13 +13,13 @@ namespace LLServer.Handlers.Gacha;
 
 public record MemberGachaQuery(RequestBase request) : IRequest<ResponseContainer>;
 
-public class MemberGachaRequestHandler : IRequestHandler<MemberGachaQuery, ResponseContainer>
+public class MemberGachaQueryHandler : IRequestHandler<MemberGachaQuery, ResponseContainer>
 {
     private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<MemberGachaRequestHandler> logger;
+    private readonly ILogger<MemberGachaQueryHandler> logger;
     private readonly SessionHandler sessionHandler;
 
-    public MemberGachaRequestHandler(ApplicationDbContext dbContext, ILogger<MemberGachaRequestHandler> logger, SessionHandler sessionHandler)
+    public MemberGachaQueryHandler(ApplicationDbContext dbContext, ILogger<MemberGachaQueryHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
@@ -33,6 +33,7 @@ public class MemberGachaRequestHandler : IRequestHandler<MemberGachaQuery, Respo
             return StaticResponses.BadRequestResponse;
         }
         
+        //todo: load user data or gacha shit from a database idk lol
         // GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
         //
         // if (session is null)
@@ -78,12 +79,13 @@ public class MemberGachaRequestHandler : IRequestHandler<MemberGachaQuery, Respo
             return StaticResponses.BadRequestResponse;
         }
 
-        return new ResponseContainer()
+        return new ResponseContainer
         {
             Result = 200,
-            Response = new MemberGachaResponse()
+            Response = new MemberGachaResponse
             {
-                GachaId = Int32.Parse(gachaRequest.GachaId),
+                //todo: un hardcode this thing
+                GachaId = int.Parse(gachaRequest.GachaId),
                 LastCrackers = Array.Empty<int>(),
                 Box = new[]
                 {
