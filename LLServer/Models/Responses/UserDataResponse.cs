@@ -24,7 +24,7 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("skillcard")]
     public List<SkillCardData> SkillCards { get; set; } = new();
 
-    [JsonPropertyName("memorialcard")]
+    [JsonPropertyName("memorialcard")] 
     public List<MemorialCardData> MemorialCards { get; set; } = new();
 
     [JsonPropertyName("item")]
@@ -103,12 +103,33 @@ public class UserDataResponse : ResponseBase
     public TravelPamphlet[] TravelPamphlets { get; set; } = Array.Empty<TravelPamphlet>();
 
     //travel talks
+    
+    
+    //todo: hardcoded mess
     [JsonPropertyName("gacha_status")]
-    public GachaStatus[] GachaStatus { get; set; } = Array.Empty<GachaStatus>();
+    public GachaStatus[] GachaStatus { get; set; } = 
+    {
+        new()
+        {
+            GachaId = 1,
+            IdolKind = 0,
+            InUse = false,
+            UsageCount = 1
+        },
+        new()
+        {
+            GachaId = 2,
+            IdolKind = 0,
+            InUse = false,
+            UsageCount = 1
+        }
+    };
 
     //card frames
     //snap frames
-    //snap stamps
+    [JsonPropertyName("snap_stamps")] //range from 0 to 1000 in increments of 10
+    public int[] SnapStamps { get; set; } = Array.Empty<int>();
+    
     [JsonPropertyName("nameplates")]
     public NamePlate[] NamePlates { get; set; } = Array.Empty<NamePlate>();
 
