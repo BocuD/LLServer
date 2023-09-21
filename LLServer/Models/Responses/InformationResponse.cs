@@ -16,7 +16,7 @@ public class InformationResponse : ResponseBase
     public List<Information.Information> InformationItems { get; set; } = new();
 
     [JsonPropertyName("event_information")]
-    public List<Information.EventInformation> EventInformationItems { get; set; } = new();
+    public List<EventInformation> EventInformationItems { get; set; } = new();
 
     /// <summary>
     /// Date string yyyy-MM-dd
