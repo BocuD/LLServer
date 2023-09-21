@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using LLServer.Models.Responses.Gacha;
 using LLServer.Models.Responses.Terminal;
 using LLServer.Models.Responses.Travel;
 
@@ -29,6 +30,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(AchievementYellResponse))]
 [JsonDerivedType(typeof(MusicUnlockResponse))]
 [JsonDerivedType(typeof(TravelPrintResponse))]
+[JsonDerivedType(typeof(MemberGachaResponse))]
 public class ResponseBase
 {
 }

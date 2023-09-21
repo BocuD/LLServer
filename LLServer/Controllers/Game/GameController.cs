@@ -2,6 +2,7 @@
 using System.Text.Json;
 using LLServer.Database;
 using LLServer.Handlers;
+using LLServer.Handlers.Gacha;
 using LLServer.Handlers.Information;
 using LLServer.Handlers.Terminal;
 using LLServer.Handlers.Travel;
@@ -101,6 +102,8 @@ public class GameController : BaseController<GameController>
                 "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
                 "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
                 "TravelSnap.print" => await mediator.Send(new TravelSnapPrintCommand(request)),
+                
+                "gacha.member" => await mediator.Send(new MemberGachaQuery(request)),
                 
                 "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
                 
