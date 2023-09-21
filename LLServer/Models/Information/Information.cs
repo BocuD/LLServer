@@ -20,7 +20,7 @@ public class Information
     public required bool DisplaySatellite { get; set; }
 
     [JsonPropertyName("display_center")]
-    public required int DisplayCenter { get; set; }
+    public required bool DisplayCenter { get; set; }
 
     /// <summary>
     /// Max length 30
