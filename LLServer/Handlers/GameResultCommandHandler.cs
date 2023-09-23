@@ -151,8 +151,8 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
                 break;
         }
 
-        //todo: figure out if the game expects incrementing ids per type or of all histories together
-        ulong highestId = gameHistory.Count == 0 ? 0 : gameHistory.Max(x => ulong.Parse(x.Id));
+        //todo: implement proper version of gamehistory (this is just a placeholder)
+        ulong highestId = 1;
 
         //todo: use a mapper lol
         GameHistoryBase newHistory = new()
