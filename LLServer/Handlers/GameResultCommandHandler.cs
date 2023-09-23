@@ -1,46 +1,24 @@
-﻿using System.Text.Json;
-using LLServer.Common;
-using LLServer.Database;
+﻿using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using LLServer.Session;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers;
 
-public record GameResultCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record GameResultCommand(RequestBase request) : BaseRequest(request);
 
-public class GameResultCommandHandler : IRequestHandler<GameResultCommand, ResponseContainer>
+public class GameResultCommandHandler : BaseHandler<GameResult, GameResultCommand>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<GameResultCommandHandler> logger;
-    private readonly SessionHandler sessionHandler;
-
-    public GameResultCommandHandler(ApplicationDbContext dbContext, ILogger<GameResultCommandHandler> logger, SessionHandler sessionHandler)
+    public GameResultCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<GameResult, GameResultCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
-        this.sessionHandler = sessionHandler;
     }
-    
-    public async Task<ResponseContainer> Handle(GameResultCommand command, CancellationToken cancellationToken)
-    {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
-        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
 
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
+    protected override async Task<ResponseContainer> HandleRequest(GameSession session, GameResult gameResult, CancellationToken cancellationToken)
+    {
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -62,15 +40,6 @@ public class GameResultCommandHandler : IRequestHandler<GameResultCommand, Respo
             };
         }
         
-        string paramJson = command.request.Param.Value.GetRawText();
-
-        //get game result
-        GameResult? gameResult = JsonSerializer.Deserialize<GameResult>(paramJson);
-        if (gameResult is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session);
 

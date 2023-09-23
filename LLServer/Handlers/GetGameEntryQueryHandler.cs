@@ -14,6 +14,7 @@ namespace LLServer.Handlers;
 
 public record GetGameEntryQuery(RequestBase request) : IRequest<ResponseContainer>;
 
+//todo: migrate to BaseHandler and implement params for both gameentry and gameentry.center
 public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, ResponseContainer>
 {
     private readonly ApplicationDbContext dbContext;
