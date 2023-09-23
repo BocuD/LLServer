@@ -86,7 +86,7 @@ public class TravelSnapPrintCommandHandler : IRequestHandler<TravelSnapPrintComm
 
         string paramJson = printCommand.request.Param.Value.GetRawText();
 
-        //get game result
+        //get travel snap print
         TravelSnapPrintCommand? travelResult = JsonSerializer.Deserialize<TravelSnapPrintCommand>(paramJson);
         if (travelResult is null)
         {

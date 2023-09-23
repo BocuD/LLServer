@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using LLServer.Models.UserData;
 
 namespace LLServer.Models;
 
