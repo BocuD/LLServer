@@ -8,8 +8,6 @@ using MediatR;
 
 namespace LLServer.Handlers;
 
-public abstract record BaseRequest(RequestBase request) : IRequest<ResponseContainer>;
-
 public abstract class BaseHandler<RequestType> : IRequestHandler<RequestType, ResponseContainer> where RequestType : BaseRequest
 {
     protected readonly ApplicationDbContext dbContext;

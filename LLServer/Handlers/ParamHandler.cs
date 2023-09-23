@@ -1,23 +1,53 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
 using LLServer.Database;
+using LLServer.Database.Models;
+using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Session;
+using MediatR;
 
 namespace LLServer.Handlers;
 
-public abstract class ParamHandler<ParamType, RequestType> : BaseHandler<RequestType> where RequestType : BaseRequest
+public class EmptyParam
 {
-    protected ParamHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<RequestType>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
-    {
-    }
+}
+
+public abstract record BaseRequest(RequestBase request) : IRequest<ResponseContainer>;
+
+public abstract class ParamHandler<ParamType, RequestType> : IRequestHandler<RequestType, ResponseContainer> where RequestType : BaseRequest
+{
+    protected readonly ApplicationDbContext dbContext;
+    protected readonly ILogger<ParamHandler<ParamType, RequestType>> logger;
+    protected readonly SessionHandler sessionHandler;
+
+    protected GameSession session;
     
-    public override async Task<ResponseContainer> Handle(RequestType request, CancellationToken cancellationToken)
+    public ParamHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<ParamType, RequestType>> logger, SessionHandler sessionHandler)
     {
-        //todo: this will still call the base handler's HandleRequest() method, which is a little cursed but it works for now
-        await base.Handle(request, cancellationToken);
+        this.dbContext = dbContext;
+        this.logger = logger;
+        this.sessionHandler = sessionHandler;
+    }
+
+    public virtual async Task<ResponseContainer> Handle(RequestType request, CancellationToken cancellationToken)
+    {
+        if (request.request.Param is null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
+
+        //get session
+        GameSession? session_ = await sessionHandler.GetSession(request.request, cancellationToken);
+
+        if (session_ is null)
+        {
+            return StaticResponses.BadRequestResponse;
+        }
         
-        //deserialize from param
+        session = session_;
+
+        //deserialize param
         string paramJson = request.request.Param.Value.GetRawText();
 
         ParamType? param = JsonSerializer.Deserialize<ParamType>(paramJson);

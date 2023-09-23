@@ -14,6 +14,7 @@ namespace LLServer.Handlers;
 
 public record GetUserDataQuery(RequestBase request) : IRequest<ResponseContainer>;
 
+//todo: implement param handling for GetUserData (it specifies a list of (history?) fields to return, but we just return everything right now)
 public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, ResponseContainer>
 {
     private readonly ApplicationDbContext dbContext;
