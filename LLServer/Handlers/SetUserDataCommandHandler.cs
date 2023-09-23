@@ -44,6 +44,7 @@ public class SetUserDataCommandHandler : ParamHandler<SetUserDataParam, SetUserD
                 .Include(u => u.SpecialItems)
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
+                .Include(u => u.Honors)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else

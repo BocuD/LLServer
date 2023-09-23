@@ -31,6 +31,7 @@ public class InitializeUserDataCommandHandler : ParamHandler<InitializeUserData,
                 .Include(u => u.MemberCards)
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
+                .Include(u => u.Honors)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         

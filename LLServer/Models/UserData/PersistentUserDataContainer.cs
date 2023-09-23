@@ -95,6 +95,7 @@ public class PersistentUserDataContainer
     //Unlockables
     public List<NamePlate> NamePlates => User.NamePlates;
     public List<Badge> Badges => User.Badges;
+    public List<HonorData> Honors => User.Honors;
     
     
     //Active information
@@ -138,7 +139,7 @@ public class PersistentUserDataContainer
             New = true,
         });
         
-        //add nameplate and badge from userdata
+        //add nameplate, badge, honor from userdata
         NamePlates.Add(new NamePlate
         {
             NamePlateId = UserData.Nameplate,
@@ -148,6 +149,12 @@ public class PersistentUserDataContainer
         Badges.Add(new Badge
         {
             BadgeId = UserData.Badge,
+            New = false,
+        });
+        
+        Honors.Add(new HonorData
+        {
+            HonorId = UserData.Honor,
             New = false,
         });
         
@@ -208,6 +215,57 @@ public class PersistentUserDataContainer
                 {
                     member.YellPoint = memberYell.YellPoint;
                 }
+            }
+        }
+        
+        HandleAttributeUserData(input.UserData);
+        HandleAttributeUserData(input.UserDataAqours);
+        HandleAttributeUserData(input.UserDataSaintSnow);
+    }
+
+    public void HandleAttributeUserData(NullableUserDataBase? input)
+    {
+        if (input == null) return;
+        
+        if (input.Nameplate != null)
+        {
+            //find a matching nameplate in nameplates, if it doesn't exist add a new nameplate entry
+            NamePlate? namePlate = NamePlates.FirstOrDefault(n => n.NamePlateId == input.Nameplate);
+            if (namePlate == null)
+            {
+                NamePlates.Add(new NamePlate
+                {
+                    NamePlateId = input.Nameplate.Value,
+                    New = true
+                });
+            }
+        }
+        
+        if (input.Badge != null)
+        {
+            //find a matching badge in badges, if it doesn't exist add a new badge entry
+            Badge? badge = Badges.FirstOrDefault(b => b.BadgeId == input.Badge);
+            if (badge == null)
+            {
+                Badges.Add(new Badge
+                {
+                    BadgeId = input.Badge.Value,
+                    New = true
+                });
+            }
+        }
+
+        if (input.Honor != null)
+        {
+            //find a matching honor in honors, if it doesn't exist add a new honor entry
+            HonorData? honor = Honors.FirstOrDefault(h => h.HonorId == input.Honor);
+            if (honor == null)
+            {
+                Honors.Add(new HonorData
+                {
+                    HonorId = input.Honor.Value,
+                    New = true
+                });
             }
         }
     }

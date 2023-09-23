@@ -87,6 +87,7 @@ public class GetGameEntryQueryHandler : IRequestHandler<GetGameEntryQuery, Respo
             .Include(u => u.NamePlates)
             .Include(u => u.Badges)
             .Include(u => u.Musics)
+            .Include(u => u.Honors)
             .FirstOrDefaultAsync(cancellationToken);
         
         //get persistent userdata container

@@ -46,6 +46,7 @@ public class User
     //Unlockables
     [Required] public List<NamePlate> NamePlates { get; set; } = new();
     [Required] public List<Badge> Badges { get; set; } = new();
+    [Required] public List<HonorData> Honors { get; set; } = new();
 
     //Music
     [Required] public List<MusicData> Musics { get; set; } = new();
