@@ -1,43 +1,24 @@
-﻿using System.Text.Json;
-using LLServer.Common;
+﻿using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using LLServer.Session;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers;
 
-public record AchievementCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record AchievementCommand(RequestBase request) : BaseRequest(request);
 
-public class AchievementCommandHandler : IRequestHandler<AchievementCommand, ResponseContainer>
+public class AchievementCommandHandler : BaseHandler<AchievementParam, AchievementCommand>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly SessionHandler sessionHandler;
-
-    public AchievementCommandHandler(ApplicationDbContext dbContext, SessionHandler sessionHandler)
+    public AchievementCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<AchievementParam, AchievementCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.sessionHandler = sessionHandler;
     }
-
-    public async Task<ResponseContainer> Handle(AchievementCommand command, CancellationToken cancellationToken)
+    
+    protected override async Task<ResponseContainer> HandleRequest(GameSession session, AchievementParam achievementData, CancellationToken cancellationToken)
     {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
-        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
-
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -50,15 +31,6 @@ public class AchievementCommandHandler : IRequestHandler<AchievementCommand, Res
         else
         {
             return StaticResponses.EmptyResponse;
-        }
-
-        string paramJson = command.request.Param.Value.GetRawText();
-
-        //get achievement data
-        AchievementParam? achievementData = JsonSerializer.Deserialize<AchievementParam>(paramJson);
-        if (achievementData is null)
-        {
-            return StaticResponses.BadRequestResponse;
         }
         
         //get persistent data container
