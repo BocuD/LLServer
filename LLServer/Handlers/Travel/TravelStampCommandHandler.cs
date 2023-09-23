@@ -24,35 +24,16 @@ namespace LLServer.Handlers.Travel;
 }
  */
 
-public record TravelStampCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record TravelStampCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelStampCommandHandler : IRequestHandler<TravelStampCommand, ResponseContainer>
+public class TravelStampCommandHandler : BaseHandler<TravelStampParam>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<TravelStampCommandHandler> logger;
-    private readonly SessionHandler sessionHandler;
-
-    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<TravelStampCommandHandler> logger, SessionHandler sessionHandler)
+    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelStampParam>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
-        this.sessionHandler = sessionHandler;
     }
-
-    public async Task<ResponseContainer> Handle(TravelStampCommand command, CancellationToken cancellationToken)
+    
+    protected override async Task<ResponseContainer> HandleRequest(GameSession session, TravelStampParam param, CancellationToken cancellationToken)
     {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
-        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
-
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -76,20 +57,11 @@ public class TravelStampCommandHandler : IRequestHandler<TravelStampCommand, Res
                 Response = new TravelStampResponse()
             };
         }
-
-        string paramJson = command.request.Param.Value.GetRawText();
-
-        //get game result
-        TravelStampParam? travelStamp = JsonSerializer.Deserialize<TravelStampParam>(paramJson);
-        if (travelStamp is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
         
         //get persistent user data
         PersistentUserDataContainer container = new(dbContext, session);
         
-        foreach(string id in travelStamp.TravelHistoryIds)
+        foreach(string id in param.TravelHistoryIds)
         {
             long idLong = long.Parse(id);
             

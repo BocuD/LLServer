@@ -83,35 +83,16 @@ namespace LLServer.Handlers.Travel;
 }
  */
 
-public record TravelResultCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record TravelResultCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, ResponseContainer>
+public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<TravelResultCommandHandler> logger;
-    private readonly SessionHandler sessionHandler;
-
-    public TravelResultCommandHandler(ApplicationDbContext dbContext, ILogger<TravelResultCommandHandler> logger, SessionHandler sessionHandler)
+    public TravelResultCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelResultParam>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
-        this.sessionHandler = sessionHandler;
     }
 
-    public async Task<ResponseContainer> Handle(TravelResultCommand command, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameSession session, TravelResultParam travelResult, CancellationToken cancellationToken)
     {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
-        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
-
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -140,16 +121,7 @@ public class TravelResultCommandHandler : IRequestHandler<TravelResultCommand, R
                 Response = new TravelResultResponse()
             };
         }
-
-        string paramJson = command.request.Param.Value.GetRawText();
-
-        //get game result
-        TravelResultParam? travelResult = JsonSerializer.Deserialize<TravelResultParam>(paramJson);
-        if (travelResult is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
+        
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session);
 

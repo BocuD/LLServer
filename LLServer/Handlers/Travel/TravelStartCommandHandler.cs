@@ -24,35 +24,18 @@ namespace LLServer.Handlers.Travel;
   "protocol": "TravelStart",
  */
 
-public record TravelStartCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record TravelStartCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, ResponseContainer>
+public class TravelStartCommandHandler : BaseHandler<TravelStartParam>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<TravelStartCommandHandler> logger;
-    private readonly SessionHandler sessionHandler;
-
-    public TravelStartCommandHandler(ApplicationDbContext dbContext, ILogger<TravelStartCommandHandler> logger, SessionHandler sessionHandler)
+    public TravelStartCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelStartParam>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
-        this.sessionHandler = sessionHandler;
+        
     }
     
-    public async Task<ResponseContainer> Handle(TravelStartCommand command, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameSession session, TravelStartParam param,
+        CancellationToken cancellationToken)
     {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
-        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
-
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -80,45 +63,36 @@ public class TravelStartCommandHandler : IRequestHandler<TravelStartCommand, Res
             };
         }
         
-        string paramJson = command.request.Param.Value.GetRawText();
-
-        //get game result
-        TravelStartParam? travelStart = JsonSerializer.Deserialize<TravelStartParam>(paramJson);
-        if (travelStart is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session);
         
         //make sure the traveldata for this slot exists
-        TravelData? travelData = container.Travels.FirstOrDefault(x => x.Slot == travelStart.Slot);
+        TravelData? travelData = container.Travels.FirstOrDefault(x => x.Slot == param.Slot);
 
         if (travelData is null)
         {
             container.Travels.Add(new TravelData
             {
-                Slot = travelStart.Slot,
+                Slot = param.Slot,
             });
             
-            travelData = container.Travels.FirstOrDefault(x => x.Slot == travelStart.Slot);
+            travelData = container.Travels.FirstOrDefault(x => x.Slot == param.Slot);
         }
 
         if (travelData != null)
         {
-            travelData.CharacterId = travelStart.CharacterId;
-            travelData.TravelPamphletId = travelStart.TravelPamphletId;
+            travelData.CharacterId = param.CharacterId;
+            travelData.TravelPamphletId = param.TravelPamphletId;
         }
         
         //make sure the travel pamphlet exists
-        TravelPamphlet? travelPamphlet = container.TravelPamphlets.FirstOrDefault(x => x.TravelPamphletId == travelStart.TravelPamphletId);
+        TravelPamphlet? travelPamphlet = container.TravelPamphlets.FirstOrDefault(x => x.TravelPamphletId == param.TravelPamphletId);
 
         if (travelPamphlet is null)
         {
             container.TravelPamphlets.Add(new TravelPamphlet
             {
-                TravelPamphletId = travelStart.TravelPamphletId,
+                TravelPamphletId = param.TravelPamphletId,
                 IsNew = true,
                 Round = 0,
                 TotalDiceCount = 0,
