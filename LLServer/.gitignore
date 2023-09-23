@@ -438,3 +438,10 @@ FodyWeavers.xsd
 *.db3
 *.db3-*
 
+
+
+
+### Project specific
+
+# Ignore image files hosted in wwwroot
+wwwroot/info/*
