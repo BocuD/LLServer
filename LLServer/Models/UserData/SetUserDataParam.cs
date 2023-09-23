@@ -2,7 +2,7 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.UserData;
 
-public class SetUserData
+public class SetUserDataParam
 {
     [JsonPropertyName("equipskill")]
     public EquipSkill[]? EquipSkills { get; set; }

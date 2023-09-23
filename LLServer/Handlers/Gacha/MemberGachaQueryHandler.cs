@@ -1,38 +1,22 @@
-﻿using System.Text.Json;
-using LLServer.Common;
-using LLServer.Database;
+﻿using LLServer.Database;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Gacha;
-using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
 using LLServer.Models.Responses.Gacha;
 using LLServer.Session;
-using MediatR;
 
 namespace LLServer.Handlers.Gacha;
 
-public record MemberGachaQuery(RequestBase request) : IRequest<ResponseContainer>;
+public record MemberGachaQuery(RequestBase request) : BaseRequest(request);
 
-public class MemberGachaQueryHandler : IRequestHandler<MemberGachaQuery, ResponseContainer>
+public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGachaQuery>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<MemberGachaQueryHandler> logger;
-    private readonly SessionHandler sessionHandler;
-
-    public MemberGachaQueryHandler(ApplicationDbContext dbContext, ILogger<MemberGachaQueryHandler> logger, SessionHandler sessionHandler)
+    public MemberGachaQueryHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<MemberGachaParam, MemberGachaQuery>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
-        this.sessionHandler = sessionHandler;
     }
-    
-    public async Task<ResponseContainer> Handle(MemberGachaQuery query, CancellationToken cancellationToken)
+
+    protected override async Task<ResponseContainer> HandleRequest(MemberGachaParam gachaRequest, CancellationToken cancellationToken)
     {
-        if (query.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
         //todo: load user data or gacha shit from a database idk lol
         // GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
         //
@@ -69,15 +53,6 @@ public class MemberGachaQueryHandler : IRequestHandler<MemberGachaQuery, Respons
         //         Response = new TravelResultResponse()
         //     };
         // }
-
-        string paramJson = query.request.Param.Value.GetRawText();
-
-        //get game result
-        MemberGachaParam? gachaRequest = JsonSerializer.Deserialize<MemberGachaParam>(paramJson);
-        if (gachaRequest is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
 
         return new ResponseContainer
         {

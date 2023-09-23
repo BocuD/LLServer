@@ -467,7 +467,7 @@ public class UserDataContainer
         if (input.UserDataSaintSnow != null) ReflectionMapper.Map(input.UserDataSaintSnow, UserDataSaintSnow);
     }
 
-    public void SetUserData(SetUserData input)
+    public void SetUserData(SetUserDataParam input)
     {
         if (input.UserData != null) ReflectionMapper.Map(input.UserData, UserData);
         if (input.UserDataAqours != null) ReflectionMapper.Map(input.UserDataAqours, UserDataAqours);

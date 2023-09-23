@@ -1,45 +1,23 @@
-﻿using System.Text.Json;
-using LLServer.Common;
+﻿using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using LLServer.Session;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers;
 
-public record AchievementYellCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record AchievementYellCommand(RequestBase request) : BaseRequest(request);
 
-public class AchievementYellCommandHandler : IRequestHandler<AchievementYellCommand, ResponseContainer>
+public class AchievementYellCommandHandler : ParamHandler<AchievementYellParam, AchievementYellCommand>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<AchievementYellCommandHandler> logger;
-    private readonly SessionHandler sessionHandler;
-
-    public AchievementYellCommandHandler(ApplicationDbContext dbContext, ILogger<AchievementYellCommandHandler> logger, SessionHandler sessionHandler)
+    public AchievementYellCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<AchievementYellParam, AchievementYellCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
-        this.sessionHandler = sessionHandler;
     }
 
-    public async Task<ResponseContainer> Handle(AchievementYellCommand command, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(AchievementYellParam achievementData, CancellationToken cancellationToken)
     {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
-        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
-
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -54,15 +32,6 @@ public class AchievementYellCommandHandler : IRequestHandler<AchievementYellComm
             return StaticResponses.EmptyResponse;
         }
 
-        string paramJson = command.request.Param.Value.GetRawText();
-
-        //get game result
-        AchievementYellParam? achievementData = JsonSerializer.Deserialize<AchievementYellParam>(paramJson);
-        if (achievementData is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
         //todo: record mobile points (found in smallrewardcount)
 
         //get persistent data container

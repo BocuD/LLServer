@@ -33,7 +33,7 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("musics")]
     public List<MusicData> Musics { get; set; } = new();
 
-    [JsonPropertyName("lives")] 
+    [JsonPropertyName("lives")]
     public List<LiveData> Lives { get; set; } = new();
 
     [JsonPropertyName("stages")] 

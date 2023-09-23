@@ -38,35 +38,16 @@ namespace LLServer.Handlers.Terminal;
 }
  */
 
-public record TravelSnapPrintCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record TravelSnapPrintCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelSnapPrintCommandHandler : IRequestHandler<TravelSnapPrintCommand, ResponseContainer>
+public class TravelSnapPrintCommandHandler : ParamHandler<EmptyParam, TravelSnapPrintCommand>
 {
-    private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<TravelSnapPrintCommandHandler> logger;
-    private readonly SessionHandler sessionHandler;
-
-    public TravelSnapPrintCommandHandler(ApplicationDbContext dbContext, ILogger<TravelSnapPrintCommandHandler> logger, SessionHandler sessionHandler)
+    public TravelSnapPrintCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<EmptyParam, TravelSnapPrintCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.logger = logger;
-        this.sessionHandler = sessionHandler;
     }
     
-    public async Task<ResponseContainer> Handle(TravelSnapPrintCommand printCommand, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(EmptyParam param, CancellationToken cancellationToken)
     {
-        if (printCommand.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-        
-        GameSession? session = await sessionHandler.GetSession(printCommand.request, cancellationToken);
-
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -83,23 +64,11 @@ public class TravelSnapPrintCommandHandler : IRequestHandler<TravelSnapPrintComm
                 Response = new TravelResultResponse()
             };
         }
-
-        string paramJson = printCommand.request.Param.Value.GetRawText();
-
-        //get game result
-        TravelSnapPrintCommand? travelResult = JsonSerializer.Deserialize<TravelSnapPrintCommand>(paramJson);
-        if (travelResult is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
-        //get persistent data container
-        PersistentUserDataContainer container = new(dbContext, session);
-
-        return new ResponseContainer()
+        
+        return new ResponseContainer
         {
             Result = 200,
-            Response = new TravelPrintResponse()
+            Response = new TravelPrintResponse
             {
                 TravelSnapId = "000102030405060708090a0b0c0d0e0f",
                 Created = DateTime.Now.ToString("yyyy-MM-ddhh:mm:ss"),

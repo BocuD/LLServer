@@ -1,43 +1,23 @@
-﻿using System.Text.Json;
-using LLServer.Common;
+﻿using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using LLServer.Session;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers;
 
-public record MusicUnlockCommand(RequestBase request) : IRequest<ResponseContainer>;
+public record MusicUnlockCommand(RequestBase request) : BaseRequest(request);
 
-public class MusicUnlockCommandHandler : IRequestHandler<MusicUnlockCommand, ResponseContainer>
+public class MusicUnlockCommandHandler : ParamHandler<MusicUnlockParam, MusicUnlockCommand>
 {
-    private ApplicationDbContext dbContext;
-    private readonly SessionHandler sessionHandler;
-    
-    public MusicUnlockCommandHandler(ApplicationDbContext dbContext, SessionHandler sessionHandler)
+    public MusicUnlockCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<MusicUnlockParam, MusicUnlockCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
-        this.dbContext = dbContext;
-        this.sessionHandler = sessionHandler;
     }
 
-    public async Task<ResponseContainer> Handle(MusicUnlockCommand command, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(MusicUnlockParam musicUnlockData, CancellationToken cancellationToken)
     {
-        if (command.request.Param is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
-        GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);
-
-        if (session is null)
-        {
-            return StaticResponses.BadRequestResponse;
-        }
-
         if (!session.IsGuest)
         {
             session.User = await dbContext.Users
@@ -49,16 +29,6 @@ public class MusicUnlockCommandHandler : IRequestHandler<MusicUnlockCommand, Res
         else
         {
             return StaticResponses.EmptyResponse;
-        }
-
-        string paramJson = command.request.Param.Value.GetRawText();
-        
-        //get music unlock data
-        MusicUnlockParam? musicUnlockData = JsonSerializer.Deserialize<MusicUnlockParam>(paramJson);
-        
-        if (musicUnlockData is null)
-        {
-            return StaticResponses.BadRequestResponse;
         }
         
         //get user data
