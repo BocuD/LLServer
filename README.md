@@ -21,7 +21,7 @@ Currently in active development.
 - Travel snap prints
 - Album prints
 - (Partial) profile customization
-- (Partial) member gacha (gacha cards are hardcoded right now to a single nozomi HR)
+- (Partial) member gacha (gacha cards are hardcoded right now to a 9 Umi HRs)
 
 ## Currently unsaved data
 
