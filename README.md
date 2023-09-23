@@ -3,32 +3,42 @@
 ASP.net core based server replacement for Love Live School Idol Festival ～after school ACTIVITY～ Next Stage.
 Currently in active development.
 
-## Supported Features
+## Supported Satellite (rhythm game) Features
 
-- Profile creation
+- Profile creation / Login
 - Live (difficulty) unlocks
 - Score saving
 - Character leveling
 - Member and skill cards (only the default guest mode cards are unlocked right now and new cards can't be unlocked yet)
-- Badges and nameplates
+- Badges, nameplates and honors
 - おでかけ♪スクールアイドル (the board game at the end of the game)
 - Achievement data
 - Guest mode
 
+## Supported Terminal (card printer) Features
+
+- Profile creation / Login
+- Travel snap prints
+- Album prints
+- (Partial) profile customization
+- (Partial) member gacha (gacha cards are hardcoded right now to a single nozomi HR)
+
 ## Currently unsaved data
 
-- Game history (only used in terminal mode so this doesn't matter right now)
+- Game history (needed for profile card printing)
+- Profile card data
 - Stage unlocks (these are all unlocked by default)
 - Music unlocks (these are all unlocked by default - note that you still need the right member cards to be able to play a song)
+- Probably more
 
 ## To do
 
-- Terminal (card printer) support
-- おでかけ♪スクールアイドル item usage and rewards
+- おでかけ♪スクールアイドル rewards only partially work
 - Unlocking new member and skill cards
 - Ranking (is a placeholder right now)
 - Stock machine compatibility / setup guide
 - Couple achievement data to nameplate, badge and card unlocks
+- Probably more
 
 # Usage
 ## Host computer
