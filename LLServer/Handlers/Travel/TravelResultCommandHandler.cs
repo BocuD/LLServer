@@ -90,8 +90,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, TravelResultParam travelResult,
-        CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(TravelResultParam travelResult, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {
