@@ -200,7 +200,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
 
             if (dataItem != null)
             {
-                dataItem.Count += resultItem.Count;
+                dataItem.Count = resultItem.Count;
             }
         }
 
