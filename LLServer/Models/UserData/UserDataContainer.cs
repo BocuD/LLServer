@@ -1,9 +1,6 @@
-﻿using LLServer.Mappers;
-using LLServer.Models.Responses;
+﻿namespace LLServer.Models.UserData;
 
-namespace LLServer.Models.UserData;
-
-[Serializable]
+[Obsolete("Old class that was used for testing, remains purely for the dummy data that is in here"), Serializable]
 public class UserDataContainer
 {
     public UserData               UserData          { get; set; } = new();
@@ -439,75 +436,4 @@ public class UserDataContainer
         },
         ActiveInformation = new ActiveInformation[0]
     };
-
-    public static UserDataContainer GetDummyUserDataContainer()
-    {
-        return mockStorage;
-    }
-
-    public UserDataResponse GetUserData()
-    {
-        UserDataResponseMapper mapper = new();
-
-        return mapper.FromUserData(this);
-    }
-
-    public GameEntryResponse GetGameEntry()
-    {
-        GameEntryResponseMapper mapper = new();
-
-        return mapper.UserDataToGameEntryResponse(this);
-    }
-
-    public void InitializeUserData(InitializeUserData input)
-    {
-        //copy all properties
-        if (input.UserData != null) ReflectionMapper.Map(input.UserData, UserData);
-        if (input.UserDataAqours != null) ReflectionMapper.Map(input.UserDataAqours, UserDataAqours);
-        if (input.UserDataSaintSnow != null) ReflectionMapper.Map(input.UserDataSaintSnow, UserDataSaintSnow);
-    }
-
-    public void SetUserData(SetUserDataParam input)
-    {
-        if (input.UserData != null) ReflectionMapper.Map(input.UserData, UserData);
-        if (input.UserDataAqours != null) ReflectionMapper.Map(input.UserDataAqours, UserDataAqours);
-        if (input.UserDataSaintSnow != null) ReflectionMapper.Map(input.UserDataSaintSnow, UserDataSaintSnow);
-
-        if (input.EquipSkills != null)
-        {
-            foreach (EquipSkill equipSkill in input.EquipSkills)
-            {
-                //find a matching character id in members, if it doesn't exist add a new member entry
-                MemberData? member = Members.FirstOrDefault(m => m.CharacterId == equipSkill.CharacterId);
-                if (member == null)
-                {
-                    member = new MemberData();
-                    Members = Members.Append(member).ToList();
-                }
-
-                member.Camera = equipSkill.Camera;
-                member.CharacterId = equipSkill.CharacterId;
-                member.CardMemberId = equipSkill.CardMemberId;
-                member.CardMemorialId = equipSkill.CardMemorialId;
-                member.Main = equipSkill.Main;
-                member.Stage = equipSkill.Stage;
-            }
-        }
-
-        if (input.MemberYells != null)
-        {
-            foreach (MemberYell memberYell in input.MemberYells)
-            {
-                //find a matching character id in members, if it doesn't exist add a new member entry
-                MemberData? member = Members.FirstOrDefault(m => m.CharacterId == memberYell.CharacterId);
-                if (member == null)
-                {
-                    member = new MemberData();
-                    Members = Members.Append(member).ToList();
-                }
-
-                member.YellPoint = memberYell.YellPoint;
-            }
-        }
-    }
 }
