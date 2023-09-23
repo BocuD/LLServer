@@ -11,20 +11,20 @@ namespace LLServer.Handlers;
 
 public abstract record BaseRequest(RequestBase request) : IRequest<ResponseContainer>;
 
-public abstract class BaseHandler<ParamType> : IRequestHandler<BaseRequest, ResponseContainer>
+public abstract class BaseHandler<ParamType, RequestType> : IRequestHandler<RequestType, ResponseContainer> where RequestType : BaseRequest
 {
     protected readonly ApplicationDbContext dbContext;
-    protected readonly ILogger<BaseHandler<ParamType>> logger;
+    protected readonly ILogger<BaseHandler<ParamType, RequestType>> logger;
     protected readonly SessionHandler sessionHandler;
 
-    public BaseHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<ParamType>> logger, SessionHandler sessionHandler)
+    public BaseHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<ParamType, RequestType>> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
         this.sessionHandler = sessionHandler;
     }
     
-    public async Task<ResponseContainer> Handle(BaseRequest request, CancellationToken cancellationToken)
+    public async Task<ResponseContainer> Handle(RequestType request, CancellationToken cancellationToken)
     {
         if (request.request.Param is null)
         {

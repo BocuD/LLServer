@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using LLServer.Common;
-using LLServer.Database;
+﻿using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
@@ -8,7 +6,6 @@ using LLServer.Models.Responses;
 using LLServer.Models.Responses.Travel;
 using LLServer.Models.UserData;
 using LLServer.Session;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers.Travel;
@@ -26,9 +23,9 @@ namespace LLServer.Handlers.Travel;
 
 public record TravelStampCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelStampCommandHandler : BaseHandler<TravelStampParam>
+public class TravelStampCommandHandler : BaseHandler<TravelStampParam, TravelStampCommand>
 {
-    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelStampParam>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelStampParam, TravelStampCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
     

@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using LLServer.Common;
-using LLServer.Database;
+﻿using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests;
@@ -9,7 +7,6 @@ using LLServer.Models.Responses;
 using LLServer.Models.Responses.Travel;
 using LLServer.Models.UserData;
 using LLServer.Session;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Handlers.Travel;
@@ -85,13 +82,16 @@ namespace LLServer.Handlers.Travel;
 
 public record TravelResultCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
+public class TravelResultCommandHandler : BaseHandler<TravelResultParam, TravelResultCommand>
 {
-    public TravelResultCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelResultParam>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public TravelResultCommandHandler(ApplicationDbContext dbContext,
+        ILogger<BaseHandler<TravelResultParam, TravelResultCommand>> logger, SessionHandler sessionHandler) : base(
+        dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, TravelResultParam travelResult, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameSession session, TravelResultParam travelResult,
+        CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {
@@ -121,7 +121,7 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
                 Response = new TravelResultResponse()
             };
         }
-        
+
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session);
 
@@ -150,11 +150,11 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
         "travel_ex_rewards": [],
         "travel_talks": [],
         */
-        
+
         //these are mainly not implemented because they are not stored in the database
         //todo: card frames
         //todo: coop player ids
-        
+
         //badges
         foreach (int badge in travelResult.Badges)
         {
@@ -169,7 +169,7 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
                 });
             }
         }
-        
+
         //nameplates
         foreach (int nameplate in travelResult.Nameplates)
         {
@@ -204,7 +204,7 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
                 dataItem.Count += resultItem.Count;
             }
         }
-        
+
         //special ids: add new special items; only the new items are sent in the request
         foreach (int specialId in travelResult.SpecialIds)
         {
@@ -214,19 +214,19 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
                 SpecialId = specialId,
             });
         }
-        
+
         //make sure we don't have more than 3 special items per idol kind
         for (int idolKind = 0; idolKind < 3; idolKind++)
         {
             //get all special items for this idol kind
             List<SpecialItem> specialItems = container.SpecialItems.Where(s => s.IdolKind == idolKind).ToList();
-            
+
             //if we have more than 3, remove the oldest ones
             if (specialItems.Count > 3)
             {
                 //create list of items from front of list to remove from SpecialItems list
                 List<SpecialItem> itemsToRemove = specialItems.Take(specialItems.Count - 3).ToList();
-                
+
                 //remove items
                 foreach (SpecialItem item in itemsToRemove)
                 {
@@ -242,7 +242,7 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
         //update level and exp
         container.UserData.Level = travelResult.Level;
         container.UserData.TotalExp = travelResult.TotalExp;
-        
+
         //update member yell data
         foreach (MemberYell memberYell in travelResult.MemberYells)
         {
@@ -264,7 +264,9 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
         }
 
         //update travel pamphlet
-        TravelPamphlet? travelPamphlet = container.TravelPamphlets.FirstOrDefault(t => t.TravelPamphletId == travelResult.UserTravel.TravelPamphletId);
+        TravelPamphlet? travelPamphlet =
+            container.TravelPamphlets.FirstOrDefault(
+                t => t.TravelPamphletId == travelResult.UserTravel.TravelPamphletId);
 
         if (travelPamphlet is null)
         {
@@ -272,7 +274,9 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
             {
                 TravelPamphletId = travelResult.UserTravel.TravelPamphletId,
             });
-            travelPamphlet = container.TravelPamphlets.FirstOrDefault(t => t.TravelPamphletId == travelResult.UserTravel.TravelPamphletId);
+            travelPamphlet =
+                container.TravelPamphlets.FirstOrDefault(t =>
+                    t.TravelPamphletId == travelResult.UserTravel.TravelPamphletId);
         }
 
         if (travelPamphlet != null)
@@ -289,14 +293,14 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
 
         //save traveldata
         TravelData? travelData = container.Travels.FirstOrDefault(t => t.Slot == travelResult.UserTravel.Slot);
-        
-        if(travelData is null)
+
+        if (travelData is null)
         {
             container.Travels.Add(new TravelData
             {
                 Slot = travelResult.UserTravel.Slot
             });
-            
+
             travelData = container.Travels.FirstOrDefault(x => x.Slot == travelResult.UserTravel.Slot);
         }
 
@@ -314,7 +318,7 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
         long highestTravelId = container.TravelHistory.Count > 0 ? container.TravelHistory.Max(x => x.Id) : 0;
 
         List<long> travelHistoryIds = new();
-        
+
         foreach (TravelHistory_ toRecord in travelResult.TravelHistory)
         {
             TravelHistoryBase newHistory = new()
@@ -334,7 +338,7 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
                 TenpoName = travelResult.TenpoName,
                 SnapBackgroundId = toRecord.SnapBackgroundId,
             };
-            
+
             travelHistoryIds.Add(newHistory.Id);
             highestTravelId += 1;
 
@@ -344,19 +348,20 @@ public class TravelResultCommandHandler : BaseHandler<TravelResultParam>
                 case 0:
                     container.TravelHistory.Add(ReflectionMapper.Map(newHistory, new TravelHistory()));
                     break;
-                
+
                 //aqours
                 case 1:
                     container.TravelHistoryAqours.Add(ReflectionMapper.Map(newHistory, new TravelHistoryAqours()));
                     break;
-                
+
                 //saint snow
                 case 2:
-                    container.TravelHistorySaintSnow.Add(ReflectionMapper.Map(newHistory, new TravelHistorySaintSnow()));
+                    container.TravelHistorySaintSnow.Add(ReflectionMapper.Map(newHistory,
+                        new TravelHistorySaintSnow()));
                     break;
             }
         }
-        
+
         //parse lot gachas
         List<GetCardData> getCardDatas = new();
 

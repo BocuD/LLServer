@@ -26,9 +26,9 @@ namespace LLServer.Handlers.Travel;
 
 public record TravelStartCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelStartCommandHandler : BaseHandler<TravelStartParam>
+public class TravelStartCommandHandler : BaseHandler<TravelStartParam, TravelStartCommand>
 {
-    public TravelStartCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelStartParam>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public TravelStartCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelStartParam, TravelStartCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
         
     }
