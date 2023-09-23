@@ -68,7 +68,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40011,
                         Level = 1,
                         Enable = 1
                     },
@@ -76,7 +76,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40021,
                         Level = 1,
                         Enable = 1
                     },
@@ -84,7 +84,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40031,
                         Level = 1,
                         Enable = 1
                     },
@@ -92,7 +92,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40041,
                         Level = 1,
                         Enable = 1
                     },
@@ -100,7 +100,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40051,
                         Level = 1,
                         Enable = 1
                     },
@@ -108,7 +108,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40061,
                         Level = 1,
                         Enable = 1
                     },
@@ -116,7 +116,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40071,
                         Level = 1,
                         Enable = 1
                     },
@@ -124,7 +124,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40081,
                         Level = 1,
                         Enable = 1
                     },
@@ -132,7 +132,7 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
                     {
                         Category = 1,
                         CharacterId = 7,
-                        ItemId = 70041,
+                        ItemId = 40091,
                         Level = 1,
                         Enable = 1
                     }
