@@ -25,6 +25,7 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
                 .AsSplitQuery()
                 .Include(u => u.AchievementRecordBooks)
                 .Include(u => u.Achievements)
+                .Include(u => u.Items)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
@@ -99,11 +100,11 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
             Result = 200,
             Response = new AchievementResponse
             {
-                Achievements = new Achievement[0],
+                Achievements = container.Achievements.ToArray(),
                 RecordBooks = container.AchievementRecordBooks.ToArray(),
                 Honors = new HonorData[0],
                 Stages = container.Stages.ToArray(),
-                Items = new Item[0]
+                Items = container.Items.ToArray(),
             }
         };
     }
