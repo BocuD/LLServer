@@ -82,10 +82,10 @@ namespace LLServer.Handlers.Travel;
 
 public record TravelResultCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelResultCommandHandler : BaseHandler<TravelResultParam, TravelResultCommand>
+public class TravelResultCommandHandler : ParamHandler<TravelResultParam, TravelResultCommand>
 {
     public TravelResultCommandHandler(ApplicationDbContext dbContext,
-        ILogger<BaseHandler<TravelResultParam, TravelResultCommand>> logger, SessionHandler sessionHandler) : base(
+        ILogger<ParamHandler<TravelResultParam, TravelResultCommand>> logger, SessionHandler sessionHandler) : base(
         dbContext, logger, sessionHandler)
     {
     }

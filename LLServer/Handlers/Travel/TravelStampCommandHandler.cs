@@ -23,9 +23,9 @@ namespace LLServer.Handlers.Travel;
 
 public record TravelStampCommand(RequestBase request) : BaseRequest(request);
 
-public class TravelStampCommandHandler : BaseHandler<TravelStampParam, TravelStampCommand>
+public class TravelStampCommandHandler : ParamHandler<TravelStampParam, TravelStampCommand>
 {
-    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<TravelStampParam, TravelStampCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public TravelStampCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<TravelStampParam, TravelStampCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
     

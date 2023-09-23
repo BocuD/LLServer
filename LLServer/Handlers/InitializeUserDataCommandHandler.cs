@@ -1,5 +1,4 @@
 ﻿using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -12,13 +11,13 @@ namespace LLServer.Handlers;
 
 public record InitializeUserDataCommand(RequestBase request) : BaseRequest(request);
 
-public class InitializeUserDataCommandHandler : BaseHandler<InitializeUserData, InitializeUserDataCommand>
+public class InitializeUserDataCommandHandler : ParamHandler<InitializeUserData, InitializeUserDataCommand>
 {
-    public InitializeUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<InitializeUserData, InitializeUserDataCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public InitializeUserDataCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<InitializeUserData, InitializeUserDataCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, InitializeUserData initializeUserData, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(InitializeUserData initializeUserData, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

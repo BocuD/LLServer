@@ -1,6 +1,5 @@
 ﻿using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
@@ -11,13 +10,13 @@ namespace LLServer.Handlers;
 
 public record AchievementYellCommand(RequestBase request) : BaseRequest(request);
 
-public class AchievementYellCommandHandler : BaseHandler<AchievementYellParam, AchievementYellCommand>
+public class AchievementYellCommandHandler : ParamHandler<AchievementYellParam, AchievementYellCommand>
 {
-    public AchievementYellCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<AchievementYellParam, AchievementYellCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public AchievementYellCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<AchievementYellParam, AchievementYellCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, AchievementYellParam achievementData, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(AchievementYellParam achievementData, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

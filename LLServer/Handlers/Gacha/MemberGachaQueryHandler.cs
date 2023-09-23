@@ -1,5 +1,4 @@
 ﻿using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Gacha;
 using LLServer.Models.Responses;
@@ -10,13 +9,13 @@ namespace LLServer.Handlers.Gacha;
 
 public record MemberGachaQuery(RequestBase request) : BaseRequest(request);
 
-public class MemberGachaQueryHandler : BaseHandler<MemberGachaParam, MemberGachaQuery>
+public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGachaQuery>
 {
-    public MemberGachaQueryHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<MemberGachaParam, MemberGachaQuery>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public MemberGachaQueryHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<MemberGachaParam, MemberGachaQuery>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, MemberGachaParam gachaRequest, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(MemberGachaParam gachaRequest, CancellationToken cancellationToken)
     {
         //todo: load user data or gacha shit from a database idk lol
         // GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);

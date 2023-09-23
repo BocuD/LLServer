@@ -11,13 +11,13 @@ namespace LLServer.Handlers;
 
 public record GameResultCommand(RequestBase request) : BaseRequest(request);
 
-public class GameResultCommandHandler : BaseHandler<GameResult, GameResultCommand>
+public class GameResultCommandHandler : ParamHandler<GameResult, GameResultCommand>
 {
-    public GameResultCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<GameResult, GameResultCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public GameResultCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<GameResult, GameResultCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, GameResult gameResult, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameResult gameResult, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

@@ -1,6 +1,5 @@
 ﻿using LLServer.Common;
 using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
@@ -11,13 +10,13 @@ namespace LLServer.Handlers;
 
 public record MusicUnlockCommand(RequestBase request) : BaseRequest(request);
 
-public class MusicUnlockCommandHandler : BaseHandler<MusicUnlockParam, MusicUnlockCommand>
+public class MusicUnlockCommandHandler : ParamHandler<MusicUnlockParam, MusicUnlockCommand>
 {
-    public MusicUnlockCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<MusicUnlockParam, MusicUnlockCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public MusicUnlockCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<MusicUnlockParam, MusicUnlockCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, MusicUnlockParam musicUnlockData, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(MusicUnlockParam musicUnlockData, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

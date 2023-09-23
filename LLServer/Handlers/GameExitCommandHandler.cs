@@ -1,5 +1,4 @@
 ﻿using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -42,13 +41,13 @@ public record GameExitCommand(RequestBase request) : BaseRequest(request);
 }
  */
 
-public class GameExitCommandHandler : BaseHandler<GameExitParam, GameExitCommand>
+public class GameExitCommandHandler : ParamHandler<GameExitParam, GameExitCommand>
 {
-    public GameExitCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<GameExitParam, GameExitCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public GameExitCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<GameExitParam, GameExitCommand>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, GameExitParam gameResult, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameExitParam gameResult, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

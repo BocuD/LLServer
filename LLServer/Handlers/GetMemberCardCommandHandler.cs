@@ -1,5 +1,4 @@
 ﻿using LLServer.Database;
-using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
@@ -10,13 +9,13 @@ namespace LLServer.Handlers;
 
 public record GetMemberCardQuery(RequestBase request) : BaseRequest(request);
 
-public class GetMemberCardCommandHandler : BaseHandler<GetMemberCardParam, GetMemberCardQuery>
+public class GetMemberCardCommandHandler : ParamHandler<GetMemberCardParam, GetMemberCardQuery>
 {
-    public GetMemberCardCommandHandler(ApplicationDbContext dbContext, ILogger<BaseHandler<GetMemberCardParam, GetMemberCardQuery>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
+    public GetMemberCardCommandHandler(ApplicationDbContext dbContext, ILogger<ParamHandler<GetMemberCardParam, GetMemberCardQuery>> logger, SessionHandler sessionHandler) : base(dbContext, logger, sessionHandler)
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameSession session, GetMemberCardParam getMemberCard, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GetMemberCardParam getMemberCard, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {
