@@ -12,32 +12,34 @@ namespace LLServer.Models.Requests.Travel;
         "dice_count": 1,
         "get_memorial_cards": [],
         "get_skill_cards": [],
-        "item": [],
-        "level": 30,
-        "lot_gachas": [
+        "item": [],  //sometimes contains items with item count, sometimes does not, needs more testing
+        "level": 45, //user level
+        "lot_gachas": [ //gacha of some kind, if this has data we need to respond to this somehow
             {
                 "card_count": 1,
-                "gacha_id": "gta_travel_member_106",
-                "location": 500,
-                "order": 0
-            },
-            {
-                "card_count": 1,
-                "gacha_id": "gta_travel_member_4",
-                "location": 202,
-                "order": 0
+                "gacha_id": "gta_travel_ss_normal",
+                "location": 900,
+                "order": 1
             }
         ],
-        "m_card_member_id": 40011,
+        "m_card_member_id": 170901,  //used card member
         "member_yell": [],
-        "nameplates": [],
-        "release_pamphlet_ids": [],
-        "special_ids": [],
-        "stage_ids": [],
+        "nameplates": [
+            1710222  //unlocked nameplate
+        ],
+        "release_pamphlet_ids": [], //unlocked pamphlet
+        "special_ids": [
+            14  //gained special item (cracker)
+        ],
+        "stage_ids": [
+            107  //unlocked stage
+        ],
         "talk_count": 1,
         "tenpo_name": "LLServer",
-        "total_exp": 28617,
-        "travel_ex_rewards": [],
+        "total_exp": 160402,
+        "travel_ex_rewards": [
+            10068  //no idea what this does
+        ],
         "travel_history": [
             {
                 "create_type": 2,
@@ -54,22 +56,21 @@ namespace LLServer.Models.Requests.Travel;
             }
         ],
         "user_travel": {
-            "character_id": 4,
-            "is_goal": 0,
+            "character_id": 17,
+            "is_goal": 1,
             "last_landmark": 9,
-            "m_card_memorial_id": 4000,
-            "m_travel_pamphlet_id": 201,
+            "m_card_memorial_id": 17100,
+            "m_travel_pamphlet_id": 130222,
             "positions": [
-                2,
-                7,
-                7
+                50,
+                51,
+                51
             ],
-            "slot": 0
+            "slot": 10
         },
-        "walk_count": 5
+        "walk_count": 1
     },
     "protocol": "TravelResult",
-}
  */
 
 public class TravelResultParam
