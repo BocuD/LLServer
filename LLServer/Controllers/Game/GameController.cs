@@ -92,8 +92,8 @@ public class GameController : BaseController<GameController>
                 "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request)),
                 "userdata.set" => await mediator.Send(new SetUserDataCommand(request)),
                     
-                "gameentry" => await mediator.Send(new GetGameEntryQuery(request)),
-                "gameentry.center" => await mediator.Send(new GetGameEntryQuery(request)),
+                "gameentry" => await mediator.Send(new GameEntryQuery(request)),
+                "gameentry.center" => await mediator.Send(new GameEntryCenterQuery(request)),
                 "gameresult" => await mediator.Send(new GameResultCommand(request)),
                 "gametotalresult" => await mediator.Send(new GameTotalResultQuery()),
                 "gameexit" => await mediator.Send(new GameExitCommand(request)),
