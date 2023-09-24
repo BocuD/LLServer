@@ -60,8 +60,5 @@ public abstract class ParamHandler<ParamType, RequestType> : IRequestHandler<Req
         return await HandleRequest(param, cancellationToken);
     }
 
-    protected virtual async Task<ResponseContainer> HandleRequest(ParamType param, CancellationToken cancellationToken)
-    {
-        return StaticResponses.EmptyResponse;
-    }
+    protected abstract Task<ResponseContainer> HandleRequest(ParamType param, CancellationToken cancellationToken);
 }
