@@ -77,7 +77,7 @@ public class TravelResultParam
 {
     [JsonPropertyName("badges")] public int[] Badges { get; set; } = Array.Empty<int>();
     [JsonPropertyName("card_frames")] public int[] CardFrames { get; set; } = Array.Empty<int>();
-    [JsonPropertyName("coop_player_ids")] public Int128[] CoopPlayerIds { get; set; } = Array.Empty<Int128>();
+    [JsonPropertyName("coop_player_ids")] public ulong[] CoopPlayerIds { get; set; } = Array.Empty<ulong>();
     [JsonPropertyName("dice_count")] public int DiceCount { get; set; }
     [JsonPropertyName("get_memorial_cards")] public GetMemorialCard[] GetMemorialCards { get; set; } = Array.Empty<GetMemorialCard>();
     [JsonPropertyName("get_skill_cards")] public GetSkillCard[] GetSkillCards { get; set; } = Array.Empty<GetSkillCard>();
@@ -96,7 +96,7 @@ public class TravelResultParam
     [JsonPropertyName("tenpo_name")] public string TenpoName { get; set; } = "";
     [JsonPropertyName("total_exp")] public int TotalExp { get; set; }
     
-    //todo: actual type is unknown, test this with the game
+    //todo: figure out what the purpose of this is
     [JsonPropertyName("travel_ex_rewards")] public int[] TravelExRewards { get; set; } = Array.Empty<int>();
     [JsonPropertyName("travel_history")] public TravelHistory_[] TravelHistory { get; set; } = Array.Empty<TravelHistory_>();
     [JsonPropertyName("travel_talks")] public TravelTalk[] TravelTalks { get; set; } = Array.Empty<TravelTalk>();
