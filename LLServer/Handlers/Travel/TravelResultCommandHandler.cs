@@ -110,6 +110,9 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 .Include(u => u.TravelHistorySaintSnow)
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)
+                .Include(u => u.NamePlates)
+                .Include(u => u.Badges)
+                .Include(u => u.Honors)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
