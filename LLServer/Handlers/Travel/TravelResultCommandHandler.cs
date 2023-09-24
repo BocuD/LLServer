@@ -16,7 +16,7 @@ namespace LLServer.Handlers.Travel;
     "param": {
         "badges": [],
         "card_frames": [],
-        "coop_player_ids": [],
+        "coop_player_ids": [1],
         "dice_count": 1,
         "get_memorial_cards": [],
         "get_skill_cards": [],
@@ -140,7 +140,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
 
             if (pamphlet == null)
             {
-                container.TravelPamphlets.Add(new TravelPamphlet()
+                container.TravelPamphlets.Add(new TravelPamphlet
                 {
                     TravelPamphletId = releasedId,
                     IsNew = true,
