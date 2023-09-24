@@ -10,7 +10,7 @@ namespace LLServer.Models.Requests;
         "encore_bonus": 0,
         "free_ticket": 0,
         "idol_kind": 0,
-        "play_mode": 1,  //0 = normal, 1 = coop
+        "play_mode": 1,  //0 = normal, 1 = coop with one other player
         "release_pamphlet_ids": [
             491
         ],

@@ -77,43 +77,81 @@ public class GameController : BaseController<GameController>
         {
             response = request.Protocol switch
             {
+                "auth" => await mediator.Send(new AuthCommand(request)),
+                //"authunlock"
                 "unlock" => await mediator.Send(new UnlockQuery()),
                 "gameconfig" => await mediator.Send(new GameConfigQuery()),
                 "information" => await mediator.Send(new InformationQuery(Request.Host.Value)),
                 
-                "setterminallog" => await mediator.Send(new SetTerminalLogCommand(request)),
-                
-                "checkword" => await mediator.Send(new CheckWordCommand()),
-                "ranking" => await mediator.Send(new GetRankingQuery()),
+                "achievement" => await mediator.Send(new AchievementCommand(request)),
+                "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),
 
-                "auth" => await mediator.Send(new AuthCommand(request)),
+                "checkword" => await mediator.Send(new CheckWordCommand()),
                 
-                "userdata.get" => await mediator.Send(new GetUserDataQuery(request)),
-                "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request)),
-                "userdata.set" => await mediator.Send(new SetUserDataCommand(request)),
-                    
+                //"discard"
+                "gacha.member" => await mediator.Send(new MemberGachaQuery(request)),
+                //"gacha.finish" => await mediator.Send(new GachaFinishCommmand(request)),
+                //"gacha.restore"
+                
                 "gameentry" => await mediator.Send(new GameEntryQuery(request)),
+                //"gameentry.add"
                 "gameentry.center" => await mediator.Send(new GameEntryCenterQuery(request)),
+                
+                //"gamestart"
                 "gameresult" => await mediator.Send(new GameResultCommand(request)),
                 "gametotalresult" => await mediator.Send(new GameTotalResultQuery()),
                 "gameexit" => await mediator.Send(new GameExitCommand(request)),
                 
-                "TravelStart" => await mediator.Send(new TravelStartCommand(request)),
-                "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
-                "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
-                "TravelSnap.print" => await mediator.Send(new TravelSnapPrintCommand(request)),
-                
-                "gacha.member" => await mediator.Send(new MemberGachaQuery(request)),
-                //"gacha.finish" => await mediator.Send(new GachaFinishCommmand(request)),
-
-                "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
-                
                 "getmembercard" => await mediator.Send(new GetMemberCardQuery(request)),
+                //"getmemorialcard"
+                //"getskillcard"
+                
+                //"historyreset"
+                //"historysetstate"
+                
+                //"honorget"
+                //"honortoread"
+                
+                //"itemget"
+                //"itemdec"
+                
+                //"mission"
+                
+                "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
+                //"stage.unlock"
+                
+                //"present"
+                //"presenteventreward"
                 
                 "printcard" => await mediator.Send(new PrintCardCommand(request)),
                 
-                "achievement" => await mediator.Send(new AchievementCommand(request)),
-                "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),
+                //"profileinquiry"
+                //"profileprint"
+                
+                "ranking" => await mediator.Send(new GetRankingQuery()),
+                //"userranking"
+                
+                //"registerafter"
+                //"scfescheck"
+                //"scfesregister"
+                
+                //"sellcard"
+                
+                "setterminallog" => await mediator.Send(new SetTerminalLogCommand(request)),
+                //"setterminalstatus"
+
+                "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
+                "TravelStart" => await mediator.Send(new TravelStartCommand(request)),
+                "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
+                //"TravelSnap.commit"
+                //"TravelSnap.inquiry"
+                //"TravelSnap.share"
+                "TravelSnap.print" => await mediator.Send(new TravelSnapPrintCommand(request)),
+                
+                "userdata.get" => await mediator.Send(new GetUserDataQuery(request)),
+                "userdata.initialize" => await mediator.Send(new InitializeUserDataCommand(request)),
+                "userdata.set" => await mediator.Send(new SetUserDataCommand(request)),
+
                 _ => DefaultResponse(request.Protocol)
             };
         }
