@@ -32,6 +32,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(TravelPrintResponse))]
 [JsonDerivedType(typeof(MemberGachaResponse))]
 [JsonDerivedType(typeof(GetMemberCardResponse))]
+[JsonDerivedType(typeof(PrintCardResponse))]
 public class ResponseBase
 {
 }
