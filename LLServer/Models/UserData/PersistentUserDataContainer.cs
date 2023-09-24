@@ -155,6 +155,7 @@ public class PersistentUserDataContainer
         Honors.Add(new HonorData
         {
             HonorId = UserData.Honor,
+            Unlocked = true,
             New = false,
         });
         
@@ -264,6 +265,7 @@ public class PersistentUserDataContainer
                 Honors.Add(new HonorData
                 {
                     HonorId = input.Honor.Value,
+                    Unlocked = true,
                     New = true
                 });
             }
