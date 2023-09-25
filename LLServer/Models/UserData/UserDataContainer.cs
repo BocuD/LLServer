@@ -124,8 +124,7 @@ public class UserDataContainer
             {
                 CardMemberId = 0,
                 Count = 2,
-                New = false,
-                PrintRest = 0
+                New = false
             }
         },
         SkillCards = new List<SkillCardData>

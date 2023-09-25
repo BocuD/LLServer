@@ -44,8 +44,7 @@ public class GetMemberCardCommandHandler : ParamHandler<GetMemberCardParam, GetM
             {
                 CardMemberId = getMemberCard.MemberCardId,
                 Count = 1,
-                New = true,
-                PrintRest = 1
+                New = true
             });
         }
 

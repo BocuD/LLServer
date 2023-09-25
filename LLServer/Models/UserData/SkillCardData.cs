@@ -12,10 +12,10 @@ public class SkillCardData
     public int CardSkillId { get; set; } 
 
     [JsonPropertyName("skill_level")]
-    public int SkillLevel { get; set; } 
+    public int SkillLevel { get; set; }
 
-    [JsonPropertyName("print_rest")]
-    public int PrintRest { get; set; } 
+    [JsonPropertyName("print_rest")] 
+    public int PrintRest { get; set; } = 1;
 
     [JsonPropertyName("new")]
     public bool New { get; set; } 

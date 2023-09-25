@@ -423,8 +423,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 {
                     CardSkillId = skillCard.SkillCardId,
                     SkillLevel = 1,
-                    New = true,
-                    PrintRest = 1
+                    New = true
                 });
             }
         }

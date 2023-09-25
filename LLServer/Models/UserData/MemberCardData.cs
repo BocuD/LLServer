@@ -15,10 +15,10 @@ public class MemberCardData
     public int CardMemberId { get; set; } 
 
     [JsonPropertyName("count")]
-    public int Count { get; set; } 
+    public int Count { get; set; }
 
-    [JsonPropertyName("print_rest")]
-    public int PrintRest { get; set; } 
+    [JsonPropertyName("print_rest")] 
+    public int PrintRest { get; set; } = 1;
 
     [JsonPropertyName("new")]
     public bool New { get; set; }
