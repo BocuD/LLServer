@@ -125,9 +125,11 @@ public class UserDataResponse : ResponseBase
         }
     };
 
-    //card frames
+    [JsonPropertyName("card_frames")]
+    public CardFrame[] CardFrames { get; set; } = Array.Empty<CardFrame>();
+    
     //snap frames
-    [JsonPropertyName("snap_stamps")] //range from 0 to 1000 in increments of 10
+    [JsonPropertyName("snap_stamps")]
     public int[] SnapStamps { get; set; } = Array.Empty<int>();
     
     [JsonPropertyName("nameplates")]
@@ -151,8 +153,8 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("first_login")]
     public bool FirstLogin { get; set; }
 
-    [JsonPropertyName("dice_bonus")]
-    public bool DiceBonus { get; set; }
+    [JsonPropertyName("dice_bonus")] 
+    public bool DiceBonus { get; set; } = true;
 
     [JsonPropertyName("stamp_cards")]
     public StampCard[] StampCards { get; set; } = Array.Empty<StampCard>();

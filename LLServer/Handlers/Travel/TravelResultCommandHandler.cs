@@ -13,9 +13,10 @@ namespace LLServer.Handlers.Travel;
 
 /*
 {
+    //data from several requests combined; an actual requests has most of this data missing
     "param": {
-        "badges": [],
-        "card_frames": [],
+        "badges": [92004],
+        "card_frames": [7518],
         "coop_player_ids": [1],
         "dice_count": 1,
         "get_memorial_cards": [],
@@ -43,14 +44,14 @@ namespace LLServer.Handlers.Travel;
         ],
         "m_card_member_id": 40011,
         "member_yell": [],
-        "nameplates": [],
+        "nameplates": [1810481],
         "release_pamphlet_ids": [],
-        "special_ids": [],
+        "special_ids": [4],
         "stage_ids": [],
         "talk_count": 1,
         "tenpo_name": "LLServer",
         "total_exp": 28617,
-        "travel_ex_rewards": [],
+        "travel_ex_rewards": [20370],
         "travel_history": [
             {
                 "create_type": 2,
@@ -124,6 +125,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
                 .Include(u => u.Honors)
+                .Include(u => u.CardFrames)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
@@ -141,7 +143,6 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         //todo: figure out what the hell this stuff even is for
         /*
         "lot_gachas": [],
-        "m_card_member_id": 40011,
         */
 
         foreach (int releasedId in travelResult.ReleasePamphletIds)
@@ -178,6 +179,21 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 container.Badges.Add(new Badge
                 {
                     BadgeId = badge,
+                    New = true
+                });
+            }
+        }
+        
+        //card frames
+        foreach (int cardframe in travelResult.CardFrames)
+        {
+            //find matching card frame id in card frames, if it doesn't exist add a new card frame entry
+            CardFrame? dataCardFrame = container.CardFrames.FirstOrDefault(c => c.CardFrameId == cardframe);
+            if (dataCardFrame == null)
+            {
+                container.CardFrames.Add(new CardFrame
+                {
+                    CardFrameId = cardframe,
                     New = true
                 });
             }

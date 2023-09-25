@@ -40,6 +40,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Item> Items { get; set; }
     public DbSet<SpecialItem> SpecialItems { get; set; }
     
+    public DbSet<CardFrame> CardFrames { get; set; }
     public DbSet<NamePlate> NamePlates { get; set; }
     public DbSet<Badge> Badges { get; set; }
     public DbSet<HonorData> Honors { get; set; }
@@ -55,7 +56,6 @@ public class ApplicationDbContext : DbContext
             .HasAlternateKey(user => user.CardId);
         
         
-
         modelBuilder.Entity<GameSession>()
             .HasKey(s => s.SessionId);
         
@@ -74,6 +74,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<GameSession>()
             .Property(s => s.ExpireTime)
             .IsRequired();
+        
 
         //optional user on sessions
         modelBuilder.Entity<GameSession>()

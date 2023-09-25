@@ -71,6 +71,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)
                 
+                .Include(u => u.CardFrames)
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
                 .Include(u => u.Honors)

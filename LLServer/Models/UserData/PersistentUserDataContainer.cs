@@ -89,6 +89,7 @@ public class PersistentUserDataContainer
     public List<SpecialItem> SpecialItems => User.SpecialItems;
     
     //Unlockables
+    public List<CardFrame> CardFrames => User.CardFrames;
     public List<NamePlate> NamePlates => User.NamePlates;
     public List<Badge> Badges => User.Badges;
     public List<HonorData> Honors => User.Honors;
@@ -100,8 +101,6 @@ public class PersistentUserDataContainer
     //Other
     public bool FirstLogin { get; set; } = false;
     
-    
-
     public void Initialize(InitializeUserData initializeCommand)
     {
         if (initializeCommand.UserData == null)

@@ -57,6 +57,7 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
             .Include(u => u.Items)
             .Include(u => u.SpecialItems)
             
+            .Include(u => u.CardFrames)
             .Include(u => u.NamePlates)
             .Include(u => u.Badges)
             .Include(u => u.Honors)

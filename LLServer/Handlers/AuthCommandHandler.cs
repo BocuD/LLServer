@@ -163,6 +163,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             Items = new List<Item>(),
             SpecialItems = new List<SpecialItem>(),
             
+            CardFrames = new List<CardFrame>(),
             NamePlates = new List<NamePlate>(),
             Badges = new List<Badge>(),
             Honors = new List<HonorData>(),
@@ -200,6 +201,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.Items.AddRange(user.Items);
         dbContext.SpecialItems.AddRange(user.SpecialItems);
         
+        dbContext.CardFrames.AddRange(user.CardFrames);
         dbContext.NamePlates.AddRange(user.NamePlates);
         dbContext.Badges.AddRange(user.Badges);
         dbContext.Honors.AddRange(user.Honors);

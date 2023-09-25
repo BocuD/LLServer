@@ -50,6 +50,7 @@ public class User
     [Required] public List<SpecialItem> SpecialItems { get; set; } = new();
     
     //Unlockables
+    [Required] public List<CardFrame> CardFrames { get; set; } = new();
     [Required] public List<NamePlate> NamePlates { get; set; } = new();
     [Required] public List<Badge> Badges { get; set; } = new();
     [Required] public List<HonorData> Honors { get; set; } = new();
