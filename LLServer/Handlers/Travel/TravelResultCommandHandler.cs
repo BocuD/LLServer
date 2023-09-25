@@ -19,7 +19,12 @@ namespace LLServer.Handlers.Travel;
         "coop_player_ids": [1],
         "dice_count": 1,
         "get_memorial_cards": [],
-        "get_skill_cards": [],
+        "get_skill_cards": [
+            {
+                "location": 1600,
+                "skill_card_id": 4209
+            }
+        ],
         "item": [],
         "level": 30,
         "lot_gachas": [
@@ -100,16 +105,22 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 .Include(u => u.UserData)
                 .Include(u => u.UserDataAqours)
                 .Include(u => u.UserDataSaintSnow)
+                
                 .Include(u => u.Members)
                 .Include(u => u.MemberCards)
+                .Include(u => u.SkillCards)
                 .Include(u => u.LiveDatas)
+                
                 .Include(u => u.TravelData)
                 .Include(u => u.TravelPamphlets)
+                
                 .Include(u => u.TravelHistory)
                 .Include(u => u.TravelHistoryAqours)
                 .Include(u => u.TravelHistorySaintSnow)
+                
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)
+                
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
                 .Include(u => u.Honors)
@@ -238,7 +249,6 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         }
 
         //todo: stage ids
-        //todo: earned skill cards
         //todo: earned memorial cards
 
         //update level and exp
@@ -344,6 +354,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             travelHistoryIds.Add(newHistory.Id);
             highestTravelId += 1;
 
+            //todo: move away from reflectionmapper here because it is inefficient
             switch (container.UserData.IdolKind)
             {
                 //µ's
@@ -364,47 +375,65 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             }
         }
 
-        //parse lot gachas
         List<GetCardData> getCardDatas = new();
-
         List<MailBoxItem> mailBoxItems = new();
+        
+        //handle earned skill cards
+        foreach (GetSkillCard skillCard in travelResult.GetSkillCards)
+        {
+            //add entry to getcarddata
+            getCardDatas.Add(new GetCardData
+            {
+                Location = skillCard.Location,
+                MailBoxId = mailBoxItems.Count
+            });
+            
+            //add entry to mailbox
+            mailBoxItems.Add(new MailBoxItem
+            {
+                Attrib = 1,
+                Category = 1,
+                Count = 1,
+                Id = mailBoxItems.Count,
+                ItemId = skillCard.SkillCardId
+            });
+            
+            //add the card to the database
+            SkillCardData? skillCardData = container.SkillCards.FirstOrDefault(s => s.CardSkillId == skillCard.SkillCardId);
 
-        int mailBoxId = 0;
-
-        /*foreach (LotGacha gacha in travelResult.LotGachas)
+            if (skillCardData == null)
+            {
+                container.SkillCards.Add(new SkillCardData
+                {
+                    CardSkillId = skillCard.SkillCardId,
+                    SkillLevel = 1,
+                    New = true,
+                    PrintRest = 1
+                });
+            }
+        }
+        
+        //handle lot gachas
+        foreach (LotGacha gacha in travelResult.LotGachas)
         {
             for (int i = 0; i < gacha.CardCount; i++)
             {
                 getCardDatas.Add(new GetCardData
                 {
                     Location = gacha.Location,
-                    MailBoxId = mailBoxId
+                    MailBoxId = mailBoxItems.Count
                 });
                 
                 mailBoxItems.Add(new MailBoxItem
                 {
-                    Attrib = 0,
-                    Category = 0,
+                    Attrib = 2,
+                    Category = 3,
                     Count = 1,
-                    Id = mailBoxId,
+                    Id = mailBoxItems.Count,
                     ItemId = 40071
                 });
-                
-                mailBoxId++;
             }
         }
-
-        for (int i = 0; i < 10; i++)
-        {
-            mailBoxItems.Add(new MailBoxItem()
-            {
-                Attrib = 0,
-                Category = i,
-                Count = 1,
-                Id = mailBoxId,
-                ItemId = 0
-            });
-        }*/
 
         //save changes
         await container.SaveChanges(cancellationToken);
@@ -416,7 +445,6 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             {
                 GetCardDatas = getCardDatas.ToArray(),
                 TravelHistoryIds = travelHistoryIds.Select(x => x.ToString()).ToArray(),
-                //todo figure out what is expected here
                 MailBox = mailBoxItems.ToArray()
             }
         };

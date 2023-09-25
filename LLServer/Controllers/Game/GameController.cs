@@ -88,44 +88,44 @@ public class GameController : BaseController<GameController>
 
                 "checkword" => await mediator.Send(new CheckWordCommand()),
                 
-                //"discard"
+                //"discard"             seems to be called when during gacha a duplicate card is pulled
                 "gacha.member" => await mediator.Send(new MemberGachaQuery(request)),
                 //"gacha.finish" => await mediator.Send(new GachaFinishCommmand(request)),
-                //"gacha.restore"
+                //"gacha.restore"       probably to continue interrupted gacha
                 
                 "gameentry" => await mediator.Send(new GameEntryQuery(request)),
-                //"gameentry.add"
+                //"gameentry.add"       requested when a new credit is used in terminal mode to continue gacha / printing
                 "gameentry.center" => await mediator.Send(new GameEntryCenterQuery(request)),
                 
-                //"gamestart"
+                //"gamestart"           ?
                 "gameresult" => await mediator.Send(new GameResultCommand(request)),
                 "gametotalresult" => await mediator.Send(new GameTotalResultQuery()),
                 "gameexit" => await mediator.Send(new GameExitCommand(request)),
                 
                 "getmembercard" => await mediator.Send(new GetMemberCardQuery(request)),
-                //"getmemorialcard"
-                //"getskillcard"
+                //"getmemorialcard"     same as getmembercard
+                //"getskillcard"        same as getmembercard
                 
-                //"historyreset"
-                //"historysetstate"
+                //"historyreset"        ?
+                //"historysetstate"     ?
                 
-                //"honorget"
-                //"honortoread"
+                //"honorget"            ?
+                //"honortoread"         ?
                 
-                //"itemget"
-                //"itemdec"
+                //"itemget"             ?
+                //"itemdec"             ?
                 
-                //"mission"
+                //"mission"             ?
                 
                 "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
-                //"stage.unlock"
+                //"stage.unlock"        unlocks a stage, seems to be basically the same as music.unlock
                 
                 //"present"
                 //"presenteventreward"
                 
                 "printcard" => await mediator.Send(new PrintCardCommand(request)),
                 
-                //"profileinquiry"
+                //"profileinquiry"      gets requested when a profile card is scanned
                 //"profileprint"
                 
                 "ranking" => await mediator.Send(new GetRankingQuery()),
@@ -143,6 +143,7 @@ public class GameController : BaseController<GameController>
                 "travelstamp" => await mediator.Send(new TravelStampCommand(request)),
                 "TravelStart" => await mediator.Send(new TravelStartCommand(request)),
                 "TravelResult" => await mediator.Send(new TravelResultCommand(request)),
+                
                 //"TravelSnap.commit"
                 //"TravelSnap.inquiry"
                 //"TravelSnap.share"

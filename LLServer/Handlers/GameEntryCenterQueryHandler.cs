@@ -31,23 +31,34 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
             .Include(u => u.UserData)
             .Include(u => u.UserDataAqours)
             .Include(u => u.UserDataSaintSnow)
+            
             .Include(u => u.Members)
             .Include(u => u.MemberCards)
             .Include(u => u.SkillCards)
+            
+            .Include(u => u.Musics)
             .Include(u => u.LiveDatas)
+            
             .Include(u => u.TravelData)
             .Include(u => u.TravelPamphlets)
+            
+            .Include(u => u.GameHistory)
+            .Include(u => u.GameHistoryAqours)
+            .Include(u => u.GameHistorySaintSnow)
+            
             .Include(u => u.TravelHistory)
             .Include(u => u.TravelHistoryAqours)
             .Include(u => u.TravelHistorySaintSnow)
+            
             .Include(u => u.Achievements)
             .Include(u => u.YellAchievements)
             .Include(u => u.AchievementRecordBooks)
+            
             .Include(u => u.Items)
             .Include(u => u.SpecialItems)
+            
             .Include(u => u.NamePlates)
             .Include(u => u.Badges)
-            .Include(u => u.Musics)
             .Include(u => u.Honors)
             .FirstOrDefaultAsync(cancellationToken);
         
