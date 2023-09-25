@@ -148,6 +148,10 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             TravelData = new List<TravelData>(),
             TravelPamphlets = new List<TravelPamphlet>(),
             
+            GameHistory = new List<GameHistory>(),
+            GameHistoryAqours = new List<GameHistoryAqours>(),
+            GameHistorySaintSnow = new List<GameHistorySaintSnow>(),
+            
             TravelHistory = new List<TravelHistory>(),
             TravelHistoryAqours = new List<TravelHistoryAqours>(),
             TravelHistorySaintSnow = new List<TravelHistorySaintSnow>(),
@@ -180,6 +184,10 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         
         dbContext.TravelData.AddRange(user.TravelData);
         dbContext.TravelPamphlets.AddRange(user.TravelPamphlets);
+        
+        dbContext.GameHistory.AddRange(user.GameHistory);
+        dbContext.GameHistoryAqours.AddRange(user.GameHistoryAqours);
+        dbContext.GameHistorySaintSnow.AddRange(user.GameHistorySaintSnow);
         
         dbContext.TravelHistory.AddRange(user.TravelHistory);
         dbContext.TravelHistoryAqours.AddRange(user.TravelHistoryAqours);

@@ -1,5 +1,6 @@
 ﻿using LLServer.Database;
 using LLServer.Database.Models;
+using LLServer.Mappers;
 using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -27,8 +28,14 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
                 .Include(u => u.UserData)
                 .Include(u => u.UserDataAqours)
                 .Include(u => u.UserDataSaintSnow)
+                
                 .Include(u => u.Members)
                 .Include(u => u.LiveDatas)
+
+                //todo only load relevant gamehistory data
+                .Include(u => u.GameHistory)
+                .Include(u => u.GameHistoryAqours)
+                .Include(u => u.GameHistorySaintSnow)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
@@ -135,33 +142,54 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
         }
         
         //record game history
-        //todo: make game history actually persistent
-        List<GameHistoryBase> gameHistory;
-        switch (gameResult.IdolKind)
-        {
-            case 0:
-            default:
-                gameHistory = container.GameHistory;
-                break;
-            case 1:
-                gameHistory = container.GameHistoryAqours;
-                break;
-            case 2:
-                gameHistory = container.GameHistorySaintSnow;
-                break;
-        }
-
-        //todo: implement proper version of gamehistory (this is just a placeholder)
         ulong highestId = 1;
+        switch (container.UserData.IdolKind)
+        {
+            //µ's
+            case 0:
+                if (container.GameHistory.Count == 0) break;
+                
+                highestId = container.GameHistory.Max(x => ulong.Parse(x.Id));
+                
+                //if we have more than 10 entries, remove the one with the lowest id
+                if (container.GameHistory.Count > 10)
+                {
+                    container.GameHistory.Remove(container.GameHistory.First());
+                }
+                break;
 
+            //aqours
+            case 1:
+                if (container.GameHistoryAqours.Count == 0) break;
+
+                highestId = container.GameHistoryAqours.Max(x => ulong.Parse(x.Id));
+                
+                //if we have more than 10 entries, remove the one with the lowest id
+                if (container.GameHistoryAqours.Count > 10)
+                {
+                    container.GameHistoryAqours.Remove(container.GameHistoryAqours.First());
+                }                break;
+
+            //saint snow
+            case 2:
+                if (container.GameHistorySaintSnow.Count == 0) break;
+
+                highestId = container.GameHistorySaintSnow.Max(x => ulong.Parse(x.Id));
+                
+                //if we have more than 10 entries, remove the one with the lowest id
+                if (container.GameHistorySaintSnow.Count > 10)
+                {
+                    container.GameHistorySaintSnow.Remove(container.GameHistorySaintSnow.First());
+                }                break;
+        }
+        
         //todo: use a mapper lol
         GameHistoryBase newHistory = new()
         {
-            Id = highestId + 1.ToString().PadLeft(20, '0'),
+            Id = highestId.ToString(),
             PlayPlace = "test",
             Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
-            //number format is 20 characters long, so we pad the id with 0s
-            DUserId = session.User.UserId.ToString().PadLeft(20, '0'),
+            DUserId = session.User.UserId.ToString(),
             CharacterId = gameResult.CharacterId,
             MemberCardId = gameResult.MembercardId,
             UsedMemberCard = gameResult.UsedMemberCard,
@@ -178,6 +206,7 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
             SkillStatusMain = gameResult.SkillStatusMain,
             SkillStatusCamera = gameResult.SkillStatusCamera,
             SkillStatusStage = gameResult.SkillStatusStage,
+            SkillArgCamera = gameResult.SkillArgCamera,
             LiveId = gameResult.LiveId,
             StageId = gameResult.StageId,
             EventMode = gameResult.EventMode,
@@ -197,13 +226,24 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
             ComboScore = gameResult.ComboScore,
             TechnicalRank = gameResult.TechnicalRank
         };
-        //add to history
-        gameHistory.Add(newHistory);
         
-        //remove the first history if we have more than 10
-        if (gameHistory.Count > 10)
+        //todo: move away from reflectionmapper here because it is inefficient
+        switch (container.UserData.IdolKind)
         {
-            gameHistory.RemoveAt(0);
+            //µ's
+            case 0:
+                container.GameHistory.Add(ReflectionMapper.Map(newHistory, new GameHistory()));
+                break;
+
+            //aqours
+            case 1:
+                container.GameHistoryAqours.Add(ReflectionMapper.Map(newHistory, new GameHistoryAqours()));
+                break;
+
+            //saint snow
+            case 2:
+                container.GameHistorySaintSnow.Add(ReflectionMapper.Map(newHistory, new GameHistorySaintSnow()));
+                break;
         }
         
         //update level data

@@ -24,6 +24,11 @@ public class ApplicationDbContext : DbContext
     
     public DbSet<TravelData> TravelData { get; set; }
     public DbSet<TravelPamphlet> TravelPamphlets { get; set; }
+    
+    public DbSet<GameHistory> GameHistory { get; set; }
+    public DbSet<GameHistoryAqours> GameHistoryAqours { get; set; }
+    public DbSet<GameHistorySaintSnow> GameHistorySaintSnow { get; set; }
+    
     public DbSet<TravelHistory> TravelHistory { get; set; }
     public DbSet<TravelHistoryAqours> TravelHistoryAqours { get; set; }
     public DbSet<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; }

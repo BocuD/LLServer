@@ -68,15 +68,11 @@ public class PersistentUserDataContainer
     //Travel data
     public List<TravelData> Travels => User.TravelData;
     public List<TravelPamphlet> TravelPamphlets => User.TravelPamphlets;
-    
-    //Game history
-    public static List<GameHistoryBase> GameHistoryStub = new();
-    public static List<GameHistoryBase> GameHistoryAqoursStub = new();
-    public static List<GameHistoryBase> GameHistorySaintSnowStub = new();
 
-    public List<GameHistoryBase> GameHistory => GameHistoryStub;
-    public List<GameHistoryBase> GameHistoryAqours => GameHistoryAqoursStub;
-    public List<GameHistoryBase> GameHistorySaintSnow => GameHistorySaintSnowStub;
+    //Game history
+    public List<GameHistory> GameHistory => User.GameHistory;
+    public List<GameHistoryAqours> GameHistoryAqours => User.GameHistoryAqours;
+    public List<GameHistorySaintSnow> GameHistorySaintSnow => User.GameHistorySaintSnow;
 
     //Travel history
     public List<TravelHistory> TravelHistory => User.TravelHistory;

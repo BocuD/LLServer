@@ -30,6 +30,12 @@ public class User
     //travel data
     [Required] public List<TravelData> TravelData { get; set; } = new();
     [Required] public List<TravelPamphlet> TravelPamphlets { get; set; } = new();
+    
+    //history
+    [Required] public List<GameHistory> GameHistory { get; set; } = new();
+    [Required] public List<GameHistoryAqours> GameHistoryAqours { get; set; } = new();
+    [Required] public List<GameHistorySaintSnow> GameHistorySaintSnow { get; set; } = new();
+    
     [Required] public List<TravelHistory> TravelHistory { get; set; } = new();
     [Required] public List<TravelHistoryAqours> TravelHistoryAqours { get; set; } = new();
     [Required] public List<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; } = new();

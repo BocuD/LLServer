@@ -1,11 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using LLServer.Database.Models;
 
 namespace LLServer.Models.UserData;
 
 public class GameHistoryBase
 {
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public string Id { get; set; } = "";
 
     [JsonPropertyName("play_place")] 
     public string PlayPlace { get; set; } = "";
@@ -14,7 +17,7 @@ public class GameHistoryBase
     public string Created { get; set; } = "";
     
     [JsonPropertyName("d_user_id")]
-    public string DUserId { get; set; }
+    public string DUserId { get; set; } = "";
     
     [JsonPropertyName("character_id")]
     public int CharacterId { get; set; }
@@ -120,4 +123,34 @@ public class GameHistoryBase
     
     [JsonPropertyName("technical_rank")]
     public int TechnicalRank { get; set; }
+}
+
+public class GameHistory : GameHistoryBase
+{
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User? User { get; set; }
+}
+
+public class GameHistoryAqours : GameHistoryBase
+{
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User? User { get; set; }
+}
+
+public class GameHistorySaintSnow : GameHistoryBase
+{
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User? User { get; set; }
 }
