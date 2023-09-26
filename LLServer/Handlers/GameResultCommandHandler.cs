@@ -224,7 +224,19 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
             SkillScore = gameResult.SkillScore,
             SynchroScore = gameResult.SynchroScore,
             ComboScore = gameResult.ComboScore,
-            TechnicalRank = gameResult.TechnicalRank
+            TechnicalRank = gameResult.TechnicalRank,
+            SkillRank = gameResult.SkillRank,
+            SynchroRank = gameResult.SynchroRank,
+            ComboRank = gameResult.ComboRank,
+            TotalRank = gameResult.TotalRank,
+            Favorite = false,
+            PrintRest = 1,
+            MemorialCard = gameResult.MemorialCard,
+            LastCutFocus = gameResult.LastCutFocus,
+            RecommendHiScore = false,
+            RecommendFirstMusic = false,
+            RecommendFirstMember = false,
+            RecommendFirstSkill = false,
         };
         
         //todo: move away from reflectionmapper here because it is inefficient

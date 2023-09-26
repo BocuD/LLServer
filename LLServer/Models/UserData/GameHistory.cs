@@ -123,6 +123,42 @@ public class GameHistoryBase
     
     [JsonPropertyName("technical_rank")]
     public int TechnicalRank { get; set; }
+    
+    [JsonPropertyName("skill_rank")]
+    public int SkillRank { get; set; }
+    
+    [JsonPropertyName("synchro_rank")]
+    public int SynchroRank { get; set; }
+    
+    [JsonPropertyName("combo_rank")]
+    public int ComboRank { get; set; }
+    
+    [JsonPropertyName("total_rank")]
+    public int TotalRank { get; set; }
+    
+    [JsonPropertyName("favorite")]
+    public bool Favorite { get; set; }
+
+    [JsonPropertyName("print_rest")] 
+    public int PrintRest { get; set; } = 1;
+    
+    [JsonPropertyName("memorial_card")]
+    public int MemorialCard { get; set; }
+    
+    [JsonPropertyName("last_cut_focus")]
+    public int LastCutFocus { get; set; }
+    
+    [JsonPropertyName("recommend_hi_score")]
+    public bool RecommendHiScore { get; set; }
+    
+    [JsonPropertyName("recommend_first_music")]
+    public bool RecommendFirstMusic { get; set; }
+    
+    [JsonPropertyName("recommend_first_member")]
+    public bool RecommendFirstMember { get; set; }
+    
+    [JsonPropertyName("recommend_first_skill")]
+    public bool RecommendFirstSkill { get; set; }
 }
 
 public class GameHistory : GameHistoryBase
