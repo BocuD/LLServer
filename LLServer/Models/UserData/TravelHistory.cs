@@ -49,8 +49,8 @@ public class TravelHistoryBase
     [JsonPropertyName("created")]
     public string Created { get; set; } = "";
 
-    [JsonPropertyName("print_rest")]
-    public bool PrintRest { get; set; }
+    [JsonPropertyName("print_rest")] 
+    public int PrintRest { get; set; } = 1;
 }
 
 public class TravelHistory : TravelHistoryBase

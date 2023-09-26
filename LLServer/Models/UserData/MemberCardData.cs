@@ -12,7 +12,7 @@ public class MemberCardData
     [JsonIgnore, Key] public int Id { get; set; }
     
     [JsonPropertyName("m_card_member_id")]
-    public int CardMemberId { get; set; } 
+    public int CardMemberId { get; set; }
 
     [JsonPropertyName("count")]
     public int Count { get; set; }

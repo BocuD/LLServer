@@ -8,10 +8,10 @@ public class MemorialCardData
     public int CardMemorialId { get; set; } 
 
     [JsonPropertyName("count")]
-    public int Count { get; set; } 
+    public int Count { get; set; }
 
-    [JsonPropertyName("print_rest")]
-    public int PrintRest { get; set; } 
+    [JsonPropertyName("print_rest")] 
+    public int PrintRest { get; set; } = 1;
 
     [JsonPropertyName("select_count")]
     public int SelectCount { get; set; }

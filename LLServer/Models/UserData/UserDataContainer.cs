@@ -178,7 +178,7 @@ public class UserDataContainer
                 //SnapStampList = new SnapStamp[0],
                 //CoopInfo = new CoopInfo[0],
                 Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
-                PrintRest = false
+                PrintRest = 0
             }
         },
         TravelHistoryAqours = new TravelHistoryBase[0],
