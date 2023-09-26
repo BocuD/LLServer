@@ -99,7 +99,7 @@ public class GameController : BaseController<GameController>
                 
                 //"gamestart"           ?
                 "gameresult" => await mediator.Send(new GameResultCommand(request)),
-                "gametotalresult" => await mediator.Send(new GameTotalResultQuery()),
+                "gametotalresult" => await mediator.Send(new GameTotalResultQuery(request)),
                 "gameexit" => await mediator.Send(new GameExitCommand(request)),
                 
                 "getmembercard" => await mediator.Send(new GetMemberCardQuery(request)),

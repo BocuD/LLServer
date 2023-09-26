@@ -33,6 +33,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(MemberGachaResponse))]
 [JsonDerivedType(typeof(GetMemberCardResponse))]
 [JsonDerivedType(typeof(PrintCardResponse))]
+[JsonDerivedType(typeof(GameTotalResultResponse))]
 public class ResponseBase
 {
 }
