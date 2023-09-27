@@ -57,8 +57,6 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 .Include(u => u.TravelPamphlets)
                 
                 .Include(u => u.GameHistory)
-                .Include(u => u.GameHistoryAqours)
-                .Include(u => u.GameHistorySaintSnow)
                 
                 .Include(u => u.TravelHistory)
                 .Include(u => u.TravelHistoryAqours)

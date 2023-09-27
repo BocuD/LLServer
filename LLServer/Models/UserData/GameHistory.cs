@@ -7,8 +7,18 @@ namespace LLServer.Models.UserData;
 
 public class GameHistoryBase
 {
-    [JsonPropertyName("id")]
-    public string Id { get; set; } = "";
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User? User { get; set; }
+    
+    //more efficient than having three separate tables
+    [JsonIgnore] public int IdolKind { get; set; }
+
+    [JsonPropertyName("id"), NotMapped]
+    public string Id => DbId.ToString();
 
     [JsonPropertyName("play_place")] 
     public string PlayPlace { get; set; } = "";
@@ -161,32 +171,32 @@ public class GameHistoryBase
     public bool RecommendFirstSkill { get; set; }
 }
 
-public class GameHistory : GameHistoryBase
-{
-    //Database key
-    [JsonIgnore, Key] public int DbId { get; set; }
-
-    //Database association to user
-    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User? User { get; set; }
-}
-
-public class GameHistoryAqours : GameHistoryBase
-{
-    //Database key
-    [JsonIgnore, Key] public int DbId { get; set; }
-
-    //Database association to user
-    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User? User { get; set; }
-}
-
-public class GameHistorySaintSnow : GameHistoryBase
-{
-    //Database key
-    [JsonIgnore, Key] public int DbId { get; set; }
-
-    //Database association to user
-    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User? User { get; set; }
-}
+// public class GameHistory : GameHistoryBase
+// {
+//     //Database key
+//     [JsonIgnore, Key] public int DbId { get; set; }
+//
+//     //Database association to user
+//     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+//     [JsonIgnore] public User? User { get; set; }
+// }
+//
+// public class GameHistoryAqours : GameHistoryBase
+// {
+//     //Database key
+//     [JsonIgnore, Key] public int DbId { get; set; }
+//
+//     //Database association to user
+//     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+//     [JsonIgnore] public User? User { get; set; }
+// }
+//
+// public class GameHistorySaintSnow : GameHistoryBase
+// {
+//     //Database key
+//     [JsonIgnore, Key] public int DbId { get; set; }
+//
+//     //Database association to user
+//     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+//     [JsonIgnore] public User? User { get; set; }
+// }

@@ -32,10 +32,7 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
                 .Include(u => u.Members)
                 .Include(u => u.LiveDatas)
 
-                //todo only load relevant gamehistory data
                 .Include(u => u.GameHistory)
-                .Include(u => u.GameHistoryAqours)
-                .Include(u => u.GameHistorySaintSnow)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
@@ -141,52 +138,25 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
             liveData.New = false;
         }
         
-        //record game history
-        ulong highestId = 1;
-        switch (container.UserData.IdolKind)
+        //make sure we don't have more than <some amount> history entries
+        //since this method will only ever add one at a time, we can just remove the oldest one
+        //todo: figure out what the actual limit should be according to page count on terminal
+        int historyCount = container.GameHistory.Count(x => x.IdolKind == gameResult.IdolKind);
+        if (historyCount > 100)
         {
-            //µ's
-            case 0:
-                if (container.GameHistory.Count == 0) break;
-                
-                highestId = container.GameHistory.Max(x => ulong.Parse(x.Id));
-                
-                //if we have more than 10 entries, remove the one with the lowest id
-                if (container.GameHistory.Count > 10)
-                {
-                    container.GameHistory.Remove(container.GameHistory.First());
-                }
-                break;
-
-            //aqours
-            case 1:
-                if (container.GameHistoryAqours.Count == 0) break;
-
-                highestId = container.GameHistoryAqours.Max(x => ulong.Parse(x.Id));
-                
-                //if we have more than 10 entries, remove the one with the lowest id
-                if (container.GameHistoryAqours.Count > 10)
-                {
-                    container.GameHistoryAqours.Remove(container.GameHistoryAqours.First());
-                }                break;
-
-            //saint snow
-            case 2:
-                if (container.GameHistorySaintSnow.Count == 0) break;
-
-                highestId = container.GameHistorySaintSnow.Max(x => ulong.Parse(x.Id));
-                
-                //if we have more than 10 entries, remove the one with the lowest id
-                if (container.GameHistorySaintSnow.Count > 10)
-                {
-                    container.GameHistorySaintSnow.Remove(container.GameHistorySaintSnow.First());
-                }                break;
+            GameHistoryBase oldestHistory = container.GameHistory
+                .Where(x => x.IdolKind == gameResult.IdolKind)
+                .OrderBy(x => x.Created)
+                .First();
+            
+            container.GameHistory.Remove(oldestHistory);
         }
         
+        //record new game history
         //todo: use a mapper lol
         GameHistoryBase newHistory = new()
         {
-            Id = highestId.ToString(),
+            IdolKind = gameResult.IdolKind,
             PlayPlace = "test",
             Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
             DUserId = session.User.UserId.ToString(),
@@ -239,25 +209,28 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
             RecommendFirstSkill = false,
         };
         
-        //todo: move away from reflectionmapper here because it is inefficient
-        switch (container.UserData.IdolKind)
+        //the container GameHistory is a property to access µ's gamehistory
+        session.User.GameHistory.Add(newHistory);
+        
+        //save profile card ids
+        switch (gameResult.IdolKind)
         {
-            //µ's
             case 0:
-                container.GameHistory.Add(ReflectionMapper.Map(newHistory, new GameHistory()));
+                container.UserData.ProfileCardId1 = gameResult.ProfileCardId1;
+                container.UserData.ProfileCardId2 = gameResult.ProfileCardId2;
                 break;
-
-            //aqours
+            
             case 1:
-                container.GameHistoryAqours.Add(ReflectionMapper.Map(newHistory, new GameHistoryAqours()));
+                container.UserDataAqours.ProfileCardId1 = gameResult.ProfileCardId1;
+                container.UserDataAqours.ProfileCardId2 = gameResult.ProfileCardId2;
                 break;
-
-            //saint snow
+            
             case 2:
-                container.GameHistorySaintSnow.Add(ReflectionMapper.Map(newHistory, new GameHistorySaintSnow()));
+                container.UserDataSaintSnow.ProfileCardId1 = gameResult.ProfileCardId1;
+                container.UserDataSaintSnow.ProfileCardId2 = gameResult.ProfileCardId2;
                 break;
         }
-        
+
         //update level data
         container.UserData.TotalExp = gameResult.TotalExp;
         container.UserData.Level = gameResult.DUserLevel;

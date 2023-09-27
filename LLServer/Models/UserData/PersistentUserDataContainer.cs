@@ -70,9 +70,9 @@ public class PersistentUserDataContainer
     public List<TravelPamphlet> TravelPamphlets => User.TravelPamphlets;
 
     //Game history
-    public List<GameHistory> GameHistory => User.GameHistory;
-    public List<GameHistoryAqours> GameHistoryAqours => User.GameHistoryAqours;
-    public List<GameHistorySaintSnow> GameHistorySaintSnow => User.GameHistorySaintSnow;
+    public List<GameHistoryBase> GameHistory => User.GameHistory.Where(g => g.IdolKind == 0).ToList();
+    public List<GameHistoryBase> GameHistoryAqours => User.GameHistory.Where(g => g.IdolKind == 1).ToList();
+    public List<GameHistoryBase> GameHistorySaintSnow => User.GameHistory.Where(g => g.IdolKind == 2).ToList();
 
     //Travel history
     public List<TravelHistory> TravelHistory => User.TravelHistory;

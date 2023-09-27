@@ -3,6 +3,7 @@ using System;
 using LLServer.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LLServer.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230927013057_GameHistory type update")]
+    partial class GameHistorytypeupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0-preview.6.23329.4");
@@ -46,7 +49,7 @@ namespace LLServer.Database.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Sessions", (string)null);
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.PersistentLiveData", b =>
@@ -104,7 +107,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("LiveDatas", (string)null);
+                    b.ToTable("LiveDatas");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.ProfileCard", b =>
@@ -124,7 +127,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ProfileCards", (string)null);
+                    b.ToTable("ProfileCards");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.User", b =>
@@ -148,7 +151,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasAlternateKey("CardId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.Achievement", b =>
@@ -176,7 +179,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Achievements", (string)null);
+                    b.ToTable("Achievements");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.AchievementRecordBook", b =>
@@ -202,7 +205,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("AchievementRecordBooks", (string)null);
+                    b.ToTable("AchievementRecordBooks");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.Badge", b =>
@@ -226,7 +229,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Badges", (string)null);
+                    b.ToTable("Badges");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.CardFrame", b =>
@@ -254,7 +257,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CardFrames", (string)null);
+                    b.ToTable("CardFrames");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.GameHistoryBase", b =>
@@ -486,7 +489,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("GameHistory", (string)null);
+                    b.ToTable("GameHistory");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.HonorData", b =>
@@ -514,7 +517,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Honors", (string)null);
+                    b.ToTable("Honors");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.Item", b =>
@@ -538,7 +541,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.MemberCardData", b =>
@@ -570,7 +573,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("MemberCardData", (string)null);
+                    b.ToTable("MemberCardData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.MemberData", b =>
@@ -626,7 +629,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("MemberData", (string)null);
+                    b.ToTable("MemberData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.MusicData", b =>
@@ -654,7 +657,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Musics", (string)null);
+                    b.ToTable("Musics");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.NamePlate", b =>
@@ -678,7 +681,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("NamePlates", (string)null);
+                    b.ToTable("NamePlates");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.SkillCardData", b =>
@@ -710,7 +713,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("SkillCardData", (string)null);
+                    b.ToTable("SkillCardData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.SpecialItem", b =>
@@ -734,7 +737,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("SpecialItems", (string)null);
+                    b.ToTable("SpecialItems");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelData", b =>
@@ -780,7 +783,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelData", (string)null);
+                    b.ToTable("TravelData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelHistory", b =>
@@ -847,7 +850,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelHistory", (string)null);
+                    b.ToTable("TravelHistory");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelHistoryAqours", b =>
@@ -914,7 +917,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelHistoryAqours", (string)null);
+                    b.ToTable("TravelHistoryAqours");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelHistorySaintSnow", b =>
@@ -981,7 +984,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelHistorySaintSnow", (string)null);
+                    b.ToTable("TravelHistorySaintSnow");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelPamphlet", b =>
@@ -1022,7 +1025,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelPamphlets", (string)null);
+                    b.ToTable("TravelPamphlets");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.UserData", b =>
@@ -1129,7 +1132,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserData", (string)null);
+                    b.ToTable("UserData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.UserDataAqours", b =>
@@ -1165,7 +1168,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserDataAqours", (string)null);
+                    b.ToTable("UserDataAqours");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.UserDataSaintSnow", b =>
@@ -1201,7 +1204,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserDataSaintSnow", (string)null);
+                    b.ToTable("UserDataSaintSnow");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.YellAchievement", b =>
@@ -1229,7 +1232,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("YellAchievements", (string)null);
+                    b.ToTable("YellAchievements");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.GameSession", b =>
