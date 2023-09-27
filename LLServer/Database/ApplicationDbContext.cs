@@ -1,6 +1,7 @@
 ﻿using LLServer.Database.Models;
 using LLServer.Models.UserData;
 using Microsoft.EntityFrameworkCore;
+using ProfileCard = LLServer.Database.Models.ProfileCard;
 
 namespace LLServer.Database;
 
@@ -13,6 +14,9 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<GameSession> Sessions { get; set; }
+    
+    public DbSet<ProfileCard> ProfileCards { get; set; }
+    
     public DbSet<UserData> UserData { get; set; }
     public DbSet<UserDataAqours> UserDataAqours { get; set; }
     public DbSet<UserDataSaintSnow> UserDataSaintSnow { get; set; }
@@ -25,9 +29,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<TravelData> TravelData { get; set; }
     public DbSet<TravelPamphlet> TravelPamphlets { get; set; }
     
-    public DbSet<GameHistory> GameHistory { get; set; }
-    public DbSet<GameHistoryAqours> GameHistoryAqours { get; set; }
-    public DbSet<GameHistorySaintSnow> GameHistorySaintSnow { get; set; }
+    public DbSet<GameHistoryBase> GameHistory { get; set; }
     
     public DbSet<TravelHistory> TravelHistory { get; set; }
     public DbSet<TravelHistoryAqours> TravelHistoryAqours { get; set; }
