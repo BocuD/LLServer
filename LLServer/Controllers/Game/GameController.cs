@@ -125,8 +125,8 @@ public class GameController : BaseController<GameController>
                 
                 "printcard" => await mediator.Send(new PrintCardCommand(request)),
                 
-                //"profileinquiry"      gets requested when a profile card is scanned
-                //"profileprint"
+                "profile.inquiry" => await mediator.Send(new ProfileInquiryQuery(request)),
+                "profile.print" => await mediator.Send(new ProfilePrintCommand(request)),
                 
                 "ranking" => await mediator.Send(new GetRankingQuery()),
                 //"userranking"
