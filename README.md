@@ -12,6 +12,7 @@ Currently in active development.
 - Member and skill cards (only the default guest mode cards are unlocked right now and new cards can't be unlocked yet)
 - Badges, nameplates and honors
 - おでかけ♪スクールアイドル (the board game at the end of the game)
+- Profile card loading and saving
 - Achievement data
 - Guest mode
 
@@ -20,15 +21,14 @@ Currently in active development.
 - Profile creation / Login
 - Travel snap prints
 - Album prints
+- Live viewing / profile card printing
 - (Partial) profile customization
 - (Partial) member gacha (gacha cards are hardcoded right now to a 9 Umi HRs)
 
 ## Currently unsaved data
 
-- Game history (needed for profile card printing)
-- Profile card data
 - Stage unlocks (these are all unlocked by default)
-- Music unlocks (these are all unlocked by default - note that you still need the right member cards to be able to play a song)
+- Some travel data
 - Probably more
 
 ## To do
