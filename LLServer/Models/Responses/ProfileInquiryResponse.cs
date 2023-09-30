@@ -24,7 +24,7 @@ public class ProfileInquiryResponse : ResponseBase
     public GameInformation GameInformation { get; set; } = new();
 }
 
-public class GameInformation : GameHistoryBase
+public class GameInformation : GameHistory
 {
     [JsonPropertyName("game_version")]
     public int GameVersion { get; set; }

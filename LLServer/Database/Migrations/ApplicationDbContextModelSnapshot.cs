@@ -46,7 +46,7 @@ namespace LLServer.Database.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Sessions", (string)null);
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.PersistentLiveData", b =>
@@ -104,7 +104,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("LiveDatas", (string)null);
+                    b.ToTable("LiveDatas");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.ProfileCard", b =>
@@ -124,7 +124,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ProfileCards", (string)null);
+                    b.ToTable("ProfileCards");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.User", b =>
@@ -148,7 +148,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasAlternateKey("CardId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.Achievement", b =>
@@ -176,7 +176,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Achievements", (string)null);
+                    b.ToTable("Achievements");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.AchievementRecordBook", b =>
@@ -202,7 +202,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("AchievementRecordBooks", (string)null);
+                    b.ToTable("AchievementRecordBooks");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.Badge", b =>
@@ -226,7 +226,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Badges", (string)null);
+                    b.ToTable("Badges");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.CardFrame", b =>
@@ -254,10 +254,10 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CardFrames", (string)null);
+                    b.ToTable("CardFrames");
                 });
 
-            modelBuilder.Entity("LLServer.Models.UserData.GameHistoryBase", b =>
+            modelBuilder.Entity("LLServer.Models.UserData.GameHistory", b =>
                 {
                     b.Property<int>("DbId")
                         .ValueGeneratedOnAdd()
@@ -486,7 +486,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("GameHistory", (string)null);
+                    b.ToTable("GameHistory");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.HonorData", b =>
@@ -514,7 +514,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Honors", (string)null);
+                    b.ToTable("Honors");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.Item", b =>
@@ -538,7 +538,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.MemberCardData", b =>
@@ -570,7 +570,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("MemberCardData", (string)null);
+                    b.ToTable("MemberCardData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.MemberData", b =>
@@ -626,7 +626,51 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("MemberData", (string)null);
+                    b.ToTable("MemberData");
+                });
+
+            modelBuilder.Entity("LLServer.Models.UserData.MemorialCardData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CardMemorialId")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Relational:JsonPropertyName", "m_card_memorial_id");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Relational:JsonPropertyName", "count");
+
+                    b.Property<int>("GoalCount")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Relational:JsonPropertyName", "goal_count");
+
+                    b.Property<bool>("New")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Relational:JsonPropertyName", "new");
+
+                    b.Property<int>("PrintRest")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Relational:JsonPropertyName", "print_rest");
+
+                    b.Property<int>("SelectCount")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Relational:JsonPropertyName", "select_count");
+
+                    b.Property<int>("TalkCount")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Relational:JsonPropertyName", "talk_count");
+
+                    b.Property<ulong>("UserID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("MemorialCardData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.MusicData", b =>
@@ -654,7 +698,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Musics", (string)null);
+                    b.ToTable("Musics");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.NamePlate", b =>
@@ -678,7 +722,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("NamePlates", (string)null);
+                    b.ToTable("NamePlates");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.SkillCardData", b =>
@@ -710,7 +754,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("SkillCardData", (string)null);
+                    b.ToTable("SkillCardData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.SpecialItem", b =>
@@ -734,7 +778,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("SpecialItems", (string)null);
+                    b.ToTable("SpecialItems");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelData", b =>
@@ -780,10 +824,10 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelData", (string)null);
+                    b.ToTable("TravelData");
                 });
 
-            modelBuilder.Entity("LLServer.Models.UserData.TravelHistory", b =>
+            modelBuilder.Entity("LLServer.Models.UserData.TravelHistoryBase", b =>
                 {
                     b.Property<int>("DbId")
                         .ValueGeneratedOnAdd()
@@ -802,9 +846,8 @@ namespace LLServer.Database.Migrations
                         .HasColumnType("TEXT")
                         .HasAnnotation("Relational:JsonPropertyName", "created");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
+                    b.Property<int>("IdolKind")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("OtherCharacterId")
                         .HasColumnType("INTEGER")
@@ -847,141 +890,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelHistory", (string)null);
-                });
-
-            modelBuilder.Entity("LLServer.Models.UserData.TravelHistoryAqours", b =>
-                {
-                    b.Property<int>("DbId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CardMemberId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "m_card_member_id");
-
-                    b.Property<int>("CreateType")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "create_type");
-
-                    b.Property<string>("Created")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "created");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
-
-                    b.Property<int>("OtherCharacterId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_character_id");
-
-                    b.Property<int>("OtherPlayerBadge")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_player_badge");
-
-                    b.Property<string>("OtherPlayerName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_player_name");
-
-                    b.Property<int>("OtherPlayerNameplate")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_player_nameplate");
-
-                    b.Property<int>("PrintRest")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "print_rest");
-
-                    b.Property<int>("SnapBackgroundId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "m_snap_background_id");
-
-                    b.Property<string>("TenpoName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "tenpo_name");
-
-                    b.Property<int>("TravelPamphletId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "m_travel_pamphlet_id");
-
-                    b.Property<ulong>("UserID")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DbId");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("TravelHistoryAqours", (string)null);
-                });
-
-            modelBuilder.Entity("LLServer.Models.UserData.TravelHistorySaintSnow", b =>
-                {
-                    b.Property<int>("DbId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CardMemberId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "m_card_member_id");
-
-                    b.Property<int>("CreateType")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "create_type");
-
-                    b.Property<string>("Created")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "created");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
-
-                    b.Property<int>("OtherCharacterId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_character_id");
-
-                    b.Property<int>("OtherPlayerBadge")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_player_badge");
-
-                    b.Property<string>("OtherPlayerName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_player_name");
-
-                    b.Property<int>("OtherPlayerNameplate")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "other_player_nameplate");
-
-                    b.Property<int>("PrintRest")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "print_rest");
-
-                    b.Property<int>("SnapBackgroundId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "m_snap_background_id");
-
-                    b.Property<string>("TenpoName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Relational:JsonPropertyName", "tenpo_name");
-
-                    b.Property<int>("TravelPamphletId")
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Relational:JsonPropertyName", "m_travel_pamphlet_id");
-
-                    b.Property<ulong>("UserID")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DbId");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("TravelHistorySaintSnow", (string)null);
+                    b.ToTable("TravelHistory");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.TravelPamphlet", b =>
@@ -1022,7 +931,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("TravelPamphlets", (string)null);
+                    b.ToTable("TravelPamphlets");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.UserData", b =>
@@ -1129,7 +1038,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserData", (string)null);
+                    b.ToTable("UserData");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.UserDataAqours", b =>
@@ -1165,7 +1074,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserDataAqours", (string)null);
+                    b.ToTable("UserDataAqours");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.UserDataSaintSnow", b =>
@@ -1201,7 +1110,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserDataSaintSnow", (string)null);
+                    b.ToTable("UserDataSaintSnow");
                 });
 
             modelBuilder.Entity("LLServer.Models.UserData.YellAchievement", b =>
@@ -1229,7 +1138,7 @@ namespace LLServer.Database.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("YellAchievements", (string)null);
+                    b.ToTable("YellAchievements");
                 });
 
             modelBuilder.Entity("LLServer.Database.Models.GameSession", b =>
@@ -1254,7 +1163,7 @@ namespace LLServer.Database.Migrations
 
             modelBuilder.Entity("LLServer.Database.Models.ProfileCard", b =>
                 {
-                    b.HasOne("LLServer.Models.UserData.GameHistoryBase", "GameHistory")
+                    b.HasOne("LLServer.Models.UserData.GameHistory", "GameHistory")
                         .WithMany()
                         .HasForeignKey("GameHistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1315,7 +1224,7 @@ namespace LLServer.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LLServer.Models.UserData.GameHistoryBase", b =>
+            modelBuilder.Entity("LLServer.Models.UserData.GameHistory", b =>
                 {
                     b.HasOne("LLServer.Database.Models.User", "User")
                         .WithMany("GameHistory")
@@ -1363,6 +1272,17 @@ namespace LLServer.Database.Migrations
                 {
                     b.HasOne("LLServer.Database.Models.User", "User")
                         .WithMany("Members")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LLServer.Models.UserData.MemorialCardData", b =>
+                {
+                    b.HasOne("LLServer.Database.Models.User", "User")
+                        .WithMany("MemorialCards")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1425,32 +1345,10 @@ namespace LLServer.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LLServer.Models.UserData.TravelHistory", b =>
+            modelBuilder.Entity("LLServer.Models.UserData.TravelHistoryBase", b =>
                 {
                     b.HasOne("LLServer.Database.Models.User", "User")
                         .WithMany("TravelHistory")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LLServer.Models.UserData.TravelHistoryAqours", b =>
-                {
-                    b.HasOne("LLServer.Database.Models.User", "User")
-                        .WithMany("TravelHistoryAqours")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LLServer.Models.UserData.TravelHistorySaintSnow", b =>
-                {
-                    b.HasOne("LLServer.Database.Models.User", "User")
-                        .WithMany("TravelHistorySaintSnow")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1535,6 +1433,8 @@ namespace LLServer.Database.Migrations
 
                     b.Navigation("Members");
 
+                    b.Navigation("MemorialCards");
+
                     b.Navigation("Musics");
 
                     b.Navigation("NamePlates");
@@ -1548,10 +1448,6 @@ namespace LLServer.Database.Migrations
                     b.Navigation("TravelData");
 
                     b.Navigation("TravelHistory");
-
-                    b.Navigation("TravelHistoryAqours");
-
-                    b.Navigation("TravelHistorySaintSnow");
 
                     b.Navigation("TravelPamphlets");
 

@@ -44,7 +44,7 @@ public class ProfileInquiryQueryHandler : ParamHandler<ProfileInquiryParam, Prof
             return StaticResponses.EmptyResponse;
         }
         
-        GameHistoryBase? history = owner.GameHistory.FirstOrDefault(g => g.DbId == card.GameHistoryId);
+        GameHistory? history = owner.GameHistory.FirstOrDefault(g => g.DbId == card.GameHistoryId);
         
         if (history == null)
         {

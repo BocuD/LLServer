@@ -7,5 +7,5 @@ namespace LLServer.Mappers;
 [Mapper]
 public partial class GameInformationMapper
 {
-    public partial GameInformation FromGameHistoryBase(GameHistoryBase input);
+    public partial GameInformation FromGameHistoryBase(GameHistory input);
 }

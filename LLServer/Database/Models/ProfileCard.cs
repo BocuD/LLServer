@@ -11,7 +11,7 @@ public class ProfileCard
     //Database association to game history
     [ForeignKey("GameHistory")]
     public int GameHistoryId { get; set; }
-    public GameHistoryBase? GameHistory { get; set; }
+    public GameHistory? GameHistory { get; set; }
     
     //Database association to user
     [ForeignKey("User")] 

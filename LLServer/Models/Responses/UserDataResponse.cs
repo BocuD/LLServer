@@ -40,13 +40,13 @@ public class UserDataResponse : ResponseBase
     public List<StageData> Stages { get; set; } = new();
 
     [JsonPropertyName("game_history")]
-    public List<GameHistoryBase> GameHistory { get; set; } = new();
+    public List<GameHistory> GameHistory { get; set; } = new();
     
     [JsonPropertyName("game_history_aqours")]
-    public List<GameHistoryBase> GameHistoryAqours { get; set; } = new();
+    public List<GameHistory> GameHistoryAqours { get; set; } = new();
     
     [JsonPropertyName("game_history_saintsnow")]
-    public List<GameHistoryBase> GameHistorySaintSnow { get; set; } = new();
+    public List<GameHistory> GameHistorySaintSnow { get; set; } = new();
     
     [JsonPropertyName("travel_history")]
     public TravelHistoryBase[] TravelHistory { get; set; } = Array.Empty<TravelHistoryBase>();

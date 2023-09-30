@@ -144,7 +144,7 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
         int historyCount = container.GameHistory.Count(x => x.IdolKind == gameResult.IdolKind);
         if (historyCount > 100)
         {
-            GameHistoryBase oldestHistory = container.GameHistory
+            GameHistory oldestHistory = container.GameHistory
                 .Where(x => x.IdolKind == gameResult.IdolKind)
                 .OrderBy(x => x.Created)
                 .First();
@@ -154,7 +154,7 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
         
         //record new game history
         //todo: use a mapper lol
-        GameHistoryBase newHistory = new()
+        GameHistory newHistory = new()
         {
             IdolKind = gameResult.IdolKind,
             PlayPlace = "test",

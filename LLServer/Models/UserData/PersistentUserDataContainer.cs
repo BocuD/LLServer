@@ -40,6 +40,8 @@ public class PersistentUserDataContainer
     public List<MemberData> Members => User.Members;
     public List<MemberCardData> MemberCards => User.MemberCards;
     public List<SkillCardData> SkillCards => User.SkillCards;
+    public List<MemorialCardData> MemorialCards => User.MemorialCards;
+    
     public List<MusicData> Musics => User.Musics;
 
     //wrapper to get livedata from database
@@ -70,14 +72,14 @@ public class PersistentUserDataContainer
     public List<TravelPamphlet> TravelPamphlets => User.TravelPamphlets;
 
     //Game history
-    public List<GameHistoryBase> GameHistory => User.GameHistory.Where(g => g.IdolKind == 0).ToList();
-    public List<GameHistoryBase> GameHistoryAqours => User.GameHistory.Where(g => g.IdolKind == 1).ToList();
-    public List<GameHistoryBase> GameHistorySaintSnow => User.GameHistory.Where(g => g.IdolKind == 2).ToList();
+    public List<GameHistory> GameHistory => User.GameHistory.Where(g => g.IdolKind == 0).ToList();
+    public List<GameHistory> GameHistoryAqours => User.GameHistory.Where(g => g.IdolKind == 1).ToList();
+    public List<GameHistory> GameHistorySaintSnow => User.GameHistory.Where(g => g.IdolKind == 2).ToList();
 
     //Travel history
-    public List<TravelHistory> TravelHistory => User.TravelHistory;
-    public List<TravelHistoryAqours> TravelHistoryAqours => User.TravelHistoryAqours;
-    public List<TravelHistorySaintSnow> TravelHistorySaintSnow => User.TravelHistorySaintSnow;
+    public List<TravelHistoryBase> TravelHistory => User.TravelHistory.Where(t => t.IdolKind == 0).ToList();
+    public List<TravelHistoryBase> TravelHistoryAqours => User.TravelHistory.Where(t => t.IdolKind == 1).ToList();
+    public List<TravelHistoryBase> TravelHistorySaintSnow => User.TravelHistory.Where(t => t.IdolKind == 2).ToList();
     
     //Achievements
     public List<Achievement> Achievements => User.Achievements;
