@@ -18,6 +18,6 @@ public class TravelResultResponse : ResponseBase
 
 public class GetCardData
 {
-    [JsonPropertyName("mailbox_id")] public int MailBoxId { get; set; }
+    [JsonPropertyName("mailbox_id")] public string MailBoxId { get; set; }
     [JsonPropertyName("location")] public int Location { get; set; }
 }

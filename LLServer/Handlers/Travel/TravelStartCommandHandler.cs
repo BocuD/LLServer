@@ -3,6 +3,7 @@ using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
+using LLServer.Models.Responses.Travel;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 using LLServer.Session;

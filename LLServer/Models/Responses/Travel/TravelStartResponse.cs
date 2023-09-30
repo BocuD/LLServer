@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using LLServer.Models.Travel;
 
-namespace LLServer.Models.Responses;
+namespace LLServer.Models.Responses.Travel;
 
 public class TravelStartResponse : ResponseBase
 {

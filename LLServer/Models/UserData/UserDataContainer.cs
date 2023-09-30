@@ -165,7 +165,6 @@ public class UserDataContainer
         {
             new()
             {
-                Id = 0,
                 CardMemberId = 0,
                 SnapBackgroundId = 0,
                 OtherCharacterId = 0,
@@ -187,7 +186,7 @@ public class UserDataContainer
         {
             new()
             {
-                Id = 0,
+                Id = "0",
                 ItemId = 0,
                 Attrib = 0,
                 Category = 0,

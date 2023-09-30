@@ -44,6 +44,7 @@ public class TravelStampCommandHandler : ParamHandler<TravelStampParam, TravelSt
                 .Include(u => u.LiveDatas)
                 .Include(u => u.TravelData)
                 .Include(u => u.TravelPamphlets)
+                .Include(u => u.TravelHistory)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
@@ -60,19 +61,37 @@ public class TravelStampCommandHandler : ParamHandler<TravelStampParam, TravelSt
         
         foreach(string id in param.TravelHistoryIds)
         {
-            long idLong = long.Parse(id);
-            
-            //probably do something with the travel history here
-            //todo: figure out what to do with travel history
-            //container.TravelHistory.FirstOrDefault(x => x.Id == idLong)?.DoSomething();
+            TravelHistoryBase? history = container.TravelHistory.FirstOrDefault(x => x.Id == id);
+
+            if (history != null)
+            {
+                //history.
+                //probably do something with the travel history here
+                //todo: figure out what to do with travel history
+            }
         }
 
+        List<TravelHistoryBase> travelHistory;
+
+        switch (container.UserData.IdolKind)
+        {
+            case 0:
+                travelHistory = container.TravelHistory;
+                break;
+            case 1:
+                travelHistory = container.TravelHistoryAqours;
+                break;
+            case 2:
+                travelHistory = container.TravelHistorySaintSnow;
+                break;
+        }
+        
         return new ResponseContainer
         {
             Result = 200,
             Response = new TravelStampResponse
             {
-                TravelHistory = container.TravelHistory.ToArray()
+                TravelHistory = new TravelHistoryBase[0]
             }
         };
     }

@@ -1,6 +1,5 @@
-﻿using LLServer.Database;
-using LLServer.Database.Models;
-using LLServer.Mappers;
+﻿using System.Text.Json;
+using LLServer.Database;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
@@ -110,14 +109,14 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 .Include(u => u.Members)
                 .Include(u => u.MemberCards)
                 .Include(u => u.SkillCards)
+                .Include(u => u.MemorialCards)
+                
                 .Include(u => u.LiveDatas)
                 
                 .Include(u => u.TravelData)
                 .Include(u => u.TravelPamphlets)
                 
                 .Include(u => u.TravelHistory)
-                .Include(u => u.TravelHistoryAqours)
-                .Include(u => u.TravelHistorySaintSnow)
                 
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)
@@ -140,11 +139,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session);
 
-        //todo: figure out what the hell this stuff even is for
-        /*
-        "lot_gachas": [],
-        */
-
+        //release pamphlets
         foreach (int releasedId in travelResult.ReleasePamphletIds)
         {
             //add the pamphlet as new if it doesn't exist
@@ -164,9 +159,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         "travel_ex_rewards": [],
         "travel_talks": [],
         */
-
-        //these are mainly not implemented because they are not stored in the database
-        //todo: card frames
+        
         //todo: coop player ids
 
         //badges
@@ -265,7 +258,6 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         }
 
         //todo: stage ids
-        //todo: earned memorial cards
 
         //update level and exp
         container.UserData.Level = travelResult.Level;
@@ -341,12 +333,21 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             travelData.Positions = travelResult.UserTravel.Positions.ToArray();
             travelData.Modified = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
+        
 
-        //record travel history
-        long highestTravelId = container.TravelHistory.Count > 0 ? container.TravelHistory.Max(x => x.Id) : 0;
-
-        List<long> travelHistoryIds = new();
-
+        //clear history above 100 entries per idol kind
+        int historyCount = container.TravelHistory.Count(x => x.IdolKind == container.UserData.IdolKind);
+        if (historyCount > 100)
+        {
+            TravelHistoryBase oldestHistory = container.TravelHistory
+                .Where(x => x.IdolKind == container.UserData.IdolKind)
+                .OrderBy(x => x.Created)
+                .First();
+            
+            container.TravelHistory.Remove(oldestHistory);
+        }
+        
+        //record history
         foreach (TravelHistory_ toRecord in travelResult.TravelHistory)
         {
             TravelHistoryBase newHistory = new()
@@ -355,45 +356,62 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),
                 CreateType = toRecord.CreateType,
                 OtherCharacterId = toRecord.OtherCharacterId,
-
+                
                 //todo: store a player id in the database instead of all the separate attributes
                 //adding some dummy stuff here for now
                 OtherPlayerName = "園田海未",
                 OtherPlayerBadge = 901001,
                 OtherPlayerNameplate = 19001,
-                Id = highestTravelId + 1,
                 TravelPamphletId = travelResult.UserTravel.TravelPamphletId,
                 TenpoName = travelResult.TenpoName,
                 SnapBackgroundId = toRecord.SnapBackgroundId,
             };
 
-            travelHistoryIds.Add(newHistory.Id);
-            highestTravelId += 1;
-
-            //todo: move away from reflectionmapper here because it is inefficient
-            switch (container.UserData.IdolKind)
-            {
-                //µ's
-                case 0:
-                    container.TravelHistory.Add(ReflectionMapper.Map(newHistory, new TravelHistory()));
-                    break;
-
-                //aqours
-                case 1:
-                    container.TravelHistoryAqours.Add(ReflectionMapper.Map(newHistory, new TravelHistoryAqours()));
-                    break;
-
-                //saint snow
-                case 2:
-                    container.TravelHistorySaintSnow.Add(ReflectionMapper.Map(newHistory,
-                        new TravelHistorySaintSnow()));
-                    break;
-            }
+            container.TravelHistory.Add(newHistory);
         }
 
+        //build mailbox
         List<GetCardData> getCardDatas = new();
         List<MailBoxItem> mailBoxItems = new();
         
+        //handle earned memorial cards
+        foreach (GetMemorialCard memorialCard in travelResult.GetMemorialCards)
+        {
+            //add entry to getcarddata
+            getCardDatas.Add(new GetCardData
+            {
+                Location = memorialCard.Location,
+                MailBoxId = mailBoxItems.Count.ToString()
+            });
+            
+            //add entry to mailbox
+            mailBoxItems.Add(new MailBoxItem
+            {
+                Attrib = 0,
+                Category = 3, //3 for memorial cards //todo this is untested, category may be incorrect
+                Count = 1,
+                Id = mailBoxItems.Count.ToString(),
+                ItemId = memorialCard.MemorialCardId
+            });
+            
+            //add the card to the database
+            MemorialCardData? memorialCardData = container.MemorialCards.FirstOrDefault(m => m.CardMemorialId == memorialCard.MemorialCardId);
+
+            if (memorialCardData == null)
+            {
+                container.MemorialCards.Add(new MemorialCardData
+                {
+                    CardMemorialId = memorialCard.MemorialCardId,
+                    Count = 1,
+                    New = true
+                });
+            }
+            else
+            {
+                memorialCardData.Count++;
+            }
+        }
+
         //handle earned skill cards
         foreach (GetSkillCard skillCard in travelResult.GetSkillCards)
         {
@@ -401,16 +419,16 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             getCardDatas.Add(new GetCardData
             {
                 Location = skillCard.Location,
-                MailBoxId = mailBoxItems.Count
+                MailBoxId = mailBoxItems.Count.ToString()
             });
             
             //add entry to mailbox
             mailBoxItems.Add(new MailBoxItem
             {
-                Attrib = 1,
-                Category = 1,
+                Attrib = 0,
+                Category = 2, //2 for skill cards
                 Count = 1,
-                Id = mailBoxItems.Count,
+                Id = mailBoxItems.Count.ToString(),
                 ItemId = skillCard.SkillCardId
             });
             
@@ -433,25 +451,55 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         {
             for (int i = 0; i < gacha.CardCount; i++)
             {
-                getCardDatas.Add(new GetCardData
-                {
-                    Location = gacha.Location,
-                    MailBoxId = mailBoxItems.Count
-                });
-                
-                mailBoxItems.Add(new MailBoxItem
-                {
-                    Attrib = 2,
-                    Category = 3,
-                    Count = 1,
-                    Id = mailBoxItems.Count,
-                    ItemId = 40071
-                });
+                // getCardDatas.Add(new GetCardData
+                // {
+                //     Location = gacha.Location,
+                //     MailBoxId = mailBoxItems.Count.ToString()
+                // });
+                //
+                // mailBoxItems.Add(new MailBoxItem
+                // {
+                //     Attrib = num,
+                //     Category = num,
+                //     Count = 1,
+                //     Id = mailBoxItems.Count.ToString(),
+                //     ItemId = 4306 + mailBoxItems.Count
+                // });
             }
         }
 
         //save changes
         await container.SaveChanges(cancellationToken);
+        
+        //load ids from db
+        List<string> travelHistoryIds = dbContext.TravelHistory
+            .Where(t => t.UserID == session.UserId)
+            .Select(t => t.Id)
+            .ToList();
+        
+        // getCardDatas = new List<GetCardData>();
+        // mailBoxItems = new List<MailBoxItem>();
+        //
+        // for (int i = 0; i < 9; i++)
+        // {
+        //     getCardDatas.Add(new ()
+        //     {
+        //         Location = 700,
+        //         MailBoxId = i.ToString()
+        //     });
+        //     
+        //     mailBoxItems.Add(new ()
+        //     {
+        //         Attrib = 0,
+        //         Category = 2,
+        //         Count = 1,
+        //         Id = i.ToString(),
+        //         ItemId = (i + 1) * 1000 + 312
+        //     });
+        // }
+        
+        //log full contents of getcarddatas and mailboxitems
+        logger.LogInformation("GetCardDatas: {GetCardDatas}\nMailBox: {MailBox}", JsonSerializer.Serialize(getCardDatas), JsonSerializer.Serialize(mailBoxItems));
 
         return new ResponseContainer
         {

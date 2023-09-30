@@ -76,7 +76,7 @@ public class MemberCardData
         21200,
         22200
     };
-    
+
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
     [JsonIgnore] public User? User { get; set; }
