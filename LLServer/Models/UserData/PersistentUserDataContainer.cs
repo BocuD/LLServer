@@ -1,5 +1,6 @@
 ﻿using LLServer.Database.Models;
 using LLServer.Mappers;
+using LLServer.Models.Travel;
 using Microsoft.EntityFrameworkCore;
 
 namespace LLServer.Models.UserData;

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 
 namespace LLServer.Database.Models;

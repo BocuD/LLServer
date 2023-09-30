@@ -4,6 +4,7 @@ using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
 using LLServer.Models.Responses.Travel;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 using LLServer.Session;
 using Microsoft.EntityFrameworkCore;
@@ -476,28 +477,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             .Where(t => t.UserID == session.UserId)
             .Select(t => t.Id)
             .ToList();
-        
-        // getCardDatas = new List<GetCardData>();
-        // mailBoxItems = new List<MailBoxItem>();
-        //
-        // for (int i = 0; i < 9; i++)
-        // {
-        //     getCardDatas.Add(new ()
-        //     {
-        //         Location = 700,
-        //         MailBoxId = i.ToString()
-        //     });
-        //     
-        //     mailBoxItems.Add(new ()
-        //     {
-        //         Attrib = 0,
-        //         Category = 2,
-        //         Count = 1,
-        //         Id = i.ToString(),
-        //         ItemId = (i + 1) * 1000 + 312
-        //     });
-        // }
-        
+
         //log full contents of getcarddatas and mailboxitems
         logger.LogInformation("GetCardDatas: {GetCardDatas}\nMailBox: {MailBox}", JsonSerializer.Serialize(getCardDatas), JsonSerializer.Serialize(mailBoxItems));
 

@@ -1,4 +1,6 @@
-﻿namespace LLServer.Models.UserData;
+﻿using LLServer.Models.Travel;
+
+namespace LLServer.Models.UserData;
 
 [Obsolete("Old class that was used for testing, remains purely for the dummy data that is in here"), Serializable]
 public class UserDataContainer

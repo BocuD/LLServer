@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using LLServer.Database.Models;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
-namespace LLServer.Models.UserData;
+namespace LLServer.Models.Travel;
 
 public class TravelHistory
 {

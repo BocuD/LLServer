@@ -4,6 +4,7 @@ using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 using LLServer.Session;
 using MediatR;

@@ -2,6 +2,7 @@
 using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 using LLServer.Session;
 using Microsoft.EntityFrameworkCore;

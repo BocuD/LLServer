@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global

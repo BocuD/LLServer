@@ -1,4 +1,5 @@
 ﻿using LLServer.Database.Models;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 using Microsoft.EntityFrameworkCore;
 using ProfileCard = LLServer.Database.Models.ProfileCard;

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 
 namespace LLServer.Models.Responses.Travel;
