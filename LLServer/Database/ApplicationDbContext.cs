@@ -23,17 +23,15 @@ public class ApplicationDbContext : DbContext
     public DbSet<MemberData> MemberData { get; set; }
     public DbSet<MemberCardData> MemberCardData { get; set; }
     public DbSet<SkillCardData> SkillCardData { get; set; }
+    public DbSet<MemorialCardData> MemorialCardData { get; set; }
     
     public DbSet<PersistentLiveData> LiveDatas { get; set; }
     
     public DbSet<TravelData> TravelData { get; set; }
     public DbSet<TravelPamphlet> TravelPamphlets { get; set; }
     
-    public DbSet<GameHistoryBase> GameHistory { get; set; }
-    
-    public DbSet<TravelHistory> TravelHistory { get; set; }
-    public DbSet<TravelHistoryAqours> TravelHistoryAqours { get; set; }
-    public DbSet<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; }
+    public DbSet<GameHistory> GameHistory { get; set; }
+    public DbSet<TravelHistoryBase> TravelHistory { get; set; }
     
     public DbSet<Achievement> Achievements { get; set; }
     public DbSet<YellAchievement> YellAchievements { get; set; }

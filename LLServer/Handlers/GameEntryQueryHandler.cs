@@ -71,6 +71,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
             .Include(u => u.Members)
             .Include(u => u.MemberCards)
             .Include(u => u.SkillCards)
+            .Include(u => u.MemorialCards)
             .Include(u => u.TravelPamphlets)
             .Include(u => u.Items)
             .Include(u => u.SpecialItems)

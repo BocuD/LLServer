@@ -26,6 +26,7 @@ public class PrintCardCommandHandler : ParamHandler<PrintCardParam, PrintCardCom
                 .AsSplitQuery()
                 .Include(u => u.MemberCards)
                 .Include(u => u.SkillCards)
+                .Include(u => u.MemorialCards)
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
@@ -39,7 +40,7 @@ public class PrintCardCommandHandler : ParamHandler<PrintCardParam, PrintCardCom
             {
                 MemberCards = container.MemberCards,
                 SkillCards = container.SkillCards,
-                MemorialCards = new List<MemorialCardData>() //container.MemorialCards
+                MemorialCards = container.MemorialCards
             }
         };
     }

@@ -8,8 +8,18 @@ namespace LLServer.Models.UserData;
 
 public class TravelHistoryBase
 {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
+    //Database key
+    [JsonIgnore, Key] public int DbId { get; set; }
+
+    //Database association to user
+    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
+    [JsonIgnore] public User? User { get; set; }
+    
+    //more efficient than having three separate tables
+    [JsonIgnore] public int IdolKind { get; set; }
+
+    [JsonPropertyName("id"), NotMapped]
+    public string Id => DbId.ToString();
 
     [JsonPropertyName("m_card_member_id")]
     public int CardMemberId { get; set; } 

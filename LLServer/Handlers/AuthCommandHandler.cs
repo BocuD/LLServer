@@ -142,17 +142,15 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             Members = new List<MemberData>(),
             MemberCards = new List<MemberCardData>(),
             SkillCards = new List<SkillCardData>(),
+            MemorialCards = new List<MemorialCardData>(),
             
             LiveDatas = new List<PersistentLiveData>(),
             
             TravelData = new List<TravelData>(),
             TravelPamphlets = new List<TravelPamphlet>(),
             
-            GameHistory = new List<GameHistoryBase>(),
-            
-            TravelHistory = new List<TravelHistory>(),
-            TravelHistoryAqours = new List<TravelHistoryAqours>(),
-            TravelHistorySaintSnow = new List<TravelHistorySaintSnow>(),
+            GameHistory = new List<GameHistory>(),
+            TravelHistory = new List<TravelHistoryBase>(),
             
             Achievements = new List<Achievement>(),
             YellAchievements = new List<YellAchievement>(),
@@ -178,6 +176,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.MemberData.AddRange(user.Members);
         dbContext.MemberCardData.AddRange(user.MemberCards);
         dbContext.SkillCardData.AddRange(user.SkillCards);
+        dbContext.MemorialCardData.AddRange(user.MemorialCards);
         
         dbContext.LiveDatas.AddRange(user.LiveDatas);
         
@@ -185,10 +184,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.TravelPamphlets.AddRange(user.TravelPamphlets);
         
         dbContext.GameHistory.AddRange(user.GameHistory);
-        
         dbContext.TravelHistory.AddRange(user.TravelHistory);
-        dbContext.TravelHistoryAqours.AddRange(user.TravelHistoryAqours);
-        dbContext.TravelHistorySaintSnow.AddRange(user.TravelHistorySaintSnow);
         
         dbContext.Achievements.AddRange(user.Achievements);
         dbContext.YellAchievements.AddRange(user.YellAchievements);
