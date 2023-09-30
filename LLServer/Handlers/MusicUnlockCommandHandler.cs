@@ -16,7 +16,8 @@ public class MusicUnlockCommandHandler : ParamHandler<MusicUnlockParam, MusicUnl
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(MusicUnlockParam musicUnlockData, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(MusicUnlockParam musicUnlockData,
+        CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {
@@ -30,10 +31,10 @@ public class MusicUnlockCommandHandler : ParamHandler<MusicUnlockParam, MusicUnl
         {
             return StaticResponses.EmptyResponse;
         }
-        
+
         //get user data
         PersistentUserDataContainer container = new(dbContext, session);
-        
+
         //add the newly unlocked music id
         container.Musics.Add(new MusicData
         {
@@ -41,13 +42,24 @@ public class MusicUnlockCommandHandler : ParamHandler<MusicUnlockParam, MusicUnl
             Unlocked = true,
             New = true
         });
+        
+        //save changes
+        await container.SaveChanges(cancellationToken);
 
         return new ResponseContainer
         {
             Result = 200,
             Response = new MusicUnlockResponse
             {
-                Musics = container.Musics
+                Musics = new List<MusicData>
+                {
+                    new()
+                    {
+                        MusicId = musicUnlockData.MusicId,
+                        Unlocked = true,
+                        New = true
+                    }
+                }
             }
         };
     }
