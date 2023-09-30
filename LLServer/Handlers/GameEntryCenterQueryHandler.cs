@@ -35,6 +35,7 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
             .Include(u => u.Members)
             .Include(u => u.MemberCards)
             .Include(u => u.SkillCards)
+            .Include(u => u.MemorialCards)
             
             .Include(u => u.Musics)
             .Include(u => u.LiveDatas)
@@ -43,10 +44,7 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
             .Include(u => u.TravelPamphlets)
             
             .Include(u => u.GameHistory)
-            
             .Include(u => u.TravelHistory)
-            .Include(u => u.TravelHistoryAqours)
-            .Include(u => u.TravelHistorySaintSnow)
             
             .Include(u => u.Achievements)
             .Include(u => u.YellAchievements)

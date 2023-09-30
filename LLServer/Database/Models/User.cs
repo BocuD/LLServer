@@ -23,6 +23,7 @@ public class User
     [Required] public List<MemberData> Members { get; set; } = new();
     [Required] public List<MemberCardData> MemberCards { get; set; } = new();
     [Required] public List<SkillCardData> SkillCards { get; set; } = new();
+    [Required] public List<MemorialCardData> MemorialCards { get; set; } = new();
     
     //score and unlock data
     [Required] public List<PersistentLiveData> LiveDatas { get; set; } = new();
@@ -32,11 +33,9 @@ public class User
     [Required] public List<TravelPamphlet> TravelPamphlets { get; set; } = new();
     
     //history
-    [Required] public List<GameHistoryBase> GameHistory { get; set; } = new();
+    [Required] public List<GameHistory> GameHistory { get; set; } = new();
     
-    [Required] public List<TravelHistory> TravelHistory { get; set; } = new();
-    [Required] public List<TravelHistoryAqours> TravelHistoryAqours { get; set; } = new();
-    [Required] public List<TravelHistorySaintSnow> TravelHistorySaintSnow { get; set; } = new();
+    [Required] public List<TravelHistoryBase> TravelHistory { get; set; } = new();
     
     //achievements
     [Required] public List<Achievement> Achievements { get; set; } = new();
