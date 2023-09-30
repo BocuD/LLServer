@@ -31,7 +31,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<TravelPamphlet> TravelPamphlets { get; set; }
     
     public DbSet<GameHistory> GameHistory { get; set; }
-    public DbSet<TravelHistoryBase> TravelHistory { get; set; }
+    public DbSet<TravelHistory> TravelHistory { get; set; }
     
     public DbSet<Achievement> Achievements { get; set; }
     public DbSet<YellAchievement> YellAchievements { get; set; }

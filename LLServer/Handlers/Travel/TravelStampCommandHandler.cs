@@ -61,7 +61,7 @@ public class TravelStampCommandHandler : ParamHandler<TravelStampParam, TravelSt
         
         foreach(string id in param.TravelHistoryIds)
         {
-            TravelHistoryBase? history = container.TravelHistory.FirstOrDefault(x => x.Id == id);
+            TravelHistory? history = container.TravelHistory.FirstOrDefault(x => x.Id == id);
 
             if (history != null)
             {
@@ -71,7 +71,7 @@ public class TravelStampCommandHandler : ParamHandler<TravelStampParam, TravelSt
             }
         }
 
-        List<TravelHistoryBase> travelHistory;
+        List<TravelHistory> travelHistory;
 
         switch (container.UserData.IdolKind)
         {
@@ -91,7 +91,7 @@ public class TravelStampCommandHandler : ParamHandler<TravelStampParam, TravelSt
             Result = 200,
             Response = new TravelStampResponse
             {
-                TravelHistory = new TravelHistoryBase[0]
+                TravelHistory = new TravelHistory[0]
             }
         };
     }

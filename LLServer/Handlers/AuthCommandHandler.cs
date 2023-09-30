@@ -150,7 +150,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             TravelPamphlets = new List<TravelPamphlet>(),
             
             GameHistory = new List<GameHistory>(),
-            TravelHistory = new List<TravelHistoryBase>(),
+            TravelHistory = new List<TravelHistory>(),
             
             Achievements = new List<Achievement>(),
             YellAchievements = new List<YellAchievement>(),

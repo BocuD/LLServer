@@ -339,7 +339,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         int historyCount = container.TravelHistory.Count(x => x.IdolKind == container.UserData.IdolKind);
         if (historyCount > 100)
         {
-            TravelHistoryBase oldestHistory = container.TravelHistory
+            TravelHistory oldestHistory = container.TravelHistory
                 .Where(x => x.IdolKind == container.UserData.IdolKind)
                 .OrderBy(x => x.Created)
                 .First();
@@ -350,7 +350,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         //record history
         foreach (TravelHistory_ toRecord in travelResult.TravelHistory)
         {
-            TravelHistoryBase newHistory = new()
+            TravelHistory newHistory = new()
             {
                 CardMemberId = travelResult.CardMemberId,
                 Created = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss"),

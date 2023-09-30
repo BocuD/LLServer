@@ -35,7 +35,7 @@ public class User
     //history
     [Required] public List<GameHistory> GameHistory { get; set; } = new();
     
-    [Required] public List<TravelHistoryBase> TravelHistory { get; set; } = new();
+    [Required] public List<TravelHistory> TravelHistory { get; set; } = new();
     
     //achievements
     [Required] public List<Achievement> Achievements { get; set; } = new();

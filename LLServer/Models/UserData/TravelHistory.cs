@@ -6,7 +6,7 @@ using LLServer.Database.Models;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace LLServer.Models.UserData;
 
-public class TravelHistoryBase
+public class TravelHistory
 {
     //Database key
     [JsonIgnore, Key] public int DbId { get; set; }
@@ -61,34 +61,4 @@ public class TravelHistoryBase
 
     [JsonPropertyName("print_rest")] 
     public int PrintRest { get; set; } = 1;
-}
-
-public class TravelHistory : TravelHistoryBase
-{
-    //Database key
-    [JsonIgnore, Key] public int DbId { get; set; }
-
-    //Database association to user
-    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User? User { get; set; }
-}
-
-public class TravelHistoryAqours : TravelHistoryBase
-{
-    //Database key
-    [JsonIgnore, Key] public int DbId { get; set; }
-
-    //Database association to user
-    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User? User { get; set; }
-}
-
-public class TravelHistorySaintSnow : TravelHistoryBase
-{
-    //Database key
-    [JsonIgnore, Key] public int DbId { get; set; }
-
-    //Database association to user
-    [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
-    [JsonIgnore] public User? User { get; set; }
 }

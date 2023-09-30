@@ -77,9 +77,9 @@ public class PersistentUserDataContainer
     public List<GameHistory> GameHistorySaintSnow => User.GameHistory.Where(g => g.IdolKind == 2).ToList();
 
     //Travel history
-    public List<TravelHistoryBase> TravelHistory => User.TravelHistory.Where(t => t.IdolKind == 0).ToList();
-    public List<TravelHistoryBase> TravelHistoryAqours => User.TravelHistory.Where(t => t.IdolKind == 1).ToList();
-    public List<TravelHistoryBase> TravelHistorySaintSnow => User.TravelHistory.Where(t => t.IdolKind == 2).ToList();
+    public List<TravelHistory> TravelHistory => User.TravelHistory.Where(t => t.IdolKind == 0).ToList();
+    public List<TravelHistory> TravelHistoryAqours => User.TravelHistory.Where(t => t.IdolKind == 1).ToList();
+    public List<TravelHistory> TravelHistorySaintSnow => User.TravelHistory.Where(t => t.IdolKind == 2).ToList();
     
     //Achievements
     public List<Achievement> Achievements => User.Achievements;

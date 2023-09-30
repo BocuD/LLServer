@@ -18,9 +18,9 @@ public class UserDataContainer
     //game history
     //game history aqours
     //game history saint snow
-    public TravelHistoryBase[]     TravelHistory          { get; set; } = new TravelHistoryBase[0];
-    public TravelHistoryBase[]     TravelHistoryAqours    { get; set; } = new TravelHistoryBase[0];
-    public TravelHistoryBase[]     TravelHistorySaintSnow { get; set; } = new TravelHistoryBase[0];
+    public TravelHistory[]     TravelHistory          { get; set; } = new TravelHistory[0];
+    public TravelHistory[]     TravelHistoryAqours    { get; set; } = new TravelHistory[0];
+    public TravelHistory[]     TravelHistorySaintSnow { get; set; } = new TravelHistory[0];
     public List<MailBoxItem>       MailBox                { get; set; } = new();
     public List<SpecialItem>       Specials               { get; set; } = new();
     public string                  Flags                  { get; set; } = "";
@@ -161,7 +161,7 @@ public class UserDataContainer
         Musics = new(),
         Lives = new(),
         Stages = new(),
-        TravelHistory = new TravelHistoryBase[]
+        TravelHistory = new TravelHistory[]
         {
             new()
             {
@@ -180,8 +180,8 @@ public class UserDataContainer
                 PrintRest = 0
             }
         },
-        TravelHistoryAqours = new TravelHistoryBase[0],
-        TravelHistorySaintSnow = new TravelHistoryBase[0],
+        TravelHistoryAqours = new TravelHistory[0],
+        TravelHistorySaintSnow = new TravelHistory[0],
         MailBox = new List<MailBoxItem>
         {
             new()
