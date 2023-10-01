@@ -158,6 +158,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             Achievements = new List<Achievement>(),
             YellAchievements = new List<YellAchievement>(),
             AchievementRecordBooks = new List<AchievementRecordBook>(),
+            LimitedAchievements = new List<LimitedAchievement>(),
             
             Items = new List<Item>(),
             SpecialItems = new List<SpecialItem>(),
@@ -193,6 +194,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.Achievements.AddRange(user.Achievements);
         dbContext.YellAchievements.AddRange(user.YellAchievements);
         dbContext.AchievementRecordBooks.AddRange(user.AchievementRecordBooks);
+        dbContext.LimitedAchievements.AddRange(user.LimitedAchievements);
         
         dbContext.Items.AddRange(user.Items);
         dbContext.SpecialItems.AddRange(user.SpecialItems);

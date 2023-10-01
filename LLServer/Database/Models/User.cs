@@ -44,6 +44,7 @@ public class User
     [Required] public List<Achievement> Achievements { get; set; } = new();
     [Required] public List<YellAchievement> YellAchievements { get; set; } = new();
     [Required] public List<AchievementRecordBook> AchievementRecordBooks { get; set; } = new();
+    [Required] public List<LimitedAchievement> LimitedAchievements { get; set; } = new();
     
     //items
     [Required] public List<Item> Items { get; set; } = new();

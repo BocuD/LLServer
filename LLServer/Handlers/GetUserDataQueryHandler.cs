@@ -64,6 +64,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 .Include(u => u.Achievements)
                 .Include(u => u.YellAchievements)
                 .Include(u => u.AchievementRecordBooks)
+                .Include(u => u.LimitedAchievements)
                 
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)

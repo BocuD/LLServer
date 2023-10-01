@@ -25,7 +25,10 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
                 .AsSplitQuery()
                 .Include(u => u.AchievementRecordBooks)
                 .Include(u => u.Achievements)
+                .Include(u => u.LimitedAchievements)
                 .Include(u => u.Items)
+                .Include(u => u.Honors)
+                //.Include(u => u.Stages)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
@@ -57,8 +60,25 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
             }
         }
         
-        //todo: update limited achievements
-        
+        //update limited achievements
+        foreach (int limitedAchievementId in achievementData.LimitedAchievements)
+        {
+            LimitedAchievement? limitedAchievement = container.LimitedAchievements.FirstOrDefault(a => a.LimitedAchievementId == limitedAchievementId);
+            if (limitedAchievement is null)
+            {
+                container.LimitedAchievements.Add(new LimitedAchievement()
+                {
+                    LimitedAchievementId = limitedAchievementId,
+                    Unlocked = true,
+                    New = true
+                });
+            }
+            else
+            {
+                limitedAchievement.Unlocked = true;
+                limitedAchievement.New = true;
+            }
+        }
         
         //update achievement record books
         //todo: figure out if the game returns the full list of record books everytime or just the deltas (+1 on elements)

@@ -39,6 +39,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Achievement> Achievements { get; set; }
     public DbSet<YellAchievement> YellAchievements { get; set; }
     public DbSet<AchievementRecordBook> AchievementRecordBooks { get; set; }
+    public DbSet<LimitedAchievement> LimitedAchievements { get; set; }
     
     public DbSet<Item> Items { get; set; }
     public DbSet<SpecialItem> SpecialItems { get; set; }
