@@ -31,7 +31,7 @@ public class GameEntryResponse : ResponseBase
     public List<MailBoxItem> MailBox { get; set; } = new();
 
     [JsonPropertyName("specials")]
-    public List<SpecialItem> Specials { get; set; } = new();
+    public List<SpecialItem> SpecialItems { get; set; } = new();
 
     [JsonPropertyName("now")] 
     public string Now => DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss");
