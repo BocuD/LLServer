@@ -1,4 +1,5 @@
 ﻿using LLServer.Database;
+using LLServer.Database.Models;
 using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -9,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 namespace LLServer.Handlers;
 
 public record GameExitCommand(RequestBase request) : BaseRequest(request);
+
+//from what i can see so far, the game sends giant arrays with ids of items / lives / etc that was seen during a session
+//for each of these items new status should be cleared
 
 /*
 {
@@ -55,92 +59,242 @@ public class GameExitCommandHandler : ParamHandler<GameExitParam, GameExitComman
                 .Where(u => u.UserId == session.UserId)
                 .AsSplitQuery()
                 .Include(u => u.Achievements)
+                .Include(u => u.Badges)
+                .Include(u => u.Honors)
+                //.Include(u => u.LimitedAchievements)
                 .Include(u => u.LiveDatas)
-                .Include(u => u.Members)
                 .Include(u => u.MemberCards)
+                .Include(u => u.Members)
+                .Include(u => u.MemorialCards)
                 .Include(u => u.Musics)
                 .Include(u => u.NamePlates)
+                .Include(u => u.SkillCards)
+                //.Include(u => u.Stages)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         
         //get persistent data container
         PersistentUserDataContainer container = new(dbContext, session);
-        
+
         //update achievements
         foreach (int achievement in gameResult.Achievements)
         {
-            container.Achievements.Add(new Achievement
+            Achievement? existingAchievement = container.Achievements.FirstOrDefault(a => a.AchievementId == achievement);
+
+            if (existingAchievement == null)
             {
-                AchievementId = achievement,
-                New = true,
-                Unlocked = true
-            });
+                container.Achievements.Add(new Achievement
+                {
+                    AchievementId = achievement,
+                    New = false,
+                    Unlocked = true
+                });
+            }
+            else
+            {
+                existingAchievement.New = false;
+                existingAchievement.Unlocked = true;
+            }
+        }
+        
+        //update badges
+        foreach (int badge in gameResult.Badges)
+        {
+            Badge? existingBadge = container.Badges.FirstOrDefault(b => b.BadgeId == badge);
+            
+            if (existingBadge == null)
+            {
+                container.Badges.Add(new Badge
+                {
+                    BadgeId = badge,
+                    New = false
+                });
+            }
+            else
+            {
+                existingBadge.New = false;
+            }
         }
 
         //update flags
         container.Flags = gameResult.Flags;
         
-        //todo update honors
-        //todo update limited achievements
-        
-        //todo update lives (currently its unclear what the intended behavior is)
-        /*foreach (int liveId in gameResult.Lives)
+        //update honors
+        foreach (int honor in gameResult.Honors)
         {
-            container.PersistentLives.Add(new PersistentLiveData
+            HonorData? existingHonor = container.Honors.FirstOrDefault(h => h.HonorId == honor);
+            
+            if (existingHonor == null)
             {
-                LiveId = liveId,
-                New = true,
-                Unlocked = true
-            });
-        }*/
+                container.Honors.Add(new HonorData
+                {
+                    HonorId = honor,
+                    New = false,
+                    Unlocked = true
+                });
+            }
+            else
+            {
+                existingHonor.New = false;
+                existingHonor.Unlocked = true;
+            }
+        }
+        
+        //update limited achievements
+        foreach (int limitedAchievement in gameResult.LimitedAchievements)
+        {
+            LimitedAchievement? existingLimitedAchievement = container.LimitedAchievements.FirstOrDefault(la => la.LimitedAchievementId == limitedAchievement);
+
+            if (existingLimitedAchievement == null)
+            {
+                container.LimitedAchievements.Add(new LimitedAchievement
+                {
+                    LimitedAchievementId = limitedAchievement,
+                    New = false,
+                    Unlocked = true
+                });
+            }
+            else
+            {
+                existingLimitedAchievement.New = false;
+                existingLimitedAchievement.Unlocked = true;
+            }
+        }
+
+        //update lives
+        foreach (int liveId in gameResult.Lives)
+        {
+            PersistentLiveData? existingLive = container.PersistentLives.FirstOrDefault(l => l.LiveId == liveId);
+
+            if (existingLive == null)
+            {
+                container.PersistentLives.Add(new PersistentLiveData
+                {
+                    LiveId = liveId,
+                    New = false,
+                    Unlocked = true
+                });
+            }
+            else
+            {
+                existingLive.New = false;
+                existingLive.Unlocked = true;
+            }
+        }
         
         //update member cards
         foreach (int membercard in gameResult.MemberCards)
         {
             //try to get an existing entry for the card
             MemberCardData? existingEntry = container.MemberCards.FirstOrDefault(c => c.CardMemberId == membercard);
-            if (existingEntry is not null)
+            if (existingEntry == null)
             {
-                //increment the count
-                existingEntry.Count++;
-                continue;
+                //create a new entry if one doesn't exist yet
+                container.MemberCards.Add(new MemberCardData
+                {
+                    CardMemberId = membercard,
+                    Count = 1,
+                    New = false
+                });
             }
-            
-            //create a new entry if one doesn't exist yet
-            container.MemberCards.Add(new MemberCardData()
+            else
             {
-                CardMemberId = membercard,
-                Count = 1,
-                New = true
-            });
+                existingEntry.New = false;
+            }
         }
         
-        //todo update members
-        
-        //todo update memorial cards
-        
-        //todo update musics (currently its unclear what the intended behavior is)
-        /*foreach (int music in gameResult.Musics)
+        //update members
+        foreach (int member in gameResult.Members)
         {
-            container.Musics.Add(new MusicData()
+            MemberData? existingMember = container.Members.FirstOrDefault(m => m.CharacterId == member);
+            if (existingMember == null)
             {
-                MusicId = music,
-                New = true,
-                Unlocked = true
-            });
-        }*/
+                //we fucked up, this shouldn't happen lol
+                container.Members.Add(new MemberData
+                {
+                    CharacterId = member,
+                    New = false
+                });
+            }
+            else
+            {
+                existingMember.New = false;
+            }
+        }
+        
+        //update memorial cards
+        foreach (int memorialCard in gameResult.MemorialCards)
+        {
+            MemorialCardData? existingCard =
+                container.MemorialCards.FirstOrDefault(c => c.CardMemorialId == memorialCard);
+            if (existingCard == null)
+            {
+                container.MemorialCards.Add(new MemorialCardData
+                {
+                    CardMemorialId = memorialCard,
+                    New = false
+                });
+            }
+            else
+            {
+                existingCard.New = false;
+            }
+        }
+        
+        //update musics
+        foreach (int music in gameResult.Musics)
+        {
+            MusicData? existingMusic = container.Musics.FirstOrDefault(m => m.MusicId == music);
+            if (existingMusic == null)
+            {
+                container.Musics.Add(new MusicData
+                {
+                    MusicId = music,
+                    New = false,
+                    Unlocked = true
+                });
+            }
+            else
+            {
+                existingMusic.New = false;
+            }
+        }
         
         //update name plates
         foreach (int nameplate in gameResult.Nameplates)
         {
-            container.NamePlates.Add(new NamePlate()
+            NamePlate? existingNameplate = container.NamePlates.FirstOrDefault(s => s.NamePlateId == nameplate);
+            if (existingNameplate == null)
             {
-                NamePlateId = nameplate,
-                New = true
-            });
+                container.NamePlates.Add(new NamePlate
+                {
+                    NamePlateId = nameplate,
+                    New = false
+                });
+            }
+            else
+            {
+                existingNameplate.New = false;
+            }
         }
         
-        //todo update skill cards
+        //update skill cards
+        foreach (int skillcard in gameResult.SkillCards)
+        {
+            SkillCardData? existingSkillCard = container.SkillCards.FirstOrDefault(s => s.CardSkillId == skillcard);
+            if (existingSkillCard == null)
+            {
+                container.SkillCards.Add(new SkillCardData
+                {
+                    CardSkillId = skillcard,
+                    New = false
+                });
+            }
+            else
+            {
+                existingSkillCard.New = false;
+            }
+        }
         
         //todo update stages
         
