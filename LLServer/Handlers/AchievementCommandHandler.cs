@@ -94,7 +94,6 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
         //save changes
         await container.SaveChanges(cancellationToken);
 
-        //todo: return actual data
         return new ResponseContainer
         {
             Result = 200,
@@ -102,7 +101,7 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
             {
                 Achievements = container.Achievements.ToArray(),
                 RecordBooks = container.AchievementRecordBooks.ToArray(),
-                Honors = new HonorData[0],
+                Honors = container.Honors.ToArray(),
                 Stages = container.Stages.ToArray(),
                 Items = container.Items.ToArray(),
             }
