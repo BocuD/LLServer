@@ -29,8 +29,11 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
                 .Include(u => u.UserDataAqours)
                 .Include(u => u.UserDataSaintSnow)
                 
-                .Include(u => u.Members)
+                .Include(u => u.Musics)
                 .Include(u => u.LiveDatas)
+                //.Include(u => u.Stages)
+                
+                .Include(u => u.Members)
 
                 .Include(u => u.GameHistory)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -244,6 +247,7 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
             Response = new GameResultResponse
             {
                 Musics = container.Musics,
+                Lives = container.Lives,
                 Stages = container.Stages,
                 EventResult = new EventResult(),
                 EventRewards = new List<EventReward>(),

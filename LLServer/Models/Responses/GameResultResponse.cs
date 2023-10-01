@@ -7,6 +7,7 @@ namespace LLServer.Models.Responses;
 public class GameResultResponse : ResponseBase
 {
     [JsonPropertyName("musics")] public List<MusicData> Musics { get; set; } = new();
+    [JsonPropertyName("lives")] public List<LiveData> Lives { get; set; } = new();
     [JsonPropertyName("stages")] public List<StageData> Stages { get; set; } = new();
     [JsonPropertyName("event_status")] public EventStatus EventStatus { get; set; } = new();
     [JsonPropertyName("event_rewards")] public List<EventReward> EventRewards { get; set; } = new();
