@@ -74,6 +74,8 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
                 .Include(u => u.Badges)
                 .Include(u => u.Honors)
                 
+                .Include(u => u.MailBox)
+                
                 .FirstOrDefaultAsync(cancellationToken);
         }
 

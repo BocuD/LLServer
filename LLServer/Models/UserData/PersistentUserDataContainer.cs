@@ -100,6 +100,9 @@ public class PersistentUserDataContainer
     public List<Badge> Badges => User.Badges;
     public List<HonorData> Honors => User.Honors;
     
+    //MailBox
+    public List<MailBoxItem> MailBox => User.MailBox;
+    
     
     //Active information
     public List<ActiveInformation> ActiveInformation => new();

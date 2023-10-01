@@ -169,6 +169,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             Honors = new List<HonorData>(),
             
             Musics = new List<MusicData>(),
+            
+            MailBox = new List<MailBoxItem>()
         };
         
         dbContext.Users.Add(user);
@@ -205,6 +207,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         dbContext.Honors.AddRange(user.Honors);
         
         dbContext.Musics.AddRange(user.Musics);
+        
+        dbContext.MailBox.AddRange(user.MailBox);
 
         await dbContext.SaveChangesAsync();
         

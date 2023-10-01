@@ -59,6 +59,8 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
             .Include(u => u.NamePlates)
             .Include(u => u.Badges)
             .Include(u => u.Honors)
+            
+            .Include(u => u.MailBox)
             .FirstOrDefaultAsync(cancellationToken);
         
         //get persistent userdata container
