@@ -47,11 +47,10 @@ public class AchievementYellCommandHandler : ParamHandler<AchievementYellParam, 
                 container.Members.Add(new MemberData
                 {
                     CharacterId = memberYellAchievement.CharacterId,
+                    AchieveRank = memberYellAchievement.AchieveRank
                 });
-                member = container.Members.FirstOrDefault(m => m.CharacterId == memberYellAchievement.CharacterId);
             }
-
-            if (member != null)
+            else
             {
                 member.AchieveRank = memberYellAchievement.AchieveRank;
             }
