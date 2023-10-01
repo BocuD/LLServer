@@ -74,7 +74,7 @@ public class UserDataResponse : ResponseBase
     public Achievement[] Achievements { get; set; } = Array.Empty<Achievement>();
 
     [JsonPropertyName("record_books")]
-    public AchievementRecordBook[] RecordBooks { get; set; } = Array.Empty<AchievementRecordBook>();
+    public AchievementRecordBook[] AchievementRecordBooks { get; set; } = Array.Empty<AchievementRecordBook>();
 
     [JsonPropertyName("yell_achievements")]
     public YellAchievement[] YellAchievements { get; set; } = Array.Empty<YellAchievement>();
