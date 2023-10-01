@@ -396,6 +396,8 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         List<GetCardData> getCardDatas = new();
         List<MailBoxItem> mailBoxItems = new();
         
+        //NOTE: the game seems to not like mailbox item 0, so we skip it
+        
         //handle earned memorial cards
         foreach (GetMemorialCard memorialCard in travelResult.GetMemorialCards)
         {
@@ -403,7 +405,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             getCardDatas.Add(new GetCardData
             {
                 Location = memorialCard.Location,
-                MailBoxId = mailBoxItems.Count.ToString()
+                MailBoxId = (mailBoxItems.Count + 1).ToString()
             });
             
             //add entry to mailbox
@@ -412,7 +414,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 Attrib = 0,
                 Category = 3, //3 for memorial cards //todo this is untested, category may be incorrect
                 Count = 1,
-                Id = mailBoxItems.Count.ToString(),
+                Id = (mailBoxItems.Count + 1).ToString(),
                 ItemId = memorialCard.MemorialCardId
             });
             
@@ -441,7 +443,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             getCardDatas.Add(new GetCardData
             {
                 Location = skillCard.Location,
-                MailBoxId = mailBoxItems.Count.ToString()
+                MailBoxId = (mailBoxItems.Count + 1).ToString()
             });
             
             //add entry to mailbox
@@ -450,7 +452,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 Attrib = 0,
                 Category = 2, //2 for skill cards
                 Count = 1,
-                Id = mailBoxItems.Count.ToString(),
+                Id = (mailBoxItems.Count + 1).ToString(),
                 ItemId = skillCard.SkillCardId
             });
             
