@@ -50,6 +50,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<HonorData> Honors { get; set; }
     
     public DbSet<MusicData> Musics { get; set; }
+    
+    public DbSet<MailBoxItem> MailBox { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

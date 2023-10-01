@@ -58,6 +58,9 @@ public class User
 
     //Music
     [Required] public List<MusicData> Musics { get; set; } = new();
+    
+    //Mailbox
+    [Required] public List<MailBoxItem> MailBox { get; set; } = new();
 
 
     //other data
