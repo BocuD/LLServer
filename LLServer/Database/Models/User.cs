@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 
@@ -32,6 +33,7 @@ public class User
     //travel data
     [Required] public List<TravelData> TravelData { get; set; } = new();
     [Required] public List<TravelPamphlet> TravelPamphlets { get; set; } = new();
+    [Required] public List<TravelTalk> TravelTalks { get; set; } = new();
     
     //history
     [Required] public List<GameHistory> GameHistory { get; set; } = new();

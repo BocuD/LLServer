@@ -1,4 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using LLServer.Database.Models;
+using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 
 namespace LLServer.Models.Requests.Travel;
@@ -124,13 +128,6 @@ public class LotGacha
     [JsonPropertyName("card_count")] public int CardCount { get; set; }
     [JsonPropertyName("location")] public int Location { get; set; }
     [JsonPropertyName("order")] public int Order { get; set; }
-}
-
-public class TravelTalk
-{
-    [JsonPropertyName("talk_id")] public int TalkId { get; set; }
-    [JsonPropertyName("my_character_id")] public int MyCharacterId { get; set; }
-    [JsonPropertyName("other_character_id")] public int OtherCharacterId { get; set; }
 }
 
 /*

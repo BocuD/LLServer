@@ -3,6 +3,7 @@ using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Models.Requests;
+using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
@@ -149,6 +150,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             
             TravelData = new List<TravelData>(),
             TravelPamphlets = new List<TravelPamphlet>(),
+            TravelTalks = new List<TravelTalk>(),
             
             GameHistory = new List<GameHistory>(),
             TravelHistory = new List<TravelHistory>(),
@@ -183,6 +185,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         
         dbContext.TravelData.AddRange(user.TravelData);
         dbContext.TravelPamphlets.AddRange(user.TravelPamphlets);
+        dbContext.TravelTalks.AddRange(user.TravelTalks);
         
         dbContext.GameHistory.AddRange(user.GameHistory);
         dbContext.TravelHistory.AddRange(user.TravelHistory);

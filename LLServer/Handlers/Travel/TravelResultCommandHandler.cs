@@ -116,6 +116,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 
                 .Include(u => u.TravelData)
                 .Include(u => u.TravelPamphlets)
+                .Include(u => u.TravelTalks)
                 
                 .Include(u => u.TravelHistory)
                 
@@ -158,8 +159,28 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         }
         /*
         "travel_ex_rewards": [],
-        "travel_talks": [],
         */
+        
+        //travel talks
+        foreach (TravelTalk travelTalk in travelResult.TravelTalks)
+        {
+            //add the talk as new if it doesn't exist
+            //todo who the fuck knows if this is actually correct lmao
+            TravelTalk? talk = container.TravelTalks.FirstOrDefault(t => 
+                t.TalkId == travelTalk.TalkId && 
+                t.MyCharacterId == travelTalk.MyCharacterId && 
+                t.OtherCharacterId == travelTalk.OtherCharacterId);
+            
+            if (talk == null)
+            {
+                container.TravelTalks.Add(new TravelTalk
+                {
+                    TalkId = travelTalk.TalkId,
+                    MyCharacterId = travelTalk.MyCharacterId,
+                    OtherCharacterId = travelTalk.OtherCharacterId
+                });
+            }
+        }
         
         //todo: coop player ids
 

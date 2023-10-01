@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 
@@ -103,7 +104,8 @@ public class UserDataResponse : ResponseBase
     [JsonPropertyName("travel_pamphlets")]
     public TravelPamphlet[] TravelPamphlets { get; set; } = Array.Empty<TravelPamphlet>();
 
-    //travel talks
+    [JsonPropertyName("travel_talks")]
+    public TravelTalk[] TravelTalks { get; set; } = Array.Empty<TravelTalk>();
     
     
     //todo: hardcoded mess

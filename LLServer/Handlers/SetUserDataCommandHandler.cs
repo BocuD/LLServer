@@ -34,6 +34,7 @@ public class SetUserDataCommandHandler : ParamHandler<SetUserDataParam, SetUserD
                 .Include(u => u.LiveDatas)
                 .Include(u => u.TravelData)
                 .Include(u => u.TravelPamphlets)
+                .Include(u => u.TravelTalks)
                 .Include(u => u.TravelHistory)
                 .Include(u => u.Achievements)
                 .Include(u => u.YellAchievements)

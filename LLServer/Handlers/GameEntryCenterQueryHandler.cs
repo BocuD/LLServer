@@ -42,6 +42,7 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
             
             .Include(u => u.TravelData)
             .Include(u => u.TravelPamphlets)
+            .Include(u => u.TravelTalks)
             
             .Include(u => u.GameHistory)
             .Include(u => u.TravelHistory)

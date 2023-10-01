@@ -74,6 +74,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
             .Include(u => u.SkillCards)
             .Include(u => u.MemorialCards)
             .Include(u => u.TravelPamphlets)
+            .Include(u => u.TravelTalks)
             .Include(u => u.Items)
             .Include(u => u.SpecialItems)
             .FirstOrDefaultAsync(cancellationToken);

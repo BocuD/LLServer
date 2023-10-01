@@ -1,4 +1,5 @@
 ﻿using LLServer.Database.Models;
+using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ public class ApplicationDbContext : DbContext
     
     public DbSet<TravelData> TravelData { get; set; }
     public DbSet<TravelPamphlet> TravelPamphlets { get; set; }
+    public DbSet<TravelTalk> TravelTalks { get; set; }
     
     public DbSet<GameHistory> GameHistory { get; set; }
     public DbSet<TravelHistory> TravelHistory { get; set; }

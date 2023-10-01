@@ -1,5 +1,6 @@
 ﻿using LLServer.Database.Models;
 using LLServer.Mappers;
+using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,6 +72,7 @@ public class PersistentUserDataContainer
     //Travel data
     public List<TravelData> Travels => User.TravelData;
     public List<TravelPamphlet> TravelPamphlets => User.TravelPamphlets;
+    public List<TravelTalk> TravelTalks => User.TravelTalks;
 
     //Game history
     public List<GameHistory> GameHistory => User.GameHistory.Where(g => g.IdolKind == 0).ToList();
