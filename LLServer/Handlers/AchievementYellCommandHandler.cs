@@ -76,14 +76,13 @@ public class AchievementYellCommandHandler : ParamHandler<AchievementYellParam, 
         //save changes
         await container.SaveChanges(cancellationToken);
 
-        //todo: return actual data
         return new ResponseContainer
         {
             Result = 200,
             Response = new AchievementYellResponse
             {
                 YellAchievements = container.YellAchievements.ToArray(),
-                Honors = Array.Empty<HonorData>(),
+                Honors = container.Honors.ToArray(),
                 Items = container.Items.ToArray(),
                 MemberCards = container.MemberCards.ToArray(),
                 Stages = container.Stages.ToArray()
