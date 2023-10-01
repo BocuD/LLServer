@@ -36,6 +36,7 @@ public class ResponseContainer
 [JsonDerivedType(typeof(GameTotalResultResponse))]
 [JsonDerivedType(typeof(ProfilePrintResponse))]
 [JsonDerivedType(typeof(ProfileInquiryResponse))]
+[JsonDerivedType(typeof(PresentResponse))]
 public class ResponseBase
 {
 }

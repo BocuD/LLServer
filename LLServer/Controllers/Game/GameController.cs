@@ -120,7 +120,7 @@ public class GameController : BaseController<GameController>
                 "music.unlock" => await mediator.Send(new MusicUnlockCommand(request)),
                 //"stage.unlock"        unlocks a stage, seems to be basically the same as music.unlock
                 
-                //"present"
+                "present" => await mediator.Send(new PresentCommand(request)),
                 //"presenteventreward"
                 
                 "printcard" => await mediator.Send(new PrintCardCommand(request)),
