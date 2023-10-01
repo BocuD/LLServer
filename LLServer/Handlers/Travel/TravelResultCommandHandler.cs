@@ -127,6 +127,8 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
                 .Include(u => u.Badges)
                 .Include(u => u.Honors)
                 .Include(u => u.CardFrames)
+                
+                .Include(u => u.MailBox)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
@@ -394,7 +396,6 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
 
         //build mailbox
         List<GetCardData> getCardDatas = new();
-        List<MailBoxItem> mailBoxItems = new();
         
         //NOTE: the game seems to not like mailbox item 0, so we skip it
         
@@ -405,35 +406,18 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             getCardDatas.Add(new GetCardData
             {
                 Location = memorialCard.Location,
-                MailBoxId = (mailBoxItems.Count + 1).ToString()
+                MailBoxId = (container.MailBox.Count + 1).ToString()
             });
             
             //add entry to mailbox
-            mailBoxItems.Add(new MailBoxItem
+            container.MailBox.Add(new MailBoxItem
             {
                 Attrib = 0,
                 Category = 3, //3 for memorial cards //todo this is untested, category may be incorrect
                 Count = 1,
-                Id = (mailBoxItems.Count + 1).ToString(),
+                Id = (container.MailBox.Count + 1).ToString(),
                 ItemId = memorialCard.MemorialCardId
             });
-            
-            //add the card to the database
-            MemorialCardData? memorialCardData = container.MemorialCards.FirstOrDefault(m => m.CardMemorialId == memorialCard.MemorialCardId);
-
-            if (memorialCardData == null)
-            {
-                container.MemorialCards.Add(new MemorialCardData
-                {
-                    CardMemorialId = memorialCard.MemorialCardId,
-                    Count = 1,
-                    New = true
-                });
-            }
-            else
-            {
-                memorialCardData.Count++;
-            }
         }
 
         //handle earned skill cards
@@ -443,31 +427,18 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             getCardDatas.Add(new GetCardData
             {
                 Location = skillCard.Location,
-                MailBoxId = (mailBoxItems.Count + 1).ToString()
+                MailBoxId = (container.MailBox.Count + 1).ToString()
             });
             
             //add entry to mailbox
-            mailBoxItems.Add(new MailBoxItem
+            container.MailBox.Add(new MailBoxItem
             {
                 Attrib = 0,
                 Category = 2, //2 for skill cards
                 Count = 1,
-                Id = (mailBoxItems.Count + 1).ToString(),
+                Id = (container.MailBox.Count + 1).ToString(),
                 ItemId = skillCard.SkillCardId
             });
-            
-            //add the card to the database
-            SkillCardData? skillCardData = container.SkillCards.FirstOrDefault(s => s.CardSkillId == skillCard.SkillCardId);
-
-            if (skillCardData == null)
-            {
-                container.SkillCards.Add(new SkillCardData
-                {
-                    CardSkillId = skillCard.SkillCardId,
-                    SkillLevel = 1,
-                    New = true
-                });
-            }
         }
         
         //handle lot gachas
@@ -495,14 +466,14 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         //save changes
         await container.SaveChanges(cancellationToken);
         
-        //load ids from db
+        //load new ids from db
         List<string> travelHistoryIds = dbContext.TravelHistory
             .Where(t => t.UserID == session.UserId)
             .Select(t => t.Id)
             .ToList();
 
         //log full contents of getcarddatas and mailboxitems
-        logger.LogInformation("GetCardDatas: {GetCardDatas}\nMailBox: {MailBox}", JsonSerializer.Serialize(getCardDatas), JsonSerializer.Serialize(mailBoxItems));
+        logger.LogInformation("GetCardDatas: {GetCardDatas}\nMailBox: {MailBox}", JsonSerializer.Serialize(getCardDatas), JsonSerializer.Serialize(container.MailBox));
 
         return new ResponseContainer
         {
@@ -511,7 +482,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             {
                 GetCardDatas = getCardDatas.ToArray(),
                 TravelHistoryIds = travelHistoryIds.Select(x => x.ToString()).ToArray(),
-                MailBox = mailBoxItems.ToArray()
+                MailBox = container.MailBox.ToArray()
             }
         };
     }
