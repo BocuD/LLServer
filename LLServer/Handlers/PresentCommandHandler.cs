@@ -62,6 +62,12 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
                 break;
                 
             case 2: //skill card
+                if(param.Sell == 1)
+                {
+                    //todo give mobile points :P
+                    break;
+                }
+                
                 //add the card to the database
                 SkillCardData? skillCardData = container.SkillCards.FirstOrDefault(s => s.CardSkillId == mailBoxItem.ItemId);
 
