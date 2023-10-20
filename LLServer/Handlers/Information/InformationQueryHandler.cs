@@ -1,4 +1,5 @@
-﻿using LLServer.Models.Information;
+﻿using LLServer.Event;
+using LLServer.Models.Information;
 using LLServer.Models.Responses;
 using MediatR;
 
@@ -10,10 +11,12 @@ public record InformationQuery(string BaseUrl) : IRequest<ResponseContainer>;
 public class InformationQueryHandler : IRequestHandler<InformationQuery, ResponseContainer>
 {
     private readonly ILogger<InformationQueryHandler> logger;
+    private readonly EventDataProvider eventDataProvider;
 
-    public InformationQueryHandler(ILogger<InformationQueryHandler> logger)
+    public InformationQueryHandler(ILogger<InformationQueryHandler> logger, EventDataProvider eventDataProvider)
     {
         this.logger = logger;
+        this.eventDataProvider = eventDataProvider;
     }
 
     public async Task<ResponseContainer> Handle(InformationQuery request, CancellationToken cancellationToken)

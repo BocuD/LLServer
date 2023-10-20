@@ -1,5 +1,6 @@
 using LLServer.Common;
 using LLServer.Database;
+using LLServer.Event;
 using LLServer.Formatters;
 using LLServer.Middlewares;
 using LLServer.Session;
@@ -40,6 +41,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseLoggerFactory(loggerFactory);
 });
 builder.Services.AddScoped<SessionHandler>();
+builder.Services.AddScoped<EventDataProvider>();
 
 var app = builder.Build();
 

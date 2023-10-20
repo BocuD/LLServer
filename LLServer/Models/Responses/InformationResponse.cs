@@ -7,7 +7,7 @@ namespace LLServer.Models.Responses;
 public class InformationResponse : ResponseBase
 {
     /// <summary>
-    /// Probably next request url? Not entirely sure
+    /// Base url for resource data
     /// </summary>
     [JsonPropertyName("base_url")]
     public required string BaseUrl { get; set; }
