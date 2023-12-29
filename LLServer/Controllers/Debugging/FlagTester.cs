@@ -28,6 +28,11 @@ namespace LLServer.Controllers.Debugging
                 StatusCode = 200,
                 Content = @"
 <html>
+    <style>
+        body {
+            font-family: ""Comic Sans MS"", cursive, sans-serif;
+        }
+    </style>
     <head>
         <title>Flag Tester</title>
     </head>
@@ -53,11 +58,13 @@ namespace LLServer.Controllers.Debugging
             <input type=""submit"" name=""flag"" value=""Reset bit"" />
             <input type=""submit"" name=""flag"" value=""Reset all overrides"" />
             <br />
+            <br />
             <input type=""number"" name=""flagCount"" value=""" + flagCount + @""" />
             <input type=""submit"" name=""flag"" value=""Set flag count"" />
             <br />
             <input type=""submit"" name=""flag"" value=""Toggle test mode"" />
         </form>
+        <img src=""/oom.png"" />
 
         " + (success ? @"<p>Finished: flag " + successIndex : @"") + @"
     </body>
