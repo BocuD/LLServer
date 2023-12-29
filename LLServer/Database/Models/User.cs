@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LLServer.Common;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
@@ -62,41 +63,43 @@ public class User
     //Mailbox
     [Required] public List<MailBoxItem> MailBox { get; set; } = new();
 
-
+    
     //other data
     //this is actually pain.
     //"documentation"
     /*
     
     flag 0:       controls tutorial
+    flag 2:       profile card tutorial (on final result screen)
     flag 3:       profile card tutorial (on live preparation screen)
     flag 7:       difficulty explanation tutorial
     flag 9:       about score tutorial
     flag 10:      group selection tutorial
+    flag 11:      odekake school idol explanation tutorial (chika dice, board, rewards)
+    flag 12:      odekake school idol explanation tutorial (items!)
     flag 13:      anniversary snap tutorial
+    flag 16:      odekake school idol explanation tutorial (making odekake memories)
+    
+    flag 181:     has set username
+    flag 182:     extreme mode is now available! tutorial
+    
     
     to document:
-    >> these seem to be all between 0 and 12
-    - profile card explanation tutorial (on final result screen)
-    
-    >> ???
-    - odekake school idol explanation tutorial (pt1)
-    - odekake school idol explanation tutorial (pt2)
-    - odekake school idol explanation tutorial (pt3)
-    
-    >> this one is after the first quarter
-    - extreme mode is now available! tutorial
 
     >> after the first half
     - information popups viewed state
     
-    flag 181:     has set username
-    ???
+    >> literally everything related to center mode lol
+
     
+    //a version from a saved profile:
+00100000010110001000000000000000000000000000000000000100000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000
      */
     
     public string Flags { get; set; } = "";
 
+    //todo: make sure guest scores are saved between song 1 and song 2 (this will require making temporary profiles probably and deleting them after the guest session)
+    //todo: initialize the skill card got achievements on guest profiles so the spam can be skipped
     public static User GuestUser { get; } = InitializeGuestUser();
 
     private static User InitializeGuestUser()
@@ -137,7 +140,19 @@ public class User
                 SkillLevel = 1,
                 New = true
             }).ToList(),
-            Flags = "00100000010110001000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000"
+            //in guest mode:
+            /*
+            controls
+            group
+            anniversary snap
+            diff selection (before song 1)
+            about score (after song 1)
+            NO diff selection before song 2
+            no tutorials after song 2, straight to see you next time
+             */
+            //construct a flags string that makes sense; here we skip the final screen profile card tutorial and the odekake memories tutorial. Username is set (of course).
+            Flags = //new string('0', 200).SetFlag(2).SetFlag(16).SetFlag(181) //no idea what flag 59 does but it doesnt break anything so in the hardcoded version its there :P
+            "00100000000000001000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000"
         };
 
         return u;
