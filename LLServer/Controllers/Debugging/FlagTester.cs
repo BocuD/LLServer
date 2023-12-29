@@ -63,10 +63,34 @@ namespace LLServer.Controllers.Debugging
             <input type=""submit"" name=""flag"" value=""Set flag count"" />
             <br />
             <input type=""submit"" name=""flag"" value=""Toggle test mode"" />
-        </form>
-        <img src=""/oom.png"" />
+        </form>        
+        " + (success ? @"<style>
+    /* Remove the rainbow background styles */
+    .rainbow {
+        /* Remove background styles */
+    }
 
-        " + (success ? @"<p>Finished: flag " + successIndex : @"") + @"
+    /* Set the text color to rainbow */
+    .rainbow-text {
+        background-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-clip: text;
+        color: transparent;
+        background-size: 15% 5%;
+        animation: rainbow-text 10s linear infinite;
+    }
+
+    @keyframes rainbow-text {
+        0% {
+            background-position: 0% 50%;
+        }
+        100% {
+            background-position: 100% 50%;
+        }
+    }
+</style>" : @"") + @"
+
+        " + (success ? @"<p class=""rainbow-text"">Finished: flag " + successIndex + @"</p>" : @"") + @"
+        " + (success ? @"<img src=""/nya.png"" />" : @"<img src=""/oom.png"" />") + @"
     </body>
 </html>
 "
