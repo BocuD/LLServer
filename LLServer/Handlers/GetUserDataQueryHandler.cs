@@ -20,7 +20,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<GetUserDataQueryHandler> logger;
     private readonly SessionHandler sessionHandler;
-
+    
     public GetUserDataQueryHandler(ApplicationDbContext dbContext, ILogger<GetUserDataQueryHandler> logger, SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
@@ -85,10 +85,9 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
         //response
         UserDataResponseMapper mapper = new();
         UserDataResponse response = mapper.FromPersistentUserData(container);
-
-        //todo: get rid of this
-        //stupid hack to prevent the name entry popup and tutorials from showing up
-        response.Flags = response.Flags.Replace("0", "1");
+        
+        //this will prevent the name entry popup from showing up
+        response.Flags.SetFlag(181);
         
         return new ResponseContainer
         {
