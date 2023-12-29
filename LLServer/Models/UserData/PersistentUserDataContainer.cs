@@ -1,8 +1,10 @@
-﻿using LLServer.Database.Models;
+﻿using LLServer.Controllers.Debugging;
+using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LLServer.Models.UserData;
 
@@ -65,10 +67,18 @@ public class PersistentUserDataContainer
     public List<StageData> Stages => new();
     public string Flags
     {
-        get => User.Flags;
+        get
+        {
+            if (FlagTester.testMode)
+            {
+                Log.Information("FlagTester is enabled, returning flags from FlagTester: {flags}", FlagTester.flags);
+                return FlagTester.flags;
+            }
+            return User.Flags;
+        }
         set => User.Flags = value;
     }
-    
+
     //Travel data
     public List<TravelData> Travels => User.TravelData;
     public List<TravelPamphlet> TravelPamphlets => User.TravelPamphlets;
@@ -181,8 +191,11 @@ public class PersistentUserDataContainer
                 MemberData? member = Members.FirstOrDefault(m => m.CharacterId == equipSkill.CharacterId);
                 if (member == null)
                 {
-                    Members.Add(new MemberData());
-                    member = Members.Last();
+                    Members.Add(new MemberData
+                    {
+                        CharacterId = equipSkill.CharacterId
+                    });
+                    member = Members.FirstOrDefault(m => m.CharacterId == equipSkill.CharacterId);
                 }
 
                 member.CharacterId = equipSkill.CharacterId;
@@ -192,12 +205,6 @@ public class PersistentUserDataContainer
                 member.Camera = equipSkill.Camera;
                 member.Main = equipSkill.Main;
                 member.Stage = equipSkill.Stage;
-                
-                //update new state for equipped skill data
-                foreach (SkillCardData skillCard in SkillCards.Where(s => s.CardSkillId == equipSkill.CardMemberId))
-                {
-                    skillCard.New = false;
-                }
             }
         }
 
