@@ -67,17 +67,30 @@ public class User
     //this is actually pain.
     //"documentation"
     /*
-    111111 //controls tutorial
-    111111 //group selection tutorial
-    0000000000000 //contains at least the aniversary snap tutorial (maybe others) 
+    
+    flag 0:       controls tutorial
+    flag 10:      group selection tutorial
+    flag 13:      anniversary snap tutorial
+    
+    to document:
+    >> these seem to be all in the first quarter of the flags
+    - difficulty explanation tutorial
+    - about score tutorial
+    - odekake school idol explanation tutorial (pt1)
+    - odekake school idol explanation tutorial (pt2)
+    - odekake school idol explanation tutorial (pt3)
+    - profile card explanation tutorial
+    
+    >> this one is after the first quarter
+    - extreme mode is now available! tutorial
+
+    >> after the first half
+    - information popups viewed state
+    
+    flag 181:     has set username
+    ???
+    
      */
-    //flag 0:       controls tutorial
-    //flag 10:      group selection tutorial
-    //flag 13:      anniversary snap tutorial
-    //
-    //somewhere in the second half: contains whether or not some information items should be shown
-    //flag 181:     has set username
-    //???
     
     public string Flags { get; set; } = "";
 

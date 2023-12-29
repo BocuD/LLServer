@@ -7,10 +7,10 @@ namespace LLServer.Controllers.Debugging
     [Route("Debug/FlagTester")]
     public class FlagTester : ControllerBase
     {
-        public static int flagCount = 256;
-        public static string flags = new string('1', 256);
+        public static int flagCount = 200;
+        public static string flags = new string('1', 200);
         public static int sectionIndex = 0;
-        public static int sectionLength = 256;
+        public static int sectionLength = 200;
         public static int leftHalfLength = sectionLength / 2;
         public static bool isLeft = true;
         public static bool success = false;
