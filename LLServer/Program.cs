@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using LLServer.Common;
 using LLServer.Database;
 using LLServer.Event;
@@ -21,7 +22,16 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddControllers(
         options => options.OutputFormatters.Insert(0, new BinaryMediaTypeFormatter()))
-    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new DateTimeConverterUsingDateTimeParse()));
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new DateTimeConverterUsingDateTimeParse());
+    });
+
+//Don't serialize null values
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

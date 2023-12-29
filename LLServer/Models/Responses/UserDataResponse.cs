@@ -21,43 +21,43 @@ public class UserDataResponse : ResponseBase
     public List<MemberData> Members { get; set; } = new();
 
     [JsonPropertyName("membercard")]
-    public List<MemberCardData> MemberCards { get; set; } = new();
+    public List<MemberCardData>? MemberCards { get; set; } = null;
 
     [JsonPropertyName("skillcard")]
-    public List<SkillCardData> SkillCards { get; set; } = new();
+    public List<SkillCardData>? SkillCards { get; set; } = null;
 
     [JsonPropertyName("memorialcard")] 
-    public List<MemorialCardData> MemorialCards { get; set; } = new();
+    public List<MemorialCardData>? MemorialCards { get; set; } = null;
 
     [JsonPropertyName("item")]
-    public List<Item> Items { get; set; } = new();
+    public List<Item>? Items { get; set; } = null;
 
     [JsonPropertyName("musics")]
-    public List<MusicData> Musics { get; set; } = new();
+    public List<MusicData>? Musics { get; set; } = null;
 
     [JsonPropertyName("lives")]
-    public List<LiveData> Lives { get; set; } = new();
+    public List<LiveData>? Lives { get; set; } = null;
 
     [JsonPropertyName("stages")] 
-    public List<StageData> Stages { get; set; } = new();
+    public List<StageData>? Stages { get; set; } = null;
 
     [JsonPropertyName("game_history")]
-    public List<GameHistory> GameHistory { get; set; } = new();
+    public List<GameHistory>? GameHistory { get; set; } = null;
     
     [JsonPropertyName("game_history_aqours")]
-    public List<GameHistory> GameHistoryAqours { get; set; } = new();
+    public List<GameHistory>? GameHistoryAqours { get; set; } = null;
     
     [JsonPropertyName("game_history_saintsnow")]
-    public List<GameHistory> GameHistorySaintSnow { get; set; } = new();
-    
-    [JsonPropertyName("travel_history")]
-    public TravelHistory[] TravelHistory { get; set; } = Array.Empty<TravelHistory>();
+    public List<GameHistory>? GameHistorySaintSnow { get; set; } = null;
+
+    [JsonPropertyName("travel_history")] 
+    public TravelHistory[]? TravelHistory { get; set; } = null;
 
     [JsonPropertyName("travel_history_aqours")]
-    public TravelHistory[] TravelHistoryAqours { get; set; } = Array.Empty<TravelHistory>();
+    public TravelHistory[]? TravelHistoryAqours { get; set; } = null;
 
     [JsonPropertyName("travel_history_saintsnow")]
-    public TravelHistory[] TravelHistorySaintSnow { get; set; } = Array.Empty<TravelHistory>();
+    public TravelHistory[]? TravelHistorySaintSnow { get; set; } = null;
 
     [JsonPropertyName("mailbox")]
     public List<MailBoxItem> MailBox { get; set; } = new();
@@ -71,41 +71,42 @@ public class UserDataResponse : ResponseBase
     public string Flags { get; set; } = "";
 
     [JsonPropertyName("achievements")]
-    public Achievement[] Achievements { get; set; } = Array.Empty<Achievement>();
+    public Achievement[]? Achievements { get; set; } = null;
 
     [JsonPropertyName("record_books")]
-    public AchievementRecordBook[] AchievementRecordBooks { get; set; } = Array.Empty<AchievementRecordBook>();
+    public AchievementRecordBook[]? AchievementRecordBooks { get; set; } = null;
 
     [JsonPropertyName("yell_achievements")]
-    public YellAchievement[] YellAchievements { get; set; } = Array.Empty<YellAchievement>();
+    public YellAchievement[]? YellAchievements { get; set; } = null;
 
     [JsonPropertyName("limited_achievements")]
-    public LimitedAchievement[] LimitedAchievements { get; set; } = Array.Empty<LimitedAchievement>();
+    public LimitedAchievement[]? LimitedAchievements { get; set; } = null;
 
     [JsonPropertyName("missions")]
-    public Mission[] Missions { get; set; } = Array.Empty<Mission>();
+    public Mission[]? Missions { get; set; } = null;
 
     [JsonPropertyName("mission_point")]
-    public MissionPoint MissionPoint { get; set; } = new();
+    public MissionPoint? MissionPoint { get; set; } = null;
 
     [JsonPropertyName("daily_records")]
-    public int[] DailyRecords { get; set; } = Array.Empty<int>();
+    public int[]? DailyRecords { get; set; } = null;
 
     [JsonPropertyName("honors")]
-    public HonorData[] Honors { get; set; } = Array.Empty<HonorData>();
+    public HonorData[]? Honors { get; set; } = null;
 
+    //todo: figure out if we want to do anything with this, it seems to be deprecated in the latest version of the game
     [JsonPropertyName("scfes_profile")]
-    public ScfesProfile ScfesProfile { get; set; } = new();
+    public ScfesProfile? ScfesProfile { get; set; } = null;
 
     //sif prints
-    [JsonPropertyName("travels")]
-    public TravelData[] Travels { get; set; } = Array.Empty<TravelData>();
+    [JsonPropertyName("travels")] 
+    public TravelData[]? Travels { get; set; } = null;
 
-    [JsonPropertyName("travel_pamphlets")]
-    public TravelPamphlet[] TravelPamphlets { get; set; } = Array.Empty<TravelPamphlet>();
+    [JsonPropertyName("travel_pamphlets")] 
+    public TravelPamphlet[]? TravelPamphlets { get; set; } = null;
 
-    [JsonPropertyName("travel_talks")]
-    public TravelTalk[] TravelTalks { get; set; } = Array.Empty<TravelTalk>();
+    [JsonPropertyName("travel_talks")] 
+    public TravelTalk[]? TravelTalks { get; set; } = null;
     
     
     //todo: hardcoded mess
@@ -129,26 +130,26 @@ public class UserDataResponse : ResponseBase
     };
 
     [JsonPropertyName("card_frames")]
-    public CardFrame[] CardFrames { get; set; } = Array.Empty<CardFrame>();
+    public CardFrame[]? CardFrames { get; set; } = null;
     
     //snap frames
     [JsonPropertyName("snap_stamps")]
-    public int[] SnapStamps { get; set; } = Array.Empty<int>();
+    public int[]? SnapStamps { get; set; } = null;
     
     [JsonPropertyName("nameplates")]
-    public NamePlate[] NamePlates { get; set; } = Array.Empty<NamePlate>();
+    public NamePlate[]? NamePlates { get; set; } = null;
 
     [JsonPropertyName("badges")]
-    public Badge[] Badges { get; set; } = Array.Empty<Badge>();
+    public Badge[]? Badges { get; set; } = null;
 
     [JsonPropertyName("event_status")]
-    public EventStatus[] EventStatus { get; set; } = Array.Empty<EventStatus>();
+    public EventStatus[]? EventStatus { get; set; } = null;
 
     [JsonPropertyName("event_rewards")]
-    public EventReward[] EventRewards { get; set; } = Array.Empty<EventReward>();
+    public EventReward[]? EventRewards { get; set; } = null;
 
     [JsonPropertyName("event_result")]
-    public EventResult EventResult { get; set; } = new EventResult();
+    public EventResult? EventResult { get; set; } = null;
 
     [JsonPropertyName("now")] 
     public string Now => DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss");
@@ -160,11 +161,11 @@ public class UserDataResponse : ResponseBase
     public bool DiceBonus { get; set; } = true;
 
     [JsonPropertyName("stamp_cards")]
-    public StampCard[] StampCards { get; set; } = Array.Empty<StampCard>();
+    public StampCard[]? StampCards { get; set; } = null;
 
     [JsonPropertyName("stamp_card_rewards")]
-    public StampCardReward[] StampCardRewards { get; set; } = Array.Empty<StampCardReward>();
+    public StampCardReward[]? StampCardRewards { get; set; } = null;
 
     [JsonPropertyName("active_information")]
-    public ActiveInformation[] ActiveInformation { get; set; } = Array.Empty<ActiveInformation>();
+    public ActiveInformation[]? ActiveInformation { get; set; } = null;
 }

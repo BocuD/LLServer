@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using LLServer.Database;
 using LLServer.Handlers;
 using LLServer.Handlers.Gacha;
@@ -192,8 +193,10 @@ public class GameController : BaseController<GameController>
             string fullRequest = $"{request.Protocol}\n{bodyString}\n";
             
             //serialize the response using prettyprint
-            string fullResponse =
-                $"{response.Result}\n{JsonSerializer.Serialize(response.Response, new JsonSerializerOptions { WriteIndented = true })}\n";
+            string fullResponse = $"{response.Result}\n{
+                JsonSerializer.Serialize(response.Response, 
+                    new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull}
+                    )}\n";
 
             await System.IO.File.AppendAllTextAsync("responses.log", fullResponse);
             await System.IO.File.AppendAllTextAsync("responses.log", "------------------------\n");
