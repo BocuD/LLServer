@@ -49,7 +49,11 @@ public class SkillCardData
         6300,
         7300,
         8300,
-        9300,
+        9300
+    };
+
+    [JsonIgnore, NotMapped] public static int[] InitialSkillCardsAqours =
+    {
         //Aqours
         11100,
         12100,
@@ -77,14 +81,18 @@ public class SkillCardData
         16300,
         17300,
         18300,
-        19300,
+        19300
+    };
+
+    [JsonIgnore, NotMapped] public static int[] InitialSkillCardsSaintSnow =
+    {
         //Saint Snow
         21100,
         22100,
         21200,
         22200,
         21300,
-        22300,
+        22300
     };
 
     //Database key

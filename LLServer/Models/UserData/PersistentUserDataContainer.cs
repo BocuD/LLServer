@@ -137,6 +137,77 @@ public class PersistentUserDataContainer
         if (initializeCommand.UserDataSaintSnow != null)
             ReflectionMapper.Map(initializeCommand.UserDataSaintSnow, UserDataSaintSnow);
 
+        //check which idol kind is selected
+        switch (initializeCommand.UserData.IdolKind)
+        {
+            case 0: //µ's
+                //add default cards for all members
+                MemberCards.AddRange(MemberCardData.InitialMemberCards
+                    .Where(x => x < 90012)
+                    .Where(x => x != 0 && MemberCards.All(y => y.CardMemberId != x)).Select(x =>
+                        new MemberCardData
+                        {
+                            CardMemberId = x,
+                            Count = 1,
+                            New = false
+                        }));
+                
+                //add default skill cards for all members
+                SkillCards.AddRange(SkillCardData.InitialSkillCards.Select(x => new SkillCardData
+                {
+                    CardSkillId = x,
+                    SkillLevel = 1,
+                    New = false
+                }));
+                break;
+            
+            case 1: //Aqours
+                //add default cards for all members
+                MemberCards.AddRange(MemberCardData.InitialMemberCards
+                    .Where(x => x > 90011 && x < 190902)
+                    .Where(x => x != 0 && MemberCards.All(y => y.CardMemberId != x)).Select(x =>
+                        new MemberCardData
+                        {
+                            CardMemberId = x,
+                            Count = 1,
+                            New = false
+                        }));
+                
+                //add default skill cards for all members
+                SkillCards.AddRange(SkillCardData.InitialSkillCardsAqours.Select(x => new SkillCardData
+                {
+                    CardSkillId = x,
+                    SkillLevel = 1,
+                    New = false
+                }));
+                break;
+            
+            case 2: //Saint Snow
+                //add default cards for all members
+                MemberCards.AddRange(MemberCardData.InitialMemberCards
+                    .Where(x => x > 190902)
+                    .Where(x => x != 0 && MemberCards.All(y => y.CardMemberId != x)).Select(x =>
+                        new MemberCardData
+                        {
+                            CardMemberId = x,
+                            Count = 1,
+                            New = false
+                        }));
+                
+                //add default skill cards for all members
+                SkillCards.AddRange(SkillCardData.InitialSkillCardsSaintSnow.Select(x => new SkillCardData
+                {
+                    CardSkillId = x,
+                    SkillLevel = 1,
+                    New = false
+                }));
+                break;
+        }
+        
+        
+        //todo: when the hack above this gets removed this needs to be readded
+        
+        /*
         //assign first member cards
         int newMemberCharacterId = initializeCommand.UserData.IdolKind switch
         {
@@ -153,6 +224,7 @@ public class PersistentUserDataContainer
             Count = 1,
             New = false
         });
+        */
         
         //add nameplate, badge, honor from userdata
         NamePlates.Add(new NamePlate

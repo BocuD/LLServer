@@ -89,29 +89,6 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
         //update last play time (format is "2023-07-02 00:00:00")
         container.UserData.PlayDate = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss");
 
-        //todo: this is a temporary solution to add skill card functionality
-        //check if the user has any skill cards; if not add them and the remaining default character cards
-        if (container.SkillCards.Count == 0)
-        {
-            //add default skill cards for all members
-            container.SkillCards.AddRange(SkillCardData.InitialSkillCards.Select(x => new SkillCardData
-            {
-                CardSkillId = x,
-                SkillLevel = 1,
-                New = false
-            }));
-
-            //add default cards for all members
-            container.MemberCards.AddRange(MemberCardData.InitialMemberCards
-                .Where(x => x != 0 && container.MemberCards.All(y => y.CardMemberId != x)).Select(x =>
-                    new MemberCardData
-                    {
-                        CardMemberId = x,
-                        Count = 1,
-                        New = false
-                    }));
-        }
-
         //unlock released pamphlets
         foreach (int releasedId in gameEntryParam.ReleasePamphletIds)
         {
