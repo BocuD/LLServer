@@ -100,78 +100,71 @@ namespace LLServer.Controllers.Debugging
         [HttpPost]
         public IActionResult Post([FromForm(Name = "flag")] string flag, [FromForm(Name = "bitIndex")] int bitIndex, [FromForm(Name = "flagCount")] int _flagCount)
         {
-            if (flag == "Toggle bit")
+            switch (flag)
             {
-                if (bitIndex != -1)
+                case "Toggle bit":
                 {
-                    overrides[bitIndex] = overrides[bitIndex] == 1 ? 0 : 1;
+                    if (bitIndex != -1)
+                    {
+                        overrides[bitIndex] = overrides[bitIndex] == 1 ? 0 : 1;
 
-                    UpdateFlags();
-                }
+                        UpdateFlags();
+                    }
                 
-                return RedirectToAction("Get");
-            }
-            else if (flag == "Reset bit")
-            {
-                if (bitIndex != -1)
+                    return RedirectToAction("Get");
+                }
+                case "Reset bit":
                 {
-                    overrides[bitIndex] = -1;
+                    if (bitIndex != -1)
+                    {
+                        overrides[bitIndex] = -1;
 
-                    UpdateFlags();
+                        UpdateFlags();
+                    }
+                
+                    return RedirectToAction("Get");
                 }
+                case "Reset all overrides":
+                    overrides = Enumerable.Repeat(-1, flags.Length).ToArray();
                 
-                return RedirectToAction("Get");
-            }
-            else if (flag == "Reset all overrides")
-            {
-                overrides = Enumerable.Repeat(-1, flags.Length).ToArray();
+                    UpdateFlags();
                 
-                UpdateFlags();
-                
-                return RedirectToAction("Get");
+                    return RedirectToAction("Get");
+                // If successful, update the flags based on binary search
+                case "Success":
+                    UpdateFlagsOnSuccess();
+                    break;
+                case "Failure":
+                    UpdateFlagsOnFailure();
+                    break;
+                case "All 1s":
+                    flags = new string('1', flags.Length);
+                    return RedirectToAction("Get");
+                case "Reset":
+                    sectionIndex = 0;
+                    sectionLength = flagCount;
+                    leftHalfLength = sectionLength / 2;
+                    isLeft = true;
+                    success = false;
+                    successIndex = 0;
+                    UpdateFlags();
+                    break;
+                case "Toggle test mode":
+                    testMode = !testMode;
+                    break;
+                case "Set flag count":
+                    flagCount = int.Clamp(_flagCount, 1, 256);
+                    flags = new string('1', flagCount);
+                    sectionIndex = 0;
+                    sectionLength = flagCount;
+                    leftHalfLength = sectionLength / 2;
+                    isLeft = true;
+                    success = false;
+                    successIndex = 0;
+                    UpdateFlags();
+                    break;
             }
 
-            // If successful, update the flags based on binary search
-            if (flag == "Success")
-            {
-                UpdateFlagsOnSuccess();
-            }
-            else if (flag == "Failure")
-            {
-                UpdateFlagsOnFailure();
-            }
-            else if (flag == "All 1s")
-            {
-                flags = new string('1', flags.Length);
-                return RedirectToAction("Get");
-            }
-            else if (flag == "Reset")
-            {
-                sectionIndex = 0;
-                sectionLength = flagCount;
-                leftHalfLength = sectionLength / 2;
-                isLeft = true;
-                success = false;
-                successIndex = 0;
-                UpdateFlags();
-            }
-            else if (flag == "Toggle test mode")
-            {
-                testMode = !testMode;
-            }
-            else if (flag == "Set flag count")
-            {
-                flagCount = int.Clamp(_flagCount, 1, 256);
-                flags = new string('1', flagCount);
-                sectionIndex = 0;
-                sectionLength = flagCount;
-                leftHalfLength = sectionLength / 2;
-                isLeft = true;
-                success = false;
-                successIndex = 0;
-                UpdateFlags();
-            }
-            
             // Update the flags
             UpdateFlags();
 
