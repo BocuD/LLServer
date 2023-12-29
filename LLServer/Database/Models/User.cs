@@ -64,6 +64,21 @@ public class User
 
 
     //other data
+    //this is actually pain.
+    //"documentation"
+    /*
+    111111 //controls tutorial
+    111111 //group selection tutorial
+    0000000000000 //contains at least the aniversary snap tutorial (maybe others) 
+     */
+    //flag 0:       controls tutorial
+    //flag 10:      group selection tutorial
+    //flag 13:      anniversary snap tutorial
+    //
+    //somewhere in the second half: contains whether or not some information items should be shown
+    //flag 181:     has set username
+    //???
+    
     public string Flags { get; set; } = "";
 
     public static User GuestUser { get; } = InitializeGuestUser();
