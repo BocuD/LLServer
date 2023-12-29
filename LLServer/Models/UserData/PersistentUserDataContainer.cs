@@ -1,4 +1,5 @@
-﻿using LLServer.Controllers.Debugging;
+﻿using LLServer.Common;
+using LLServer.Controllers.Debugging;
 using LLServer.Database.Models;
 using LLServer.Mappers;
 using LLServer.Models.Requests.Travel;
@@ -150,31 +151,43 @@ public class PersistentUserDataContainer
         {
             CardMemberId = MemberCardData.InitialMemberCards[newMemberCharacterId],
             Count = 1,
-            New = true,
+            New = false
         });
         
         //add nameplate, badge, honor from userdata
         NamePlates.Add(new NamePlate
         {
             NamePlateId = UserData.Nameplate,
-            New = false,
+            New = false
         });
         
         Badges.Add(new Badge
         {
             BadgeId = UserData.Badge,
-            New = false,
+            New = false
         });
         
         Honors.Add(new HonorData
         {
             HonorId = UserData.Honor,
             Unlocked = true,
-            New = false,
+            New = false
         });
         
         //initialize other data
         UserData.Level = 1;
+        
+        //initialize flags
+        Flags = new string('0', 200);
+
+        Flags = Flags.SetFlag(0);       //controls tutorial
+        Flags = Flags.SetFlag(10);      //group selection tutorial
+        
+        Flags = Flags.SetFlag(13);      //anniversary snap tutorial
+
+        Flags = Flags.SetFlag(53);      //???
+        
+        Flags = Flags.SetFlag(181);     //has set username
     }
 
     public void SetUserData(SetUserDataParam input)
@@ -218,7 +231,7 @@ public class PersistentUserDataContainer
                 {
                     Members.Add(new MemberData
                     {
-                        CharacterId = memberYell.CharacterId,
+                        CharacterId = memberYell.CharacterId
                     });
                     member = Members.FirstOrDefault(m => m.CharacterId == memberYell.CharacterId);
                 }
@@ -233,6 +246,9 @@ public class PersistentUserDataContainer
         HandleAttributeUserData(input.UserData);
         HandleAttributeUserData(input.UserDataAqours);
         HandleAttributeUserData(input.UserDataSaintSnow);
+        
+        //UserData.Set gets called after selecting a song so we can set the flag for the difficulty explanation tutorial here
+        Flags = Flags.SetFlag(7);     //difficulty explanation tutorial
     }
 
     public void HandleAttributeUserData(NullableUserDataBase? input)

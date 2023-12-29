@@ -87,7 +87,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
         UserDataResponse response = mapper.FromPersistentUserData(container);
         
         //this will prevent the name entry popup from showing up
-        response.Flags.SetFlag(181);
+        response.Flags = response.Flags.SetFlag(181);
         
         return new ResponseContainer
         {

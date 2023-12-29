@@ -1,6 +1,6 @@
-﻿using LLServer.Database;
+﻿using LLServer.Common;
+using LLServer.Database;
 using LLServer.Database.Models;
-using LLServer.Mappers;
 using LLServer.Models;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -237,7 +237,10 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
         //update level data
         container.UserData.TotalExp = gameResult.TotalExp;
         container.UserData.Level = gameResult.DUserLevel;
-        
+
+        //this will make sure the score tutorial is only shown once (on the first play)
+        container.Flags = container.Flags.SetFlag(9);     //about score tutorial
+
         //write to db
         await container.SaveChanges(cancellationToken);
 
