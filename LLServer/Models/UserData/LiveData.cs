@@ -587,6 +587,9 @@ public class LiveData
         7930001,
         7940001,
     };
+    
+    //the fucky stages in aqours mode:
+    // 9999000 - 9999001 - 9999002
 
     public static List<LiveData> GetBaseLiveData()
     {
