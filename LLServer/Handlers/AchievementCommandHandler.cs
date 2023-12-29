@@ -83,6 +83,7 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
         //update achievement record books
         //todo: figure out if the game returns the full list of record books everytime or just the deltas (+1 on elements)
         //todo: update: seems to be just the deltas
+        //todo: update: needs more research, definitely seems to not be just deltas
         
         //version that replaces data:
         /*
@@ -103,10 +104,10 @@ public class AchievementCommandHandler : ParamHandler<AchievementParam, Achievem
             }
             else
             {
-                //increment the values by the values in the request
+                //update the values with the values in the request
                 for(int i = 0; i < existingRecordBook.Values.Length; i++)
                 {
-                    existingRecordBook.Values[i] += recordBook.Values[i];
+                    existingRecordBook.Values[i] = recordBook.Values[i];
                 }
             }
         }
