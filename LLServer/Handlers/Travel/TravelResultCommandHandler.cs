@@ -47,7 +47,7 @@ namespace LLServer.Handlers.Travel;
         "nameplates": [1810481],
         "release_pamphlet_ids": [],
         "special_ids": [4],
-        "stage_ids": [],
+        "stage_ids": [106],
         "talk_count": 1,
         "tenpo_name": "LLServer",
         "total_exp": 28617,

@@ -98,7 +98,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
             {
                 CardSkillId = x,
                 SkillLevel = 1,
-                New = true
+                New = false
             }));
 
             //add default cards for all members
@@ -108,7 +108,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
                     {
                         CardMemberId = x,
                         Count = 1,
-                        New = true
+                        New = false
                     }));
         }
 
