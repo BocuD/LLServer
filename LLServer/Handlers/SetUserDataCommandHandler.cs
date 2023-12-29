@@ -18,6 +18,7 @@ public class SetUserDataCommandHandler : ParamHandler<SetUserDataParam, SetUserD
     {
     }
 
+    //todo: only load the things we actually need here. Note: this will require fixing the issues causing null json data to be serialized anyways
     protected override async Task<ResponseContainer> HandleRequest(SetUserDataParam setUserData, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
@@ -28,23 +29,37 @@ public class SetUserDataCommandHandler : ParamHandler<SetUserDataParam, SetUserD
                 .Include(u => u.UserData)
                 .Include(u => u.UserDataAqours)
                 .Include(u => u.UserDataSaintSnow)
+                
                 .Include(u => u.Members)
                 .Include(u => u.MemberCards)
                 .Include(u => u.SkillCards)
+                .Include(u => u.MemorialCards)
+                
+                .Include(u => u.Musics)
                 .Include(u => u.LiveDatas)
+                
                 .Include(u => u.TravelData)
                 .Include(u => u.TravelPamphlets)
                 .Include(u => u.TravelTalks)
-                .Include(u => u.TravelHistory)
+                
+                // .Include(u => u.GameHistory)
+                // .Include(u => u.TravelHistory)
+                
                 .Include(u => u.Achievements)
                 .Include(u => u.YellAchievements)
                 .Include(u => u.AchievementRecordBooks)
                 .Include(u => u.LimitedAchievements)
+                
                 .Include(u => u.Items)
                 .Include(u => u.SpecialItems)
+                
+                .Include(u => u.CardFrames)
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
                 .Include(u => u.Honors)
+                
+                .Include(u => u.MailBox)
+                
                 .FirstOrDefaultAsync(cancellationToken);
         }
         else
