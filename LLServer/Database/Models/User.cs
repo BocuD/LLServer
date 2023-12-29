@@ -69,17 +69,20 @@ public class User
     /*
     
     flag 0:       controls tutorial
+    flag 3:       profile card tutorial (on live preparation screen)
+    flag 7:       difficulty explanation tutorial
+    flag 9:       about score tutorial
     flag 10:      group selection tutorial
     flag 13:      anniversary snap tutorial
     
     to document:
-    >> these seem to be all in the first quarter of the flags
-    - difficulty explanation tutorial
-    - about score tutorial
+    >> these seem to be all between 0 and 12
+    - profile card explanation tutorial (on final result screen)
+    
+    >> ???
     - odekake school idol explanation tutorial (pt1)
     - odekake school idol explanation tutorial (pt2)
     - odekake school idol explanation tutorial (pt3)
-    - profile card explanation tutorial
     
     >> this one is after the first quarter
     - extreme mode is now available! tutorial
