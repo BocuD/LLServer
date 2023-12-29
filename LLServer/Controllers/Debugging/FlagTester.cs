@@ -45,17 +45,18 @@ namespace LLServer.Controllers.Debugging
             <input type=""submit"" name=""flag"" value=""Success"" />
             <input type=""submit"" name=""flag"" value=""Failure"" />
             <input type=""submit"" name=""flag"" value=""All 1s"" />
+            <input type=""submit"" name=""flag"" value=""Reset"" />
             <br />
             <p>Manual Bit Overrides</p>
             <input type=""number"" name=""bitIndex"" value=""" + -1 + @""" />
             <input type=""submit"" name=""flag"" value=""Toggle bit"" />
-            <input type=""submit"" name=""flag"" value=""Reset overrides"" />
-            <br />
-            <input type=""submit"" name=""flag"" value=""Reset"" />
-            <input type=""submit"" name=""flag"" value=""Toggle test mode"" />
+            <input type=""submit"" name=""flag"" value=""Reset bit"" />
+            <input type=""submit"" name=""flag"" value=""Reset all overrides"" />
             <br />
             <input type=""number"" name=""flagCount"" value=""" + flagCount + @""" />
             <input type=""submit"" name=""flag"" value=""Set flag count"" />
+            <br />
+            <input type=""submit"" name=""flag"" value=""Toggle test mode"" />
         </form>
 
         " + (success ? @"<p>Finished: flag " + successIndex : @"") + @"
@@ -79,7 +80,18 @@ namespace LLServer.Controllers.Debugging
                 
                 return RedirectToAction("Get");
             }
-            else if (flag == "Reset overrides")
+            else if (flag == "Reset bit")
+            {
+                if (bitIndex != -1)
+                {
+                    overrides[bitIndex] = -1;
+
+                    UpdateFlags();
+                }
+                
+                return RedirectToAction("Get");
+            }
+            else if (flag == "Reset all overrides")
             {
                 overrides = Enumerable.Repeat(-1, flags.Length).ToArray();
                 
