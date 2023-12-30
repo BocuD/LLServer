@@ -76,6 +76,60 @@ public class MemberCardData
         21200,
         22200
     };
+    
+    [JsonIgnore, NotMapped] public static int[] YellRankAchieve20 =
+    {
+        0,
+        10250,
+        20250,
+        30250,
+        40250,
+        50250,
+        60250,
+        70250,
+        80250,
+        90250,
+        0,
+        111310,
+        121310,
+        131310,
+        141310,
+        151310,
+        161310,
+        171310,
+        181310,
+        191310,
+        0,
+        0,
+        0
+    };
+
+    [JsonIgnore, NotMapped] public static int[] YellRankAchieve80 =
+    {
+        0,
+        10251,
+        20251,
+        30251,
+        40251,
+        50251,
+        60251,
+        70251,
+        80251,
+        90251,
+        0,
+        111311,
+        121311,
+        131311,
+        141311,
+        151311,
+        161311,
+        171311,
+        181311,
+        191311,
+        0,
+        0,
+        0
+    };
 
     //Database association to user
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }

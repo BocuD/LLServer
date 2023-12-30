@@ -278,7 +278,8 @@ public class PersistentUserDataContainer
                 {
                     Members.Add(new MemberData
                     {
-                        CharacterId = equipSkill.CharacterId
+                        CharacterId = equipSkill.CharacterId,
+                        New = false
                     });
                     member = Members.FirstOrDefault(m => m.CharacterId == equipSkill.CharacterId);
                 }
