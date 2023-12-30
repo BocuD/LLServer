@@ -73,6 +73,16 @@ public class SetUserDataCommandHandler : ParamHandler<SetUserDataParam, SetUserD
         if (!session.IsGuest)
         {
             container.SetUserData(setUserData);
+            
+            //todo: this is a hack to prevent old profiles from showing tutorial data despite not running initialize again
+            container.Flags = container.Flags.SetFlag(0);       //controls tutorial
+            container.Flags = container.Flags.SetFlag(10);      //group selection tutorial
+        
+            container.Flags = container.Flags.SetFlag(13);      //anniversary snap tutorial
+
+            container.Flags = container.Flags.SetFlag(53);      //???
+        
+            container.Flags = container.Flags.SetFlag(181);     //has set username
 
             await container.SaveChanges(cancellationToken);
         }
