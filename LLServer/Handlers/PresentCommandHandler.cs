@@ -99,7 +99,7 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
                 }
                 break;
                 
-            case 3: //seems to be memorial card
+            case 6: //seems to be memorial card
                 //add the card to the database
                 MemorialCardData? memorialCardData = container.MemorialCards.FirstOrDefault(m => m.CardMemorialId == mailBoxItem.ItemId);
 
