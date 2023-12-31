@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace LLServer.Models.Requests;
 
@@ -14,7 +15,7 @@ namespace LLServer.Models.Requests;
 public class PresentParam
 {
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public JsonElement Id { get; set; }
     
     [JsonPropertyName("sell")]
     public int Sell { get; set; }

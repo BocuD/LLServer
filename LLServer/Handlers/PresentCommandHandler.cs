@@ -1,4 +1,5 @@
-﻿using LLServer.Common;
+﻿using System.Text.Json;
+using LLServer.Common;
 using LLServer.Database;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
@@ -29,13 +30,25 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
             .FirstOrDefault();
         
         PersistentUserDataContainer container = new(dbContext, session);
-        
+
+        string targetId = string.Empty;
+        //check if the param.Id jsonelement is an array
+        if (param.Id.ValueKind == JsonValueKind.Array)
+        {
+            //get the first element as string
+            targetId = param.Id[0].GetString() ?? string.Empty;
+        }
+        else
+        {
+            targetId = param.Id.GetString() ?? string.Empty;
+        }
+
         //find the mailbox item and remove it
-        MailBoxItem? mailBoxItem = container.MailBox.FirstOrDefault(m => m.Id == param.Id);
+        MailBoxItem? mailBoxItem = container.MailBox.FirstOrDefault(m => m.Id == targetId);
 
         if (mailBoxItem == null)
         {
-            logger.LogWarning("Mailbox item {Id} not found for user {UserId}", param.Id, session.UserId);
+            logger.LogWarning("Mailbox item {Id} not found for user {UserId}", targetId, session.UserId);
             return StaticResponses.EmptyResponse;
         }
 
