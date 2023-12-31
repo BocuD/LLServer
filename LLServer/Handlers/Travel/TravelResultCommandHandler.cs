@@ -19,7 +19,12 @@ namespace LLServer.Handlers.Travel;
         "card_frames": [7518],
         "coop_player_ids": [1],
         "dice_count": 1,
-        "get_memorial_cards": [],
+        "get_memorial_cards": [
+            {
+                "location":900,
+                "memorial_card_id":4002
+            }
+        ],
         "get_skill_cards": [
             {
                 "location": 1600,
@@ -396,51 +401,43 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
 
         //build mailbox
         List<GetCardData> getCardDatas = new();
+
+        void AddMailBoxCard(int attribute, int category, int count, int itemId, int location)
+        {
+            //add entry to getcarddata
+            getCardDatas.Add(new GetCardData
+            {
+                Location = location,
+                MailBoxId = (container.MailBox.Count + 1).ToString()
+            });
+            
+            //add entry to mailbox
+            container.MailBox.Add(new MailBoxItem
+            {
+                Attrib = attribute,
+                Category = category,
+                Count = count,
+                Id = (container.MailBox.Count + 1).ToString(),
+                ItemId = itemId
+            });
+        }
         
         //NOTE: the game seems to not like mailbox item 0, so we skip it
         
         //handle earned memorial cards
         foreach (GetMemorialCard memorialCard in travelResult.GetMemorialCards)
         {
-            //add entry to getcarddata
-            getCardDatas.Add(new GetCardData
-            {
-                Location = memorialCard.Location,
-                MailBoxId = (container.MailBox.Count + 1).ToString()
-            });
-            
-            //add entry to mailbox
-            container.MailBox.Add(new MailBoxItem
-            {
-                Attrib = 0,
-                Category = 3, //3 for memorial cards //todo this is untested, category may be incorrect
-                Count = 1,
-                Id = (container.MailBox.Count + 1).ToString(),
-                ItemId = memorialCard.MemorialCardId
-            });
+            //category 6 for memorialcards
+            AddMailBoxCard(0, 6, 1, memorialCard.MemorialCardId, memorialCard.Location);
         }
 
         //handle earned skill cards
         foreach (GetSkillCard skillCard in travelResult.GetSkillCards)
         {
-            //add entry to getcarddata
-            getCardDatas.Add(new GetCardData
-            {
-                Location = skillCard.Location,
-                MailBoxId = (container.MailBox.Count + 1).ToString()
-            });
-            
-            //add entry to mailbox
-            container.MailBox.Add(new MailBoxItem
-            {
-                Attrib = 0,
-                Category = 2, //2 for skill cards
-                Count = 1,
-                Id = (container.MailBox.Count + 1).ToString(),
-                ItemId = skillCard.SkillCardId
-            });
+            //category 2 for skill cards
+            AddMailBoxCard(0, 2, 1, skillCard.SkillCardId, skillCard.Location);
         }
-        
+
         //handle lot gachas
         foreach (LotGacha gacha in travelResult.LotGachas)
         {

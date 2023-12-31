@@ -15,7 +15,7 @@ public class MailBoxItem
     public int Attrib { get; set; }     //purpose unclear; 0 seems to just work™
 
     [JsonPropertyName("category")]
-    public int Category { get; set; }   //1 might be member card (who knows); 2 seems to be skill card
+    public int Category { get; set; }   //1 might be member card (who knows); 2 is skill card, 6 is memorial card
     
     [JsonPropertyName("item_id")]
     public int ItemId { get; set; } 
