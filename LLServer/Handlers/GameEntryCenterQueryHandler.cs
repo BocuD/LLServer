@@ -22,7 +22,7 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
         //todo: this seems to not be working
         // Mark the session as active and set the expire time
         session.IsActive = true;
-        session.ExpireTime = DateTime.Now.AddMinutes(60);
+        session.ExpireTime = DateTime.UtcNow.AddMinutes(60);
 
         //terminal is special and seems to want the full userdata for some reason :P
         session.User = await dbContext.Users

@@ -22,7 +22,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
         //todo: this seems to not be working
         // Mark the session as active and set the expire time
         session.IsActive = true;
-        session.ExpireTime = DateTime.Now.AddMinutes(60);
+        session.ExpireTime = DateTime.UtcNow.AddMinutes(60);
         
         if (session.IsGuest)
         {

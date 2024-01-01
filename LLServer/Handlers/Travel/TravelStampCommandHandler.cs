@@ -1,5 +1,5 @@
-﻿using LLServer.Database;
-using LLServer.Database.Models;
+﻿using LLServer.Database.Models;
+using LLServer.Database;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
