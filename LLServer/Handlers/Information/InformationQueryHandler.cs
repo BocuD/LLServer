@@ -1,12 +1,13 @@
 ﻿using LLServer.Event;
 using LLServer.Models.Information;
+using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using MediatR;
 
 // ReSharper disable UnusedType.Global
 namespace LLServer.Handlers.Information;
 
-public record InformationQuery(string BaseUrl) : IRequest<ResponseContainer>;
+public record InformationQuery(RequestBase request, string baseUrl) : BaseRequest(request);
 
 public class InformationQueryHandler : IRequestHandler<InformationQuery, ResponseContainer>
 {
@@ -21,69 +22,19 @@ public class InformationQueryHandler : IRequestHandler<InformationQuery, Respons
 
     public async Task<ResponseContainer> Handle(InformationQuery request, CancellationToken cancellationToken)
     {
+        bool isTerminal = request.request.Terminal.TerminalAttrib == 1;
+        
         var response = new ResponseContainer
         {
             Result = 200,
             Response = new InformationResponse
             {
-                BaseUrl = $"http://{request.BaseUrl}/info/",
+                BaseUrl = $"http://{request.baseUrl}/info/",
                 EncoreExpirationDate = (DateTime.Today + TimeSpan.FromDays(3650)).ToString("yyyy-MM-ddhh:mm:ss"),
                 MusicInformationItems = new List<MusicInformation>(),
-                ResourceInformationItems = new List<ResourceInformation>()
-                {
-                    new()
-                    {
-                        Category = 0,
-                        Enable = true,
-                        Hash = "0",
-                        Id = 1,
-                        Image = "info_770_1.jpg",
-                        ResourceId = "123",
-                        Title = "Test",
-                    },
-                    new()
-                    {
-                        Category = 0,
-                        Enable = true,
-                        Hash = "0",
-                        Id = 2,
-                        Image = "info_503_1.jpg",
-                        ResourceId = "420",
-                        Title = "Test",
-                    }
-                },
-                InformationItems = new List<Models.Information.Information>()
-                {
-                    new()
-                    {
-                        Category = 0,
-                        DisplayCenter = true,
-                        DisplaySatellite = true,
-                        Enable = true,
-                        StartDatetime = (DateTime.Now - TimeSpan.FromDays(3650)).ToString("yyyy-MM-ddhh:mm:ss"),
-                        EndDatetime = (DateTime.Now + TimeSpan.FromDays(3650)).ToString("yyyy-MM-ddhh:mm:ss"),
-                        Id = 1,
-                        Image = "info_770_1.jpg",
-                        Order = 0,
-                        Resource = "123",
-                        Title = "Test"
-                    },
-                    new()
-                    {
-                        Category = 0,
-                        DisplayCenter = true,
-                        DisplaySatellite = true,
-                        Enable = true,
-                        StartDatetime = (DateTime.Now - TimeSpan.FromDays(3650)).ToString("yyyy-MM-ddhh:mm:ss"),
-                        EndDatetime = (DateTime.Now + TimeSpan.FromDays(3650)).ToString("yyyy-MM-ddhh:mm:ss"),
-                        Id = 2,
-                        Image = "info_503_1.jpg",
-                        Order = 0,
-                        Resource = "420",
-                        Title = "Test"
-                    }
-                },
-                GachaInformation = new()
+                ResourceInformationItems = eventDataProvider.GetResourceInformation(),
+                InformationItems = eventDataProvider.GetInformation(isTerminal),
+                GachaInformation = new GachaInformation
                 {
                     GachaList = new List<GachaInformationItem>
                     {

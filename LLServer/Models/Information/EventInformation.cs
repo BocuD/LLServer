@@ -20,7 +20,7 @@ public class EventInformation
     public required int CharacterId { get; set; }
 
     [JsonPropertyName("point_mag")]
-    public required int PointMag { get; set; }
+    public required float PointMag { get; set; }
 
     [JsonPropertyName("m_travel_pamphlet_id")]
     public required int MemberTravelPamphletId { get; set; }

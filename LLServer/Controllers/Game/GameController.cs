@@ -82,7 +82,7 @@ public class GameController : BaseController<GameController>
                 //"authunlock"
                 "unlock" => await mediator.Send(new UnlockQuery()),
                 "gameconfig" => await mediator.Send(new GameConfigQuery()),
-                "information" => await mediator.Send(new InformationQuery(Request.Host.Value)),
+                "information" => await mediator.Send(new InformationQuery(request, Request.Host.Value)),
                 
                 "achievement" => await mediator.Send(new AchievementCommand(request)),
                 "achievementyell" => await mediator.Send(new AchievementYellCommand(request)),

@@ -7,8 +7,13 @@ public class InformationEntryBase
 {
     public string name { get; set; }
     
+    [NotMapped] public string startString { get => start.ToString("yyyy-MM-dd"); set => start = DateTime.Parse(value); }
+    [NotMapped] public string endString { get => end.ToString("yyyy-MM-dd"); set => end = DateTime.Parse(value); }
+    
     public DateTime start { get; set; }
     public DateTime end { get; set; }
+    
+    [NotMapped] public int dayCount { get => (end - start).Days; }
 
     [ForeignKey("resource")] public int resourceID { get; set; }
     public ResourceEntry resource { get; set; }
