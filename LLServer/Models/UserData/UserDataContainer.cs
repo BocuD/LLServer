@@ -2,6 +2,7 @@
 
 namespace LLServer.Models.UserData;
 
+/*
 [Obsolete("Old class that was used for testing, remains purely for the dummy data that is in here"), Serializable]
 public class UserDataContainer
 {
@@ -39,15 +40,15 @@ public class UserDataContainer
     public ScfesProfile ScfesProfile { get; set; } = new();
 
     //sif prints
-    public TravelData[]     Travels         { get; set; } = new TravelData[0];
-    public TravelPamphlet[] TravelPamphlets { get; set; } = new TravelPamphlet[0];
+    public TravelData[]        Travels         { get; set; } = new TravelData[0];
+    public TravelPamphlet[]    TravelPamphlets { get; set; } = new TravelPamphlet[0];
 
     //travel talks
-    public GachaStatus[] GachaStatus { get; set; } = new GachaStatus[0];
+    public GachaStatus[]       GachaStatus     { get; set; } = new GachaStatus[0];
 
-    //card frames
-    //snap frames
-    //snap stamps
+    public CardFrame[]         CardFrames        { get; set; } = new CardFrame[0];
+    public SnapFrame[]         SnapFrames        { get; set; } = new SnapFrame[0];
+    public SnapStamp[]         SnapStamps        { get; set; } = new SnapStamp[0];
     public NamePlate[]         NamePlates        { get; set; } = new NamePlate[0];
     public Badge[]             Badges            { get; set; } = new Badge[0];
     public EventStatus[]       EventStatus       { get; set; } = new EventStatus[0];
@@ -436,4 +437,4 @@ public class UserDataContainer
         },
         ActiveInformation = new ActiveInformation[0]
     };
-}
+}*/
