@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using LLServer.Common;
 using LLServer.Database;
 using LLServer.Event;
+using LLServer.Event.Database;
 using LLServer.Formatters;
 using LLServer.Middlewares;
 using LLServer.Session;
@@ -18,6 +19,7 @@ Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configurat
 Log.Information("Starting server...");
 
 builder.Host.UseSerilog();
+builder.Services.AddRazorPages();
 
 // Add services to the container.
 builder.Services.AddControllers(
@@ -42,14 +44,16 @@ builder.Services.AddHttpLogging(logging =>
     logging.RequestBodyLogLimit = 4096;
 });
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlite("DataSource=test.db3");
-    
-    var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.None));
-
-    options.UseLoggerFactory(loggerFactory);
 });
+builder.Services.AddDbContext<EventDbContext>(options =>
+{
+    options.UseSqlite("DataSource=events.db3");
+});
+
 builder.Services.AddScoped<SessionHandler>();
 builder.Services.AddScoped<EventDataProvider>();
 
@@ -58,7 +62,16 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    Log.Information("Migrating database...");
     db.Database.Migrate();
+    
+    var eventDb = scope.ServiceProvider.GetRequiredService<EventDbContext>();
+    Log.Information("Migrating event database...");
+    eventDb.Database.Migrate();
+    
+    var eventDataProvider = scope.ServiceProvider.GetRequiredService<EventDataProvider>();
+    Log.Information("Loading events...");
+    eventDataProvider.CacheEvents();
 }
 
 // Configure the HTTP request pipeline.

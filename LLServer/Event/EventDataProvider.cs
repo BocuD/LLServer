@@ -1,4 +1,6 @@
-﻿namespace LLServer.Event;
+﻿using LLServer.Event.Database;
+
+namespace LLServer.Event;
 
 interface IEventDataProvider
 {
@@ -7,22 +9,18 @@ interface IEventDataProvider
 
 public class EventDataProvider : IEventDataProvider
 {
-    static EventDataProvider()
-    {
-        //load all events
-        //load all event data
-        //load all event images
-        
-        //log a test message
-        Console.WriteLine("Static constructor called");
-    }
-    
     private readonly ILogger<EventDataProvider> logger;
+    private readonly EventDbContext eventDbContext;
 
-    public EventDataProvider(ILogger<EventDataProvider> logger)
+    public EventDataProvider(ILogger<EventDataProvider> logger, EventDbContext eventDbContext)
     {
         this.logger = logger;
-        
-        logger.LogInformation("EventDataProvider constructor called");
+        this.eventDbContext = eventDbContext;
+    }
+    
+    public void CacheEvents()
+    {
+        logger.LogInformation("Event count: {eventcount}", eventDbContext.Events.Count());
+        logger.LogInformation("Information count: {eventcount}", eventDbContext.Information.Count());
     }
 }
