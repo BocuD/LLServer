@@ -1,0 +1,98 @@
+﻿@model LLServer.Event.WebUI.OverviewModel
+
+@{
+    Layout = "../_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Event Data Editor</title>
+</head>
+<body>
+<div>
+    <h1>Event Data Editor</h1>
+
+    <h2>Resources</h2>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Path</th>
+            <th></th>
+        </tr>
+    
+        @foreach (var item in Model.resources)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.path)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditResource", "ResourceEditor" , new { item.id }, new { @class = "btn" })
+                    @Html.ActionLink("Delete", "DeleteResource", "ResourceEditor", new { item.id }, new { @class = "btn" })
+                </td>
+            </tr>
+        }
+    </table>
+    
+    <h2>Information</h2>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Resource</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Active Time</th>
+            <th>Display on center</th>
+            <th>Display on satellite</th>
+            <th></th>
+        </tr>
+        
+        @foreach (var item in Model.information)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.resource.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.startString)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.endString)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dayCount) <span> days</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayCenter)
+                    @if (item.DisplayCenter) { <span>Enabled</span> } else { <span>Disabled</span> }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplaySatellite)
+                    @if (item.DisplaySatellite) { <span>Enabled</span> } else { <span>Disabled</span> }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditInformation", "InformationEditor", new {item.id}, new { @class = "btn" })
+                    @Html.ActionLink("Delete", "DeleteInformation", "InformationEditor", new {item.id}, new { @class = "btn" })
+                </td>
+            </tr>
+        }
+    </table>
+    <br/>
+    @using (Html.BeginForm("CreateElement", "Overview", FormMethod.Post))
+        {
+            <button type="submit" name="submit" value="Create Event" class="nav-btn">Create Event</button>
+            <button type="submit" name="submit" value="Create Information" class="nav-btn">Create Information</button>
+            <button type="submit" name="submit" value="Create Resource" class="nav-btn">Create Resource</button>
+        }
+    
+</div>
+</body>
+</html>

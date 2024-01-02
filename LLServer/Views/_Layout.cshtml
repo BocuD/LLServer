@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="~/css/app.css" />
+    @RenderSection("styles", required: false)
+</head>
+<body>
+<div id="navbar">
+<div id="navbar-content">
+    <div id="navbar-links">
+        <a href="/Event/Overview" class="nav-btn">Overview</a>
+    </div>
+</div>
+</div>
+<div id="content">
+    @RenderBody()
+</div>
+</body>
+</html>

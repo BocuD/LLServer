@@ -1,0 +1,34 @@
+﻿@model LLServer.Event.Database.ResourceEntry
+@{
+    ViewBag.Title = "Edit";
+    Layout = "../_Layout.cshtml";
+}
+
+<h2>Editing Resource @Model.path</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <img src="@Model.path.Substring(Model.path.IndexOf("/info"))"/>
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "")
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.name)
+            @Html.EditorFor(model => model.name)
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn"/>
+        </div>
+    </div>
+    
+    <div>Resource used by: @ViewBag.ResourceReferences</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Overview", null, new { @class = "btn" })
+</div>
