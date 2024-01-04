@@ -446,3 +446,5 @@ FodyWeavers.xsd
 # Ignore image files hosted in wwwroot
 wwwroot/info/*
 wwwroot/card/*
+wwwroot/icons/*
+uploadedlogs/*
