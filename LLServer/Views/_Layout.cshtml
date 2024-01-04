@@ -4,17 +4,21 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="~/css/app.css" />
     @RenderSection("styles", required: false)
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div id="navbar">
 <div id="navbar-content">
     <div id="navbar-links">
-        <a href="/Event/Overview" class="nav-btn">Overview</a>
+        <a href="/Event/Overview" class="nav-btn">Event Editor</a>
+        <a href="/Gacha/Overview" class="nav-btn">Gacha Tables</a>
+        <a href="/Gacha/Overview/Cards" class="nav-btn">Gacha Cards</a>
     </div>
 </div>
 </div>
 <div id="content">
     @RenderBody()
+    @RenderSection("scripts", false)
 </div>
 </body>
 </html>

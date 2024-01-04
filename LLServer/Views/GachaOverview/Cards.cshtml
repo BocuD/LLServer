@@ -1,0 +1,45 @@
+﻿@model LLServer.Gacha.WebUI.GachaCardsModel
+
+@{
+    Layout = "../_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Gacha Card Editor</title>
+</head>
+<body>
+<div>
+    <h2>Card Groups</h2>
+        @Html.Partial("_GachaCardGroupList", Model.gachaCardGroups)
+    <br/>
+    
+    <div>
+        @Html.ActionLink("Add New Group", "EditGroup", "GachaGroupEditor", new { id = -1 }, new { @class = "btn" })
+    </div>
+        
+    
+    <h2>Member Cards</h2>
+        @Html.Partial("_GachaCardList", Model.memberCards)
+    
+    <br/>
+    
+    <h2>Skill Cards</h2>
+        @Html.Partial("_GachaCardList", Model.skillCards)
+    
+    <br/>
+    
+    <h2>Memorial Cards</h2>
+        @Html.Partial("_GachaCardList", Model.memorialCards)
+    
+    <br/>
+
+    <div>
+        @Html.ActionLink("Run Card Scanner", "ScanCards", "GachaOverview", null, new { @class = "btn" })
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,15 +1,15 @@
-﻿@model LLServer.Event.Database.ResourceEntry
+﻿@model LLServer.Gacha.Database.GachaCard
 @{
     ViewBag.Title = "Edit";
     Layout = "../_Layout.cshtml";
 }
 
-<h2>Editing Resource @Model.path</h2>
+<h2>Editing Gacha Card @Model.name</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "")
         @Html.HiddenFor(model => model.id)
@@ -17,6 +17,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.name)
             @Html.EditorFor(model => model.name)
+            <br/>
+            
         </div>
 
         <div class="form-group">
@@ -24,11 +26,9 @@
         </div>
     </div>
     
-    <div>Resource used by: @ViewBag.ResourceReferences</div>
-                                                      
-    <img src="@Model.path.Substring(Model.path.IndexOf("/info"))"/>
+    @Html.Raw(Model.GetCardImages())
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", "EventOverview", null, new { @class = "btn" })
+    @Html.ActionLink("Back to List", "Cards", "GachaOverview", null, new { @class = "btn" })
 </div>

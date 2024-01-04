@@ -1,0 +1,150 @@
+﻿@model LLServer.Gacha.Database.GachaCardGroup
+
+@{
+    Layout = "../_Layout.cshtml";
+}
+
+<style>
+.cardIdRow {
+   display: flex;
+   align-items: center;
+}
+
+.cardIdInput {
+   margin-right: 10px;
+}
+</style>
+
+
+<div style="display: flex;">
+    <div style="flex: 1;">
+        
+        <h2>Editing Card Group @Model.name</h2>
+        
+        @using (Html.BeginForm("EditGroup", "GachaGroupEditor", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+        
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "")
+                @Html.HiddenFor(model => model.id)
+                
+                @Html.LabelFor(model => model.name)
+                @Html.EditorFor(model => model.name)
+        
+                <div class="form-group">
+                    @Html.LabelFor(model => model.cardIds, "Cards")
+                    <div id="cardIdsContainer">
+                        @for (int i = 0; i < Model.cardIds.Length; i++)
+                        {
+                            <div class="cardIdRow">
+                                @Html.DropDownListFor(model => model.cardIds[i], ViewBag.cardIdNamePairs as SelectList, new { @class = "cardIdInput" })
+                                <button type="button" class="removeCardIdBtn">Remove</button>
+                            </div>
+                        }
+                    </div>
+                    <button type="button" id="addCardIdBtn">Add Card ID</button>
+                </div>
+                
+                <br/>
+                
+                @Html.HiddenFor(model => model.id)
+        
+                <div class="form-group">
+                    <input type="submit" value="Save" class="nav-btn"/>
+                </div>
+            </div>
+        }
+        
+        
+        
+        
+    </div>
+    <div style="flex: 1;">
+        <h2>All Cards</h2>
+        <span>Click a card to add it to the group</span>
+        <div id="allCardsContainer">
+            @foreach (var pair in ViewBag.cardIdNamePairs)
+            {
+                <div class="cardRow">
+                    <button type="button" class="addCardBtn" data-card-id="@pair.Value">
+                        <img src="@GetCardImage(pair.Value)" alt="@pair.Text" />
+                    </button>
+                    <br/>
+                    <span>@pair.Text</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@functions
+{
+    public string GetCardImage(string cardId)
+    {
+        return ViewBag.cardIdToImage[cardId];
+    }
+}
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var cardIdNamePairs = @Html.Raw(Json.Serialize(ViewBag.cardIdNamePairs));
+            var cardIdCount = @Model.cardIds.Length; // Get the initial count from the server
+            
+            // Add Card ID button click event
+            $("#addCardIdBtn").click(function () {
+                var select = $('<select class="cardIdInput" id="cardIds_' + cardIdCount + '_" name="cardIds[' + cardIdCount + ']" ></select>');
+                for(var i = 0; i < cardIdNamePairs.length; i++) {
+                    select.append('<option value="' + cardIdNamePairs[i].value + '">' + cardIdNamePairs[i].text + '</option>');
+                }
+                var newRow = $('<div class="cardIdRow"></div>').append(select).append('<button type="button" class="removeCardIdBtn">Remove</button>');
+                $("#cardIdsContainer").append(newRow);
+                cardIdCount++; // Increment the count each time you add a dropdown
+            });
+            
+            // Add Card button click event for all cards
+            $(".addCardBtn").click(function () {
+                var cardId = $(this).data("card-id");
+                addCardId(cardId);
+            });
+            
+            function addCardId(cardId) {
+                //check if cardId is already in the list
+                var cardIdInputs = $(".cardIdInput");
+                for(var i = 0; i < cardIdInputs.length; i++) {
+                    if (cardIdInputs[i].value == cardId) {
+                        return;
+                    }
+                }
+                
+                var select = $('<select class="cardIdInput" id="cardIds_' + cardIdCount + '_" name="cardIds[' + cardIdCount + ']" ></select>');
+                for(var i = 0; i < cardIdNamePairs.length; i++) {
+                    var option = $('<option value="' + cardIdNamePairs[i].value + '">' + cardIdNamePairs[i].text + '</option>');
+                    if (cardIdNamePairs[i].value == cardId) {
+                        option.prop("selected", true);
+                    }
+                    select.append(option);
+                }
+                var newRow = $('<div class="cardIdRow"></div>').append(select).append('<button type="button" class="removeCardIdBtn">Remove</button>');
+                $("#cardIdsContainer").append(newRow);
+                cardIdCount++; // Increment the count each time you add a dropdown
+            }
+            
+            // Remove Card ID button click event
+            $(document).on("click", ".removeCardIdBtn", function () {
+                $(this).closest(".cardIdRow").remove();
+                
+                // Re-number the cardIds
+                var cardIdInputs = $(".cardIdInput");
+                for(var i = 0; i < cardIdInputs.length; i++) {
+                    cardIdInputs[i].id = "cardIds_" + i + "_";
+                    cardIdInputs[i].name = "cardIds[" + i + "]";
+                }
+            });
+
+        });
+    </script>
+}

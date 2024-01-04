@@ -1,0 +1,13 @@
+﻿@model bool[]
+
+<div class="icon-row-small">
+    @for (int i = 1; i <= Model.Length - 1; i++)
+    {
+        @if (Model[i])
+        {
+            <div class="icon-container">
+                <img src="@Url.Content("~/icons/" + i + ".png")" alt="Icon @i" class="icon-small"/>
+            </div>
+        }
+    }
+</div>

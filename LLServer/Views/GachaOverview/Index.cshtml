@@ -1,0 +1,71 @@
+﻿@using LLServer.Common
+@model LLServer.Gacha.WebUI.GachaOverviewModel
+
+@{
+    Layout = "../_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Gacha Data Editor</title>
+</head>
+<body>
+<div>
+    <h1>Gacha Data Editor</h1>
+
+    <h2>Gacha Tables</h2>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Is valid</th>
+            <th>Card count</th>
+            <th>Character IDs</th>
+            <th>Total access count</th>
+            <th></th>
+        </tr>
+    
+        @foreach (var item in Model.gachaTables.OrderBy(x => x.id, new NumberedStringComparer()))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isValid)
+                </td>
+                <td>
+                    <span>@(item.cardIds.Length > 0 ? item.cardIds.Length : "none")</span>
+                </td>
+                <td>
+                    @Html.Partial("_CharacterIconView", item.characterIdBools)
+                </td>
+                <td>
+                    <span>@(item.metaData.count.Sum() > 0 ? item.metaData.count.Sum() : "None")</span>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditTable", "GachaTableEditor" , new { item.id }, new { @class = "btn" })
+                    @Html.ActionLink("Delete", "DeleteTable", "GachaTableEditor", new { item.id }, new { @class = "btn" })
+                </td>
+            </tr>
+        }
+    </table>
+    
+    <div>
+        @Html.ActionLink("Rescan Logs", "RescanLogs", "GachaOverview", null, new { @class = "btn" })
+    </div>
+    
+    <div>
+        @Html.ActionLink("Add New Table", "EditTable", "GachaTableEditor", new { id = "new" }, new { @class = "btn" })
+    </div>
+    
+    <br/>
+    
+    <div>
+        @Html.ActionLink("Upload Log File", "UploadLog", "GachaOverview", null, new { @class = "btn" })
+    </div>
+    
+</div>
+</body>
+</html>

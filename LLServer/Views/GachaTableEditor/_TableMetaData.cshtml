@@ -1,0 +1,23 @@
+﻿@model LLServer.Gacha.Database.GachaTableMetaData
+
+<table class="table">
+    <tr>
+        <th>Map Id</th>
+        <th>Access Count</th>
+    </tr>
+    
+    @Html.LabelFor(modelItem => Model.characterIds, "Character IDs")
+    @Html.DisplayFor(modelItem => Model.characterIds)
+
+    @for (int index = 0; index < Model.pamphletIds.Count; index++)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.pamphletIds[index])
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.count[index])
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,39 @@
+﻿@model bool[]
+
+<div class="idol-icon-row">
+    @for (int i = 1; i <= Model.Length - 1; i++)
+    {
+        bool isEnabled = Model[i];
+        <div class="icon-container">
+            <img src="@Url.Content("~/icons/" + i + ".png")" alt="Icon @i" class="@(isEnabled ? "idol-icon-enabled" : "idol-icon-disabled")" data-icon-id="@i" />
+            <input name="characterIdBools[@i]" type="hidden" id="characterIdBools_@(i)_" value="@isEnabled.ToString().ToLower()" class="icon-input" data-icon-id="@i" />
+        </div>
+    
+        if (i % 10 == 9)
+        {
+            @:</div><div class="idol-icon-row">
+        
+            //this is a hack to skip the 0th icon
+            i++;
+        }
+    }
+</div>
+
+#this is a hack that for some reason makes things work...?
+@for (int i = 0; i < Model.Length; i++)
+{
+    <input name="characterIdBools[@i]" type="hidden" value="false" />
+}
+
+<script>
+    $(document).ready(function () {
+        $('.idol-icon-enabled, .idol-icon-disabled').click(function () {
+            var iconId = $(this).data('icon-id');
+            var input = $('.icon-input[data-icon-id="' + iconId + '"]');
+            var isEnabled = input.val() === "true";
+            input.val(!isEnabled);
+            $(this).toggleClass('idol-icon-enabled idol-icon-disabled');
+            console.log(input.val());
+        });
+    });
+</script>

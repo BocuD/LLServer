@@ -1,4 +1,4 @@
-﻿@model LLServer.Event.WebUI.OverviewModel
+﻿@model LLServer.Event.WebUI.EventOverviewModel
 
 @{
     Layout = "../_Layout.cshtml";
@@ -86,7 +86,7 @@
         }
     </table>
     <br/>
-    @using (Html.BeginForm("CreateElement", "Overview", FormMethod.Post))
+    @using (Html.BeginForm("CreateElement", "EventOverview", FormMethod.Post))
         {
             <button type="submit" name="submit" value="Create Event" class="nav-btn">Create Event</button>
             <button type="submit" name="submit" value="Create Information" class="nav-btn">Create Information</button>

@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "../_Layout.cshtml";
+}
+
+<h2>Upload Log File</h2>
+
+@using (Html.BeginForm("UploadLog", "GachaOverview", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="logFile" />
+    <input type="submit" value="Upload" />
+}
+
+<h2>Upload Folder</h2>
+
+@using (Html.BeginForm("UploadFolder", "GachaOverview", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="folder" directory="" webkitdirectory="" mozdirectory="" />
+    <input type="submit" value="Upload" />
+}

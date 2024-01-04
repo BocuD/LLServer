@@ -22,11 +22,6 @@ function setToday(id) {
 {
     @Html.AntiForgeryToken()
 
-    @if (Model.resource != null)
-    {
-        <img src="@Model.resource.path.Substring(Model.resource.path.IndexOf("/info"))"/>
-    }
-
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "")
         @Html.HiddenFor(model => model.id)
@@ -57,8 +52,13 @@ function setToday(id) {
             <input type="submit" value="Save" class="btn"/>
         </div>
     </div>
+    
+    @if (Model.resource != null)
+    {
+        <img src="@Model.resource.path.Substring(Model.resource.path.IndexOf("/info"))"/>
+    }
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", "Overview", null, new { @class = "btn" })
+    @Html.ActionLink("Back to List", "Index", "EventOverview", null, new { @class = "btn" })
 </div>
