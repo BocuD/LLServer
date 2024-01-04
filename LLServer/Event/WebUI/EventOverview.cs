@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LLServer.Event.WebUI;
 
 //model for the event editor page
-public class OverviewModel
+public class EventOverviewModel
 {
     public ResourceEntry[] resources { get; set; }
     public InformationEntry[] information { get; set; }
@@ -12,11 +12,11 @@ public class OverviewModel
 }
 
 [Route("Event/Overview")]
-public class OverviewController : Controller
+public class EventOverviewController : Controller
 {
     private readonly EventDbContext eventDbContext;
 
-    public OverviewController(EventDbContext eventDbContext)
+    public EventOverviewController(EventDbContext eventDbContext)
     {
         this.eventDbContext = eventDbContext;
     }
@@ -24,7 +24,7 @@ public class OverviewController : Controller
     [HttpGet]
     public ActionResult Index()
     {
-        OverviewModel model = new()
+        EventOverviewModel model = new()
         {
             resources = eventDbContext.Resources.ToArray(),
             information = eventDbContext.Information.ToArray(),

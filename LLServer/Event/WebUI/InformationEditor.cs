@@ -92,7 +92,7 @@ public class InformationEditor : Controller
             throw;
         }
 
-        return RedirectToAction("Index", "Overview");
+        return RedirectToAction("Index", "EventOverview");
     }
 
     [HttpGet("DeleteInformation")]
@@ -107,6 +107,6 @@ public class InformationEditor : Controller
         eventDbContext.Information.Remove(entry);
         eventDbContext.SaveChanges();
         
-        return RedirectToAction("Index", "Overview");
+        return RedirectToAction("Index", "EventOverview");
     }
 }

@@ -99,7 +99,7 @@ public class ResourceEditor : Controller
             throw;
         }
 
-        return RedirectToAction("Index", "Overview");
+        return RedirectToAction("Index", "EventOverview");
     }
 
     [HttpGet("DeleteResource")]
@@ -114,6 +114,6 @@ public class ResourceEditor : Controller
         eventDbContext.Resources.Remove(entry);
         eventDbContext.SaveChanges();
         
-        return RedirectToAction("Index", "Overview");
+        return RedirectToAction("Index", "EventOverview");
     }
 }

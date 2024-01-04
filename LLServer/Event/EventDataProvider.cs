@@ -3,12 +3,7 @@ using LLServer.Models.Information;
 
 namespace LLServer.Event;
 
-interface IEventDataProvider
-{
-    
-}
-
-public class EventDataProvider : IEventDataProvider
+public class EventDataProvider
 {
     private readonly ILogger<EventDataProvider> logger;
     private readonly EventDbContext eventDbContext;
