@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using LLServer.Database;
+using LLServer.Gacha;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
@@ -95,10 +96,13 @@ public record TravelResultCommand(RequestBase request) : BaseRequest(request);
 
 public class TravelResultCommandHandler : ParamHandler<TravelResultParam, TravelResultCommand>
 {
+    private readonly GachaDataProvider gachaDataProvider;
+    
     public TravelResultCommandHandler(ApplicationDbContext dbContext,
-        ILogger<ParamHandler<TravelResultParam, TravelResultCommand>> logger, SessionHandler sessionHandler) : base(
+        ILogger<ParamHandler<TravelResultParam, TravelResultCommand>> logger, SessionHandler sessionHandler, GachaDataProvider gachaDataProvider) : base(
         dbContext, logger, sessionHandler)
     {
+        this.gachaDataProvider = gachaDataProvider;
     }
 
     protected override async Task<ResponseContainer> HandleRequest(TravelResultParam travelResult, CancellationToken cancellationToken)
@@ -363,7 +367,6 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             travelData.Modified = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
         
-
         //clear history above 100 entries per idol kind
         int historyCount = container.TravelHistory.Count(x => x.IdolKind == container.UserData.IdolKind);
         if (historyCount > 100)
@@ -402,7 +405,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         //build mailbox
         List<GetCardData> getCardDatas = new();
 
-        void AddMailBoxCard(int attribute, int category, int count, int itemId, int location)
+        void AddMailBoxCard(int attribute, MailboxItemCategory category, int count, int itemId, int location)
         {
             //add entry to getcarddata
             getCardDatas.Add(new GetCardData
@@ -415,7 +418,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
             container.MailBox.Add(new MailBoxItem
             {
                 Attrib = attribute,
-                Category = category,
+                Category = (int)category,
                 Count = count,
                 Id = (container.MailBox.Count + 1).ToString(),
                 ItemId = itemId
@@ -428,35 +431,24 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         foreach (GetMemorialCard memorialCard in travelResult.GetMemorialCards)
         {
             //category 6 for memorialcards
-            AddMailBoxCard(0, 6, 1, memorialCard.MemorialCardId, memorialCard.Location);
+            AddMailBoxCard(0, MailboxItemCategory.MemorialCard, 1, memorialCard.MemorialCardId, memorialCard.Location);
         }
 
         //handle earned skill cards
         foreach (GetSkillCard skillCard in travelResult.GetSkillCards)
         {
             //category 2 for skill cards
-            AddMailBoxCard(0, 2, 1, skillCard.SkillCardId, skillCard.Location);
+            AddMailBoxCard(0, MailboxItemCategory.SkillCard, 1, skillCard.SkillCardId, skillCard.Location);
         }
 
         //handle lot gachas
         foreach (LotGacha gacha in travelResult.LotGachas)
         {
-            for (int i = 0; i < gacha.CardCount; i++)
+            GachaResult[] gachaResult = gachaDataProvider.GetGachaResult(gacha.GachaId, gacha.CardCount);
+
+            foreach (GachaResult r in gachaResult)
             {
-                // getCardDatas.Add(new GetCardData
-                // {
-                //     Location = gacha.Location,
-                //     MailBoxId = mailBoxItems.Count.ToString()
-                // });
-                //
-                // mailBoxItems.Add(new MailBoxItem
-                // {
-                //     Attrib = num,
-                //     Category = num,
-                //     Count = 1,
-                //     Id = mailBoxItems.Count.ToString(),
-                //     ItemId = 4306 + mailBoxItems.Count
-                // });
+                AddMailBoxCard(0, r.category, 1, r.itemId, gacha.Location);
             }
         }
 

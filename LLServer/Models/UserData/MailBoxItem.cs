@@ -29,3 +29,10 @@ public class MailBoxItem
     [JsonIgnore, ForeignKey("User")] public ulong UserID { get; set; }
     [JsonIgnore] public User? User { get; set; }
 }
+
+public enum MailboxItemCategory
+{
+    MemberCard = 1,
+    SkillCard = 2,
+    MemorialCard = 6
+}

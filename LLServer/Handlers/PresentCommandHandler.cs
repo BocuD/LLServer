@@ -54,7 +54,7 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
 
         switch (mailBoxItem.Category)
         {
-            case 1: //member card
+            case (int)MailboxItemCategory.MemberCard:
                 //add the card to the database
                 MemberCardData? memberCardData =
                     container.MemberCards.FirstOrDefault(m => m.CardMemberId == mailBoxItem.ItemId);
@@ -74,7 +74,7 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
                 }
                 break;
                 
-            case 2: //skill card
+            case (int)MailboxItemCategory.SkillCard:
                 if(param.Sell == 1)
                 {
                     //todo give mobile points :P
@@ -99,7 +99,7 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
                 }
                 break;
                 
-            case 6: //seems to be memorial card
+            case (int)MailboxItemCategory.MemorialCard:
                 //add the card to the database
                 MemorialCardData? memorialCardData = container.MemorialCards.FirstOrDefault(m => m.CardMemorialId == mailBoxItem.ItemId);
 
@@ -116,10 +116,6 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
                 {
                     memorialCardData.Count++;
                 }
-                break;
-                
-            case 4: //seems to be item
-                //todo test and maybe implement this
                 break;
         }
 
