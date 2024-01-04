@@ -4,6 +4,8 @@ using LLServer.Database;
 using LLServer.Event;
 using LLServer.Event.Database;
 using LLServer.Formatters;
+using LLServer.Gacha;
+using LLServer.Gacha.Database;
 using LLServer.Middlewares;
 using LLServer.Session;
 using Microsoft.AspNetCore.HttpLogging;
@@ -45,6 +47,7 @@ builder.Services.AddHttpLogging(logging =>
 });
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
 
+//load databases
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlite("DataSource=test.db3");
@@ -53,17 +56,22 @@ builder.Services.AddDbContext<EventDbContext>(options =>
 {
     options.UseSqlite("DataSource=events.db3");
 });
+builder.Services.AddDbContext<GachaDbContext>(options =>
+{
+    options.UseSqlite("DataSource=gacha.db3");
+});
 
 builder.Services.AddScoped<SessionHandler>();
 builder.Services.AddScoped<EventDataProvider>();
+builder.Services.AddScoped<GachaDataProvider>();
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    Log.Information("Migrating database...");
-    db.Database.Migrate();
+    var userDb = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    Log.Information("Migrating user database...");
+    userDb.Database.Migrate();
     
     var eventDb = scope.ServiceProvider.GetRequiredService<EventDbContext>();
     Log.Information("Migrating event database...");
@@ -72,6 +80,10 @@ using (var scope = app.Services.CreateScope())
     var eventDataProvider = scope.ServiceProvider.GetRequiredService<EventDataProvider>();
     Log.Information("Loading events...");
     eventDataProvider.CacheEvents();
+    
+    var gachaDb = scope.ServiceProvider.GetRequiredService<GachaDbContext>();
+    Log.Information("Migrating gacha database...");
+    gachaDb.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
@@ -89,6 +101,13 @@ app.UseWhen(context => context.Request.Path.StartsWithSegments("/game"),
 //Log unhandled requests
 app.Use(async (context, next) =>
 {
+    // //prevent requests from outside local network
+    // if (context.Connection.RemoteIpAddress != null && !context.Connection.RemoteIpAddress.ToString().Contains("192.168.178.1"))
+    // {
+    //     context.Response.StatusCode = 403;
+    //     return;
+    // }
+    
     await next();
     
     if (context.Response.StatusCode >= 400)
@@ -98,7 +117,7 @@ app.Use(async (context, next) =>
     }
     else
     {
-        Log.Information($"Handled request: {context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode}");
+        Log.Information($"Handled request: {context.Request.Method} {context.Request.Path} returned {context.Response.StatusCode} from: {context.Connection.RemoteIpAddress}");
     }
 });
 
