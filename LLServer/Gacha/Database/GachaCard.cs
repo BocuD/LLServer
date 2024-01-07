@@ -105,13 +105,13 @@ public class GachaCard
         switch (cardType)
         {
             case CardType.Member:
-                output = $"{characterId}{GetTrimmedCardID(id, cardType)}{rarityId}";
+                output = $"{characterId}{id.Substring(1)}{rarityId}";
                 break;
             
             case CardType.Skill:
             case CardType.Memorial:
             default:
-                output = $"{characterId}{GetTrimmedCardID(id, cardType)}";
+                output = $"{characterId}{id.Substring(2)}";
                 break;
         }
         

@@ -94,10 +94,12 @@ public class GachaDataProvider
             }
         }
         
-        GachaResult[] gachaResults = new GachaResult[gachaCardCount];
-        
-        foreach (GachaResult gachaResult in gachaResults)
+        List<GachaResult> gachaResults = new();
+
+        for (int index = 0; index < gachaCardCount; index++)
         {
+            GachaResult result = new();
+            
             //get random card
             GachaCard card = cards[new Random().Next(cards.Count)];
 
@@ -110,7 +112,7 @@ public class GachaDataProvider
                     matchedIDs.Add(characterId);
                 }
             }
-            
+
             //get a random character id from the matched ids
             int finalCharacterID = matchedIDs[new Random().Next(matchedIDs.Count)];
 
@@ -118,17 +120,19 @@ public class GachaDataProvider
             {
                 //get random rarity
                 int rarity = card.rarityIds[new Random().Next(card.rarityIds.Length)];
-                gachaResult.itemId = card.GetGameCardID(finalCharacterID, rarity);
+                result.itemId = card.GetGameCardID(finalCharacterID, rarity);
             }
             else
             {
-                gachaResult.itemId = card.GetGameCardID(finalCharacterID);
+                result.itemId = card.GetGameCardID(finalCharacterID);
             }
 
-            gachaResult.category = (MailboxItemCategory)(int)card.cardType;
+            result.category = (MailboxItemCategory)(int)card.cardType;
+            
+            gachaResults.Add(result);
         }
 
-        return gachaResults;
+        return gachaResults.ToArray();
     }
 
     public void ScanCards()
