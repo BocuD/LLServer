@@ -35,7 +35,7 @@
                     @Html.DisplayFor(modelItem => item.id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.isValid)
+                    @Html.EditorFor(modelItem => item.isValid)
                 </td>
                 <td>
                     <span>@(item.cardIds.Length > 0 ? GetCardNames(item.cardIds) : "none")</span>
