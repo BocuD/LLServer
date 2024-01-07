@@ -56,18 +56,6 @@ public class GachaTable
     
     public string[] cardIds { get; set; }
 
-    public GachaResult[] GetGachaResult(int gachaCardCount)
-    {
-        GachaResult[] gachaResults = new GachaResult[gachaCardCount];
-        
-        foreach (GachaResult gachaResult in gachaResults)
-        {
-            //TODO: implement gacha logic
-        }
-
-        return gachaResults;
-    }
-
     public string GachaTableMetaData
     {
         get => JsonSerializer.Serialize(metaData);

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using LLServer.Gacha.Database;
 using LLServer.Models.Requests.Travel;
+using LLServer.Models.UserData;
 
 namespace LLServer.Gacha;
 
@@ -37,7 +38,97 @@ public class GachaDataProvider
             return Array.Empty<GachaResult>();
         }
         
-        return gachaTable.GetGachaResult(gachaCardCount);
+        return GetGachaResult(gachaTable, gachaCardCount);
+    }
+    
+    public GachaResult[] GetGachaResult(GachaTable gachaTable, int gachaCardCount)
+    {
+        //load cards and card groups from database
+        List<GachaCard> cards = new();
+
+        void AddCard(GachaCard card)
+        {
+            //add the card if at least one of the gacha table character ids is in the card character ids
+            if (card.characterIds.Any(c => gachaTable.characterIds.Contains(c)))
+            {
+                cards.Add(card);
+            }
+        }
+        
+        //add unique cards
+        foreach (string cardId in gachaTable.cardIds)
+        {
+            GachaCard? card = gachaDbContext.GachaCards.Find(cardId);
+
+            if (card == null)
+            {
+                logger.LogWarning("Failed to find card with id {CardId}", cardId);
+                continue;
+            }
+
+            AddCard(card);
+        }
+        
+        //add cards from card groups
+        foreach (int cardGroupId in gachaTable.cardGroupIds)
+        {
+            GachaCardGroup? cardGroup = gachaDbContext.GachaCardGroups.Find(cardGroupId);
+
+            if (cardGroup == null)
+            {
+                logger.LogWarning("Failed to find card group with id {CardGroupId}", cardGroupId);
+                continue;
+            }
+
+            foreach (string cardId in cardGroup.cardIds)
+            {
+                GachaCard? card = gachaDbContext.GachaCards.Find(cardId);
+
+                if (card == null)
+                {
+                    logger.LogWarning("Failed to find card with id {CardId}", cardId);
+                    continue;
+                }
+
+                AddCard(card);
+            }
+        }
+        
+        GachaResult[] gachaResults = new GachaResult[gachaCardCount];
+        
+        foreach (GachaResult gachaResult in gachaResults)
+        {
+            //get random card
+            GachaCard card = cards[new Random().Next(cards.Count)];
+
+            //get random character id that is in the gacha table and the card
+            List<int> matchedIDs = new();
+            foreach (int characterId in gachaTable.characterIds)
+            {
+                if (card.characterIds.Contains(characterId))
+                {
+                    matchedIDs.Add(characterId);
+                }
+            }
+            
+            //get a random character id from the matched ids
+            int finalCharacterID = matchedIDs[new Random().Next(matchedIDs.Count)];
+
+            if (card.cardType == CardType.Member)
+            {
+                //get random rarity
+                int rarity = card.rarityIds[new Random().Next(card.rarityIds.Length)];
+                gachaResult.itemId = card.GetGameCardID(finalCharacterID, rarity);
+            }
+            else
+            {
+                gachaResult.itemId = card.GetGameCardID(finalCharacterID);
+            }
+
+            gachaResult.category = (MailboxItemCategory)(int)card.cardType;
+        }
+
+        return gachaResults;
     }
 
     public void ScanCards()

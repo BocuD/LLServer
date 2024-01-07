@@ -98,6 +98,26 @@ public class GachaCard
         return idolKind + output;
     }
 
+    public int GetGameCardID(int characterId, int rarityId = 0)
+    {
+        string output;
+        
+        switch (cardType)
+        {
+            case CardType.Member:
+                output = $"{characterId}{GetTrimmedCardID(id, cardType)}{rarityId}";
+                break;
+            
+            case CardType.Skill:
+            case CardType.Memorial:
+            default:
+                output = $"{characterId}{GetTrimmedCardID(id, cardType)}";
+                break;
+        }
+        
+        return int.Parse(output);
+    }
+    
     public static int GetCharacterID(string cardId, CardType cardType)
     {
         switch (cardType)
