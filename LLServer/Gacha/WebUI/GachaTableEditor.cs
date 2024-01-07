@@ -46,13 +46,50 @@ public class GachaTableEditor : Controller
         {
             return NotFound();
         }
+        
+        table.newName = table.id;
 
         var cardIdNamePairs = await gachaDbContext.GachaCards
             .Select(c => new { c.id, c.name })
             .ToListAsync();
         ViewBag.cardIdNamePairs = new SelectList(cardIdNamePairs, "id", "name");
 
-        table.newName = table.id;
+        var cardGroupNamePairs = await gachaDbContext.GachaCardGroups
+            .Select(g => new { g.id, g.name })
+            .ToListAsync();
+        ViewBag.cardGroupNamePairs = new SelectList(cardGroupNamePairs, "id", "name");
+
+        Dictionary<string, string> cardIdToImage = gachaDbContext.GachaCards
+            .ToDictionary(card => card.id, card => card.GetCardImage());
+
+        ViewBag.cardIdToImage = cardIdToImage;
+
+        var cardGroupImages = gachaDbContext.GachaCardGroups
+            .ToDictionary(group => group.id, group =>
+            {
+                List<string> images = new();
+                for (int index = 0; index < 6; index++)
+                {
+                    if (index > group.cardIds.Length - 1)
+                    {
+                        images.Add("/card/fallback.png");
+                    }
+                    else
+                    {
+                        string cardId = group.cardIds[index];
+                        images.Add(cardIdToImage[cardId]);
+                    }
+                }
+
+                return images;
+            });
+
+        ViewBag.cardGroupImages = cardGroupImages;
+
+        var cardGroupNames = gachaDbContext.GachaCardGroups
+            .ToDictionary(group => group.id, group => group.name);
+        
+        ViewBag.cardGroupNames = cardGroupNames;
 
         return View("EditGachaTable", table);
     }
@@ -75,6 +112,7 @@ public class GachaTableEditor : Controller
             entry.characterIdBools = gachaTable.characterIdBools;
             entry.maxRarity = gachaTable.maxRarity;
             entry.cardIds = gachaTable.cardIds;
+            entry.cardGroupIds = gachaTable.cardGroupIds;
             
             if (gachaTable.newName != gachaTable.id)
             {

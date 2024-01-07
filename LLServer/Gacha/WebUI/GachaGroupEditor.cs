@@ -47,13 +47,9 @@ public class GachaGroupEditor : Controller
             .ToListAsync();
         ViewBag.cardIdNamePairs = new SelectList(cardIdNamePairs, "id", "name");
         
-        Dictionary<string, string> cardIdToImage = new();
-        
-        foreach (GachaCard card in gachaDbContext.GachaCards)
-        {
-            cardIdToImage.Add(card.id, card.GetCardImage());
-        }
-        
+        Dictionary<string, string> cardIdToImage = gachaDbContext.GachaCards
+            .ToDictionary(card => card.id, card => card.GetCardImage());
+
         ViewBag.cardIdToImage = cardIdToImage;
 
         return View("EditCardGroup", group);

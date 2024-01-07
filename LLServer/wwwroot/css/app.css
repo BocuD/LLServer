@@ -125,7 +125,7 @@ td
 #allCardsContainer {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 0px; /* Adjust as needed */
+    gap: 0px;
 }
 
 .cardRow {
@@ -162,6 +162,47 @@ td
     background: none;
     cursor: pointer;
 }
+
+
+
+#allCardGroupsContainer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0px;
+}
+
+.cardGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px;
+    transition: transform 0.3s;
+}
+
+.cardGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.cardGroup span {
+    flex: 1;
+    text-align: center;
+}
+
+.cardGroup img {
+    max-width: 200px;
+    max-height: 300px;
+}
+
+.cardGroup span {
+    flex: 1;
+    text-align: center;
+}
+
 
 @keyframes clicked {
     0% {

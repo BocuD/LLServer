@@ -21,6 +21,7 @@
             <th>Id</th>
             <th>Is valid</th>
             <th>Card count</th>
+            <th>Card group count</th>
             <th>Character IDs</th>
             <th>Total access count</th>
             <th></th>
@@ -37,6 +38,9 @@
                 </td>
                 <td>
                     <span>@(item.cardIds.Length > 0 ? item.cardIds.Length : "none")</span>
+                </td>
+                <td>
+                    <span>@(item.cardGroupIds.Length > 0 ? item.cardGroupIds.Length : "none")</span>
                 </td>
                 <td>
                     @Html.Partial("_CharacterIconView", item.characterIdBools)

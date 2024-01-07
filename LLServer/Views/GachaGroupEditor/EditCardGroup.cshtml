@@ -60,6 +60,7 @@
         
         
     </div>
+    
     <div style="flex: 1;">
         <h2>All Cards</h2>
         <span>Click a card to add it to the group</span>
@@ -130,21 +131,22 @@
                 }
                 var newRow = $('<div class="cardIdRow"></div>').append(select).append('<button type="button" class="removeCardIdBtn">Remove</button>');
                 $("#cardIdsContainer").append(newRow);
-                cardIdCount++; // Increment the count each time you add a dropdown
+                cardIdCount++;
             }
             
-            // Remove Card ID button click event
+            //remove Card ID button click event
             $(document).on("click", ".removeCardIdBtn", function () {
                 $(this).closest(".cardIdRow").remove();
                 
-                // Re-number the cardIds
+                //re-number the cardIds
                 var cardIdInputs = $(".cardIdInput");
                 for(var i = 0; i < cardIdInputs.length; i++) {
                     cardIdInputs[i].id = "cardIds_" + i + "_";
                     cardIdInputs[i].name = "cardIds[" + i + "]";
                 }
+                
+                cardIdCount--;
             });
-
         });
     </script>
 }
