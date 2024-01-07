@@ -159,6 +159,17 @@ public class PersistentUserDataContainer
                     SkillLevel = 1,
                     New = false
                 }));
+                
+                //add default memorial cards for all members
+                MemorialCards.AddRange(MemberCardData.InitialMemorialCards
+                    .Where(x => x < 10000)
+                    .Where(x => x != 0 && MemorialCards.All(y => y.CardMemorialId != x)).Select(x =>
+                        new MemorialCardData
+                        {
+                            CardMemorialId = x,
+                            Count = 1,
+                            New = false
+                        }));
                 break;
             
             case 1: //Aqours
@@ -180,6 +191,17 @@ public class PersistentUserDataContainer
                     SkillLevel = 1,
                     New = false
                 }));
+                
+                //add default memorial cards for all members
+                MemorialCards.AddRange(MemberCardData.InitialMemorialCards
+                    .Where(x => x > 10000 && x < 20000)
+                    .Where(x => x != 0 && MemorialCards.All(y => y.CardMemorialId != x)).Select(x =>
+                        new MemorialCardData
+                        {
+                            CardMemorialId = x,
+                            Count = 1,
+                            New = false
+                        }));
                 break;
             
             case 2: //Saint Snow
@@ -201,6 +223,17 @@ public class PersistentUserDataContainer
                     SkillLevel = 1,
                     New = false
                 }));
+                
+                //add default memorial cards for all members
+                MemorialCards.AddRange(MemberCardData.InitialMemorialCards
+                    .Where(x => x > 20000)
+                    .Where(x => x != 0 && MemorialCards.All(y => y.CardMemorialId != x)).Select(x =>
+                        new MemorialCardData
+                        {
+                            CardMemorialId = x,
+                            Count = 1,
+                            New = false
+                        }));
                 break;
         }
         

@@ -134,6 +134,14 @@ public class User
                 Count = 1,
                 New = true
             }).ToList(),
+            //add default memorial cards for all members
+            MemorialCards = MemberCardData.InitialMemorialCards.Where(x => x != 0).Select(x => new MemorialCardData
+            {
+                CardMemorialId = x,
+                Count = 1,
+                New = true
+            }).ToList(),
+            //add default skill cards for all members
             SkillCards = SkillCardData.InitialSkillCards.Select(x => new SkillCardData
             {
                 CardSkillId = x,
