@@ -37,6 +37,16 @@ public class GachaOverviewController : Controller
         {
             gachaTables = gachaDbContext.GachaTables.ToArray(),
         };
+        
+        var cardNames = gachaDbContext.GachaCards
+            .ToDictionary(card => card.id, card => card.name);
+        
+        ViewBag.cardNames = cardNames;
+        
+        var cardGroupNames = gachaDbContext.GachaCardGroups
+            .ToDictionary(group => group.id, group => group.name);
+        
+        ViewBag.cardGroupNames = cardGroupNames;
 
         return View(model);
     }

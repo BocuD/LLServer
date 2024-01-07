@@ -1,4 +1,5 @@
 ﻿@using LLServer.Common
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model LLServer.Gacha.WebUI.GachaOverviewModel
 
 @{
@@ -20,8 +21,8 @@
         <tr>
             <th>Id</th>
             <th>Is valid</th>
-            <th>Card count</th>
-            <th>Card group count</th>
+            <th>Unique Cards</th>
+            <th>Card groups</th>
             <th>Character IDs</th>
             <th>Total access count</th>
             <th></th>
@@ -37,10 +38,10 @@
                     @Html.DisplayFor(modelItem => item.isValid)
                 </td>
                 <td>
-                    <span>@(item.cardIds.Length > 0 ? item.cardIds.Length : "none")</span>
+                    <span>@(item.cardIds.Length > 0 ? GetCardNames(item.cardIds) : "none")</span>
                 </td>
                 <td>
-                    <span>@(item.cardGroupIds.Length > 0 ? item.cardGroupIds.Length : "none")</span>
+                    <span>@(item.cardGroupIds.Length > 0 ? GetTableGroups(item.cardGroupIds) : "none")</span>
                 </td>
                 <td>
                     @Html.Partial("_CharacterIconView", item.characterIdBools)
@@ -73,3 +74,38 @@
 </div>
 </body>
 </html>
+
+@functions
+{
+    public string GetTableGroups(int[] groupIds)
+    {
+        string cardGroupNames = "";
+        bool isFirst = true;
+        foreach(var group in groupIds)
+        {
+            if (!isFirst)
+            {
+                cardGroupNames += ", ";
+            }
+            cardGroupNames += ViewBag.cardGroupNames[group];
+            isFirst = false;
+        }
+        return cardGroupNames;
+    }
+    
+    public string GetCardNames(string[] cardIds)
+    {
+        string cardNames = "";
+        bool isFirst = true;
+        foreach(var group in cardIds)
+        {
+            if (!isFirst)
+            {
+                cardNames += ", ";
+            }
+            cardNames += ViewBag.cardNames[group];
+            isFirst = false;
+        }
+        return cardNames;
+    }
+}
