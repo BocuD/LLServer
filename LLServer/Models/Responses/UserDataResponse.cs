@@ -96,9 +96,14 @@ public class UserDataResponse : ResponseBase
 
     //todo: figure out if we want to do anything with this, it seems to be deprecated in the latest version of the game
     [JsonPropertyName("scfes_profile")]
-    public ScfesProfile? ScfesProfile { get; set; } = null;
+    public ScfesProfileEnabled? ScfesProfile { get; set; } = new ScfesProfileEnabled()
+    {
+        Enable = true
+    };
 
-    //sif prints
+    [JsonPropertyName("sif_prints")]
+    public SifPrint[]? SifPrints { get; set; } = null;
+    
     [JsonPropertyName("travels")] 
     public TravelData[]? Travels { get; set; } = null;
 

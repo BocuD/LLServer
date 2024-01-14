@@ -5,13 +5,13 @@ namespace LLServer.Models.UserData;
 public class ScfesProfileEnabled : ScfesProfile
 {
     [JsonPropertyName("name")]
-    public string Name { get; set; } = "Test";
+    public string Name { get; set; } = "";
 
     [JsonPropertyName("unit_id")]
-    public int UnitId { get; set; } = 0;
+    public int UnitId { get; set; } = 1;
 
     [JsonPropertyName("award_id")]
-    public int AwardId { get; set; } = 0;
+    public int AwardId { get; set; } = 1;
 
     [JsonPropertyName("rank_up_flag")]
     public int RankUpFlag { get; set; } = 0;
@@ -20,5 +20,10 @@ public class ScfesProfileEnabled : ScfesProfile
     public bool InvalidName { get; set; } = false;
 
     [JsonPropertyName("live_list")]
-    public int[] LiveList { get; set; } = Array.Empty<int>();
+    public int[] LiveList { get; set; } =
+    {
+        0,
+        10,
+        20
+    };
 }
