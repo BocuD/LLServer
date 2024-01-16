@@ -4,13 +4,13 @@ namespace LLServer.Common;
 
 public static class StaticResponses
 {
-    public static ResponseContainer EmptyResponse = new ResponseContainer
+    public static readonly ResponseContainer EmptyResponse = new()
     {
         Result = StatusCodes.Status200OK,
         Response = new ResponseBase()
     };
 
-    public static ResponseContainer BadRequestResponse = new ResponseContainer
+    public static readonly ResponseContainer BadRequestResponse = new()
     {
         Result = StatusCodes.Status400BadRequest,
         Response = new ResponseBase()

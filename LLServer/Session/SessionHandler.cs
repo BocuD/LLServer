@@ -24,7 +24,7 @@ public class SessionHandler : ISessionHandler
         var session = new GameSession
         {
             SessionId = Guid.NewGuid().ToString("N"),
-            CreateTime = DateTime.Now,
+            CreateTime = DateTime.UtcNow,
             IsActive = false,
             IsGuest = isGuestSession
         };
