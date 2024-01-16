@@ -25,7 +25,8 @@ public class GachaDataProvider
         {
             gachaDbContext.Add(new GachaTable
             {
-                id = gachaGachaId
+                id = gachaGachaId,
+                cardGroupIds = Array.Empty<int>()
             });
             
             gachaDbContext.SaveChanges();
