@@ -54,20 +54,9 @@ public class EventDbContext : DbContext
         SaveChanges();
         
         //add new entries
-        foreach (ResourceEntry resource in resources.Where(resource => Resources.All(r => r.id != resource.id)))
-        {
-            Resources.Add(resource);
-        }
-        
-        foreach (InformationEntry info in information.Where(info => Information.All(i => i.id != info.id)))
-        {
-            Information.Add(info);
-        }
-        
-        foreach (EventEntry @event in events.Where(@event => Events.All(e => e.id != @event.id)))
-        {
-            Events.Add(@event);
-        }
+        Resources.AddRange(resources);
+        Information.AddRange(information);
+        Events.AddRange(events);
         
         SaveChanges();
     }

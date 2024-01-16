@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LLServer.Gacha.Database;
 
@@ -16,8 +17,8 @@ public class GachaCard
     
     public string name { get; set; }
     public int[] characterIds { get; set; }
-    
-    [NotMapped] public bool[] characterIdBools
+
+    [NotMapped, JsonIgnore] public bool[] characterIdBools
     {
         get
         {

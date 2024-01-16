@@ -1,4 +1,5 @@
-﻿using LLServer.Gacha.Database;
+﻿using System.Text;
+using LLServer.Gacha.Database;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LLServer.Gacha.WebUI;
@@ -136,5 +137,37 @@ public class GachaOverviewController : Controller
         }
 
         return RedirectToAction("Index");
+    }
+    
+    [HttpGet("UploadJson")]
+    public IActionResult UploadJson()
+    {
+        return View();
+    }
+    
+    [HttpPost("UploadJson")]
+    public async Task<IActionResult> UploadJson(IFormFile jsonFile)
+    {
+        if (jsonFile == null)
+        {
+            return BadRequest();
+        }
+        
+        using (var reader = new StreamReader(jsonFile.OpenReadStream()))
+        {
+            string json = await reader.ReadToEndAsync();
+            
+            gachaDbContext.ImportFromJson(json);
+        }
+
+        return RedirectToAction("Index");
+    }
+    
+    [HttpGet("DownloadJson")]
+    public IActionResult DownloadJson()
+    {
+        string json = gachaDbContext.ExportToJson();
+        
+        return File(Encoding.UTF8.GetBytes(json), "application/json", "gacha.json");
     }
 }

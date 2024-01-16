@@ -71,6 +71,11 @@
         @Html.ActionLink("Upload Log File", "UploadLog", "GachaOverview", null, new { @class = "btn" })
     </div>
     
+    <div>
+        @Html.ActionLink("Import from Json file", "UploadJson", "GachaOverview", null, new { @class = "btn" })
+        @Html.ActionLink("Export to Json file", "DownloadJson", "GachaOverview", null, new { @class = "btn" })
+    </div>
+    
 </div>
 </body>
 </html>
