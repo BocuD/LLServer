@@ -1,4 +1,5 @@
-﻿using LLServer.Event.Database;
+﻿using System.Text;
+using LLServer.Event.Database;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LLServer.Event.WebUI;
@@ -57,5 +58,37 @@ public class EventOverviewController : Controller
 
         // Redirect or return appropriate view
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet("UploadJson")]
+    public IActionResult UploadJson()
+    {
+        return View();
+    }
+    
+    [HttpPost("UploadJson")]
+    public async Task<IActionResult> UploadJson(IFormFile jsonFile)
+    {
+        if (jsonFile == null)
+        {
+            return BadRequest();
+        }
+        
+        using (var reader = new StreamReader(jsonFile.OpenReadStream()))
+        {
+            string json = await reader.ReadToEndAsync();
+            
+            eventDbContext.ImportFromJson(json);
+        }
+
+        return RedirectToAction("Index");
+    }
+    
+    [HttpGet("DownloadJson")]
+    public IActionResult DownloadJson()
+    {
+        string json = eventDbContext.ExportToJson();
+        
+        return File(Encoding.UTF8.GetBytes(json), "application/json", "events.json");
     }
 }

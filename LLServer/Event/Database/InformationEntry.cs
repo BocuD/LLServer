@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LLServer.Event.Database;
 
@@ -16,7 +17,7 @@ public class InformationEntryBase
     [NotMapped] public int dayCount { get => (end - start).Days; }
 
     [ForeignKey("resource")] public int resourceID { get; set; }
-    public ResourceEntry resource { get; set; }
+    [JsonIgnore] public ResourceEntry resource { get; set; }
 }
 
 public class InformationEntry : InformationEntryBase

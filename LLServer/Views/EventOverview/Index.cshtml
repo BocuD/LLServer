@@ -93,6 +93,11 @@
             <button type="submit" name="submit" value="Create Resource" class="nav-btn">Create Resource</button>
         }
     
+    <div>
+        @Html.ActionLink("Import from Json file", "UploadJson", "EventOverview", null, new { @class = "btn" })
+        @Html.ActionLink("Export to Json file", "DownloadJson", "EventOverview", null, new { @class = "btn" })
+    </div>
+    
 </div>
 </body>
 </html>
