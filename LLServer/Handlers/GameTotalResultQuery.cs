@@ -16,7 +16,8 @@ public class GameTotalResultQueryHandler : ParamHandler<EmptyParam, GameTotalRes
     {
     }
     
-    protected override async Task<ResponseContainer> HandleRequest(EmptyParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(EmptyParam param, GameTotalResultQuery request,
+        CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

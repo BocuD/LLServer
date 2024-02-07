@@ -9,13 +9,13 @@ namespace LLServer.Models.UserData;
 public class MusicData
 {
     [JsonPropertyName("music_id")]
-    public required int MusicId { get; set; }
+    public int MusicId { get; set; }
 
     [JsonPropertyName("unlocked")]
-    public required bool Unlocked { get; set; }
+    public bool Unlocked { get; set; }
 
     [JsonPropertyName("new")]
-    public required bool New { get; set; }
+    public bool New { get; set; }
     
     //Database key
     [JsonIgnore, Key] public int Id { get; set; }
