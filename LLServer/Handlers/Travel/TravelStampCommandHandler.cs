@@ -30,7 +30,7 @@ public class TravelStampCommandHandler : ParamHandler<TravelStampParam, TravelSt
     {
     }
     
-    protected override async Task<ResponseContainer> HandleRequest(TravelStampParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(TravelStampParam param, TravelStampCommand request, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

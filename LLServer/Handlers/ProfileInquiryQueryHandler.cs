@@ -1,12 +1,13 @@
-﻿using LLServer.Common;
+﻿using LLServer.Mappers;
+using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
-using LLServer.Mappers;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.UserData;
 using LLServer.Session;
 using Microsoft.EntityFrameworkCore;
+using GameInformationMapper = LLServer.Mappers.GameInformationMapper;
 using ProfileCard = LLServer.Database.Models.ProfileCard;
 
 namespace LLServer.Handlers;
@@ -20,9 +21,10 @@ public class ProfileInquiryQueryHandler : ParamHandler<ProfileInquiryParam, Prof
         
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(ProfileInquiryParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(ProfileInquiryParam param,
+        ProfileInquiryQuery request, CancellationToken cancellationToken)
     {
-        ProfileCard? card = await dbContext.ProfileCards
+        Database.Models.ProfileCard? card = await dbContext.ProfileCards
             .FirstOrDefaultAsync(c => c.ProfileCardId == param.ProfileCardId, cancellationToken);
 
         if (card == null)

@@ -51,7 +51,8 @@ public class GameExitCommandHandler : ParamHandler<GameExitParam, GameExitComman
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameExitParam gameResult, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameExitParam gameResult, GameExitCommand request,
+        CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

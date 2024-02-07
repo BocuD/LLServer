@@ -17,7 +17,8 @@ public class PresentCommandHandler : ParamHandler<PresentParam, PresentCommand>
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(PresentParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(PresentParam param, PresentCommand request,
+        CancellationToken cancellationToken)
     {
         session.User = dbContext.Users
             .Where(u => u.UserId == session.UserId)

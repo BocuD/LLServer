@@ -15,7 +15,8 @@ public class GetMemberCardCommandHandler : ParamHandler<GetMemberCardParam, GetM
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GetMemberCardParam getMemberCard, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GetMemberCardParam getMemberCard,
+        GetMemberCardQuery request, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

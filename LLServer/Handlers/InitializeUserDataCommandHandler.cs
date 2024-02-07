@@ -17,7 +17,7 @@ public class InitializeUserDataCommandHandler : ParamHandler<InitializeUserData,
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(InitializeUserData initializeUserData, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(InitializeUserData initializeUserData, InitializeUserDataCommand request, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {
@@ -32,6 +32,11 @@ public class InitializeUserDataCommandHandler : ParamHandler<InitializeUserData,
                 .Include(u => u.NamePlates)
                 .Include(u => u.Badges)
                 .Include(u => u.Honors)
+                
+                //part of force unlocking all characters and the default skillcards
+                .Include(u => u.SkillCards)
+                .Include(u => u.MemorialCards)
+                .Include(u => u.Achievements)
                 .FirstOrDefaultAsync(cancellationToken);
         }
         

@@ -1,5 +1,5 @@
-﻿using LLServer.Database;
-using LLServer.Database.Models;
+﻿using LLServer.Database.Models;
+using LLServer.Database;
 using LLServer.Models.Requests;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
@@ -31,7 +31,7 @@ public class TravelStartCommandHandler : ParamHandler<TravelStartParam, TravelSt
         
     }
     
-    protected override async Task<ResponseContainer> HandleRequest(TravelStartParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(TravelStartParam param, TravelStartCommand request, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

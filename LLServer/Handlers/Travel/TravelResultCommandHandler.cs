@@ -105,7 +105,7 @@ public class TravelResultCommandHandler : ParamHandler<TravelResultParam, Travel
         this.gachaDataProvider = gachaDataProvider;
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(TravelResultParam travelResult, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(TravelResultParam travelResult, TravelResultCommand request, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

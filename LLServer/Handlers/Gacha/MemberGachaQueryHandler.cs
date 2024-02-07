@@ -15,7 +15,8 @@ public class MemberGachaQueryHandler : ParamHandler<MemberGachaParam, MemberGach
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(MemberGachaParam gachaRequest, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(MemberGachaParam gachaRequest,
+        MemberGachaQuery request, CancellationToken cancellationToken)
     {
         //todo: load user data or gacha shit from a database idk lol
         // GameSession? session = await sessionHandler.GetSession(command.request, cancellationToken);

@@ -17,7 +17,8 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameEntryParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameEntryParam param, GameEntryQuery request,
+        CancellationToken cancellationToken)
     {
         //todo: this seems to not be working
         // Mark the session as active and set the expire time
@@ -30,7 +31,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
         }
         else
         {
-            return await SatelliteGameEntryResponse(param, cancellationToken);
+            return await SatelliteGameEntryResponse(param, request, cancellationToken);
         }
     }
     
@@ -60,6 +61,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
     }
 
     private async Task<ResponseContainer> SatelliteGameEntryResponse(GameEntryParam gameEntryParam,
+        GameEntryQuery request,
         CancellationToken cancellationToken)
     {
         //load user from db
@@ -105,6 +107,23 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
                 });
             }
         }
+        
+        
+        
+        
+        //temp: add memorial cards that are missing
+        container.MemorialCards.AddRange(MemberCardData.InitialMemorialCards
+            .Where(x => x < 10000)
+            .Where(x => x != 0 && container.MemorialCards.All(y => y.CardMemorialId != x)).Select(x =>
+                new MemorialCardData
+                {
+                    CardMemorialId = x,
+                    Count = 1,
+                    New = false
+                }));
+        
+        
+        
         
         await container.SaveChanges(cancellationToken);
 

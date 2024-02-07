@@ -19,7 +19,8 @@ public class SetUserDataCommandHandler : ParamHandler<SetUserDataParam, SetUserD
     }
 
     //todo: only load the things we actually need here. Note: this will require fixing the issues causing null json data to be serialized anyways
-    protected override async Task<ResponseContainer> HandleRequest(SetUserDataParam setUserData, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(SetUserDataParam setUserData,
+        SetUserDataCommand request, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

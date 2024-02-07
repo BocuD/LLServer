@@ -15,7 +15,8 @@ public class ProfilePrintCommandHandler : ParamHandler<ProfilePrintParam, Profil
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(ProfilePrintParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(ProfilePrintParam param, ProfilePrintCommand request,
+        CancellationToken cancellationToken)
     {
         session.User = await dbContext.Users
             .Where(u => u.UserId == session.UserId)

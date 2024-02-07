@@ -57,8 +57,8 @@ public abstract class ParamHandler<ParamType, RequestType> : IRequestHandler<Req
             return StaticResponses.BadRequestResponse;
         }
 
-        return await HandleRequest(param, cancellationToken);
+        return await HandleRequest(param, request, cancellationToken);
     }
 
-    protected abstract Task<ResponseContainer> HandleRequest(ParamType param, CancellationToken cancellationToken);
+    protected abstract Task<ResponseContainer> HandleRequest(ParamType param, RequestType request, CancellationToken cancellationToken);
 }

@@ -16,7 +16,8 @@ public class AchievementYellCommandHandler : ParamHandler<AchievementYellParam, 
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(AchievementYellParam achievementData, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(AchievementYellParam achievementData,
+        AchievementYellCommand request, CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

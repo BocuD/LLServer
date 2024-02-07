@@ -18,7 +18,8 @@ public class GameResultCommandHandler : ParamHandler<GameResult, GameResultComma
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameResult gameResult, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameResult gameResult, GameResultCommand request,
+        CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

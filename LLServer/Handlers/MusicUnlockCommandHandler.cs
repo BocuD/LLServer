@@ -17,6 +17,7 @@ public class MusicUnlockCommandHandler : ParamHandler<MusicUnlockParam, MusicUnl
     }
 
     protected override async Task<ResponseContainer> HandleRequest(MusicUnlockParam musicUnlockData,
+        MusicUnlockCommand request,
         CancellationToken cancellationToken)
     {
         if (!session.IsGuest)

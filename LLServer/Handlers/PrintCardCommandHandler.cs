@@ -16,7 +16,8 @@ public class PrintCardCommandHandler : ParamHandler<PrintCardParam, PrintCardCom
         
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(PrintCardParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(PrintCardParam param, PrintCardCommand request,
+        CancellationToken cancellationToken)
     {
         //load card data from db
         if (!session.IsGuest)

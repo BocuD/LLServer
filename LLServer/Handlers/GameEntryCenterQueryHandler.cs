@@ -17,7 +17,8 @@ public class GameEntryCenterQueryHandler : ParamHandler<GameEntryCenterParam, Ga
     {
     }
 
-    protected override async Task<ResponseContainer> HandleRequest(GameEntryCenterParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(GameEntryCenterParam param,
+        GameEntryCenterQuery request, CancellationToken cancellationToken)
     {
         //todo: this seems to not be working
         // Mark the session as active and set the expire time

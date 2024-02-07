@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
 using LLServer.Common;
-using LLServer.Database;
 using LLServer.Database.Models;
+using LLServer.Models.UserData;
+using LLServer.Database;
 using LLServer.Models.Requests;
 using LLServer.Models.Responses;
 using LLServer.Models.Responses.Terminal;
 using LLServer.Models.Responses.Travel;
-using LLServer.Models.UserData;
 using LLServer.Session;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +46,8 @@ public class TravelSnapPrintCommandHandler : ParamHandler<EmptyParam, TravelSnap
     {
     }
     
-    protected override async Task<ResponseContainer> HandleRequest(EmptyParam param, CancellationToken cancellationToken)
+    protected override async Task<ResponseContainer> HandleRequest(EmptyParam param, TravelSnapPrintCommand request,
+        CancellationToken cancellationToken)
     {
         if (!session.IsGuest)
         {

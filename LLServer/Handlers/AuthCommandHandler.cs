@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
+using LLServer.Models.Requests.Travel;
 using LLServer.Common;
 using LLServer.Database;
 using LLServer.Database.Models;
 using LLServer.Models.Requests;
-using LLServer.Models.Requests.Travel;
 using LLServer.Models.Responses;
 using LLServer.Models.Travel;
 using LLServer.Models.UserData;
@@ -23,7 +23,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
     private readonly ILogger<AuthCommandHandler> logger;
     private readonly SessionHandler sessionHandler;
 
-    public AuthCommandHandler(ApplicationDbContext dbContext, ILogger<AuthCommandHandler> logger, SessionHandler sessionHandler)
+    public AuthCommandHandler(ApplicationDbContext dbContext, ILogger<AuthCommandHandler> logger,
+        SessionHandler sessionHandler)
     {
         this.dbContext = dbContext;
         this.logger = logger;
@@ -49,7 +50,8 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
 
         if (authParam.GuestFlag == 1)
         {
-            GameSession guestSession = await sessionHandler.GenerateNewSession(User.GuestUser, cancellationToken, false, true);
+            GameSession guestSession =
+                await sessionHandler.GenerateNewSession(User.GuestUser, cancellationToken, false, true);
 
             return new ResponseContainer
             {
@@ -69,11 +71,11 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
         var user = await dbContext.Users
             .Include(u => u.UserData)
             .FirstOrDefaultAsync(u => u.CardId == authParam.NesicaId, cancellationToken);
-        
+
         if (user is null)
         {
             logger.LogInformation("User with nesica id {NesicaId} not found, creating new user", authParam.NesicaId);
-            user = await RegisterNewUser(authParam.NesicaId);
+            user = await dbContext.RegisterNewUser(authParam.NesicaId);
         }
         else
         {
@@ -100,7 +102,7 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             {
                 // Active session not expired
                 case true when existingSession.ExpireTime > DateTime.Now:
-                    logger.LogWarning("Existing session is still valid for session Id {SessionId}", 
+                    logger.LogWarning("Existing session is still valid for session Id {SessionId}",
                         existingSession.SessionId);
                     dbContext.Sessions.Remove(existingSession);
                     authResponse.AbnormalEnd = 1;
@@ -114,12 +116,14 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
 
             await dbContext.SaveChangesAsync(cancellationToken);
         }
-        
-        GameSession session = await sessionHandler.GenerateNewSession(user, cancellationToken, command.request.Terminal.TerminalAttrib == 1);
-        
+
+        GameSession session =
+            await sessionHandler.GenerateNewSession(user, cancellationToken,
+                command.request.Terminal.TerminalAttrib == 1);
+
         //get username from persistent data container
         PersistentUserDataContainer container = new(dbContext, session);
-        
+
         authResponse.Name = container.UserData.Name;
         authResponse.SessionKey = session.SessionId;
 
@@ -128,90 +132,5 @@ public class AuthCommandHandler : IRequestHandler<AuthCommand, ResponseContainer
             Result = 200,
             Response = authResponse
         };
-    }
-    
-    private async Task<User> RegisterNewUser(string nesicaId)
-    {
-        User user = new()
-        {
-            CardId = nesicaId,
-            Initialized = false,
-            
-            UserData = new UserData(),
-            UserDataAqours = new UserDataAqours(),
-            UserDataSaintSnow = new UserDataSaintSnow(),
-            
-            Members = new List<MemberData>(),
-            MemberCards = new List<MemberCardData>(),
-            SkillCards = new List<SkillCardData>(),
-            MemorialCards = new List<MemorialCardData>(),
-            
-            LiveDatas = new List<PersistentLiveData>(),
-            
-            TravelData = new List<TravelData>(),
-            TravelPamphlets = new List<TravelPamphlet>(),
-            TravelTalks = new List<TravelTalk>(),
-            
-            GameHistory = new List<GameHistory>(),
-            TravelHistory = new List<TravelHistory>(),
-            
-            Achievements = new List<Achievement>(),
-            YellAchievements = new List<YellAchievement>(),
-            AchievementRecordBooks = new List<AchievementRecordBook>(),
-            LimitedAchievements = new List<LimitedAchievement>(),
-            
-            Items = new List<Item>(),
-            SpecialItems = new List<SpecialItem>(),
-            
-            CardFrames = new List<CardFrame>(),
-            NamePlates = new List<NamePlate>(),
-            Badges = new List<Badge>(),
-            Honors = new List<HonorData>(),
-            
-            Musics = new List<MusicData>(),
-            
-            MailBox = new List<MailBoxItem>()
-        };
-        
-        dbContext.Users.Add(user);
-        
-        dbContext.UserData.Add(user.UserData);
-        dbContext.UserDataAqours.Add(user.UserDataAqours);
-        dbContext.UserDataSaintSnow.Add(user.UserDataSaintSnow);
-        
-        dbContext.MemberData.AddRange(user.Members);
-        dbContext.MemberCardData.AddRange(user.MemberCards);
-        dbContext.SkillCardData.AddRange(user.SkillCards);
-        dbContext.MemorialCardData.AddRange(user.MemorialCards);
-        
-        dbContext.LiveDatas.AddRange(user.LiveDatas);
-        
-        dbContext.TravelData.AddRange(user.TravelData);
-        dbContext.TravelPamphlets.AddRange(user.TravelPamphlets);
-        dbContext.TravelTalks.AddRange(user.TravelTalks);
-        
-        dbContext.GameHistory.AddRange(user.GameHistory);
-        dbContext.TravelHistory.AddRange(user.TravelHistory);
-        
-        dbContext.Achievements.AddRange(user.Achievements);
-        dbContext.YellAchievements.AddRange(user.YellAchievements);
-        dbContext.AchievementRecordBooks.AddRange(user.AchievementRecordBooks);
-        dbContext.LimitedAchievements.AddRange(user.LimitedAchievements);
-        
-        dbContext.Items.AddRange(user.Items);
-        dbContext.SpecialItems.AddRange(user.SpecialItems);
-        
-        dbContext.CardFrames.AddRange(user.CardFrames);
-        dbContext.NamePlates.AddRange(user.NamePlates);
-        dbContext.Badges.AddRange(user.Badges);
-        dbContext.Honors.AddRange(user.Honors);
-        
-        dbContext.Musics.AddRange(user.Musics);
-        
-        dbContext.MailBox.AddRange(user.MailBox);
-
-        await dbContext.SaveChangesAsync();
-        
-        return user;
     }
 }
