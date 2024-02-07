@@ -22,6 +22,12 @@ public static class ReflectionMapper
                 continue;
             }
             
+            //check if there is a set method
+            if (outputProperty.SetMethod == null)
+            {
+                continue;
+            }
+            
             //ignore property if it has the [JsonIgnore] or [Key] attribute
             if (inputProperty.GetCustomAttribute<JsonIgnoreAttribute>() != null ||
                 inputProperty.GetCustomAttribute<KeyAttribute>() != null)
@@ -34,6 +40,7 @@ public static class ReflectionMapper
             {
                 continue;
             }
+            
             outputProperty.SetValue(target, inputValue);
         }
 
