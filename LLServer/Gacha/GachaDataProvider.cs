@@ -119,8 +119,11 @@ public class GachaDataProvider
 
             if (card.cardType == CardType.Member)
             {
+                int rarity = 0;
+                if (gachaTable.id.Contains("rare")) rarity = 1;
+                
                 //get random rarity
-                int rarity = card.rarityIds[new Random().Next(card.rarityIds.Length)];
+                //int rarity = card.rarityIds[new Random().Next(card.rarityIds.Length)];
                 result.itemId = card.GetGameCardID(finalCharacterID, rarity);
             }
             else
