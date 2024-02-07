@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using LLServer.Common;
 using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
@@ -11,6 +12,7 @@ public class User
     [Key]
     public ulong UserId { get; set; }
     
+    [JsonPropertyName("lastNesicaId")]
     public string CardId { get; set; } = "7020392000000000";
 
     public bool Initialized { get; set; }
