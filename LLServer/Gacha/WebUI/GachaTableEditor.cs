@@ -31,7 +31,8 @@ public class GachaTableEditor : Controller
                 isValid = false,
                 cardIds = Array.Empty<string>(),
                 characterIdBools = new bool[23],
-                metaData = new GachaTableMetaData()
+                metaData = new GachaTableMetaData(),
+                cardGroupIds = Array.Empty<int>()
             };
             
             gachaDbContext.GachaTables.Add(newTable);
@@ -111,8 +112,8 @@ public class GachaTableEditor : Controller
             entry.isValid = gachaTable.isValid;
             entry.characterIdBools = gachaTable.characterIdBools;
             entry.maxRarity = gachaTable.maxRarity;
-            entry.cardIds = gachaTable.cardIds;
-            entry.cardGroupIds = gachaTable.cardGroupIds;
+            entry.cardIds = gachaTable.cardIds ?? Array.Empty<string>();
+            entry.cardGroupIds = gachaTable.cardGroupIds ?? Array.Empty<int>();
             
             if (gachaTable.newName != gachaTable.id)
             {
@@ -129,7 +130,7 @@ public class GachaTableEditor : Controller
                     characterIdBools = entry.characterIdBools,
                     maxRarity = entry.maxRarity,
                     cardIds = entry.cardIds,
-
+                    cardGroupIds = entry.cardGroupIds,
                     metaData = entry.metaData,
                     id = gachaTable.newName
                 };
