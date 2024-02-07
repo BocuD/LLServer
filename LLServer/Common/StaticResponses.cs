@@ -15,4 +15,10 @@ public static class StaticResponses
         Result = StatusCodes.Status400BadRequest,
         Response = new ResponseBase()
     };
+    
+    public static readonly ResponseContainer ForbiddenResponse = new()
+    {
+        Result = StatusCodes.Status403Forbidden,
+        Response = new ResponseBase()
+    };
 }
