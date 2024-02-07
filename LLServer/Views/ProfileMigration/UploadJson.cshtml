@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "../_Layout.cshtml";
+}
+
+<h2>Upload Json File</h2>
+
+@using (Html.BeginForm("UploadJson", "ProfileMigration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="jsonFile" />
+    <input type="submit" value="Upload" />
+}

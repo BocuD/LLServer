@@ -1,0 +1,70 @@
+﻿@model LLServer.ProfileMigration.OverviewModel
+
+@{
+    Layout = "../_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Profile Migration</title>
+</head>
+<body>
+<div>
+    <h1>Profile Migration</h1>
+
+    <h2>Profiles</h2>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>ProfileId</th>
+            <th>Last Login</th>
+            <th>Tenpo</th>
+            <th>Playcount Satellite</th>
+            <th>Playcount Center</th>
+            <th>Nesica ID</th>
+        </tr>
+    
+        @foreach (var item in Model.Profiles)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tenpo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.playcountSatellite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.playcountCenter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nesicaId)
+                </td>
+                <td>
+                    @Html.ActionLink("Download", "DownloadJson", "ProfileMigration" , new { item.userId }, new { @class = "btn" })
+                    @Html.ActionLink("Delete", "DeleteProfile", "ProfileMigration", new { item.userId }, new { @class = "btn" })
+                </td>
+            </tr>
+        }
+    </table>
+    
+    <br/>
+
+    <div>
+        @Html.ActionLink("Import from Json file", "UploadJson", "ProfileMigration", null, new { @class = "btn" })
+        @Html.ActionLink("Export to Json file", "DownloadJson", "ProfileMigration", null, new { @class = "btn" })
+    </div>
+    
+</div>
+</body>
+</html>
