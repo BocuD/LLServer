@@ -1,8 +1,8 @@
 ﻿using LLServer.Common;
+using LLServer.Models.Requests.Travel;
 using LLServer.Controllers.Debugging;
 using LLServer.Database.Models;
 using LLServer.Mappers;
-using LLServer.Models.Requests.Travel;
 using LLServer.Models.Travel;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -170,6 +170,20 @@ public class PersistentUserDataContainer
                             Count = 1,
                             New = false
                         }));
+                
+                //add skill card achievements
+                int[] skillcards =
+                {
+                    9001, 9002, 9008, 9009, 9015, 9016, 9022, 9023, 9029, 9030, 9036, 9037, 9043, 9044, 9050, 9051,
+                    9057, 9058
+                };
+                
+                Achievements.AddRange(skillcards.Select(x => new Achievement
+                {
+                    AchievementId = x,
+                    Unlocked = true,
+                    New = false
+                }));
                 break;
             
             case 1: //Aqours
@@ -202,6 +216,20 @@ public class PersistentUserDataContainer
                             Count = 1,
                             New = false
                         }));
+                
+                //add skill card achievements
+                int[] skillcardsAqours =
+                {
+                    509001, 509002, 509008, 509009, 509015, 509016, 509022, 509023, 509029, 509030, 509036, 509037,
+                    509043, 509044, 509050, 509051, 509057, 509058
+                };
+                
+                Achievements.AddRange(skillcardsAqours.Select(x => new Achievement
+                {
+                    AchievementId = x,
+                    Unlocked = true,
+                    New = false
+                }));
                 break;
             
             case 2: //Saint Snow
@@ -234,6 +262,19 @@ public class PersistentUserDataContainer
                             Count = 1,
                             New = false
                         }));
+                
+                //add skill card achievements
+                int[] skillcardsSaintSnow =
+                {
+                    809001, 809002, 809008, 809009
+                };
+                
+                Achievements.AddRange(skillcardsSaintSnow.Select(x => new Achievement
+                {
+                    AchievementId = x,
+                    Unlocked = true,
+                    New = false
+                }));
                 break;
         }
         
