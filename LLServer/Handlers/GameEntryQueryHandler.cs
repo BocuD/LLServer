@@ -89,7 +89,7 @@ public class GameEntryQueryHandler : ParamHandler<GameEntryParam, GameEntryQuery
         string lastPlayDate = container.UserData.PlayDate;
         
         //update last play time (format is "2023-07-02 00:00:00")
-        container.UserData.PlayDate = DateTime.Now.ToString("yyyy-MM-ddHH:mm:ss");
+        container.UserData.PlayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
         //unlock released pamphlets
         foreach (int releasedId in gameEntryParam.ReleasePamphletIds)
