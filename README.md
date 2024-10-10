@@ -1,3 +1,5 @@
+## Note: Development is currently mainly focussed on a separate codebase, which targets physical arcade machines (Orbtial). If you have a physical cabinet, please visit [https://orbital.cab/about/](https://orbital.cab/about/). The version hosted on git here is quite outdated and missing various features (they will eventually be backported, and hopefully everything will become one codebase again eventually, but this is not a priority right now).
+
 # LLServer
 
 ASP.net core based server replacement for Love Live School Idol Festival ～after school ACTIVITY～ Next Stage.
